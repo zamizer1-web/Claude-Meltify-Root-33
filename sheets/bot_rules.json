@@ -1,0 +1,2279 @@
+{
+  "rows": [
+    {
+      "id": "bot.gustave.01-route",
+      "plan": "bot.gustave",
+      "order": 1,
+      "name": "Route",
+      "rule": "Each Birdsong (hook.birdsong-start), plan the Route: the cheapest path from Lumière to a Beachhead (a clearing next to the Monolith) whose clearings together cover fox, rabbit and mouse. The search runs over states (clearing, suits covered so far) along PathNeighbours (rivers are not paths) and saves the path in state.gustave.route. The later steps follow it and the goal-mode trigger reads its cost. Hard also re-plans whenever an action raises the cost of a Route clearing, routing around the blockade.",
+      "scoring": "cost(c) = 0 if c is in state.gustave.flags and Ruler(c) == seat (a ruled clearing holding his building counts as flagged, since it is flagged at the end of the turn); tune.gustave-route-cost-ruled (1) if Ruler(c) == seat otherwise; tune.gustave-route-cost-unruled (2) + enemy warriors in c if he does not rule it; plus tune.gustave-route-cost-full (3) when c has no free slot and none of its slots holds his building. Route cost = the sum of cost(c) over its clearings. Lowest-cost search over (clearing, suit set) from Lumière to any Beachhead with all three suits (a Lost City gives all three). Ties: fewer clearings, then lower clearing numbers in path order.",
+      "reads": [
+        "read.clearings",
+        "read.path-neighbours",
+        "read.suits-of",
+        "read.ruler",
+        "read.warriors",
+        "read.buildings",
+        "read.free-slots",
+        "read.total-slots",
+        "read.seats"
+      ],
+      "state": [
+        "state.gustave.route",
+        "state.gustave.flags",
+        "state.global.roles",
+        "state.global.difficulty"
+      ],
+      "tests": [
+        "GustaveBot_RouteCostFollowsRuleFlagsAndSlots",
+        "GustaveBot_RouteIsCheapestThreeSuitPathToBeachhead",
+        "GustaveBot_HardReplansRouteAroundBlockade"
+      ],
+      "_notes": "The roster's '+3 if enemy buildings fill its slots' is applied to any clearing whose slots are full and hold none of his buildings (enemy buildings or a ruin), since he cannot build or flag there either way. A ruled clearing that already holds his building costs 0, like a flagged one, because it is flagged at the end of the turn."
+    },
+    {
+      "id": "bot.gustave.02-hold",
+      "plan": "bot.gustave",
+      "order": 2,
+      "name": "Hold first",
+      "rule": "If a flagged clearing on the Route has lost rule (in state.gustave.flags and state.gustave.route, Ruler(c) != seat), recruit or march there to retake it before any later step. Hard also tops up every Chain clearing to a rule margin of tune.gustave-hard-rule-margin. Easy skips this step: it does not retake lost Chain clearings proactively.",
+      "scoring": "Lost Route clearings in Route order from Lumière. Warriors needed = (the ruler's warriors + buildings in c) - (his warriors + buildings in c) + 1. Recruit there if he has a recruiter in c, otherwise march from the neighbouring ruled clearing with the most warriors above its own needs. Hard margin(c) = his warriors + buildings in c - the most warriors + buildings any other seat has in c.",
+      "reads": [
+        "read.ruler",
+        "read.warriors",
+        "read.buildings",
+        "read.buildings-of-type",
+        "read.path-neighbours",
+        "read.seats",
+        "read.legal-actions"
+      ],
+      "state": [
+        "state.gustave.route",
+        "state.gustave.flags",
+        "state.global.difficulty"
+      ],
+      "tests": [
+        "GustaveBot_RetakesLostFlaggedRouteClearingFirst",
+        "GustaveBot_EasyDoesNotRetakeLostChainClearings",
+        "GustaveBot_HardKeepsRuleMarginTwoOnChain"
+      ]
+    },
+    {
+      "id": "bot.gustave.03-build",
+      "plan": "bot.gustave",
+      "order": 3,
+      "name": "Build on the Route",
+      "rule": "Build in the next ruled, unflagged Route clearing: a sawmill if that keeps wood connected, otherwise the cheapest track. The Beachhead gets a building as soon as he rules it. If no Route clearing can take a building, make the normal VP build (Root's Marquise AI chooses). Easy makes at most one Route build per turn.",
+      "scoring": "Order: the Beachhead first whenever he rules it and it holds no Marquise building; then ruled, unflagged Route clearings with a free slot, in Route order from Lumière. Building: a sawmill when no sawmill stands among the ruled clearings connected to it (so wood can reach later builds); otherwise the building whose track has the lowest next cost; ties: Root's Marquise AI picks.",
+      "reads": [
+        "read.ruler",
+        "read.free-slots",
+        "read.buildings",
+        "read.buildings-of-type",
+        "read.tokens-of-type",
+        "read.path-neighbours",
+        "read.supply-pieces",
+        "read.legal-actions"
+      ],
+      "state": [
+        "state.gustave.route",
+        "state.gustave.flags",
+        "state.global.roles",
+        "state.global.difficulty"
+      ],
+      "tests": [
+        "GustaveBot_BuildsInNextUnflaggedRouteClearing",
+        "GustaveBot_BuildsBeachheadAsSoonAsRuled",
+        "GustaveBot_EasyBuildsOnRouteOncePerTurn"
+      ]
+    },
+    {
+      "id": "bot.gustave.04-charge",
+      "plan": "bot.gustave",
+      "order": 4,
+      "name": "Charge the Arm",
+      "rule": "While state.gustave.arm is under tune.gustave-arm-max, take at least one winnable battle per turn that removes an enemy piece, preferring enemy pieces on the Route: a battle he starts that removes an enemy piece charges the Arm and clears the road.",
+      "scoring": "Winnable: he has more warriors in the clearing than the defender, and his expected hits (the higher of two 0-3 dice, capped at his warriors there, +1 when the defender has no warriors) remove at least one piece. Order: Route clearings first, then by expected enemy pieces removed minus expected warriors lost; ties: nearer Lumière along the Route, then lower clearing number.",
+      "reads": [
+        "read.warriors",
+        "read.buildings",
+        "read.tokens",
+        "read.ruler",
+        "read.seats",
+        "read.legal-actions"
+      ],
+      "state": [
+        "state.gustave.arm",
+        "state.gustave.route"
+      ],
+      "tests": [
+        "GustaveBot_TakesWinnableBattleWhileArmNotFull",
+        "GustaveBot_ChargePrefersEnemyPiecesOnRoute"
+      ]
+    },
+    {
+      "id": "bot.gustave.05-overcharge",
+      "plan": "bot.gustave",
+      "order": 5,
+      "name": "Overcharge",
+      "rule": "Arm Overcharge (hook.ui-toggle) only for a battle that takes the Beachhead or retakes Lumière. In a turn he expects to announce he does not Overcharge, because emptying the Arm cancels the announce, unless that battle is required: he cannot win it without the extra hit and without it the Chain breaks (Lumière or the Beachhead lost). Easy never Overcharges.",
+      "scoring": "none (a plain condition: the Arm is at tune.gustave-arm-max and the battle is in the Beachhead or in a Lumière ruled by another seat; an expected announce turn is one where win.gustave's announce test would pass after this turn's planned actions)",
+      "reads": [
+        "read.ruler",
+        "read.warriors",
+        "read.buildings",
+        "read.legal-actions"
+      ],
+      "state": [
+        "state.gustave.arm",
+        "state.gustave.overcharge-armed",
+        "state.gustave.route",
+        "state.global.roles",
+        "state.global.difficulty"
+      ],
+      "tests": [
+        "GustaveBot_OverchargesOnlyForBeachheadOrLumiere",
+        "GustaveBot_NoOverchargeOnExpectedAnnounceTurn",
+        "GustaveBot_EasyNeverOvercharges"
+      ],
+      "_notes": "Overcharge always empties the Arm, so an Overcharged battle always cancels that turn's announce. 'Unless that battle is required' is read as a battle he cannot win without the extra hit and that keeps Lumière or the Beachhead, without which the Chain fails anyway."
+    },
+    {
+      "id": "bot.gustave.06-goal-mode",
+      "plan": "bot.gustave",
+      "order": 6,
+      "name": "Goal mode",
+      "rule": "In goal mode (Vp(seat) >= tune.gustave-goal-vp or Route cost <= tune.gustave-goal-route-cost; Easy: Vp(seat) >= tune.gustave-easy-goal-vp only), spend bird cards on extra Route actions and skip Overwork.",
+      "scoring": "none (a plain condition)",
+      "reads": [
+        "read.vp",
+        "read.hand-suits",
+        "read.legal-actions"
+      ],
+      "state": [
+        "state.gustave.route",
+        "state.global.difficulty"
+      ],
+      "tests": [
+        "GustaveBot_GoalModeAtEightVpOrRouteCostFour",
+        "GustaveBot_GoalModeSpendsBirdsOnRouteAndSkipsOverwork"
+      ]
+    },
+    {
+      "id": "bot.gustave.07-announce",
+      "plan": "bot.gustave",
+      "order": 7,
+      "name": "Announce turn",
+      "rule": "On the announce turn (win.gustave's announce test will pass at the end of this turn if nothing changes), spend leftover actions thickening the Chain clearing with the thinnest margin of rule, then the Beachhead, and use Field Hospitals for warriors lost there.",
+      "scoring": "margin(c) = his warriors + buildings in c - the most warriors + buildings any other seat has in c. Chain clearings in ascending margin, then the Beachhead; ties: lower clearing number.",
+      "reads": [
+        "read.ruler",
+        "read.warriors",
+        "read.buildings",
+        "read.path-neighbours",
+        "read.suits-of",
+        "read.vp",
+        "read.active-dominance",
+        "read.hand-suits",
+        "read.legal-actions"
+      ],
+      "state": [
+        "state.gustave.flags",
+        "state.gustave.arm",
+        "state.global.roles",
+        "state.global.act"
+      ],
+      "tests": [
+        "GustaveBot_AnnounceTurnThickensThinnestChainClearing",
+        "GustaveBot_AnnounceTurnUsesFieldHospitalsInChain"
+      ]
+    },
+    {
+      "id": "bot.gustave.08-spoiler",
+      "plan": "bot.gustave",
+      "order": 8,
+      "name": "Spoiler layer",
+      "rule": "Shared spoiler layer (layer 3 of every bot; this part of the text is the same in all eleven plans). TRIGGER: another seat, the human included, that is not this bot's coalition partner, whose themed win is unlocked in the current act (Act II on; the Curator's from Act III) and not switched off (no active dominance card, not in a coalition), and that either has its countdown banner up (state.global.countdowns) or is one step from its win. One step means the public Goal Tracker shows every part of that win's test met except exactly one unit: one Arm pip, Chain suit, rock, Portrait suit, Sanctuary or Sanctuary suit, rank step, Allied faction, undamaged item, relic type, foot or source faction, covered clearing or Ring clearing, or one yes/no part (the Beachhead, the Monolith, Lumière, the Flying Manor atelier, an Aquafarm, the Parents' Journal recovered, the Warlord on the map, the tune.countdown-vp gate). ANSWER: attack or block the key clearing with a real Root action from that win's counterplay. Gustave: flip rule of the Chain clearing with the thinnest margin, or remove the Beachhead's buildings. Esquie (3 rocks held): the Nevron host moves extra warriors onto the last guarded rock (more defenders deal more hits to him) and every other bot attacks his pawn to damage items. The Paintress: break an easel, flip rule of a Portrait clearing or thin it below tune.paintress-portrait-warriors warriors, or take the Monolith. Sciel: before her banner, step a piece into a Sanctuary (paying Outrage); once it is up, battle a Lantern off the board, place a building or token in a Lantern clearing, or raze her only Aquafarm. Verso: before his banner, put a piece in the Monolith; once it is up, battle him there and land a hit. Maelle: attack her in Lumière and damage items until fewer than tune.maelle-items are undamaged. Lune: battle the warriors carrying the Parents' Journal or her missing relic type, and hold the clearings around the gold forest. Monoco: battle the Warlord off the map (Sacred River Rebirth strips Almighty and his latest other foot). The Curator: flip rule of Lumière or remove his Monolith tunnel; with no keep in Lumière, raze his building there and cut his warriors below tune.curator-lumiere-warriors; keep the Paintress's roost in the Monolith alive. Clea: remove her warriors from one counted clearing (lone Nevrons first) or from the Monolith, or raze the Flying Manor atelier. The White-Haired Man: out-stack him in one Ring clearing, guess a plot with Exposure, or walk a Vagabond pawn into the Monolith. LIMITS: it obeys every rule tweak and every 'never' and 'only' in the steps above it, uses only public information plus this bot's own hand and hidden pieces, and barks the block. PRIORITY: with no trigger it does nothing. It is listed last, as in the roster, but takes the actions it needs ahead of the steps above (it pre-empts them) in two cases: a banner that is up, because that seat confirms before this bot's next Birdsong, unless this bot can finish a quest win this turn; and, on Hard only, a one-step threat, unless this is this bot's own announce turn (its own confirmation would land first). Otherwise it answers with the actions the steps above leave free. Easy answers banners only, and only with free actions. FOR GUSTAVE: his answers are Marquise marches, recruits and battles; he never Overcharges for a block, because step 5 allows it only for the Beachhead and Lumière.",
+      "scoring": "Threats: banners before one-step threats; then the seat whose next Birdsong comes first in turn order (read.seats from read.current-seat); then the higher VP. For the chosen threat, answer cost = actions needed this turn + expected hits taken (Root's dice: two 0-3 dice, the attacker deals the higher and the defender the lower, each capped by its warriors; +1 hit to a defender with no warriors). Take the cheapest legal answer, breaking a met part before blocking the missing unit; ties: the answer nearest this bot's pieces, then the lower clearing number.",
+      "reads": [
+        "read.seats",
+        "read.current-seat",
+        "read.seat-engine",
+        "read.vp",
+        "read.active-dominance",
+        "read.coalition-partner",
+        "read.ruler",
+        "read.warriors",
+        "read.buildings",
+        "read.buildings-of-type",
+        "read.tokens",
+        "read.tokens-of-type",
+        "read.pawn-clearing",
+        "read.items",
+        "read.relationship",
+        "read.path-neighbours",
+        "read.suits-of",
+        "read.clearings",
+        "read.recovered-relics",
+        "read.relic-type",
+        "read.relic-clearing",
+        "read.relic-forest",
+        "read.forest-clearings",
+        "read.corvid-face-up-plot",
+        "read.legal-actions",
+        "read.hand-suits"
+      ],
+      "state": [
+        "state.global.countdowns",
+        "state.global.act",
+        "state.global.roles",
+        "state.global.seat-characters",
+        "state.global.difficulty",
+        "state.gustave.flags",
+        "state.gustave.arm",
+        "state.esquie.rocks",
+        "state.verso.rank",
+        "state.monoco.feet",
+        "state.lune.tagged-relic",
+        "state.curator.cell-crack",
+        "state.gustave.route",
+        "state.gustave.overcharge-armed"
+      ],
+      "tests": [
+        "GustaveBot_SpoilerAnswersBannerBeforeOwnSteps",
+        "GustaveBot_SpoilerNeverOverchargesToBlock"
+      ]
+    },
+    {
+      "id": "bot.esquie.01-target",
+      "plan": "bot.esquie",
+      "order": 1,
+      "name": "Target",
+      "rule": "Each Birdsong, choose the claimable rock to chase and save its index in state.esquie.target. Loose rocks come first, then Dorrie (Old Lumière, Act II on) when a torch is ready, then the rest by cost. For Soarrie he walks into Verso's clearing (withVerso) or, without Verso, first collects a card of the Monolith's suit for the Aid (heldByRuler); with nobody ruling the Monolith he just walks in. Easy walks to the François decoy at the Nest once in Act I while state.esquie.decoy is true.",
+      "scoring": "cost = path distance from his pawn + tune.esquie-bot-guard-weight (2) x GuardsLeft - his max hits there (undamaged swords, plus tune.esquie-belly-bounce-swords for an undamaged Bag in a guarded-rock clearing). Order: loose rocks by path distance; Dorrie when an undamaged, unexhausted torch is on his card and no Corvid warriors are in Old Lumière; then guarded rocks and Soarrie by cost (Soarrie: path distance to Verso's clearing, or to the Monolith). From a forest, path distance is counted from the nearest clearing touching it, +1. Ties: rock order Florrie, Dorrie, Soarrie, Urrie.",
+      "reads": [
+        "read.pawn-clearing",
+        "read.pawn-forest",
+        "read.forest-clearings",
+        "read.path-neighbours",
+        "read.items",
+        "read.hand-suits",
+        "read.suits-of",
+        "read.ruler",
+        "read.warriors",
+        "read.seats",
+        "read.seat-engine"
+      ],
+      "state": [
+        "state.esquie.rocks",
+        "state.esquie.target",
+        "state.esquie.decoy",
+        "state.global.roles",
+        "state.global.act",
+        "state.global.seat-characters",
+        "state.global.difficulty"
+      ],
+      "tests": [
+        "EsquieBot_TargetCostIsDistancePlusTwiceGuardsMinusMaxHits",
+        "EsquieBot_LooseRocksBeforeGuardedRocks",
+        "EsquieBot_EasyVisitsFrancoisDecoyOnceInActOne"
+      ]
+    },
+    {
+      "id": "bot.esquie.02-gear",
+      "plan": "bot.esquie",
+      "order": 2,
+      "name": "Gear",
+      "rule": "With tune.esquie-bot-repair-damaged (2) or more damaged items he repairs in a forest first (he ends his move in a forest so the Evening rest repairs them). If he could deal no hits in his target's clearing (no undamaged sword and no Belly Bounce), he crafts or Aids for a sword instead of attacking. Hard crafts a sword as soon as one is craftable.",
+      "scoring": "Repair comes before any guard battle. Sword source: craft one if a sword is craftable, otherwise Aid the nearest faction holding a crafted sword (read.crafted-items); ties: lower clearing number.",
+      "reads": [
+        "read.items",
+        "read.pawn-forest",
+        "read.forests-around",
+        "read.crafted-items",
+        "read.hand-suits",
+        "read.relationship",
+        "read.seats",
+        "read.legal-actions"
+      ],
+      "state": [
+        "state.esquie.target",
+        "state.esquie.rocks",
+        "state.global.difficulty"
+      ],
+      "tests": [
+        "EsquieBot_RepairsInForestAtTwoDamagedItems",
+        "EsquieBot_SeeksSwordWhenHeCanDealNoHits",
+        "EsquieBot_HardCraftsSwordEarly"
+      ]
+    },
+    {
+      "id": "bot.esquie.03-friends",
+      "plan": "bot.esquie",
+      "order": 3,
+      "name": "Friends",
+      "rule": "If a Friendly or Allied faction that is not the rock's Nevron host has warriors next to a guard stack, he Aids it there. Every bot whose seat is Friendly or Allied with Esquie then gets a small 'help Esquie' bonus for battling the guards, applied only when it costs its own goal nothing. Easy never asks friends for help.",
+      "scoring": "Friends in order: most warriors next to the stack, then Allied before Friendly, then lower VP. The bonus is a tie-break only: among a friend bot's equally scored choices, a battle against the host's warriors in a guarded-rock clearing wins the tie.",
+      "reads": [
+        "read.relationship",
+        "read.warriors",
+        "read.path-neighbours",
+        "read.pawn-clearing",
+        "read.hand-suits",
+        "read.suits-of",
+        "read.vp",
+        "read.seats",
+        "read.legal-actions"
+      ],
+      "state": [
+        "state.esquie.rocks",
+        "state.esquie.target",
+        "state.global.difficulty"
+      ],
+      "tests": [
+        "EsquieBot_AidsFriendlyNonHostNextToGuards",
+        "EsquieBot_HelpBonusOnlyBreaksTies",
+        "EsquieBot_EasyNeverAsksFriends"
+      ],
+      "_notes": "The 'help Esquie' bonus is applied by the shared Goal Director to any friend bot, not by a step of the friend's own plan. It is keyed to the relationship (which the Aid raises) rather than to remembering the Aid, so it needs no new state. 'Costs its own goal nothing' is read as a tie-break."
+    },
+    {
+      "id": "bot.esquie.04-hunt",
+      "plan": "bot.esquie",
+      "order": 4,
+      "name": "Hunt",
+      "rule": "He enters a guarded-rock clearing and battles the host's guards only with every item undamaged, and only when his expected hits this turn can finish or nearly finish the guards. One guard battle per turn (tune.esquie-bot-guard-battles); two on Hard (tune.esquie-hard-guard-battles).",
+      "scoring": "expected hits this turn = the sum, over the guard battles he may take, of E[min(higher of two 0-3 dice, max hits)], where max hits = undamaged swords + the Bag under Belly Bounce. Enter only if expected hits >= GuardsLeft - 1.",
+      "reads": [
+        "read.items",
+        "read.warriors",
+        "read.pawn-clearing",
+        "read.path-neighbours",
+        "read.legal-actions"
+      ],
+      "state": [
+        "state.esquie.rocks",
+        "state.esquie.target",
+        "state.global.difficulty"
+      ],
+      "tests": [
+        "EsquieBot_HuntsOnlyWithAllItemsUndamaged",
+        "EsquieBot_HuntsWhenExpectedHitsNearlyFinishGuards",
+        "EsquieBot_HardTakesTwoGuardBattlesPerTurn"
+      ],
+      "_notes": "'Nearly finish' is read as expected hits of at least GuardsLeft - 1."
+    },
+    {
+      "id": "bot.esquie.05-endgame",
+      "plan": "bot.esquie",
+      "order": 5,
+      "name": "Endgame",
+      "rule": "With tune.esquie-endgame-rocks (3) rocks held, he goes straight for the last one: it is the target whatever its distance, and step 6's VP play no longer applies.",
+      "scoring": "Shortest path to the last rock (to Verso's clearing for a withVerso Soarrie, to the Monolith for a heldByRuler Soarrie).",
+      "reads": [
+        "read.pawn-clearing",
+        "read.pawn-forest",
+        "read.path-neighbours",
+        "read.legal-actions"
+      ],
+      "state": [
+        "state.esquie.rocks",
+        "state.esquie.target"
+      ],
+      "tests": [
+        "EsquieBot_EndgameGoesStraightForLastRock"
+      ]
+    },
+    {
+      "id": "bot.esquie.06-vp",
+      "plan": "bot.esquie",
+      "order": 6,
+      "name": "Vagabond VP",
+      "rule": "If no claimable rock is within tune.esquie-bot-rock-range (3) moves, he plays normal Vagabond VP (quests, Aid, ruins): this step claims no decision and Root's Vagabond AI chooses.",
+      "scoring": "none (a plain condition: no claimable rock within range)",
+      "reads": [
+        "read.pawn-clearing",
+        "read.path-neighbours",
+        "read.has-ruin",
+        "read.legal-actions"
+      ],
+      "state": [
+        "state.esquie.rocks"
+      ],
+      "tests": [
+        "EsquieBot_PlaysVagabondVpWhenNoRockWithinThreeMoves"
+      ]
+    },
+    {
+      "id": "bot.esquie.07-spoiler",
+      "plan": "bot.esquie",
+      "order": 7,
+      "name": "Spoiler layer",
+      "rule": "Shared spoiler layer (layer 3 of every bot; this part of the text is the same in all eleven plans). TRIGGER: another seat, the human included, that is not this bot's coalition partner, whose themed win is unlocked in the current act (Act II on; the Curator's from Act III) and not switched off (no active dominance card, not in a coalition), and that either has its countdown banner up (state.global.countdowns) or is one step from its win. One step means the public Goal Tracker shows every part of that win's test met except exactly one unit: one Arm pip, Chain suit, rock, Portrait suit, Sanctuary or Sanctuary suit, rank step, Allied faction, undamaged item, relic type, foot or source faction, covered clearing or Ring clearing, or one yes/no part (the Beachhead, the Monolith, Lumière, the Flying Manor atelier, an Aquafarm, the Parents' Journal recovered, the Warlord on the map, the tune.countdown-vp gate). ANSWER: attack or block the key clearing with a real Root action from that win's counterplay. Gustave: flip rule of the Chain clearing with the thinnest margin, or remove the Beachhead's buildings. Esquie (3 rocks held): the Nevron host moves extra warriors onto the last guarded rock (more defenders deal more hits to him) and every other bot attacks his pawn to damage items. The Paintress: break an easel, flip rule of a Portrait clearing or thin it below tune.paintress-portrait-warriors warriors, or take the Monolith. Sciel: before her banner, step a piece into a Sanctuary (paying Outrage); once it is up, battle a Lantern off the board, place a building or token in a Lantern clearing, or raze her only Aquafarm. Verso: before his banner, put a piece in the Monolith; once it is up, battle him there and land a hit. Maelle: attack her in Lumière and damage items until fewer than tune.maelle-items are undamaged. Lune: battle the warriors carrying the Parents' Journal or her missing relic type, and hold the clearings around the gold forest. Monoco: battle the Warlord off the map (Sacred River Rebirth strips Almighty and his latest other foot). The Curator: flip rule of Lumière or remove his Monolith tunnel; with no keep in Lumière, raze his building there and cut his warriors below tune.curator-lumiere-warriors; keep the Paintress's roost in the Monolith alive. Clea: remove her warriors from one counted clearing (lone Nevrons first) or from the Monolith, or raze the Flying Manor atelier. The White-Haired Man: out-stack him in one Ring clearing, guess a plot with Exposure, or walk a Vagabond pawn into the Monolith. LIMITS: it obeys every rule tweak and every 'never' and 'only' in the steps above it, uses only public information plus this bot's own hand and hidden pieces, and barks the block. PRIORITY: with no trigger it does nothing. It is listed last, as in the roster, but takes the actions it needs ahead of the steps above (it pre-empts them) in two cases: a banner that is up, because that seat confirms before this bot's next Birdsong, unless this bot can finish a quest win this turn; and, on Hard only, a one-step threat, unless this is this bot's own announce turn (its own confirmation would land first). Otherwise it answers with the actions the steps above leave free. Easy answers banners only, and only with free actions. FOR ESQUIE: Never Mad bars every battle and Strike except against host guards, so he never attacks to spoil. He answers only by moving his pawn: into the Monolith against the White-Haired Man (it fails his announce and his confirmation), into the Monolith before Verso's banner, or into a would-be Sanctuary before Sciel's banner. A quest win he can finish this turn always comes first.",
+      "scoring": "Threats: banners before one-step threats; then the seat whose next Birdsong comes first in turn order (read.seats from read.current-seat); then the higher VP. For the chosen threat, answer cost = actions needed this turn + expected hits taken (Root's dice: two 0-3 dice, the attacker deals the higher and the defender the lower, each capped by its warriors; +1 hit to a defender with no warriors). Take the cheapest legal answer, breaking a met part before blocking the missing unit; ties: the answer nearest this bot's pieces, then the lower clearing number.",
+      "reads": [
+        "read.seats",
+        "read.current-seat",
+        "read.seat-engine",
+        "read.vp",
+        "read.active-dominance",
+        "read.coalition-partner",
+        "read.ruler",
+        "read.warriors",
+        "read.buildings",
+        "read.buildings-of-type",
+        "read.tokens",
+        "read.tokens-of-type",
+        "read.pawn-clearing",
+        "read.items",
+        "read.relationship",
+        "read.path-neighbours",
+        "read.suits-of",
+        "read.clearings",
+        "read.recovered-relics",
+        "read.relic-type",
+        "read.relic-clearing",
+        "read.relic-forest",
+        "read.forest-clearings",
+        "read.corvid-face-up-plot",
+        "read.legal-actions",
+        "read.pawn-forest"
+      ],
+      "state": [
+        "state.global.countdowns",
+        "state.global.act",
+        "state.global.roles",
+        "state.global.seat-characters",
+        "state.global.difficulty",
+        "state.gustave.flags",
+        "state.gustave.arm",
+        "state.esquie.rocks",
+        "state.verso.rank",
+        "state.monoco.feet",
+        "state.lune.tagged-relic",
+        "state.curator.cell-crack",
+        "state.esquie.target"
+      ],
+      "tests": [
+        "EsquieBot_SpoilerBlocksOnlyByMovingPawn",
+        "EsquieBot_SpoilerYieldsToOwnQuestWinThisTurn"
+      ]
+    },
+    {
+      "id": "bot.paintress.01-site",
+      "plan": "bot.paintress",
+      "order": 1,
+      "name": "Site score",
+      "rule": "For each suit still lacking a Living Portrait, score the clearings of that suit outside the Monolith that have a free slot, and target the best for her next roost (Easel). Bots bark their next goal move; Easy barks the next Portrait a turn early.",
+      "scoring": "site(c) = tune.paintress-site-adjacent (+3) if c is next to a clearing she rules + tune.paintress-site-near-monolith (+2) if c is within tune.paintress-site-near-monolith-steps (2) path steps of the Monolith + tune.paintress-site-enemy-warrior (-1) per enemy warrior in c + tune.paintress-site-guarded-rock (-3) if c holds a guarded rock. Clearings in state.paintress.repaint-avoid are skipped. Best suit = the missing suit with the highest best site; ties: lower clearing number.",
+      "reads": [
+        "read.clearings",
+        "read.suits-of",
+        "read.free-slots",
+        "read.ruler",
+        "read.path-neighbours",
+        "read.warriors",
+        "read.buildings-of-type",
+        "read.seats"
+      ],
+      "state": [
+        "state.esquie.rocks",
+        "state.paintress.repaint-avoid",
+        "state.global.roles",
+        "state.global.difficulty"
+      ],
+      "tests": [
+        "PaintressBot_SiteScoreMatchesFormula",
+        "PaintressBot_SiteSkipsSuitsWithLivingPortrait",
+        "PaintressBot_EasyBarksNextPortraitATurnEarly"
+      ]
+    },
+    {
+      "id": "bot.paintress.02-decree",
+      "plan": "bot.paintress",
+      "order": 2,
+      "name": "Decree",
+      "rule": "When adding cards to the Decree, prefer a Build card of the best missing suit (step 1) and a Recruit card (a bird, or the suit of a Portrait with fewer than tune.paintress-portrait-warriors warriors). The lookahead remembers that Build cards repeat every turn, so once two suits are done she prefers a bird Build card. She never adds a card the lookahead says may fail.",
+      "scoring": "Candidates in order: Build of the best missing suit, then Recruit (bird first, then the suit of the thinnest Portrait); once two suits have Living Portraits, a bird Build card before a suited one. A candidate is dropped if the one-turn lookahead (the Decree plus the card, against the board after this turn's planned actions) finds a column it cannot resolve.",
+      "reads": [
+        "read.eyrie-decree",
+        "read.eyrie-leader",
+        "read.hand-suits",
+        "read.suits-of",
+        "read.ruler",
+        "read.free-slots",
+        "read.buildings-of-type",
+        "read.warriors",
+        "read.supply-pieces",
+        "read.legal-actions"
+      ],
+      "state": [
+        "state.global.roles"
+      ],
+      "tests": [
+        "PaintressBot_DecreePrefersBuildOfBestMissingSuit",
+        "PaintressBot_PrefersBirdBuildAfterTwoSuits",
+        "PaintressBot_NeverAddsCardLookaheadSaysMayFail"
+      ]
+    },
+    {
+      "id": "bot.paintress.03-garrison",
+      "plan": "bot.paintress",
+      "order": 3,
+      "name": "Garrison",
+      "rule": "Spare moves bring every Portrait up to tune.paintress-portrait-warriors (2) warriors (Hard: tune.paintress-hard-portrait-warriors, 3). She keeps tune.paintress-monolith-garrison (3) or more warriors in the Monolith and recruits there first when enemy warriors stand in a clearing next to it.",
+      "scoring": "The Monolith first whenever it holds fewer than 3 of her warriors or enemy warriors are next to it; then Portraits in ascending warriors (hosted guards not counted), then by enemy warriors next to them; ties: lower clearing number.",
+      "reads": [
+        "read.warriors",
+        "read.buildings-of-type",
+        "read.ruler",
+        "read.path-neighbours",
+        "read.eyrie-decree",
+        "read.seats",
+        "read.legal-actions"
+      ],
+      "state": [
+        "state.esquie.rocks",
+        "state.global.roles",
+        "state.global.difficulty"
+      ],
+      "tests": [
+        "PaintressBot_GarrisonsPortraitsToTwoWarriors",
+        "PaintressBot_KeepsThreeInMonolithAndRecruitsThereUnderThreat",
+        "PaintressBot_HardGarrisonsThreePerPortrait"
+      ],
+      "_notes": "'An enemy stack is adjacent' is read as any enemy warriors in a clearing next to the Monolith."
+    },
+    {
+      "id": "bot.paintress.04-finish",
+      "plan": "bot.paintress",
+      "order": 4,
+      "name": "Finish mode",
+      "rule": "In finish mode (Vp(seat) >= tune.paintress-goal-vp with tune.paintress-finish-portraits Living Portraits), add exactly the cards that build and stock the third Portrait, and battle only to retake rule of the Monolith or a Portrait clearing. Easy adds one card too many, which often causes Grief.",
+      "scoring": "Cards needed = one Build of the missing suit + the Recruit or Move cards that put tune.paintress-portrait-warriors warriors there, checked by the lookahead; nothing else is added (Easy: one extra card).",
+      "reads": [
+        "read.vp",
+        "read.eyrie-decree",
+        "read.hand-suits",
+        "read.buildings-of-type",
+        "read.warriors",
+        "read.ruler",
+        "read.suits-of",
+        "read.legal-actions"
+      ],
+      "state": [
+        "state.esquie.rocks",
+        "state.global.roles",
+        "state.global.difficulty"
+      ],
+      "tests": [
+        "PaintressBot_FinishModeAddsExactCardsForThirdPortrait",
+        "PaintressBot_FinishModeBattlesOnlyToRetakeRule",
+        "PaintressBot_EasyAddsOneCardTooManyInFinishMode"
+      ]
+    },
+    {
+      "id": "bot.paintress.05-repaint",
+      "plan": "bot.paintress",
+      "order": 5,
+      "name": "Repaint",
+      "rule": "A destroyed Portrait is rebuilt elsewhere: the clearing where it fell goes into state.paintress.repaint-avoid and the site score skips it for tune.paintress-repaint-avoid-turns (2) of her turns.",
+      "scoring": "Step 1's site score without the avoided clearings.",
+      "reads": [
+        "read.buildings-of-type",
+        "read.suits-of",
+        "read.free-slots"
+      ],
+      "state": [
+        "state.paintress.repaint-avoid"
+      ],
+      "tests": [
+        "PaintressBot_RepaintAvoidsSameClearingForTwoTurns"
+      ]
+    },
+    {
+      "id": "bot.paintress.06-spare-white-haired-man",
+      "plan": "bot.paintress",
+      "order": 6,
+      "name": "Attack the White-Haired Man last",
+      "rule": "She deprioritises attacking the White-Haired Man: among the battles the steps above would take, his pieces are her last choice. The spoiler layer (step 7) still attacks him like anyone else.",
+      "scoring": "Battle targets keep the order the steps above give them, except that every battle against the White-Haired Man's seat moves to the end of the list.",
+      "reads": [
+        "read.seats",
+        "read.legal-actions"
+      ],
+      "state": [
+        "state.global.seat-characters"
+      ],
+      "tests": [
+        "PaintressBot_AttacksWhiteHairedManLast"
+      ]
+    },
+    {
+      "id": "bot.paintress.07-spoiler",
+      "plan": "bot.paintress",
+      "order": 7,
+      "name": "Spoiler layer",
+      "rule": "Shared spoiler layer (layer 3 of every bot; this part of the text is the same in all eleven plans). TRIGGER: another seat, the human included, that is not this bot's coalition partner, whose themed win is unlocked in the current act (Act II on; the Curator's from Act III) and not switched off (no active dominance card, not in a coalition), and that either has its countdown banner up (state.global.countdowns) or is one step from its win. One step means the public Goal Tracker shows every part of that win's test met except exactly one unit: one Arm pip, Chain suit, rock, Portrait suit, Sanctuary or Sanctuary suit, rank step, Allied faction, undamaged item, relic type, foot or source faction, covered clearing or Ring clearing, or one yes/no part (the Beachhead, the Monolith, Lumière, the Flying Manor atelier, an Aquafarm, the Parents' Journal recovered, the Warlord on the map, the tune.countdown-vp gate). ANSWER: attack or block the key clearing with a real Root action from that win's counterplay. Gustave: flip rule of the Chain clearing with the thinnest margin, or remove the Beachhead's buildings. Esquie (3 rocks held): the Nevron host moves extra warriors onto the last guarded rock (more defenders deal more hits to him) and every other bot attacks his pawn to damage items. The Paintress: break an easel, flip rule of a Portrait clearing or thin it below tune.paintress-portrait-warriors warriors, or take the Monolith. Sciel: before her banner, step a piece into a Sanctuary (paying Outrage); once it is up, battle a Lantern off the board, place a building or token in a Lantern clearing, or raze her only Aquafarm. Verso: before his banner, put a piece in the Monolith; once it is up, battle him there and land a hit. Maelle: attack her in Lumière and damage items until fewer than tune.maelle-items are undamaged. Lune: battle the warriors carrying the Parents' Journal or her missing relic type, and hold the clearings around the gold forest. Monoco: battle the Warlord off the map (Sacred River Rebirth strips Almighty and his latest other foot). The Curator: flip rule of Lumière or remove his Monolith tunnel; with no keep in Lumière, raze his building there and cut his warriors below tune.curator-lumiere-warriors; keep the Paintress's roost in the Monolith alive. Clea: remove her warriors from one counted clearing (lone Nevrons first) or from the Monolith, or raze the Flying Manor atelier. The White-Haired Man: out-stack him in one Ring clearing, guess a plot with Exposure, or walk a Vagabond pawn into the Monolith. LIMITS: it obeys every rule tweak and every 'never' and 'only' in the steps above it, uses only public information plus this bot's own hand and hidden pieces, and barks the block. PRIORITY: with no trigger it does nothing. It is listed last, as in the roster, but takes the actions it needs ahead of the steps above (it pre-empts them) in two cases: a banner that is up, because that seat confirms before this bot's next Birdsong, unless this bot can finish a quest win this turn; and, on Hard only, a one-step threat, unless this is this bot's own announce turn (its own confirmation would land first). Otherwise it answers with the actions the steps above leave free. Easy answers banners only, and only with free actions. FOR THE PAINTRESS: step 6 does not apply here, so she attacks the White-Haired Man like anyone else. Her answers must fit the Decree: a card is added for a block only when the lookahead says it cannot cause Grief.",
+      "scoring": "Threats: banners before one-step threats; then the seat whose next Birdsong comes first in turn order (read.seats from read.current-seat); then the higher VP. For the chosen threat, answer cost = actions needed this turn + expected hits taken (Root's dice: two 0-3 dice, the attacker deals the higher and the defender the lower, each capped by its warriors; +1 hit to a defender with no warriors). Take the cheapest legal answer, breaking a met part before blocking the missing unit; ties: the answer nearest this bot's pieces, then the lower clearing number.",
+      "reads": [
+        "read.seats",
+        "read.current-seat",
+        "read.seat-engine",
+        "read.vp",
+        "read.active-dominance",
+        "read.coalition-partner",
+        "read.ruler",
+        "read.warriors",
+        "read.buildings",
+        "read.buildings-of-type",
+        "read.tokens",
+        "read.tokens-of-type",
+        "read.pawn-clearing",
+        "read.items",
+        "read.relationship",
+        "read.path-neighbours",
+        "read.suits-of",
+        "read.clearings",
+        "read.recovered-relics",
+        "read.relic-type",
+        "read.relic-clearing",
+        "read.relic-forest",
+        "read.forest-clearings",
+        "read.corvid-face-up-plot",
+        "read.legal-actions",
+        "read.eyrie-decree",
+        "read.hand-suits"
+      ],
+      "state": [
+        "state.global.countdowns",
+        "state.global.act",
+        "state.global.roles",
+        "state.global.seat-characters",
+        "state.global.difficulty",
+        "state.gustave.flags",
+        "state.gustave.arm",
+        "state.esquie.rocks",
+        "state.verso.rank",
+        "state.monoco.feet",
+        "state.lune.tagged-relic",
+        "state.curator.cell-crack"
+      ],
+      "tests": [
+        "PaintressBot_SpoilerStillAttacksWhiteHairedMan",
+        "PaintressBot_SpoilerOwnAnnounceTurnBeforeOneStepThreat"
+      ]
+    },
+    {
+      "id": "bot.sciel.01-spread",
+      "plan": "bot.sciel",
+      "order": 1,
+      "name": "Spread",
+      "rule": "Spread into the best-scoring legal clearing. Never spread into a clearing with tune.sciel-spread-max-enemy (2) or more enemy pieces, or under Martial Law.",
+      "scoring": "spread(c) = tune.sciel-spread-base (3) - enemy pieces in c (warriors, buildings, tokens and pawns) - enemy warriors in clearings next to c + tune.sciel-spread-new-suit (+2) if c's suit has no Sanctuary yet; ties: lower clearing number.",
+      "reads": [
+        "read.tokens-of-type",
+        "read.warriors",
+        "read.buildings",
+        "read.tokens",
+        "read.pawn-clearing",
+        "read.path-neighbours",
+        "read.suits-of",
+        "read.clearings",
+        "read.seats",
+        "read.alliance-supporters",
+        "read.legal-actions"
+      ],
+      "state": [],
+      "tests": [
+        "ScielBot_SpreadScoreMatchesFormula",
+        "ScielBot_NeverSpreadsIntoTwoEnemyPiecesOrMartialLaw"
+      ]
+    },
+    {
+      "id": "bot.sciel.02-revolt",
+      "plan": "bot.sciel",
+      "order": 2,
+      "name": "Revolt",
+      "rule": "Revolt in a sympathetic clearing holding enemy buildings or tokens, in a suit with no Aquafarm, ideally one that becomes a Sanctuary at once (Revolt clears every enemy piece there). Keep tune.sciel-revolt-supporters (2) matching supporters ready for the next one. Easy, half the time, takes the first legal Revolt instead.",
+      "scoring": "Order: clearings that become a Sanctuary at once (no Vagabond pawn left there) first, then by enemy buildings + tokens removed; ties: a suit with no Sanctuary yet, then lower clearing number. She keeps 2 supporters of the next-best target's suit unspent.",
+      "reads": [
+        "read.tokens-of-type",
+        "read.buildings",
+        "read.tokens",
+        "read.buildings-of-type",
+        "read.pawn-clearing",
+        "read.suits-of",
+        "read.alliance-supporters",
+        "read.seats",
+        "read.legal-actions"
+      ],
+      "state": [
+        "state.global.difficulty"
+      ],
+      "tests": [
+        "ScielBot_RevoltsWhereItMakesASanctuary",
+        "ScielBot_KeepsTwoMatchingSupportersReady",
+        "ScielBot_EasySometimesTakesFirstLegalRevolt"
+      ]
+    },
+    {
+      "id": "bot.sciel.03-evict",
+      "plan": "bot.sciel",
+      "order": 3,
+      "name": "Evict",
+      "rule": "In Evening (Operations), battle lone enemy warriors or tokens on her Lanterns, preferring an Evening with Twilight armed once v1.1 adds it. Easy evicts only with a 2:1 edge.",
+      "scoring": "Targets: sympathetic clearings holding exactly one enemy warrior, or enemy tokens and no enemy warriors. Order: clearings that become a Sanctuary after the battle first, then fewest enemy pieces; ties: lower clearing number. Easy needs her warriors there >= tune.sciel-easy-evict-ratio x the enemy pieces there.",
+      "reads": [
+        "read.phase",
+        "read.tokens-of-type",
+        "read.warriors",
+        "read.tokens",
+        "read.buildings",
+        "read.pawn-clearing",
+        "read.alliance-officers",
+        "read.seats",
+        "read.legal-actions"
+      ],
+      "state": [
+        "state.sciel.twilight-armed",
+        "state.global.difficulty"
+      ],
+      "tests": [
+        "ScielBot_EvictsLoneEnemyFromLantern",
+        "ScielBot_EasyEvictsOnlyWithTwoToOne",
+        "ScielBot_PrefersTwilightEveningToEvict"
+      ]
+    },
+    {
+      "id": "bot.sciel.04-organize",
+      "plan": "bot.sciel",
+      "order": 4,
+      "name": "Organize",
+      "rule": "Organize (remove one of her warriors to place a Lantern) when the Sun gauge is short of tune.sciel-sanctuaries Sanctuaries and a warrior is idle (no other step needs it this turn).",
+      "scoring": "Idle warriors in clearings without her Lantern, ordered by step 1's spread score for the clearing they stand in.",
+      "reads": [
+        "read.warriors",
+        "read.tokens-of-type",
+        "read.supply-pieces",
+        "read.legal-actions"
+      ],
+      "state": [],
+      "tests": [
+        "ScielBot_OrganizesIdleWarriorWhenSunShort"
+      ],
+      "_notes": "'When Sun is short' is read as the Sun gauge (Sanctuaries) below its target, not the v1.1 Twilight Sun charge."
+    },
+    {
+      "id": "bot.sciel.05-defend-aquafarms",
+      "plan": "bot.sciel",
+      "order": 5,
+      "name": "Recruit at threatened Aquafarms",
+      "rule": "Recruit at an Aquafarm (base) that is threatened: enemy warriors in its clearing or in a clearing next to it.",
+      "scoring": "Aquafarms by enemy warriors in and next to their clearing, most first; ties: lower clearing number.",
+      "reads": [
+        "read.buildings-of-type",
+        "read.warriors",
+        "read.path-neighbours",
+        "read.seats",
+        "read.legal-actions"
+      ],
+      "state": [],
+      "tests": [
+        "ScielBot_RecruitsAtThreatenedAquafarm"
+      ]
+    },
+    {
+      "id": "bot.sciel.06-teacher-group",
+      "plan": "bot.sciel",
+      "order": 6,
+      "name": "Teacher-led group",
+      "rule": "Keep one Teacher-led group (her biggest warrior stack, moved by her officers' Operations) in or beside her biggest Lantern cluster.",
+      "scoring": "Lantern cluster = sympathetic clearings joined by paths; biggest = most clearings (ties: most Sanctuaries). If the group is elsewhere it moves toward the cluster by the shortest path.",
+      "reads": [
+        "read.tokens-of-type",
+        "read.warriors",
+        "read.path-neighbours",
+        "read.alliance-officers",
+        "read.legal-actions"
+      ],
+      "state": [],
+      "tests": [
+        "ScielBot_KeepsTeacherGroupBesideBiggestLanternCluster"
+      ]
+    },
+    {
+      "id": "bot.sciel.07-finish",
+      "plan": "bot.sciel",
+      "order": 7,
+      "name": "Finish mode",
+      "rule": "In finish mode (tune.sciel-finish-sanctuaries Sanctuaries), hoard supporters, spending them only on the Spread or Revolt that makes her next Sanctuary, and never pull warriors out of the cluster.",
+      "scoring": "none (a plain condition)",
+      "reads": [
+        "read.tokens-of-type",
+        "read.warriors",
+        "read.buildings",
+        "read.tokens",
+        "read.pawn-clearing",
+        "read.alliance-supporters",
+        "read.legal-actions"
+      ],
+      "state": [],
+      "tests": [
+        "ScielBot_FinishModeHoardsSupporters",
+        "ScielBot_FinishModeNeverPullsWarriorsFromCluster"
+      ],
+      "_notes": "'Hoard supporters' is read as spending them only on the Spread or Revolt that makes her next Sanctuary, since she still needs a fifth."
+    },
+    {
+      "id": "bot.sciel.08-announce",
+      "plan": "bot.sciel",
+      "order": 8,
+      "name": "Announce turn",
+      "rule": "On the announce turn (win.sciel's announce test will pass at the end of this turn), end with her own warriors on the most exposed Sanctuaries (her warriors don't break a Sanctuary, and Guerrilla War makes attacks costly) and keep supporters for Outrage income.",
+      "scoring": "exposure(c) = enemy warriors in clearings next to c. Sanctuaries in descending exposure, one warrior each before a second anywhere; ties: lower clearing number.",
+      "reads": [
+        "read.tokens-of-type",
+        "read.warriors",
+        "read.path-neighbours",
+        "read.alliance-supporters",
+        "read.seats",
+        "read.legal-actions"
+      ],
+      "state": [
+        "state.global.act"
+      ],
+      "tests": [
+        "ScielBot_AnnounceTurnGarrisonsMostExposedSanctuaries",
+        "ScielBot_AnnounceTurnKeepsSupporters"
+      ]
+    },
+    {
+      "id": "bot.sciel.09-spoiler",
+      "plan": "bot.sciel",
+      "order": 9,
+      "name": "Spoiler layer",
+      "rule": "Shared spoiler layer (layer 3 of every bot; this part of the text is the same in all eleven plans). TRIGGER: another seat, the human included, that is not this bot's coalition partner, whose themed win is unlocked in the current act (Act II on; the Curator's from Act III) and not switched off (no active dominance card, not in a coalition), and that either has its countdown banner up (state.global.countdowns) or is one step from its win. One step means the public Goal Tracker shows every part of that win's test met except exactly one unit: one Arm pip, Chain suit, rock, Portrait suit, Sanctuary or Sanctuary suit, rank step, Allied faction, undamaged item, relic type, foot or source faction, covered clearing or Ring clearing, or one yes/no part (the Beachhead, the Monolith, Lumière, the Flying Manor atelier, an Aquafarm, the Parents' Journal recovered, the Warlord on the map, the tune.countdown-vp gate). ANSWER: attack or block the key clearing with a real Root action from that win's counterplay. Gustave: flip rule of the Chain clearing with the thinnest margin, or remove the Beachhead's buildings. Esquie (3 rocks held): the Nevron host moves extra warriors onto the last guarded rock (more defenders deal more hits to him) and every other bot attacks his pawn to damage items. The Paintress: break an easel, flip rule of a Portrait clearing or thin it below tune.paintress-portrait-warriors warriors, or take the Monolith. Sciel: before her banner, step a piece into a Sanctuary (paying Outrage); once it is up, battle a Lantern off the board, place a building or token in a Lantern clearing, or raze her only Aquafarm. Verso: before his banner, put a piece in the Monolith; once it is up, battle him there and land a hit. Maelle: attack her in Lumière and damage items until fewer than tune.maelle-items are undamaged. Lune: battle the warriors carrying the Parents' Journal or her missing relic type, and hold the clearings around the gold forest. Monoco: battle the Warlord off the map (Sacred River Rebirth strips Almighty and his latest other foot). The Curator: flip rule of Lumière or remove his Monolith tunnel; with no keep in Lumière, raze his building there and cut his warriors below tune.curator-lumiere-warriors; keep the Paintress's roost in the Monolith alive. Clea: remove her warriors from one counted clearing (lone Nevrons first) or from the Monolith, or raze the Flying Manor atelier. The White-Haired Man: out-stack him in one Ring clearing, guess a plot with Exposure, or walk a Vagabond pawn into the Monolith. LIMITS: it obeys every rule tweak and every 'never' and 'only' in the steps above it, uses only public information plus this bot's own hand and hidden pieces, and barks the block. PRIORITY: with no trigger it does nothing. It is listed last, as in the roster, but takes the actions it needs ahead of the steps above (it pre-empts them) in two cases: a banner that is up, because that seat confirms before this bot's next Birdsong, unless this bot can finish a quest win this turn; and, on Hard only, a one-step threat, unless this is this bot's own announce turn (its own confirmation would land first). Otherwise it answers with the actions the steps above leave free. Easy answers banners only, and only with free actions. FOR SCIEL: her answers are a Revolt in a key clearing that holds her Lantern (it removes every enemy piece there) and Evening Operations moves and battles. In finish mode she never pulls warriors out of the cluster for a block (step 7).",
+      "scoring": "Threats: banners before one-step threats; then the seat whose next Birdsong comes first in turn order (read.seats from read.current-seat); then the higher VP. For the chosen threat, answer cost = actions needed this turn + expected hits taken (Root's dice: two 0-3 dice, the attacker deals the higher and the defender the lower, each capped by its warriors; +1 hit to a defender with no warriors). Take the cheapest legal answer, breaking a met part before blocking the missing unit; ties: the answer nearest this bot's pieces, then the lower clearing number.",
+      "reads": [
+        "read.seats",
+        "read.current-seat",
+        "read.seat-engine",
+        "read.vp",
+        "read.active-dominance",
+        "read.coalition-partner",
+        "read.ruler",
+        "read.warriors",
+        "read.buildings",
+        "read.buildings-of-type",
+        "read.tokens",
+        "read.tokens-of-type",
+        "read.pawn-clearing",
+        "read.items",
+        "read.relationship",
+        "read.path-neighbours",
+        "read.suits-of",
+        "read.clearings",
+        "read.recovered-relics",
+        "read.relic-type",
+        "read.relic-clearing",
+        "read.relic-forest",
+        "read.forest-clearings",
+        "read.corvid-face-up-plot",
+        "read.legal-actions",
+        "read.alliance-supporters",
+        "read.alliance-officers"
+      ],
+      "state": [
+        "state.global.countdowns",
+        "state.global.act",
+        "state.global.roles",
+        "state.global.seat-characters",
+        "state.global.difficulty",
+        "state.gustave.flags",
+        "state.gustave.arm",
+        "state.esquie.rocks",
+        "state.verso.rank",
+        "state.monoco.feet",
+        "state.lune.tagged-relic",
+        "state.curator.cell-crack"
+      ],
+      "tests": [
+        "ScielBot_SpoilerRevoltsInKeyLanternClearing",
+        "ScielBot_SpoilerEasyAnswersBannersOnlyWithFreeActions"
+      ]
+    },
+    {
+      "id": "bot.verso.01-climb",
+      "plan": "bot.verso",
+      "order": 1,
+      "name": "Climb",
+      "rule": "Below rank A, start a battle only when the hits he expects to take are under tune.verso-bot-max-expected-hits (0.5): a lone defending warrior, or undefended buildings and tokens. A defender holding tune.verso-bot-ambush-hand (3) or more cards is a possible Ambush, and then he needs tune.verso-bot-ambush-swords (2) or more undamaged swords. He prefers Hostile factions (Infamy VP) and the VP leader, and fills the rest of the turn with quests and ruins (Root's Vagabond AI). Easy ignores Ambush risk.",
+      "scoring": "expected hits taken = E[min(lower of two 0-3 dice, defending warriors)], 0 with no defending warriors; a lone defending warrior is allowed by name. Order: Hostile factions, then the VP leader, then the rest; then fewest expected hits; ties: lower clearing number.",
+      "reads": [
+        "read.warriors",
+        "read.buildings",
+        "read.tokens",
+        "read.pawn-clearing",
+        "read.items",
+        "read.hand-size",
+        "read.relationship",
+        "read.vp",
+        "read.seats",
+        "read.legal-actions"
+      ],
+      "state": [
+        "state.verso.rank",
+        "state.global.difficulty"
+      ],
+      "tests": [
+        "VersoBot_ClimbsOnlyWithSafeBattlesBelowRankA",
+        "VersoBot_TreatsThreeCardDefenderAsAmbush",
+        "VersoBot_EasyIgnoresAmbushRisk"
+      ],
+      "_notes": "With Root's dice (0-3, the defender deals the lower) a lone defending warrior deals 9/16 = 0.56 expected hits, just over tune.verso-bot-max-expected-hits. The roster names it as a qualifying fight, so it is allowed by name; for the stricter reading, drop the lone-warrior clause."
+    },
+    {
+      "id": "bot.verso.02-repair",
+      "plan": "bot.verso",
+      "order": 2,
+      "name": "Repair",
+      "rule": "After any damage, use Get Back Up (Hideout) or end the turn in a forest (the Evening rest) before the next fight.",
+      "scoring": "none (a plain condition: while any item is damaged he starts no battle)",
+      "reads": [
+        "read.items",
+        "read.pawn-forest",
+        "read.forests-around",
+        "read.legal-actions"
+      ],
+      "state": [],
+      "tests": [
+        "VersoBot_RepairsBeforeNextFightAfterDamage"
+      ]
+    },
+    {
+      "id": "bot.verso.03-approach",
+      "plan": "bot.verso",
+      "order": 3,
+      "name": "Approach",
+      "rule": "At rank A or above in Act II or later, move next to the Monolith and keep farming lone warriors nearby (with step 1's filter) until step 4 says the assault is on.",
+      "scoring": "Path distance to the nearest clearing next to the Monolith; farming targets within one move of the Monolith first.",
+      "reads": [
+        "read.pawn-clearing",
+        "read.path-neighbours",
+        "read.warriors",
+        "read.legal-actions"
+      ],
+      "state": [
+        "state.verso.rank",
+        "state.global.act",
+        "state.global.roles"
+      ],
+      "tests": [
+        "VersoBot_ApproachesMonolithAtRankAInActTwo"
+      ]
+    },
+    {
+      "id": "bot.verso.04-assault",
+      "plan": "bot.verso",
+      "order": 4,
+      "name": "Assault",
+      "rule": "Enter the Monolith at rank A or S only when its defenders can be cleared this turn (undamaged swords + the Perfection hit + the defenseless extra hit against buildings) with expected damage under tune.verso-bot-assault-max-damage (1). Clear the warriors, then the buildings, and end the turn there only at rank S with no other faction's pieces left. Easy waits for tune.verso-easy-assault-swords (4) undamaged swords.",
+      "scoring": "Pieces to clear = other seats' warriors + buildings + tokens in the Monolith. Expected removals this turn = over the battles he can start (one per ready sword), E[min(higher of two 0-3 dice, undamaged swords)] + tune.verso-perfection-hits, +1 once no defending warriors remain. Expected damage = the sum of E[min(lower die, defending warriors)] + 2 for a battle against a possible Ambush. Go when expected removals >= pieces to clear and expected damage < tune.verso-bot-assault-max-damage.",
+      "reads": [
+        "read.pawn-clearing",
+        "read.items",
+        "read.warriors",
+        "read.buildings",
+        "read.tokens",
+        "read.hand-size",
+        "read.seats",
+        "read.legal-actions"
+      ],
+      "state": [
+        "state.verso.rank",
+        "state.global.roles",
+        "state.global.act",
+        "state.global.difficulty"
+      ],
+      "tests": [
+        "VersoBot_AssaultsOnlyWhenMonolithClearableThisTurn",
+        "VersoBot_EndsTurnInMonolithOnlyAtRankSWhenEmpty",
+        "VersoBot_EasyWaitsForFourUndamagedSwords"
+      ]
+    },
+    {
+      "id": "bot.verso.05-bail",
+      "plan": "bot.verso",
+      "order": 5,
+      "name": "Bail",
+      "rule": "If his rank drops below A during an assault, leave the Monolith for a forest and rebuild (step 2, then step 1).",
+      "scoring": "The forest touching his clearing reachable with the fewest moves; ties: lower forest number.",
+      "reads": [
+        "read.pawn-clearing",
+        "read.forests-around",
+        "read.items",
+        "read.legal-actions"
+      ],
+      "state": [
+        "state.verso.rank",
+        "state.global.roles"
+      ],
+      "tests": [
+        "VersoBot_BailsToForestWhenRankDropsBelowA"
+      ]
+    },
+    {
+      "id": "bot.verso.06-reunion",
+      "plan": "bot.verso",
+      "order": 6,
+      "name": "Reunion",
+      "rule": "In Act II or later, while Soarrie is on his card (withVerso), he walks into Esquie's clearing when he can reach it this turn, so Esquie can end his turn there (the reunion is worth tune.verso-soarrie-vp VP to Verso).",
+      "scoring": "none (a plain condition: Esquie seated, Soarrie withVerso, Esquie's pawn reachable with his ready boots this turn)",
+      "reads": [
+        "read.pawn-clearing",
+        "read.path-neighbours",
+        "read.items",
+        "read.seats",
+        "read.legal-actions"
+      ],
+      "state": [
+        "state.esquie.rocks",
+        "state.global.act",
+        "state.global.seat-characters"
+      ],
+      "tests": [
+        "VersoBot_WalksToEsquieWhenReachableInActTwo",
+        "VersoBot_NoReunionWalkOnceSoarriePassed"
+      ],
+      "_notes": "'When it is close' is read as reachable this turn with his ready boots."
+    },
+    {
+      "id": "bot.verso.07-spoiler",
+      "plan": "bot.verso",
+      "order": 7,
+      "name": "Spoiler layer",
+      "rule": "Shared spoiler layer (layer 3 of every bot; this part of the text is the same in all eleven plans). TRIGGER: another seat, the human included, that is not this bot's coalition partner, whose themed win is unlocked in the current act (Act II on; the Curator's from Act III) and not switched off (no active dominance card, not in a coalition), and that either has its countdown banner up (state.global.countdowns) or is one step from its win. One step means the public Goal Tracker shows every part of that win's test met except exactly one unit: one Arm pip, Chain suit, rock, Portrait suit, Sanctuary or Sanctuary suit, rank step, Allied faction, undamaged item, relic type, foot or source faction, covered clearing or Ring clearing, or one yes/no part (the Beachhead, the Monolith, Lumière, the Flying Manor atelier, an Aquafarm, the Parents' Journal recovered, the Warlord on the map, the tune.countdown-vp gate). ANSWER: attack or block the key clearing with a real Root action from that win's counterplay. Gustave: flip rule of the Chain clearing with the thinnest margin, or remove the Beachhead's buildings. Esquie (3 rocks held): the Nevron host moves extra warriors onto the last guarded rock (more defenders deal more hits to him) and every other bot attacks his pawn to damage items. The Paintress: break an easel, flip rule of a Portrait clearing or thin it below tune.paintress-portrait-warriors warriors, or take the Monolith. Sciel: before her banner, step a piece into a Sanctuary (paying Outrage); once it is up, battle a Lantern off the board, place a building or token in a Lantern clearing, or raze her only Aquafarm. Verso: before his banner, put a piece in the Monolith; once it is up, battle him there and land a hit. Maelle: attack her in Lumière and damage items until fewer than tune.maelle-items are undamaged. Lune: battle the warriors carrying the Parents' Journal or her missing relic type, and hold the clearings around the gold forest. Monoco: battle the Warlord off the map (Sacred River Rebirth strips Almighty and his latest other foot). The Curator: flip rule of Lumière or remove his Monolith tunnel; with no keep in Lumière, raze his building there and cut his warriors below tune.curator-lumiere-warriors; keep the Paintress's roost in the Monolith alive. Clea: remove her warriors from one counted clearing (lone Nevrons first) or from the Monolith, or raze the Flying Manor atelier. The White-Haired Man: out-stack him in one Ring clearing, guess a plot with Exposure, or walk a Vagabond pawn into the Monolith. LIMITS: it obeys every rule tweak and every 'never' and 'only' in the steps above it, uses only public information plus this bot's own hand and hidden pieces, and barks the block. PRIORITY: with no trigger it does nothing. It is listed last, as in the roster, but takes the actions it needs ahead of the steps above (it pre-empts them) in two cases: a banner that is up, because that seat confirms before this bot's next Birdsong, unless this bot can finish a quest win this turn; and, on Hard only, a one-step threat, unless this is this bot's own announce turn (its own confirmation would land first). Otherwise it answers with the actions the steps above leave free. Easy answers banners only, and only with free actions. FOR VERSO: his fights keep step 1's filter below rank A and step 4's test in the Monolith; where no fight passes, he answers by moving his pawn (into the Monolith against the White-Haired Man, or into a would-be Sanctuary before Sciel's banner).",
+      "scoring": "Threats: banners before one-step threats; then the seat whose next Birdsong comes first in turn order (read.seats from read.current-seat); then the higher VP. For the chosen threat, answer cost = actions needed this turn + expected hits taken (Root's dice: two 0-3 dice, the attacker deals the higher and the defender the lower, each capped by its warriors; +1 hit to a defender with no warriors). Take the cheapest legal answer, breaking a met part before blocking the missing unit; ties: the answer nearest this bot's pieces, then the lower clearing number.",
+      "reads": [
+        "read.seats",
+        "read.current-seat",
+        "read.seat-engine",
+        "read.vp",
+        "read.active-dominance",
+        "read.coalition-partner",
+        "read.ruler",
+        "read.warriors",
+        "read.buildings",
+        "read.buildings-of-type",
+        "read.tokens",
+        "read.tokens-of-type",
+        "read.pawn-clearing",
+        "read.items",
+        "read.relationship",
+        "read.path-neighbours",
+        "read.suits-of",
+        "read.clearings",
+        "read.recovered-relics",
+        "read.relic-type",
+        "read.relic-clearing",
+        "read.relic-forest",
+        "read.forest-clearings",
+        "read.corvid-face-up-plot",
+        "read.legal-actions",
+        "read.hand-size"
+      ],
+      "state": [
+        "state.global.countdowns",
+        "state.global.act",
+        "state.global.roles",
+        "state.global.seat-characters",
+        "state.global.difficulty",
+        "state.gustave.flags",
+        "state.gustave.arm",
+        "state.esquie.rocks",
+        "state.verso.rank",
+        "state.monoco.feet",
+        "state.lune.tagged-relic",
+        "state.curator.cell-crack"
+      ],
+      "tests": [
+        "VersoBot_SpoilerKeepsClimbFilterBelowRankA",
+        "VersoBot_SpoilerNeverBlocksCoalitionPartner"
+      ]
+    },
+    {
+      "id": "bot.maelle.01-family",
+      "plan": "bot.maelle",
+      "order": 1,
+      "name": "Family",
+      "rule": "Pick her family: the two non-Hostile, non-Vagabond factions closest to Allied, avoiding the VP leader when there is another option, and save them in state.maelle.family. She re-picks only if a family member passes tune.maelle-family-repick-vp (22) VP.",
+      "scoring": "Relationship steps: Allied 3, Friendly 2, Amiable 1, Indifferent 0; highest first; ties: lower VP; the VP leader goes last whenever another candidate exists.",
+      "reads": [
+        "read.relationship",
+        "read.vp",
+        "read.seats",
+        "read.seat-engine"
+      ],
+      "state": [
+        "state.maelle.family"
+      ],
+      "tests": [
+        "MaelleBot_PicksTwoNonHostileClosestToAllied",
+        "MaelleBot_AvoidsVpLeaderInFamily",
+        "MaelleBot_RepicksOnlyPastTwentyTwoVp"
+      ]
+    },
+    {
+      "id": "bot.maelle.02-aid",
+      "plan": "bot.maelle",
+      "order": 2,
+      "name": "Aid",
+      "rule": "Each Daylight, move to a clearing where a family faction has pieces and whose suit matches a card in her hand, Aid that faction, and take its crafted items when offered (swords and boots first). Easy Aids once per turn.",
+      "scoring": "Family member with fewer relationship steps first (it needs more Aid), then fewest moves; items taken: swords, then boots, then any other.",
+      "reads": [
+        "read.pawn-clearing",
+        "read.path-neighbours",
+        "read.warriors",
+        "read.buildings",
+        "read.tokens",
+        "read.suits-of",
+        "read.hand-suits",
+        "read.crafted-items",
+        "read.relationship",
+        "read.items",
+        "read.legal-actions"
+      ],
+      "state": [
+        "state.maelle.family",
+        "state.global.difficulty"
+      ],
+      "tests": [
+        "MaelleBot_AidsFamilyInMatchingSuitClearing",
+        "MaelleBot_TakesSwordsAndBootsFirst",
+        "MaelleBot_EasyAidsOncePerTurn"
+      ],
+      "_notes": "Which family member to Aid first is open in the roster; the one further from Allied goes first."
+    },
+    {
+      "id": "bot.maelle.03-no-fights",
+      "plan": "bot.maelle",
+      "order": 3,
+      "name": "No fights",
+      "rule": "No fights with non-Hostile factions unless one is within tune.maelle-threat-vp (5) VP of Root's 30 VP win. She Disarms (Steals from) the VP leader to refill her hand and uses quests and ruins for VP.",
+      "scoring": "Disarm target: the VP leader in her clearing or one move away; ties: more cards in hand.",
+      "reads": [
+        "read.relationship",
+        "read.vp",
+        "read.pawn-clearing",
+        "read.hand-size",
+        "read.has-ruin",
+        "read.seats",
+        "read.legal-actions"
+      ],
+      "state": [
+        "state.maelle.family"
+      ],
+      "tests": [
+        "MaelleBot_NoFightsWithNonHostileUnlessNearWin",
+        "MaelleBot_DisarmsVpLeaderToRefillHand"
+      ],
+      "_notes": "'Within 5 VP of winning' is read against Root's 30 VP win, so a faction at 25+ VP."
+    },
+    {
+      "id": "bot.maelle.04-goal-mode",
+      "plan": "bot.maelle",
+      "order": 4,
+      "name": "Goal mode",
+      "rule": "In goal mode, once the relationship conditions hold: path to Lumière, repair in a forest the turn before arriving, arrive with tune.maelle-items (3) or more undamaged items, and stay. Easy does not repair before arriving.",
+      "scoring": "Shortest path to Lumière; if any item is damaged, the turn before the last move ends in a forest on or beside that path.",
+      "reads": [
+        "read.pawn-clearing",
+        "read.pawn-forest",
+        "read.path-neighbours",
+        "read.forests-around",
+        "read.items",
+        "read.relationship",
+        "read.seats",
+        "read.seat-engine",
+        "read.legal-actions"
+      ],
+      "state": [
+        "state.global.roles",
+        "state.global.difficulty"
+      ],
+      "tests": [
+        "MaelleBot_GoalModeHeadsToLumiereAndStays",
+        "MaelleBot_RepairsInForestTurnBeforeArriving",
+        "MaelleBot_EasySkipsRepairBeforeArriving"
+      ]
+    },
+    {
+      "id": "bot.maelle.05-two-player",
+      "plan": "bot.maelle",
+      "order": 5,
+      "name": "One-faction table",
+      "rule": "With only one non-Vagabond faction seated (a 2-player game, or two Vagabonds at three seats): one family faction, then push to tune.maelle-2p-vp (15) VP.",
+      "scoring": "none (a plain condition)",
+      "reads": [
+        "read.seats",
+        "read.seat-engine",
+        "read.vp"
+      ],
+      "state": [
+        "state.maelle.family"
+      ],
+      "tests": [
+        "MaelleBot_OneFactionTablePicksOneFamilyAndPushesToFifteenVp"
+      ],
+      "_notes": "'2-player game' follows win.maelle, which counts the non-Vagabond seats."
+    },
+    {
+      "id": "bot.maelle.06-spoiler",
+      "plan": "bot.maelle",
+      "order": 6,
+      "name": "Spoiler layer",
+      "rule": "Shared spoiler layer (layer 3 of every bot; this part of the text is the same in all eleven plans). TRIGGER: another seat, the human included, that is not this bot's coalition partner, whose themed win is unlocked in the current act (Act II on; the Curator's from Act III) and not switched off (no active dominance card, not in a coalition), and that either has its countdown banner up (state.global.countdowns) or is one step from its win. One step means the public Goal Tracker shows every part of that win's test met except exactly one unit: one Arm pip, Chain suit, rock, Portrait suit, Sanctuary or Sanctuary suit, rank step, Allied faction, undamaged item, relic type, foot or source faction, covered clearing or Ring clearing, or one yes/no part (the Beachhead, the Monolith, Lumière, the Flying Manor atelier, an Aquafarm, the Parents' Journal recovered, the Warlord on the map, the tune.countdown-vp gate). ANSWER: attack or block the key clearing with a real Root action from that win's counterplay. Gustave: flip rule of the Chain clearing with the thinnest margin, or remove the Beachhead's buildings. Esquie (3 rocks held): the Nevron host moves extra warriors onto the last guarded rock (more defenders deal more hits to him) and every other bot attacks his pawn to damage items. The Paintress: break an easel, flip rule of a Portrait clearing or thin it below tune.paintress-portrait-warriors warriors, or take the Monolith. Sciel: before her banner, step a piece into a Sanctuary (paying Outrage); once it is up, battle a Lantern off the board, place a building or token in a Lantern clearing, or raze her only Aquafarm. Verso: before his banner, put a piece in the Monolith; once it is up, battle him there and land a hit. Maelle: attack her in Lumière and damage items until fewer than tune.maelle-items are undamaged. Lune: battle the warriors carrying the Parents' Journal or her missing relic type, and hold the clearings around the gold forest. Monoco: battle the Warlord off the map (Sacred River Rebirth strips Almighty and his latest other foot). The Curator: flip rule of Lumière or remove his Monolith tunnel; with no keep in Lumière, raze his building there and cut his warriors below tune.curator-lumiere-warriors; keep the Paintress's roost in the Monolith alive. Clea: remove her warriors from one counted clearing (lone Nevrons first) or from the Monolith, or raze the Flying Manor atelier. The White-Haired Man: out-stack him in one Ring clearing, guess a plot with Exposure, or walk a Vagabond pawn into the Monolith. LIMITS: it obeys every rule tweak and every 'never' and 'only' in the steps above it, uses only public information plus this bot's own hand and hidden pieces, and barks the block. PRIORITY: with no trigger it does nothing. It is listed last, as in the roster, but takes the actions it needs ahead of the steps above (it pre-empts them) in two cases: a banner that is up, because that seat confirms before this bot's next Birdsong, unless this bot can finish a quest win this turn; and, on Hard only, a one-step threat, unless this is this bot's own announce turn (its own confirmation would land first). Otherwise it answers with the actions the steps above leave free. Easy answers banners only, and only with free actions. FOR MAELLE: step 3 binds the spoiler: she battles a non-Hostile faction only when it is within tune.maelle-threat-vp VP of Root's 30 VP win. Otherwise she answers by moving her pawn (into the Monolith against the White-Haired Man or before Verso's banner, into a would-be Sanctuary before Sciel's banner), by battling Hostile factions, and by Disarming the threat's seat.",
+      "scoring": "Threats: banners before one-step threats; then the seat whose next Birdsong comes first in turn order (read.seats from read.current-seat); then the higher VP. For the chosen threat, answer cost = actions needed this turn + expected hits taken (Root's dice: two 0-3 dice, the attacker deals the higher and the defender the lower, each capped by its warriors; +1 hit to a defender with no warriors). Take the cheapest legal answer, breaking a met part before blocking the missing unit; ties: the answer nearest this bot's pieces, then the lower clearing number.",
+      "reads": [
+        "read.seats",
+        "read.current-seat",
+        "read.seat-engine",
+        "read.vp",
+        "read.active-dominance",
+        "read.coalition-partner",
+        "read.ruler",
+        "read.warriors",
+        "read.buildings",
+        "read.buildings-of-type",
+        "read.tokens",
+        "read.tokens-of-type",
+        "read.pawn-clearing",
+        "read.items",
+        "read.relationship",
+        "read.path-neighbours",
+        "read.suits-of",
+        "read.clearings",
+        "read.recovered-relics",
+        "read.relic-type",
+        "read.relic-clearing",
+        "read.relic-forest",
+        "read.forest-clearings",
+        "read.corvid-face-up-plot",
+        "read.legal-actions",
+        "read.hand-size"
+      ],
+      "state": [
+        "state.global.countdowns",
+        "state.global.act",
+        "state.global.roles",
+        "state.global.seat-characters",
+        "state.global.difficulty",
+        "state.gustave.flags",
+        "state.gustave.arm",
+        "state.esquie.rocks",
+        "state.verso.rank",
+        "state.monoco.feet",
+        "state.lune.tagged-relic",
+        "state.curator.cell-crack",
+        "state.maelle.family"
+      ],
+      "tests": [
+        "MaelleBot_SpoilerFightsNonHostileOnlyNearWin",
+        "MaelleBot_SpoilerWalksIntoMonolithAgainstWhiteHairedMan"
+      ]
+    },
+    {
+      "id": "bot.lune.01-act1",
+      "plan": "bot.lune",
+      "order": 1,
+      "name": "Act I relics",
+      "rule": "In Act I, normal Keepers play, but delve and recover relic types missing from her recovered relics first.",
+      "scoring": "Relics in forests whose type she has not recovered, nearest first (path distance from her nearest warriors to a clearing touching the relic's forest); ties: higher known value, then lower relic id.",
+      "reads": [
+        "read.recovered-relics",
+        "read.relic-type",
+        "read.relic-value",
+        "read.relics-in-forest",
+        "read.relic-forest",
+        "read.forest-clearings",
+        "read.warriors",
+        "read.path-neighbours",
+        "read.legal-actions"
+      ],
+      "state": [
+        "state.global.act"
+      ],
+      "tests": [
+        "LuneBot_ActOneDelvesMissingRelicTypesFirst"
+      ]
+    },
+    {
+      "id": "bot.lune.02-act2-goals",
+      "plan": "bot.lune",
+      "order": 2,
+      "name": "Act II goals",
+      "rule": "From Act II her goals are the Parents' Journal (the tagged relic, in the gold forest beside Sirène) and any missing relic type; she works on whichever is closer.",
+      "scoring": "distance = path steps from her nearest warrior group to a clearing touching the relic's forest, or to the relic's clearing while it is carried; the closer goal first; ties: the Journal.",
+      "reads": [
+        "read.relic-forest",
+        "read.relic-clearing",
+        "read.relic-type",
+        "read.relics-in-forest",
+        "read.forest-clearings",
+        "read.forests-around",
+        "read.recovered-relics",
+        "read.warriors",
+        "read.path-neighbours"
+      ],
+      "state": [
+        "state.lune.tagged-relic",
+        "state.global.act",
+        "state.global.roles"
+      ],
+      "tests": [
+        "LuneBot_ActTwoChasesJournalOrMissingTypeWhicheverCloser"
+      ]
+    },
+    {
+      "id": "bot.lune.03-retinue",
+      "plan": "bot.lune",
+      "order": 3,
+      "name": "Retinue",
+      "rule": "Add Move and Delve cards to the Retinue whose suits match the clearings on the way to the target forest, and never add a card she cannot resolve.",
+      "scoring": "Cards in hand whose suit matches the next clearings on the shortest path to the target, in path order; a card is dropped if the one-turn lookahead finds it unresolvable.",
+      "reads": [
+        "read.keepers-retinue",
+        "read.hand-suits",
+        "read.suits-of",
+        "read.path-neighbours",
+        "read.forest-clearings",
+        "read.legal-actions"
+      ],
+      "state": [
+        "state.lune.tagged-relic"
+      ],
+      "tests": [
+        "LuneBot_RetinueAddsCardsMatchingRouteSuits",
+        "LuneBot_NeverAddsUnresolvableRetinueCard"
+      ]
+    },
+    {
+      "id": "bot.lune.04-delve",
+      "plan": "bot.lune",
+      "order": 4,
+      "name": "Delve the Journal",
+      "rule": "Delve the Journal's forest only with tune.lune-delve-escort (3) or more of her warriors in clearings touching that forest.",
+      "scoring": "none (a plain condition)",
+      "reads": [
+        "read.warriors",
+        "read.forest-clearings",
+        "read.relic-forest",
+        "read.legal-actions"
+      ],
+      "state": [
+        "state.lune.tagged-relic"
+      ],
+      "tests": [
+        "LuneBot_DelvesJournalOnlyWithThreeWarriorsAdjacent"
+      ]
+    },
+    {
+      "id": "bot.lune.05-escort",
+      "plan": "bot.lune",
+      "order": 5,
+      "name": "Escort",
+      "rule": "Escort carriers in groups of tune.lune-convoy-size (2) or more (Devout Knights ignore the first hit), avoid clearings where enemies outnumber the escort, and route to a waystation of the carried relic's type; for the Journal, a tablet waystation, building or flipping a Research Camp to the tablet side on the shortest way home. Easy sends single-warrior carriers; Hard runs two convoys at once.",
+      "scoring": "Route = the shortest path to a waystation showing the relic's type that passes no clearing where one enemy seat's warriors outnumber the convoy; if there is none, the shortest such path to a clearing where she can build or flip a waystation to that type.",
+      "reads": [
+        "read.relic-clearing",
+        "read.relic-type",
+        "read.warriors",
+        "read.buildings-of-type",
+        "read.path-neighbours",
+        "read.free-slots",
+        "read.seats",
+        "read.legal-actions"
+      ],
+      "state": [
+        "state.lune.tagged-relic",
+        "state.global.difficulty"
+      ],
+      "tests": [
+        "LuneBot_EscortsCarriersInGroupsOfTwo",
+        "LuneBot_AvoidsClearingsWhereEnemiesOutnumberEscort",
+        "LuneBot_HardRunsTwoConvoys"
+      ],
+      "_notes": "The roster names a tablet waystation for the Journal run; other carried relics go to a waystation of their own type, as the Keepers' Recover needs."
+    },
+    {
+      "id": "bot.lune.06-duplicates",
+      "plan": "bot.lune",
+      "order": 6,
+      "name": "Skip duplicates",
+      "rule": "Ignore relics of a type she has already recovered unless she needs VP: they are skipped while the Journal or a missing type can still be reached.",
+      "scoring": "none (a plain condition)",
+      "reads": [
+        "read.recovered-relics",
+        "read.relic-type",
+        "read.relics-in-forest"
+      ],
+      "state": [
+        "state.lune.tagged-relic"
+      ],
+      "tests": [
+        "LuneBot_SkipsDuplicateTypesWhileGoalRelicsRemain"
+      ],
+      "_notes": "'Unless she needs VP' is read as: no Journal or missing-type relic is reachable by a route step 5 accepts; then duplicates are normal Keepers VP."
+    },
+    {
+      "id": "bot.lune.07-spoiler",
+      "plan": "bot.lune",
+      "order": 7,
+      "name": "Spoiler layer",
+      "rule": "Shared spoiler layer (layer 3 of every bot; this part of the text is the same in all eleven plans). TRIGGER: another seat, the human included, that is not this bot's coalition partner, whose themed win is unlocked in the current act (Act II on; the Curator's from Act III) and not switched off (no active dominance card, not in a coalition), and that either has its countdown banner up (state.global.countdowns) or is one step from its win. One step means the public Goal Tracker shows every part of that win's test met except exactly one unit: one Arm pip, Chain suit, rock, Portrait suit, Sanctuary or Sanctuary suit, rank step, Allied faction, undamaged item, relic type, foot or source faction, covered clearing or Ring clearing, or one yes/no part (the Beachhead, the Monolith, Lumière, the Flying Manor atelier, an Aquafarm, the Parents' Journal recovered, the Warlord on the map, the tune.countdown-vp gate). ANSWER: attack or block the key clearing with a real Root action from that win's counterplay. Gustave: flip rule of the Chain clearing with the thinnest margin, or remove the Beachhead's buildings. Esquie (3 rocks held): the Nevron host moves extra warriors onto the last guarded rock (more defenders deal more hits to him) and every other bot attacks his pawn to damage items. The Paintress: break an easel, flip rule of a Portrait clearing or thin it below tune.paintress-portrait-warriors warriors, or take the Monolith. Sciel: before her banner, step a piece into a Sanctuary (paying Outrage); once it is up, battle a Lantern off the board, place a building or token in a Lantern clearing, or raze her only Aquafarm. Verso: before his banner, put a piece in the Monolith; once it is up, battle him there and land a hit. Maelle: attack her in Lumière and damage items until fewer than tune.maelle-items are undamaged. Lune: battle the warriors carrying the Parents' Journal or her missing relic type, and hold the clearings around the gold forest. Monoco: battle the Warlord off the map (Sacred River Rebirth strips Almighty and his latest other foot). The Curator: flip rule of Lumière or remove his Monolith tunnel; with no keep in Lumière, raze his building there and cut his warriors below tune.curator-lumiere-warriors; keep the Paintress's roost in the Monolith alive. Clea: remove her warriors from one counted clearing (lone Nevrons first) or from the Monolith, or raze the Flying Manor atelier. The White-Haired Man: out-stack him in one Ring clearing, guess a plot with Exposure, or walk a Vagabond pawn into the Monolith. LIMITS: it obeys every rule tweak and every 'never' and 'only' in the steps above it, uses only public information plus this bot's own hand and hidden pieces, and barks the block. PRIORITY: with no trigger it does nothing. It is listed last, as in the roster, but takes the actions it needs ahead of the steps above (it pre-empts them) in two cases: a banner that is up, because that seat confirms before this bot's next Birdsong, unless this bot can finish a quest win this turn; and, on Hard only, a one-step threat, unless this is this bot's own announce turn (its own confirmation would land first). Otherwise it answers with the actions the steps above leave free. Easy answers banners only, and only with free actions. FOR LUNE: her answers are Battle and Move cards added to the Retinue for the key clearing, added only when the lookahead says she can resolve them (step 3), and convoys keep their escort size (step 5). A quest win she can finish this turn always comes first.",
+      "scoring": "Threats: banners before one-step threats; then the seat whose next Birdsong comes first in turn order (read.seats from read.current-seat); then the higher VP. For the chosen threat, answer cost = actions needed this turn + expected hits taken (Root's dice: two 0-3 dice, the attacker deals the higher and the defender the lower, each capped by its warriors; +1 hit to a defender with no warriors). Take the cheapest legal answer, breaking a met part before blocking the missing unit; ties: the answer nearest this bot's pieces, then the lower clearing number.",
+      "reads": [
+        "read.seats",
+        "read.current-seat",
+        "read.seat-engine",
+        "read.vp",
+        "read.active-dominance",
+        "read.coalition-partner",
+        "read.ruler",
+        "read.warriors",
+        "read.buildings",
+        "read.buildings-of-type",
+        "read.tokens",
+        "read.tokens-of-type",
+        "read.pawn-clearing",
+        "read.items",
+        "read.relationship",
+        "read.path-neighbours",
+        "read.suits-of",
+        "read.clearings",
+        "read.recovered-relics",
+        "read.relic-type",
+        "read.relic-clearing",
+        "read.relic-forest",
+        "read.forest-clearings",
+        "read.corvid-face-up-plot",
+        "read.legal-actions",
+        "read.keepers-retinue",
+        "read.hand-suits"
+      ],
+      "state": [
+        "state.global.countdowns",
+        "state.global.act",
+        "state.global.roles",
+        "state.global.seat-characters",
+        "state.global.difficulty",
+        "state.gustave.flags",
+        "state.gustave.arm",
+        "state.esquie.rocks",
+        "state.verso.rank",
+        "state.monoco.feet",
+        "state.lune.tagged-relic",
+        "state.curator.cell-crack"
+      ],
+      "tests": [
+        "LuneBot_SpoilerNormalAnswersOneStepWithFreeActions",
+        "LuneBot_SpoilerIgnoresWinsLockedInCurrentAct"
+      ]
+    },
+    {
+      "id": "bot.monoco.01-battle-score",
+      "plan": "bot.monoco",
+      "order": 1,
+      "name": "Score Warlord battles",
+      "rule": "Each Daylight, list the Warlord battles he can reach (Advance by Prowess, Command moves to bring rats along) and score each; the best becomes the planned battle.",
+      "scoring": "score = tune.monoco-bot-missing-foot (+10) if it fills a missing foot + tune.monoco-bot-new-faction (+4) if it adds a new source faction toward the 3-faction rule + his win chance (the chance his stack's hits remove every defending warrior, 0 to 1). The heavy penalty: a battle whose defenders could deal hits equal to his stack (their warriors there, capped at 3, >= his warriors there including the Warlord) ranks below every battle without that risk. Ties: lower clearing number.",
+      "reads": [
+        "read.pawn-clearing",
+        "read.warriors",
+        "read.buildings",
+        "read.tokens",
+        "read.path-neighbours",
+        "read.hundreds-mood",
+        "read.vp",
+        "read.seats",
+        "read.legal-actions"
+      ],
+      "state": [
+        "state.monoco.feet",
+        "state.global.act"
+      ],
+      "tests": [
+        "MonocoBot_BattleScoreMatchesFormula",
+        "MonocoBot_HeavyPenaltyForBattleThatCouldWipeHisStack"
+      ],
+      "_notes": "The roster's 'heavy penalty' has no number, so it is applied as an ordering (such battles rank below all others) and needs no new tuning row."
+    },
+    {
+      "id": "bot.monoco.02-targets",
+      "plan": "bot.monoco",
+      "order": 2,
+      "name": "Targets",
+      "rule": "Targets by the foot they fill: Heavy or Caster, an enemy building or token guarded by tune.monoco-bot-target-guards (1) or fewer warriors; Agile, a lone enemy warrior one Advance away; Balanced, an even fight he still wins; Almighty (from Act tune.monoco-almighty-act), the VP leader's least-guarded building, or a leader stack of tune.monoco-almighty-pieces (3) or more pieces he can wipe out. Easy advances only when the Warlord outnumbers the defenders by tune.monoco-easy-outnumber (2).",
+      "scoring": "Missing feet first (step 1's score), then within a foot the fewest defending warriors; Balanced: a fight where the defenders can deal at least one hit (so he loses a piece) and his win chance is the best among such fights; ties: lower clearing number.",
+      "reads": [
+        "read.warriors",
+        "read.buildings",
+        "read.tokens",
+        "read.pawn-clearing",
+        "read.path-neighbours",
+        "read.vp",
+        "read.seats",
+        "read.legal-actions"
+      ],
+      "state": [
+        "state.monoco.feet",
+        "state.global.act",
+        "state.global.difficulty"
+      ],
+      "tests": [
+        "MonocoBot_TargetsMatchMissingFoot",
+        "MonocoBot_AlmightyTargetsLeaderLeastGuardedBuilding",
+        "MonocoBot_EasyAdvancesOnlyOutnumberingByTwo"
+      ],
+      "_notes": "'An even fight he still wins' is read as a fight where the defenders can hit back and his win chance is the best."
+    },
+    {
+      "id": "bot.monoco.03-bring-rats",
+      "plan": "bot.monoco",
+      "order": 3,
+      "name": "Bring the rats",
+      "rule": "The turn before the planned battle, Command-move rats into or next to the target. Easy skips this step: the Warlord advances alone.",
+      "scoring": "Rats from the nearest clearings first (fewest moves); ties: lower clearing number.",
+      "reads": [
+        "read.warriors",
+        "read.path-neighbours",
+        "read.pawn-clearing",
+        "read.legal-actions"
+      ],
+      "state": [
+        "state.monoco.feet",
+        "state.global.difficulty"
+      ],
+      "tests": [
+        "MonocoBot_CommandsRatsToTargetTurnBefore",
+        "MonocoBot_EasyWarlordAdvancesAlone"
+      ]
+    },
+    {
+      "id": "bot.monoco.04-mood",
+      "plan": "bot.monoco",
+      "order": 4,
+      "name": "Mood",
+      "rule": "Pick the mood (mask) that boosts the planned battle.",
+      "scoring": "The mood whose effect adds most to the planned battle's step 1 score; ties: keep the current mood. Mood effects are Root's own, unchanged by the reskin, and read from the card id.",
+      "reads": [
+        "read.hundreds-mood",
+        "read.legal-actions"
+      ],
+      "state": [],
+      "tests": [
+        "MonocoBot_PicksMoodThatBoostsPlannedBattle"
+      ]
+    },
+    {
+      "id": "bot.monoco.05-arenas",
+      "plan": "bot.monoco",
+      "order": 5,
+      "name": "Arenas",
+      "rule": "Build Arenas (strongholds) along the route to his targets so Oppress keeps scoring.",
+      "scoring": "Clearings on the Warlord's planned path that he rules and that have a free slot, nearest first; ties: lower clearing number.",
+      "reads": [
+        "read.ruler",
+        "read.free-slots",
+        "read.buildings-of-type",
+        "read.path-neighbours",
+        "read.pawn-clearing",
+        "read.legal-actions"
+      ],
+      "state": [],
+      "tests": [
+        "MonocoBot_BuildsArenasAlongRoute"
+      ]
+    },
+    {
+      "id": "bot.monoco.06-escort",
+      "plan": "bot.monoco",
+      "order": 6,
+      "name": "Escort the Warlord",
+      "rule": "After tune.monoco-bot-escort-after-feet (3) feet, keep tune.monoco-bot-escort (2) or more Gestrals in the Warlord's clearing.",
+      "scoring": "none (a plain condition)",
+      "reads": [
+        "read.pawn-clearing",
+        "read.warriors",
+        "read.legal-actions"
+      ],
+      "state": [
+        "state.monoco.feet"
+      ],
+      "tests": [
+        "MonocoBot_EscortsWarlordWithTwoAfterThreeFeet"
+      ]
+    },
+    {
+      "id": "bot.monoco.07-announce",
+      "plan": "bot.monoco",
+      "order": 7,
+      "name": "Announce turn",
+      "rule": "On the announce turn (win.monoco's announce test will pass at the end of this turn), end with the Warlord in his strongest enemy-free clearing.",
+      "scoring": "Clearings with no enemy pieces, by his warriors + buildings there, most first; ties: fewest enemy warriors next to it, then lower clearing number.",
+      "reads": [
+        "read.warriors",
+        "read.buildings",
+        "read.tokens",
+        "read.pawn-clearing",
+        "read.path-neighbours",
+        "read.seats",
+        "read.legal-actions"
+      ],
+      "state": [
+        "state.monoco.feet",
+        "state.global.act"
+      ],
+      "tests": [
+        "MonocoBot_AnnounceTurnEndsInStrongestEnemyFreeClearing"
+      ]
+    },
+    {
+      "id": "bot.monoco.08-spoiler",
+      "plan": "bot.monoco",
+      "order": 8,
+      "name": "Spoiler layer",
+      "rule": "Shared spoiler layer (layer 3 of every bot; this part of the text is the same in all eleven plans). TRIGGER: another seat, the human included, that is not this bot's coalition partner, whose themed win is unlocked in the current act (Act II on; the Curator's from Act III) and not switched off (no active dominance card, not in a coalition), and that either has its countdown banner up (state.global.countdowns) or is one step from its win. One step means the public Goal Tracker shows every part of that win's test met except exactly one unit: one Arm pip, Chain suit, rock, Portrait suit, Sanctuary or Sanctuary suit, rank step, Allied faction, undamaged item, relic type, foot or source faction, covered clearing or Ring clearing, or one yes/no part (the Beachhead, the Monolith, Lumière, the Flying Manor atelier, an Aquafarm, the Parents' Journal recovered, the Warlord on the map, the tune.countdown-vp gate). ANSWER: attack or block the key clearing with a real Root action from that win's counterplay. Gustave: flip rule of the Chain clearing with the thinnest margin, or remove the Beachhead's buildings. Esquie (3 rocks held): the Nevron host moves extra warriors onto the last guarded rock (more defenders deal more hits to him) and every other bot attacks his pawn to damage items. The Paintress: break an easel, flip rule of a Portrait clearing or thin it below tune.paintress-portrait-warriors warriors, or take the Monolith. Sciel: before her banner, step a piece into a Sanctuary (paying Outrage); once it is up, battle a Lantern off the board, place a building or token in a Lantern clearing, or raze her only Aquafarm. Verso: before his banner, put a piece in the Monolith; once it is up, battle him there and land a hit. Maelle: attack her in Lumière and damage items until fewer than tune.maelle-items are undamaged. Lune: battle the warriors carrying the Parents' Journal or her missing relic type, and hold the clearings around the gold forest. Monoco: battle the Warlord off the map (Sacred River Rebirth strips Almighty and his latest other foot). The Curator: flip rule of Lumière or remove his Monolith tunnel; with no keep in Lumière, raze his building there and cut his warriors below tune.curator-lumiere-warriors; keep the Paintress's roost in the Monolith alive. Clea: remove her warriors from one counted clearing (lone Nevrons first) or from the Monolith, or raze the Flying Manor atelier. The White-Haired Man: out-stack him in one Ring clearing, guess a plot with Exposure, or walk a Vagabond pawn into the Monolith. LIMITS: it obeys every rule tweak and every 'never' and 'only' in the steps above it, uses only public information plus this bot's own hand and hidden pieces, and barks the block. PRIORITY: with no trigger it does nothing. It is listed last, as in the roster, but takes the actions it needs ahead of the steps above (it pre-empts them) in two cases: a banner that is up, because that seat confirms before this bot's next Birdsong, unless this bot can finish a quest win this turn; and, on Hard only, a one-step threat, unless this is this bot's own announce turn (its own confirmation would land first). Otherwise it answers with the actions the steps above leave free. Easy answers banners only, and only with free actions. FOR MONOCO: his answers are Warlord battles and Command moves; among answers of equal cost he takes the one step 1 scores higher, since it may also fill a foot.",
+      "scoring": "Threats: banners before one-step threats; then the seat whose next Birdsong comes first in turn order (read.seats from read.current-seat); then the higher VP. For the chosen threat, answer cost = actions needed this turn + expected hits taken (Root's dice: two 0-3 dice, the attacker deals the higher and the defender the lower, each capped by its warriors; +1 hit to a defender with no warriors). Take the cheapest legal answer, breaking a met part before blocking the missing unit; ties: the answer nearest this bot's pieces, then the lower clearing number.",
+      "reads": [
+        "read.seats",
+        "read.current-seat",
+        "read.seat-engine",
+        "read.vp",
+        "read.active-dominance",
+        "read.coalition-partner",
+        "read.ruler",
+        "read.warriors",
+        "read.buildings",
+        "read.buildings-of-type",
+        "read.tokens",
+        "read.tokens-of-type",
+        "read.pawn-clearing",
+        "read.items",
+        "read.relationship",
+        "read.path-neighbours",
+        "read.suits-of",
+        "read.clearings",
+        "read.recovered-relics",
+        "read.relic-type",
+        "read.relic-clearing",
+        "read.relic-forest",
+        "read.forest-clearings",
+        "read.corvid-face-up-plot",
+        "read.legal-actions",
+        "read.hundreds-mood"
+      ],
+      "state": [
+        "state.global.countdowns",
+        "state.global.act",
+        "state.global.roles",
+        "state.global.seat-characters",
+        "state.global.difficulty",
+        "state.gustave.flags",
+        "state.gustave.arm",
+        "state.esquie.rocks",
+        "state.verso.rank",
+        "state.monoco.feet",
+        "state.lune.tagged-relic",
+        "state.curator.cell-crack"
+      ],
+      "tests": [
+        "MonocoBot_SpoilerHardAnswersOneStepAheadOfGoalSteps",
+        "MonocoBot_SpoilerBreaksMetPartBeforeBlockingMissingOne"
+      ]
+    },
+    {
+      "id": "bot.curator.01-helper",
+      "plan": "bot.curator",
+      "order": 1,
+      "name": "The helper (Acts I-II)",
+      "rule": "In Acts I-II the Cell Crack is inert. Build camps and stalls, sway ministers for VP, and stock the Burrow to tune.curator-burrow-stock (6) or more. Avoid big fights, and never attack the Paintress unless she is one step from her own win (as the spoiler layer defines it).",
+      "scoring": "Order: build a camp or stall in a ruled clearing with a free slot; sway the highest-VP minister he can afford; recruit to the Burrow while it holds fewer than tune.curator-burrow-stock. He starts no battle against 2 or more defending warriors (a big fight).",
+      "reads": [
+        "read.duchy-burrow",
+        "read.duchy-ministers",
+        "read.buildings",
+        "read.free-slots",
+        "read.ruler",
+        "read.warriors",
+        "read.hand-suits",
+        "read.seats",
+        "read.legal-actions"
+      ],
+      "state": [
+        "state.curator.cell-crack",
+        "state.global.act",
+        "state.global.seat-characters"
+      ],
+      "tests": [
+        "CuratorBot_StocksBurrowToSixInActsOneAndTwo",
+        "CuratorBot_AvoidsBigFightsBeforeActThree",
+        "CuratorBot_NeverAttacksPaintressUnlessOneStepFromWin"
+      ],
+      "_notes": "'Avoid big fights' is read as starting no battle against 2 or more defending warriors in Acts I-II."
+    },
+    {
+      "id": "bot.curator.02-reveal",
+      "plan": "bot.curator",
+      "order": 2,
+      "name": "The reveal (Act III)",
+      "rule": "In Act III, once the Cell Crack is a tunnel, if the Paintress's roost still stands in the Monolith, emerge there from the Burrow with defenders + tune.curator-assault-margin (2) warriors and take it down. Under the fallback ('dig-owed') his first Act III action is the free Dig into the Monolith.",
+      "scoring": "Warriors needed = the Paintress's warriors in the Monolith + tune.curator-assault-margin; he waits in the Burrow, recruiting, until it holds that many.",
+      "reads": [
+        "read.duchy-burrow",
+        "read.warriors",
+        "read.buildings-of-type",
+        "read.tokens-of-type",
+        "read.seats",
+        "read.legal-actions"
+      ],
+      "state": [
+        "state.curator.cell-crack",
+        "state.global.act",
+        "state.global.roles",
+        "state.global.seat-characters"
+      ],
+      "tests": [
+        "CuratorBot_EmergesInMonolithWithDefendersPlusTwo",
+        "CuratorBot_WaitsInBurrowUntilDefendersPlusTwo"
+      ]
+    },
+    {
+      "id": "bot.curator.03-lumiere",
+      "plan": "bot.curator",
+      "order": 3,
+      "name": "Lumière",
+      "rule": "In Act III, dig next to Lumière (or into it if no keep stands there) and march or battle in with defenders + tune.curator-assault-margin (2). Sway Battle and Move ministers first. If no keep stands in Lumière, keep a card of Lumière's suit to build there, or hold tune.curator-lumiere-warriors (3) or more warriors there. Easy never re-digs a lost tunnel and attacks Lumière only with defenders + tune.curator-easy-assault-margin (3).",
+      "scoring": "Dig target: Lumière itself when no keep stands there, otherwise the clearing next to Lumière with the fewest enemy warriors (ties: lower clearing number). Warriors needed = Lumière's ruler's warriors + the margin. Ministers: those that grant Battle or Move first, then by VP.",
+      "reads": [
+        "read.tokens-of-type",
+        "read.warriors",
+        "read.buildings",
+        "read.ruler",
+        "read.path-neighbours",
+        "read.suits-of",
+        "read.hand-suits",
+        "read.duchy-ministers",
+        "read.duchy-burrow",
+        "read.supply-pieces",
+        "read.legal-actions"
+      ],
+      "state": [
+        "state.global.roles",
+        "state.global.act",
+        "state.global.difficulty",
+        "state.curator.cell-crack"
+      ],
+      "tests": [
+        "CuratorBot_DigsNextToLumiereWhileKeepStands",
+        "CuratorBot_EntersLumiereWithDefendersPlusTwo",
+        "CuratorBot_EasyNeverRedigsAndNeedsDefendersPlusThree"
+      ]
+    },
+    {
+      "id": "bot.curator.04-announce",
+      "plan": "bot.curator",
+      "order": 4,
+      "name": "Announce turn",
+      "rule": "On the announce turn (win.curator's announce test will pass at the end of this turn), recruit into the Burrow and pour warriors into Lumière.",
+      "scoring": "Every warrior that can reach Lumière this turn (by the tunnel next to it or by march) goes in.",
+      "reads": [
+        "read.duchy-burrow",
+        "read.warriors",
+        "read.tokens-of-type",
+        "read.ruler",
+        "read.path-neighbours",
+        "read.legal-actions"
+      ],
+      "state": [
+        "state.global.roles",
+        "state.curator.cell-crack"
+      ],
+      "tests": [
+        "CuratorBot_AnnounceTurnPoursWarriorsIntoLumiere"
+      ]
+    },
+    {
+      "id": "bot.curator.05-spoiler",
+      "plan": "bot.curator",
+      "order": 5,
+      "name": "Spoiler layer",
+      "rule": "Shared spoiler layer (layer 3 of every bot; this part of the text is the same in all eleven plans). TRIGGER: another seat, the human included, that is not this bot's coalition partner, whose themed win is unlocked in the current act (Act II on; the Curator's from Act III) and not switched off (no active dominance card, not in a coalition), and that either has its countdown banner up (state.global.countdowns) or is one step from its win. One step means the public Goal Tracker shows every part of that win's test met except exactly one unit: one Arm pip, Chain suit, rock, Portrait suit, Sanctuary or Sanctuary suit, rank step, Allied faction, undamaged item, relic type, foot or source faction, covered clearing or Ring clearing, or one yes/no part (the Beachhead, the Monolith, Lumière, the Flying Manor atelier, an Aquafarm, the Parents' Journal recovered, the Warlord on the map, the tune.countdown-vp gate). ANSWER: attack or block the key clearing with a real Root action from that win's counterplay. Gustave: flip rule of the Chain clearing with the thinnest margin, or remove the Beachhead's buildings. Esquie (3 rocks held): the Nevron host moves extra warriors onto the last guarded rock (more defenders deal more hits to him) and every other bot attacks his pawn to damage items. The Paintress: break an easel, flip rule of a Portrait clearing or thin it below tune.paintress-portrait-warriors warriors, or take the Monolith. Sciel: before her banner, step a piece into a Sanctuary (paying Outrage); once it is up, battle a Lantern off the board, place a building or token in a Lantern clearing, or raze her only Aquafarm. Verso: before his banner, put a piece in the Monolith; once it is up, battle him there and land a hit. Maelle: attack her in Lumière and damage items until fewer than tune.maelle-items are undamaged. Lune: battle the warriors carrying the Parents' Journal or her missing relic type, and hold the clearings around the gold forest. Monoco: battle the Warlord off the map (Sacred River Rebirth strips Almighty and his latest other foot). The Curator: flip rule of Lumière or remove his Monolith tunnel; with no keep in Lumière, raze his building there and cut his warriors below tune.curator-lumiere-warriors; keep the Paintress's roost in the Monolith alive. Clea: remove her warriors from one counted clearing (lone Nevrons first) or from the Monolith, or raze the Flying Manor atelier. The White-Haired Man: out-stack him in one Ring clearing, guess a plot with Exposure, or walk a Vagabond pawn into the Monolith. LIMITS: it obeys every rule tweak and every 'never' and 'only' in the steps above it, uses only public information plus this bot's own hand and hidden pieces, and barks the block. PRIORITY: with no trigger it does nothing. It is listed last, as in the roster, but takes the actions it needs ahead of the steps above (it pre-empts them) in two cases: a banner that is up, because that seat confirms before this bot's next Birdsong, unless this bot can finish a quest win this turn; and, on Hard only, a one-step threat, unless this is this bot's own announce turn (its own confirmation would land first). Otherwise it answers with the actions the steps above leave free. Easy answers banners only, and only with free actions. FOR THE CURATOR: step 1's limits bind in Acts I-II (no big fights, and the Paintress only once she is one step from her win). His answers come through the Burrow (emerging by tunnel next to the key clearing) and his Battle and Move ministers.",
+      "scoring": "Threats: banners before one-step threats; then the seat whose next Birdsong comes first in turn order (read.seats from read.current-seat); then the higher VP. For the chosen threat, answer cost = actions needed this turn + expected hits taken (Root's dice: two 0-3 dice, the attacker deals the higher and the defender the lower, each capped by its warriors; +1 hit to a defender with no warriors). Take the cheapest legal answer, breaking a met part before blocking the missing unit; ties: the answer nearest this bot's pieces, then the lower clearing number.",
+      "reads": [
+        "read.seats",
+        "read.current-seat",
+        "read.seat-engine",
+        "read.vp",
+        "read.active-dominance",
+        "read.coalition-partner",
+        "read.ruler",
+        "read.warriors",
+        "read.buildings",
+        "read.buildings-of-type",
+        "read.tokens",
+        "read.tokens-of-type",
+        "read.pawn-clearing",
+        "read.items",
+        "read.relationship",
+        "read.path-neighbours",
+        "read.suits-of",
+        "read.clearings",
+        "read.recovered-relics",
+        "read.relic-type",
+        "read.relic-clearing",
+        "read.relic-forest",
+        "read.forest-clearings",
+        "read.corvid-face-up-plot",
+        "read.legal-actions",
+        "read.duchy-burrow",
+        "read.duchy-ministers"
+      ],
+      "state": [
+        "state.global.countdowns",
+        "state.global.act",
+        "state.global.roles",
+        "state.global.seat-characters",
+        "state.global.difficulty",
+        "state.gustave.flags",
+        "state.gustave.arm",
+        "state.esquie.rocks",
+        "state.verso.rank",
+        "state.monoco.feet",
+        "state.lune.tagged-relic",
+        "state.curator.cell-crack"
+      ],
+      "tests": [
+        "CuratorBot_SpoilerKeepsHelperLimitsBeforeActThree",
+        "CuratorBot_SpoilerOrdersBannersByNextBirdsong"
+      ]
+    },
+    {
+      "id": "bot.clea.01-recruit",
+      "plan": "bot.clea",
+      "order": 1,
+      "name": "Recruit",
+      "rule": "Recruit ritual: reveal cards whose suits match uncovered clearings and place each new warrior in an uncovered clearing, where the ritual lets her choose (the exact Recruit wording is a week-1 spike item). Easy, half the time, places a warrior where she already has some.",
+      "scoring": "Suits by the number of uncovered clearings of that suit, most first; within a suit, the uncovered clearing with the fewest enemy warriors in and next to it; ties: lower clearing number. Easy's half-the-time choice comes from the bot's seeded random source.",
+      "reads": [
+        "read.hand-suits",
+        "read.suits-of",
+        "read.warriors",
+        "read.clearings",
+        "read.path-neighbours",
+        "read.seats",
+        "read.legal-actions"
+      ],
+      "state": [
+        "state.esquie.rocks",
+        "state.global.difficulty"
+      ],
+      "tests": [
+        "CleaBot_RecruitPlacesInUncoveredClearings",
+        "CleaBot_EasyHalfTheTimeStacksACoveredClearing"
+      ]
+    },
+    {
+      "id": "bot.clea.02-convert",
+      "plan": "bot.clea",
+      "order": 2,
+      "name": "Convert and Sanctify",
+      "rule": "Convert in Outcast-suit clearings where she has no warrior yet, since each converted warrior is new coverage. Sanctify the VP leader's buildings when affordable. Easy never Sanctifies.",
+      "scoring": "Convert targets: Outcast-suit clearings holding an enemy warrior and none of hers; ties: lower clearing number. Sanctify: the VP leader's buildings, with the acolytes left after Converts.",
+      "reads": [
+        "read.lizard-outcast",
+        "read.lizard-hated",
+        "read.lizard-acolytes",
+        "read.warriors",
+        "read.buildings",
+        "read.suits-of",
+        "read.vp",
+        "read.seats",
+        "read.legal-actions"
+      ],
+      "state": [
+        "state.esquie.rocks",
+        "state.global.difficulty"
+      ],
+      "tests": [
+        "CleaBot_ConvertsInOutcastClearingsWithoutHerWarrior",
+        "CleaBot_SanctifiesVpLeaderBuildings",
+        "CleaBot_EasyNeverSanctifies"
+      ]
+    },
+    {
+      "id": "bot.clea.03-monolith",
+      "plan": "bot.clea",
+      "order": 3,
+      "name": "Monolith",
+      "rule": "Keep a bird card to recruit into the Monolith whatever its suit. Use Crusade (2 acolytes) only when the Monolith or a clearing next to it is the Outcast suit.",
+      "scoring": "none (a plain condition)",
+      "reads": [
+        "read.hand-suits",
+        "read.lizard-outcast",
+        "read.lizard-acolytes",
+        "read.suits-of",
+        "read.path-neighbours",
+        "read.warriors",
+        "read.legal-actions"
+      ],
+      "state": [
+        "state.global.roles"
+      ],
+      "tests": [
+        "CleaBot_KeepsBirdCardForMonolith",
+        "CleaBot_CrusadesOnlyWhenMonolithAreaIsOutcastSuit"
+      ]
+    },
+    {
+      "id": "bot.clea.04-home",
+      "plan": "bot.clea",
+      "order": 4,
+      "name": "Home",
+      "rule": "Always keep 1 or more warriors and the atelier (garden) in the Flying Manor. Rebuilding the atelier comes first: while it is gone this step pre-empts the steps above.",
+      "scoring": "none (a plain condition)",
+      "reads": [
+        "read.buildings-of-type",
+        "read.warriors",
+        "read.legal-actions"
+      ],
+      "state": [
+        "state.global.roles",
+        "state.esquie.rocks"
+      ],
+      "tests": [
+        "CleaBot_RebuildsFlyingManorAtelierFirst",
+        "CleaBot_KeepsAWarriorInFlyingManor"
+      ]
+    },
+    {
+      "id": "bot.clea.05-hand",
+      "plan": "bot.clea",
+      "order": 5,
+      "name": "Hand",
+      "rule": "Keep Outcast-suit cards for conspiracies, and Sacrifice bird cards for acolytes only when she holds tune.clea-bot-sacrifice-birds (2) or more birds.",
+      "scoring": "Cards spent on rituals: non-Outcast suits first; birds above the one step 3 keeps are the only ones sacrificed.",
+      "reads": [
+        "read.hand-suits",
+        "read.lizard-outcast",
+        "read.lizard-acolytes",
+        "read.legal-actions"
+      ],
+      "state": [],
+      "tests": [
+        "CleaBot_KeepsOutcastCardsForConspiracies",
+        "CleaBot_SacrificesBirdsOnlyWithTwoOrMore"
+      ]
+    },
+    {
+      "id": "bot.clea.06-goal-mode",
+      "plan": "bot.clea",
+      "order": 6,
+      "name": "Goal mode",
+      "rule": "In goal mode (tune.clea-goal-coverage or more covered clearings), re-cover any clearing that just lost its warrior (covered at the end of her last turn, uncovered now) before anything else: while such a clearing exists this step pre-empts the steps above.",
+      "scoring": "Lost clearings: the Monolith first (it is part of her win), then fewest enemy warriors; ties: lower clearing number.",
+      "reads": [
+        "read.warriors",
+        "read.clearings",
+        "read.suits-of",
+        "read.hand-suits",
+        "read.legal-actions"
+      ],
+      "state": [
+        "state.esquie.rocks",
+        "state.global.roles"
+      ],
+      "tests": [
+        "CleaBot_GoalModeRecoversLostClearingFirst"
+      ],
+      "_notes": "'Just lost' needs the clearings she covered at the end of her last turn, which no state row holds yet. A bot-memory row (for example state.clea.covered, HashSet<ClearingId>, written at hook.evening-end) is requested from the rules writer. Until it exists, the step treats every uncovered clearing as lost."
+    },
+    {
+      "id": "bot.clea.07-guards",
+      "plan": "bot.clea",
+      "order": 7,
+      "name": "Guard stacks",
+      "rule": "Guard stacks she hosts are never moved and never counted: her coverage and every step above subtract GuardsLeft of the guarded rocks she hosts in a clearing, and no action of hers takes those warriors below the guard floor.",
+      "scoring": "none (a plain condition)",
+      "reads": [
+        "read.warriors"
+      ],
+      "state": [
+        "state.esquie.rocks"
+      ],
+      "tests": [
+        "CleaBot_NeverCountsHostedGuardsAsCoverage",
+        "CleaBot_NeverMovesGuardStacks"
+      ]
+    },
+    {
+      "id": "bot.clea.08-spoiler",
+      "plan": "bot.clea",
+      "order": 8,
+      "name": "Spoiler layer",
+      "rule": "Shared spoiler layer (layer 3 of every bot; this part of the text is the same in all eleven plans). TRIGGER: another seat, the human included, that is not this bot's coalition partner, whose themed win is unlocked in the current act (Act II on; the Curator's from Act III) and not switched off (no active dominance card, not in a coalition), and that either has its countdown banner up (state.global.countdowns) or is one step from its win. One step means the public Goal Tracker shows every part of that win's test met except exactly one unit: one Arm pip, Chain suit, rock, Portrait suit, Sanctuary or Sanctuary suit, rank step, Allied faction, undamaged item, relic type, foot or source faction, covered clearing or Ring clearing, or one yes/no part (the Beachhead, the Monolith, Lumière, the Flying Manor atelier, an Aquafarm, the Parents' Journal recovered, the Warlord on the map, the tune.countdown-vp gate). ANSWER: attack or block the key clearing with a real Root action from that win's counterplay. Gustave: flip rule of the Chain clearing with the thinnest margin, or remove the Beachhead's buildings. Esquie (3 rocks held): the Nevron host moves extra warriors onto the last guarded rock (more defenders deal more hits to him) and every other bot attacks his pawn to damage items. The Paintress: break an easel, flip rule of a Portrait clearing or thin it below tune.paintress-portrait-warriors warriors, or take the Monolith. Sciel: before her banner, step a piece into a Sanctuary (paying Outrage); once it is up, battle a Lantern off the board, place a building or token in a Lantern clearing, or raze her only Aquafarm. Verso: before his banner, put a piece in the Monolith; once it is up, battle him there and land a hit. Maelle: attack her in Lumière and damage items until fewer than tune.maelle-items are undamaged. Lune: battle the warriors carrying the Parents' Journal or her missing relic type, and hold the clearings around the gold forest. Monoco: battle the Warlord off the map (Sacred River Rebirth strips Almighty and his latest other foot). The Curator: flip rule of Lumière or remove his Monolith tunnel; with no keep in Lumière, raze his building there and cut his warriors below tune.curator-lumiere-warriors; keep the Paintress's roost in the Monolith alive. Clea: remove her warriors from one counted clearing (lone Nevrons first) or from the Monolith, or raze the Flying Manor atelier. The White-Haired Man: out-stack him in one Ring clearing, guess a plot with Exposure, or walk a Vagabond pawn into the Monolith. LIMITS: it obeys every rule tweak and every 'never' and 'only' in the steps above it, uses only public information plus this bot's own hand and hidden pieces, and barks the block. PRIORITY: with no trigger it does nothing. It is listed last, as in the roster, but takes the actions it needs ahead of the steps above (it pre-empts them) in two cases: a banner that is up, because that seat confirms before this bot's next Birdsong, unless this bot can finish a quest win this turn; and, on Hard only, a one-step threat, unless this is this bot's own announce turn (its own confirmation would land first). Otherwise it answers with the actions the steps above leave free. Easy answers banners only, and only with free actions. FOR CLEA: with no normal Move, her answers are Recruit placements into the key clearing (a warrior there breaks a Sanctuary before Sciel's banner, or out-stacks a Ring clearing), Convert and Sanctify in Outcast-suit key clearings, and Crusade within step 3's limit. Guard stacks are never moved for it (step 7), and she keeps a warrior and the atelier in the Flying Manor (step 4).",
+      "scoring": "Threats: banners before one-step threats; then the seat whose next Birdsong comes first in turn order (read.seats from read.current-seat); then the higher VP. For the chosen threat, answer cost = actions needed this turn + expected hits taken (Root's dice: two 0-3 dice, the attacker deals the higher and the defender the lower, each capped by its warriors; +1 hit to a defender with no warriors). Take the cheapest legal answer, breaking a met part before blocking the missing unit; ties: the answer nearest this bot's pieces, then the lower clearing number.",
+      "reads": [
+        "read.seats",
+        "read.current-seat",
+        "read.seat-engine",
+        "read.vp",
+        "read.active-dominance",
+        "read.coalition-partner",
+        "read.ruler",
+        "read.warriors",
+        "read.buildings",
+        "read.buildings-of-type",
+        "read.tokens",
+        "read.tokens-of-type",
+        "read.pawn-clearing",
+        "read.items",
+        "read.relationship",
+        "read.path-neighbours",
+        "read.suits-of",
+        "read.clearings",
+        "read.recovered-relics",
+        "read.relic-type",
+        "read.relic-clearing",
+        "read.relic-forest",
+        "read.forest-clearings",
+        "read.corvid-face-up-plot",
+        "read.legal-actions",
+        "read.lizard-outcast",
+        "read.lizard-acolytes",
+        "read.hand-suits"
+      ],
+      "state": [
+        "state.global.countdowns",
+        "state.global.act",
+        "state.global.roles",
+        "state.global.seat-characters",
+        "state.global.difficulty",
+        "state.gustave.flags",
+        "state.gustave.arm",
+        "state.esquie.rocks",
+        "state.verso.rank",
+        "state.monoco.feet",
+        "state.lune.tagged-relic",
+        "state.curator.cell-crack"
+      ],
+      "tests": [
+        "CleaBot_SpoilerNeverMovesGuardStacks",
+        "CleaBot_SpoilerUsesOnlyPublicInformation"
+      ]
+    },
+    {
+      "id": "bot.white-haired-man.01-ring-status",
+      "plan": "bot.white-haired-man",
+      "order": 1,
+      "name": "Ring status",
+      "rule": "Each turn, work out his margin in each Ring clearing (the Monolith's path neighbours).",
+      "scoring": "margin(r) = his warriors in r (minus GuardsLeft of rocks he hosts there) - the rule count (warriors + buildings) of the strongest faction in r that is not the Paintress; a face-up Snare holds r whatever the margin.",
+      "reads": [
+        "read.path-neighbours",
+        "read.warriors",
+        "read.buildings",
+        "read.corvid-face-up-plot",
+        "read.seats"
+      ],
+      "state": [
+        "state.global.roles",
+        "state.global.seat-characters",
+        "state.esquie.rocks"
+      ],
+      "tests": [
+        "WhiteHairedManBot_RingMarginMatchesFormula",
+        "WhiteHairedManBot_RingMarginIgnoresPaintress"
+      ]
+    },
+    {
+      "id": "bot.white-haired-man.02-recruit",
+      "plan": "bot.white-haired-man",
+      "order": 2,
+      "name": "Recruit",
+      "rule": "Recruit with cards of Ring suits (Corvid Recruit places a warrior in every clearing of that suit).",
+      "scoring": "The suit whose Ring clearings have the lowest total margin first; ties: more Ring clearings of that suit, then fox, rabbit, mouse.",
+      "reads": [
+        "read.hand-suits",
+        "read.suits-of",
+        "read.path-neighbours",
+        "read.supply-warriors",
+        "read.legal-actions"
+      ],
+      "state": [
+        "state.global.roles"
+      ],
+      "tests": [
+        "WhiteHairedManBot_RecruitsWithRingSuitCards"
+      ]
+    },
+    {
+      "id": "bot.white-haired-man.03-plots",
+      "plan": "bot.white-haired-man",
+      "order": 3,
+      "name": "Plots",
+      "rule": "A Snare in the Ring clearing hardest to out-stack, flipped face up as the check nears so it holds that clearing regardless of numbers; a Bomb where tune.white-haired-man-bomb-warriors (3) or more enemy warriors gather in or beside the Ring; a Raid as a refill. Easy leaves one Ring clearing to a single face-down plot.",
+      "scoring": "Snare: the Ring clearing with the lowest margin (step 1), flipped face up from goal mode (step 6). Bomb: the clearing in or next to the Ring with the most enemy warriors, at least tune.white-haired-man-bomb-warriors. Raid: in a Ring clearing with no plot when no Snare or Bomb is due. Ties: lower clearing number.",
+      "reads": [
+        "read.corvid-hidden-plot",
+        "read.corvid-face-up-plot",
+        "read.warriors",
+        "read.path-neighbours",
+        "read.tokens-of-type",
+        "read.hand-suits",
+        "read.seats",
+        "read.legal-actions"
+      ],
+      "state": [
+        "state.global.roles",
+        "state.global.difficulty"
+      ],
+      "tests": [
+        "WhiteHairedManBot_SnaresLowestMarginRingClearing",
+        "WhiteHairedManBot_BombsWhereThreeEnemiesGather",
+        "WhiteHairedManBot_EasyLeavesOneRingClearingToFaceDownPlot"
+      ],
+      "_notes": "'Hardest to out-stack' is read as the Ring clearing where his margin is lowest, since a face-up Snare holds it whatever the numbers; 'as the check nears' is read as from goal mode (step 6)."
+    },
+    {
+      "id": "bot.white-haired-man.04-move-battle",
+      "plan": "bot.white-haired-man",
+      "order": 4,
+      "name": "Move and battle",
+      "rule": "Move and battle to fix the lowest-margin Ring clearing first, battling intruders there. Hard keeps a margin of tune.white-haired-man-hard-margin (2) in every Ring clearing.",
+      "scoring": "Ring clearings by margin, lowest first; a clearing is fixed when its margin is 1 or more (Hard: 2) or it holds a face-up Snare; ties: lower clearing number.",
+      "reads": [
+        "read.warriors",
+        "read.buildings",
+        "read.path-neighbours",
+        "read.ruler",
+        "read.corvid-face-up-plot",
+        "read.seats",
+        "read.legal-actions"
+      ],
+      "state": [
+        "state.global.roles",
+        "state.global.difficulty",
+        "state.esquie.rocks"
+      ],
+      "tests": [
+        "WhiteHairedManBot_FixesLowestMarginRingClearingFirst",
+        "WhiteHairedManBot_HardKeepsMarginTwoInRing"
+      ],
+      "_notes": "Normal's 'fixed' threshold (margin 1, so he rules it) is not in the roster; Hard's 2 is."
+    },
+    {
+      "id": "bot.white-haired-man.05-spare-paintress",
+      "plan": "bot.white-haired-man",
+      "order": 5,
+      "name": "Spare the Paintress",
+      "rule": "He never attacks the Paintress unless she is one step from her own win (as the spoiler layer defines it): no battle against her seat and no Bomb where she has pieces.",
+      "scoring": "none (a plain condition)",
+      "reads": [
+        "read.seats",
+        "read.warriors",
+        "read.buildings",
+        "read.legal-actions"
+      ],
+      "state": [
+        "state.global.seat-characters",
+        "state.global.countdowns"
+      ],
+      "tests": [
+        "WhiteHairedManBot_NeverAttacksPaintressUnlessOneStepFromWin"
+      ],
+      "_notes": "A Bomb removes every enemy piece in its clearing, so it counts as an attack here."
+    },
+    {
+      "id": "bot.white-haired-man.06-goal-mode",
+      "plan": "bot.white-haired-man",
+      "order": 6,
+      "name": "Goal mode",
+      "rule": "In goal mode (Vp(seat) >= tune.white-haired-man-goal-vp), no warrior in a Ring clearing or the Monolith moves out of them, and he battles any Vagabond pawn in the Monolith when he has warriors there.",
+      "scoring": "none (a plain condition)",
+      "reads": [
+        "read.vp",
+        "read.pawn-clearing",
+        "read.seat-engine",
+        "read.warriors",
+        "read.path-neighbours",
+        "read.seats",
+        "read.legal-actions"
+      ],
+      "state": [
+        "state.global.roles"
+      ],
+      "tests": [
+        "WhiteHairedManBot_GoalModeNeverLeavesRing",
+        "WhiteHairedManBot_GoalModeBattlesVagabondInMonolith"
+      ],
+      "_notes": "'Never moves out of the Ring' is read as: no warrior in a Ring clearing or the Monolith moves to a clearing outside them, since the same step has him battle in the Monolith."
+    },
+    {
+      "id": "bot.white-haired-man.07-spoiler",
+      "plan": "bot.white-haired-man",
+      "order": 7,
+      "name": "Spoiler layer",
+      "rule": "Shared spoiler layer (layer 3 of every bot; this part of the text is the same in all eleven plans). TRIGGER: another seat, the human included, that is not this bot's coalition partner, whose themed win is unlocked in the current act (Act II on; the Curator's from Act III) and not switched off (no active dominance card, not in a coalition), and that either has its countdown banner up (state.global.countdowns) or is one step from its win. One step means the public Goal Tracker shows every part of that win's test met except exactly one unit: one Arm pip, Chain suit, rock, Portrait suit, Sanctuary or Sanctuary suit, rank step, Allied faction, undamaged item, relic type, foot or source faction, covered clearing or Ring clearing, or one yes/no part (the Beachhead, the Monolith, Lumière, the Flying Manor atelier, an Aquafarm, the Parents' Journal recovered, the Warlord on the map, the tune.countdown-vp gate). ANSWER: attack or block the key clearing with a real Root action from that win's counterplay. Gustave: flip rule of the Chain clearing with the thinnest margin, or remove the Beachhead's buildings. Esquie (3 rocks held): the Nevron host moves extra warriors onto the last guarded rock (more defenders deal more hits to him) and every other bot attacks his pawn to damage items. The Paintress: break an easel, flip rule of a Portrait clearing or thin it below tune.paintress-portrait-warriors warriors, or take the Monolith. Sciel: before her banner, step a piece into a Sanctuary (paying Outrage); once it is up, battle a Lantern off the board, place a building or token in a Lantern clearing, or raze her only Aquafarm. Verso: before his banner, put a piece in the Monolith; once it is up, battle him there and land a hit. Maelle: attack her in Lumière and damage items until fewer than tune.maelle-items are undamaged. Lune: battle the warriors carrying the Parents' Journal or her missing relic type, and hold the clearings around the gold forest. Monoco: battle the Warlord off the map (Sacred River Rebirth strips Almighty and his latest other foot). The Curator: flip rule of Lumière or remove his Monolith tunnel; with no keep in Lumière, raze his building there and cut his warriors below tune.curator-lumiere-warriors; keep the Paintress's roost in the Monolith alive. Clea: remove her warriors from one counted clearing (lone Nevrons first) or from the Monolith, or raze the Flying Manor atelier. The White-Haired Man: out-stack him in one Ring clearing, guess a plot with Exposure, or walk a Vagabond pawn into the Monolith. LIMITS: it obeys every rule tweak and every 'never' and 'only' in the steps above it, uses only public information plus this bot's own hand and hidden pieces, and barks the block. PRIORITY: with no trigger it does nothing. It is listed last, as in the roster, but takes the actions it needs ahead of the steps above (it pre-empts them) in two cases: a banner that is up, because that seat confirms before this bot's next Birdsong, unless this bot can finish a quest win this turn; and, on Hard only, a one-step threat, unless this is this bot's own announce turn (its own confirmation would land first). Otherwise it answers with the actions the steps above leave free. Easy answers banners only, and only with free actions. FOR THE WHITE-HAIRED MAN: step 5 binds (the Paintress only once she is one step from her win), and in goal mode his warriors stay in the Ring and the Monolith (step 6), so he answers there or with Recruit placements and plots (a Bomb where the key clearing gathers enemy warriors).",
+      "scoring": "Threats: banners before one-step threats; then the seat whose next Birdsong comes first in turn order (read.seats from read.current-seat); then the higher VP. For the chosen threat, answer cost = actions needed this turn + expected hits taken (Root's dice: two 0-3 dice, the attacker deals the higher and the defender the lower, each capped by its warriors; +1 hit to a defender with no warriors). Take the cheapest legal answer, breaking a met part before blocking the missing unit; ties: the answer nearest this bot's pieces, then the lower clearing number.",
+      "reads": [
+        "read.seats",
+        "read.current-seat",
+        "read.seat-engine",
+        "read.vp",
+        "read.active-dominance",
+        "read.coalition-partner",
+        "read.ruler",
+        "read.warriors",
+        "read.buildings",
+        "read.buildings-of-type",
+        "read.tokens",
+        "read.tokens-of-type",
+        "read.pawn-clearing",
+        "read.items",
+        "read.relationship",
+        "read.path-neighbours",
+        "read.suits-of",
+        "read.clearings",
+        "read.recovered-relics",
+        "read.relic-type",
+        "read.relic-clearing",
+        "read.relic-forest",
+        "read.forest-clearings",
+        "read.corvid-face-up-plot",
+        "read.legal-actions",
+        "read.corvid-hidden-plot",
+        "read.hand-suits"
+      ],
+      "state": [
+        "state.global.countdowns",
+        "state.global.act",
+        "state.global.roles",
+        "state.global.seat-characters",
+        "state.global.difficulty",
+        "state.gustave.flags",
+        "state.gustave.arm",
+        "state.esquie.rocks",
+        "state.verso.rank",
+        "state.monoco.feet",
+        "state.lune.tagged-relic",
+        "state.curator.cell-crack"
+      ],
+      "tests": [
+        "WhiteHairedManBot_SpoilerStaysInRingInGoalMode",
+        "WhiteHairedManBot_SpoilerSparesPaintressUnlessOneStep"
+      ]
+    }
+  ]
+}

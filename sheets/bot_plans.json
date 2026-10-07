@@ -1,0 +1,215 @@
+{
+  "rows": [
+    {
+      "id": "bot.gustave",
+      "character": "gustave",
+      "goalModeTrigger": "Goal mode when Vp(seat) >= tune.gustave-goal-vp (8) or the cost of his planned Route (step 1) is tune.gustave-goal-route-cost (4) or less. Easy: only at Vp(seat) >= tune.gustave-easy-goal-vp (12).",
+      "beatable": "The ruled Chain and the Arm gauge are public, he barks each new flag and announces the push a turn early, and flipping rule of any one Chain clearing or razing the Beachhead building before his Birdsong stops him.",
+      "easy": "Goal mode at tune.gustave-easy-goal-vp (12) VP, with no Route-cost trigger; one Route build per turn; never Overcharges; does not retake lost Chain clearings proactively (step 2 is skipped). Spoiler layer: answers only a banner that is up, and only with actions the plan leaves free.",
+      "normal": "Layer 1: the legal Marquise actions from Root's legal-action API (read.legal-actions); Root's own AI keeps hit allocation, Ambush and discards and plays any decision no step claims. Layer 2, the Goal Director, in priority order: plan the cheapest three-suit Route from Lumière to a Beachhead each Birdsong; retake lost flagged Route clearings first; build along the Route, the Beachhead as soon as he rules it; while the Arm is under 3 take at least one winnable battle per turn; Overcharge only to take the Beachhead or retake Lumière; in goal mode (8+ VP or Route cost 4 or less) spend bird cards on Route actions and skip Overwork; on the announce turn thicken the thinnest Chain clearing, then the Beachhead. Layer 3: the spoiler layer.",
+      "hard": "Keeps a rule margin of tune.gustave-hard-rule-margin (2) on every Chain clearing and re-routes around blockades (re-plans the Route whenever an action raises a Route clearing's cost, not only at Birdsong). Spoiler layer: also answers a seat one step from a win ahead of the goal steps, except on its own announce turn.",
+      "rules": [
+        "bot.gustave.01-route",
+        "bot.gustave.02-hold",
+        "bot.gustave.03-build",
+        "bot.gustave.04-charge",
+        "bot.gustave.05-overcharge",
+        "bot.gustave.06-goal-mode",
+        "bot.gustave.07-announce",
+        "bot.gustave.08-spoiler"
+      ],
+      "_notes": "Steps are asked in order and the first that claims the decision takes it (Root's own AI plays any decision no step claims). The spoiler step is listed last, as in the roster; its text says when it pre-empts the steps above. Hard's 're-routes around blockades' is read as re-planning the Route mid-turn whenever an action raises a Route clearing's cost; Normal plans once per Birdsong. Easy's 'goal mode at 12 VP' replaces both Normal triggers."
+    },
+    {
+      "id": "bot.esquie",
+      "character": "esquie",
+      "goalModeTrigger": "Always target-driven: from his first Birdsong he chases the cheapest claimable rock within tune.esquie-bot-rock-range (3) moves, and plays normal Vagabond VP only when none is in range. Endgame at tune.esquie-endgame-rocks (3) rocks held: straight for the last one, whatever its distance.",
+      "beatable": "The rock ring is public, he barks every new target, and he never takes a risky fight. When he holds 3 rocks, the Nevron host stacks extra warriors on the last rock (more defenders deal more hits to him) and the other bots attack his pawn to damage items (both through the spoiler layer).",
+      "easy": "Never asks friends for help (step 3 is skipped) and walks to the François decoy at the Nest once in Act I while it is up. Spoiler layer: answers only a banner that is up, and only with actions the plan leaves free.",
+      "normal": "Layer 1: the legal Vagabond (Tinker) actions from Root's legal-action API (read.legal-actions); Root's own AI keeps hit allocation, Ambush and discards and plays any decision no step claims. Never Mad already hides every battle and Strike except against host guards. Layer 2, in priority order: each Birdsong pick the cheapest claimable rock; keep gear ready (repair at 2+ damaged items, get a sword if he could deal no hits); Aid a Friendly or Allied non-host faction next to a guard stack; hunt guards only with every item undamaged and when his hits can finish or nearly finish them, one guard battle per turn; with 3 rocks go straight for the last; with no rock within 3 moves play normal Vagabond VP. Layer 3: the spoiler layer, which can only move his pawn.",
+      "hard": "Crafts a sword early (as soon as one is craftable) and fights two guard battles per turn (tune.esquie-hard-guard-battles). Spoiler layer: also answers a seat one step from a win ahead of the goal steps, except on its own announce turn.",
+      "rules": [
+        "bot.esquie.01-target",
+        "bot.esquie.02-gear",
+        "bot.esquie.03-friends",
+        "bot.esquie.04-hunt",
+        "bot.esquie.05-endgame",
+        "bot.esquie.06-vp",
+        "bot.esquie.07-spoiler"
+      ],
+      "_notes": "Steps are asked in order and the first that claims the decision takes it (Root's own AI plays any decision no step claims). The spoiler step is listed last, as in the roster; its text says when it pre-empts the steps above. The roster names no single goal-mode trigger for Esquie: his plan is target-driven from the start, with VP play as the fallback when no rock is in range (step 6) and the 3-rock endgame (step 5). That is what goalModeTrigger records."
+    },
+    {
+      "id": "bot.paintress",
+      "character": "paintress",
+      "goalModeTrigger": "Finish mode at Vp(seat) >= tune.paintress-goal-vp (8) with tune.paintress-finish-portraits (2) Living Portraits, worked out as in win.paintress.",
+      "beatable": "The Portrait tracker is public; breaking one easel or flipping one Portrait clearing before her Birdsong stops the win; Grief resets her Decree; she ends an announce turn with a 'hold still' bark.",
+      "easy": "Announces (barks) her next Portrait a turn early, and in finish mode adds one card too many, which often causes Grief. Spoiler layer: answers only a banner that is up, and only with actions the plan leaves free.",
+      "normal": "Layer 1: the legal Eyrie actions from Root's legal-action API (read.legal-actions); Root's own AI keeps hit allocation, Ambush and discards and plays any decision no step claims. The Goal Director only reorders choices that a one-turn lookahead says she can resolve, so it never forces Grief (Turmoil). Layer 2, in priority order: score Portrait sites for each missing suit; add Decree cards for the best missing suit's Build and for Recruit; garrison Portraits to 2 warriors and the Monolith to 3+; finish mode at 8+ VP with 2 Living Portraits; repaint a destroyed Portrait elsewhere; attack the White-Haired Man last. Layer 3: the spoiler layer, which applies to everyone.",
+      "hard": "Garrisons tune.paintress-hard-portrait-warriors (3) warriors on every Portrait instead of 2. Spoiler layer: also answers a seat one step from a win ahead of the goal steps, except on its own announce turn.",
+      "rules": [
+        "bot.paintress.01-site",
+        "bot.paintress.02-decree",
+        "bot.paintress.03-garrison",
+        "bot.paintress.04-finish",
+        "bot.paintress.05-repaint",
+        "bot.paintress.06-spare-white-haired-man",
+        "bot.paintress.07-spoiler"
+      ],
+      "_notes": "Steps are asked in order and the first that claims the decision takes it (Root's own AI plays any decision no step claims). The spoiler step is listed last, as in the roster; its text says when it pre-empts the steps above."
+    },
+    {
+      "id": "bot.sciel",
+      "character": "sciel",
+      "goalModeTrigger": "Finish mode at tune.sciel-finish-sanctuaries (4) Sanctuaries, worked out as in win.sciel's announce test.",
+      "beatable": "The Sun and Moon gauges are public and she barks her count. Before the announce, any piece stepping into a Sanctuary breaks it (paying Outrage). After it, battling one Lantern off the board or razing her only Aquafarm stops her.",
+      "easy": "Evicts only with a 2:1 edge (tune.sciel-easy-evict-ratio), and half the time takes the first legal Revolt instead of the best-scored one. Spoiler layer: answers only a banner that is up, and only with actions the plan leaves free.",
+      "normal": "Layer 1: the legal Alliance (Revolt, Spread, Mobilize, Operations) actions from Root's legal-action API (read.legal-actions); Root's own AI keeps hit allocation, Ambush and discards and plays any decision no step claims. Layer 2 re-weights where, in priority order: spread by score; revolt where it makes a Sanctuary; evict lone enemies from her Lanterns in Evening; organize idle warriors while the Sun gauge is short; recruit at threatened Aquafarms; keep a Teacher-led group by her biggest Lantern cluster; finish mode at 4 Sanctuaries; on the announce turn garrison the most exposed Sanctuaries. Layer 3: the spoiler layer.",
+      "hard": "As Normal: the roster sets no Hard change to this plan's own steps. Spoiler layer: also answers a seat one step from a win ahead of the goal steps, except on its own announce turn.",
+      "rules": [
+        "bot.sciel.01-spread",
+        "bot.sciel.02-revolt",
+        "bot.sciel.03-evict",
+        "bot.sciel.04-organize",
+        "bot.sciel.05-defend-aquafarms",
+        "bot.sciel.06-teacher-group",
+        "bot.sciel.07-finish",
+        "bot.sciel.08-announce",
+        "bot.sciel.09-spoiler"
+      ],
+      "_notes": "Steps are asked in order and the first that claims the decision takes it (Root's own AI plays any decision no step claims). The spoiler step is listed last, as in the roster; its text says when it pre-empts the steps above. Roster step (4) holds three separate behaviours (Organize, recruit at threatened Aquafarms, the Teacher-led group); they are rows 04-06, so finish mode, the announce turn and the spoiler are 07-09. Easy's 'sometimes revolts in a suit that already has an Aquafarm' cannot happen in Root, where each suit has one base and Revolt needs that suit's base in supply, so it is read as a careless Revolt: half the time (from the bot's seeded random source) the first legal Revolt instead of the best-scored one."
+    },
+    {
+      "id": "bot.verso",
+      "character": "verso",
+      "goalModeTrigger": "Approach mode at rank A or above (state.verso.rank >= tune.verso-perfection-rank) in Act II or later; the Monolith assault at rank A or S once step 4's test passes. Below A he climbs.",
+      "beatable": "The rank is public and he barks each rank-up. Any battle that lands a hit on him in the Monolith before his Birdsong drops him off S, and Ambush cards are the classic answer.",
+      "easy": "Ignores Ambush risk when climbing, and waits for tune.verso-easy-assault-swords (4) undamaged swords before assaulting the Monolith. Spoiler layer: answers only a banner that is up, and only with actions the plan leaves free.",
+      "normal": "Layer 1: the legal Vagabond (Ranger) actions from Root's legal-action API (read.legal-actions); Root's own AI keeps hit allocation, Ambush and discards and plays any decision no step claims. Layer 2 filters fights, in priority order: below rank A climb with safe battles only; repair after any damage; at rank A from Act II approach the Monolith; assault it only when it can be cleared this turn with expected damage under 1; bail to a forest if the rank drops below A mid-assault; in Act II or later walk into Esquie's clearing when he can reach it. Layer 3: the spoiler layer. Bots always need rank S: the Easy rank-A assist is for a human Verso only.",
+      "hard": "As Normal: the roster sets no Hard change to this plan's own steps. Spoiler layer: also answers a seat one step from a win ahead of the goal steps, except on its own announce turn.",
+      "rules": [
+        "bot.verso.01-climb",
+        "bot.verso.02-repair",
+        "bot.verso.03-approach",
+        "bot.verso.04-assault",
+        "bot.verso.05-bail",
+        "bot.verso.06-reunion",
+        "bot.verso.07-spoiler"
+      ],
+      "_notes": "Steps are asked in order and the first that claims the decision takes it (Root's own AI plays any decision no step claims). The spoiler step is listed last, as in the roster; its text says when it pre-empts the steps above."
+    },
+    {
+      "id": "bot.maelle",
+      "character": "maelle",
+      "goalModeTrigger": "Goal mode once the relationship parts of win.maelle hold: Allied with tune.maelle-allied (2) non-Vagabond factions (with only one non-Vagabond faction seated: Allied with it) and Hostile with none.",
+      "beatable": "The relationship track is public and she says who her family is. Attacking her in Lumière damages items and fails the check, and the goal takes many Aid cards.",
+      "easy": "Aids once per turn and does not repair before arriving in Lumière. Spoiler layer: answers only a banner that is up, and only with actions the plan leaves free.",
+      "normal": "Layer 1: the legal Vagabond (Thief) actions from Root's legal-action API (read.legal-actions); Root's own AI keeps hit allocation, Ambush and discards and plays any decision no step claims. Layer 2 chooses who she helps, in priority order: pick a family of two non-Hostile factions; Aid them each Daylight; no fights with non-Hostile factions unless one is within 5 VP of winning (Disarm the VP leader, quests and ruins for VP); once the relationships hold, go to Lumière with 3+ undamaged items and stay; with only one non-Vagabond faction seated, one family member and 15 VP. Layer 3: the spoiler layer.",
+      "hard": "As Normal: the roster sets no Hard change to this plan's own steps. Spoiler layer: also answers a seat one step from a win ahead of the goal steps, except on its own announce turn.",
+      "rules": [
+        "bot.maelle.01-family",
+        "bot.maelle.02-aid",
+        "bot.maelle.03-no-fights",
+        "bot.maelle.04-goal-mode",
+        "bot.maelle.05-two-player",
+        "bot.maelle.06-spoiler"
+      ],
+      "_notes": "Steps are asked in order and the first that claims the decision takes it (Root's own AI plays any decision no step claims). The spoiler step is listed last, as in the roster; its text says when it pre-empts the steps above."
+    },
+    {
+      "id": "bot.lune",
+      "character": "lune",
+      "goalModeTrigger": "Act II, once the Parents' Journal is tagged (state.lune.tagged-relic set): her goals become the Journal plus any missing relic type. In Act I she plays normal Keepers, recovering missing types first.",
+      "beatable": "The gold forest sits in the Monolith hot zone, carriers can be intercepted (the attacker scores Prized Trophies and the Journal drops face up, still tagged), and she announces the journal run a turn early.",
+      "easy": "Single-warrior carriers (no convoy of tune.lune-convoy-size). Spoiler layer: answers only a banner that is up, and only with actions the plan leaves free.",
+      "normal": "Layer 1: the legal Keepers actions from Root's legal-action API (read.legal-actions), with Root's own Keepers AI if the digital game has one (unconfirmed, a week-1 spike item), otherwise the mod's fallback planner with the same priorities; that AI keeps hit allocation, Ambush and discards and plays any decision no step claims. Layer 2, in priority order: in Act I delve and recover missing relic types first; from Act II chase the Parents' Journal or a missing type, whichever is closer; fill the Retinue with cards matching the route; delve the Journal only with 3+ warriors next to its forest; escort carriers in groups of 2+ to a waystation of their type; ignore duplicate types unless she needs VP. Layer 3: the spoiler layer.",
+      "hard": "Runs two convoys at once. Spoiler layer: also answers a seat one step from a win ahead of the goal steps, except on its own announce turn.",
+      "rules": [
+        "bot.lune.01-act1",
+        "bot.lune.02-act2-goals",
+        "bot.lune.03-retinue",
+        "bot.lune.04-delve",
+        "bot.lune.05-escort",
+        "bot.lune.06-duplicates",
+        "bot.lune.07-spoiler"
+      ],
+      "_notes": "Steps are asked in order and the first that claims the decision takes it (Root's own AI plays any decision no step claims). The spoiler step is listed last, as in the roster; its text says when it pre-empts the steps above."
+    },
+    {
+      "id": "bot.monoco",
+      "character": "monoco",
+      "goalModeTrigger": "Feet-driven from his first Daylight: every reachable Warlord battle is scored by the feet it fills. Escort mode once he holds tune.monoco-bot-escort-after-feet (3) feet.",
+      "beatable": "The wheel and its source factions are public, he announces his next 'duel', and the Warlord is one exposed pawn whose removal during the countdown costs a foot and Almighty.",
+      "easy": "The Warlord advances alone (step 3 is skipped) and only when he outnumbers the defenders by tune.monoco-easy-outnumber (2). Spoiler layer: answers only a banner that is up, and only with actions the plan leaves free.",
+      "normal": "Layer 1: the legal Hundreds (moods, the Gestral Stash, Oppress) actions from Root's legal-action API (read.legal-actions), with Root's own Hundreds AI if the digital game has one (unconfirmed, a week-1 spike item), otherwise the mod's fallback planner with the same priorities; that AI keeps hit allocation, Ambush and discards and plays any decision no step claims. Layer 2, in priority order: score the Warlord battles he can reach each Daylight by the feet they fill; pick targets per foot; Command-move rats in the turn before; pick the mood (mask) that boosts the planned battle; build Arenas along the route; after 3 feet keep 2+ Gestrals with the Warlord; on the announce turn end in his strongest enemy-free clearing. Layer 3: the spoiler layer.",
+      "hard": "As Normal: the roster sets no Hard change to this plan's own steps. Spoiler layer: also answers a seat one step from a win ahead of the goal steps, except on its own announce turn.",
+      "rules": [
+        "bot.monoco.01-battle-score",
+        "bot.monoco.02-targets",
+        "bot.monoco.03-bring-rats",
+        "bot.monoco.04-mood",
+        "bot.monoco.05-arenas",
+        "bot.monoco.06-escort",
+        "bot.monoco.07-announce",
+        "bot.monoco.08-spoiler"
+      ],
+      "_notes": "Steps are asked in order and the first that claims the decision takes it (Root's own AI plays any decision no step claims). The spoiler step is listed last, as in the roster; its text says when it pre-empts the steps above. The roster names no single goal-mode trigger for Monoco: the feet scoring runs from the start (Almighty from Act III), and escorting starts at 3 feet. That is what goalModeTrigger records."
+    },
+    {
+      "id": "bot.curator",
+      "character": "curator",
+      "goalModeTrigger": "Act III, once the Cell Crack has opened into a tunnel (state.curator.cell-crack is 'tunnel', or 'dig-owed' under the fallback). In Acts I-II he plays the helper.",
+      "beatable": "The Act III gate; Price of Failure, since every camp or stall destroyed strips a minister permanently; digging next to Lumière is a visible tell, and he announces the push. Keeping the Paintress's roost alive in the Monolith or Lumière heavily garrisoned blocks him.",
+      "easy": "Never re-digs a lost tunnel and attacks Lumière only with defenders + tune.curator-easy-assault-margin (3). Spoiler layer: answers only a banner that is up, and only with actions the plan leaves free.",
+      "normal": "Layer 1: the legal Duchy (sway, Parliament, building) actions from Root's legal-action API (read.legal-actions), with Root's own Duchy AI if the digital game has one (unconfirmed, a week-1 spike item), otherwise the mod's fallback planner with the same priorities; that AI keeps hit allocation, Ambush and discards and plays any decision no step claims. Layer 2, in priority order: in Acts I-II play the helper (camps, stalls, ministers, the Burrow stocked to 6+, no big fights, never attack the Paintress unless she is one step from her win); in Act III take her roost out of the Monolith through the Cell Crack with defenders + 2, then dig to Lumière and march in with defenders + 2; on the announce turn pour warriors into Lumière. Layer 3: the spoiler layer.",
+      "hard": "As Normal: the roster sets no Hard change to this plan's own steps. Spoiler layer: also answers a seat one step from a win ahead of the goal steps, except on its own announce turn.",
+      "rules": [
+        "bot.curator.01-helper",
+        "bot.curator.02-reveal",
+        "bot.curator.03-lumiere",
+        "bot.curator.04-announce",
+        "bot.curator.05-spoiler"
+      ],
+      "_notes": "Steps are asked in order and the first that claims the decision takes it (Root's own AI plays any decision no step claims). The spoiler step is listed last, as in the roster; its text says when it pre-empts the steps above. 'Defenders' in 'defenders + 2' is read as the warriors of the seat he battles there (in Lumière, its ruler's). The roster's BEATABLE names Aline; the safe name is used here."
+    },
+    {
+      "id": "bot.clea",
+      "character": "clea",
+      "goalModeTrigger": "Goal mode at tune.clea-goal-coverage (6) covered clearings (her warriors minus hosted guards, as in win.clea).",
+      "beatable": "Lone warriors fall to any battle, coverage shows on the public tracker, and conspiracies only work in the Outcast suit, which the other players shape with their discards.",
+      "easy": "Half the time places warriors where she already has some, and never Sanctifies. Spoiler layer: answers only a banner that is up, and only with actions the plan leaves free.",
+      "normal": "Layer 1: the legal Lizard Cult (rituals, conspiracies) actions from Root's legal-action API (read.legal-actions), with Root's own Lizard AI if the digital game has one (unconfirmed, a week-1 spike item), otherwise the mod's fallback planner with the same priorities; that AI keeps hit allocation, Ambush and discards and plays any decision no step claims. The Lizards have no normal Move, so coverage comes from placing and converting. Layer 2, in priority order: recruit into uncovered clearings; convert in Outcast-suit clearings without her warriors and sanctify the VP leader's buildings; keep a bird card for the Monolith; keep the Flying Manor atelier and a warrior there (rebuilding pre-empts); keep Outcast cards for conspiracies; from 6 covered clearings re-cover losses first (pre-empts); never move or count guard stacks. Layer 3: the spoiler layer.",
+      "hard": "As Normal: the roster sets no Hard change to this plan's own steps. Spoiler layer: also answers a seat one step from a win ahead of the goal steps, except on its own announce turn.",
+      "rules": [
+        "bot.clea.01-recruit",
+        "bot.clea.02-convert",
+        "bot.clea.03-monolith",
+        "bot.clea.04-home",
+        "bot.clea.05-hand",
+        "bot.clea.06-goal-mode",
+        "bot.clea.07-guards",
+        "bot.clea.08-spoiler"
+      ],
+      "_notes": "Steps are asked in order and the first that claims the decision takes it (Root's own AI plays any decision no step claims). The spoiler step is listed last, as in the roster; its text says when it pre-empts the steps above. Two roster steps say they come first ('rebuilding it comes first', 're-cover ... before anything else'); they keep their roster position and their text says they pre-empt the steps above while their condition holds."
+    },
+    {
+      "id": "bot.white-haired-man",
+      "character": "white-haired-man",
+      "goalModeTrigger": "Goal mode at Vp(seat) >= tune.white-haired-man-goal-vp (8).",
+      "beatable": "Exposure guesses strip plots, a Vagabond walking into the Monolith stops the check, lone Corvid warriors fall easily, and the check waits for his Birdsong.",
+      "easy": "Leaves one Ring clearing to a single face-down plot. Spoiler layer: answers only a banner that is up, and only with actions the plan leaves free.",
+      "normal": "Layer 1: the legal Corvid actions from Root's legal-action API (read.legal-actions), with Root's own Corvid AI if the digital game has one (unconfirmed, a week-1 spike item), otherwise the mod's fallback planner with the same priorities; that AI keeps hit allocation, Ambush and discards and plays any decision no step claims. The Goal Director uses only public board state plus his own hidden plots. Layer 2, in priority order: measure each Ring clearing's margin; recruit with Ring-suit cards; Snare the Ring clearing hardest to hold, Bomb gatherings, Raid as a refill; fix the lowest-margin Ring clearing first; never attack the Paintress unless she is one step from her win; from 8 VP never leave the Ring and battle any Vagabond in the Monolith. Layer 3: the spoiler layer.",
+      "hard": "Keeps a margin of tune.white-haired-man-hard-margin (2) in every Ring clearing. Spoiler layer: also answers a seat one step from a win ahead of the goal steps, except on its own announce turn.",
+      "rules": [
+        "bot.white-haired-man.01-ring-status",
+        "bot.white-haired-man.02-recruit",
+        "bot.white-haired-man.03-plots",
+        "bot.white-haired-man.04-move-battle",
+        "bot.white-haired-man.05-spare-paintress",
+        "bot.white-haired-man.06-goal-mode",
+        "bot.white-haired-man.07-spoiler"
+      ],
+      "_notes": "Steps are asked in order and the first that claims the decision takes it (Root's own AI plays any decision no step claims). The spoiler step is listed last, as in the roster; its text says when it pre-empts the steps above."
+    }
+  ]
+}
