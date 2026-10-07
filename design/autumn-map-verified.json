@@ -1,0 +1,32 @@
+{
+  "_about": "Root's Autumn map as printed (the digital edition uses the same board). Read clearing by clearing from the board art on the Root Database (https://www.therootdatabase.com/map/autumn/, image /media/boards/Map_-_Autumn.webp): suit icon and tree colour agree for all 12 clearings (fox = red, rabbit = yellow, mouse = orange, matching the ROOT logo letters); building slots are the white squares; the four ruins are the slots drawn with rubble; paths are the white dotted lines; the river is the blue line. Cross-checked against the official Learning to Play walkthrough (keep 'in the top-left fox clearing'; the Eyrie in the bottom-right corner move 'from the rabbit clearing west to the mouse clearing'; 'the central fox clearing'). Still to confirm on the creator's PC: Root's own clearing ids for each row.",
+  "letters": "A..L are this file's own labels, by position on the board (top-left to bottom-right).",
+  "clearings": [
+    {"label": "A", "position": "top-left corner", "suit": "fox", "slots": 1, "ruin": false, "corner": true},
+    {"label": "B", "position": "top center", "suit": "rabbit", "slots": 2, "ruin": false, "corner": false},
+    {"label": "C", "position": "top-right corner", "suit": "mouse", "slots": 2, "ruin": false, "corner": true},
+    {"label": "D", "position": "left middle", "suit": "mouse", "slots": 2, "ruin": true, "corner": false},
+    {"label": "E", "position": "upper center-left, on the river", "suit": "rabbit", "slots": 2, "ruin": true, "corner": false},
+    {"label": "F", "position": "center-left (the central fox clearing)", "suit": "fox", "slots": 2, "ruin": true, "corner": false},
+    {"label": "G", "position": "center, on the river", "suit": "mouse", "slots": 3, "ruin": false, "corner": false},
+    {"label": "H", "position": "right middle", "suit": "fox", "slots": 2, "ruin": true, "corner": false},
+    {"label": "I", "position": "bottom-left corner, by the lake", "suit": "rabbit", "slots": 1, "ruin": false, "corner": true},
+    {"label": "J", "position": "bottom center-left", "suit": "fox", "slots": 2, "ruin": false, "corner": false},
+    {"label": "K", "position": "bottom center, on the river", "suit": "mouse", "slots": 2, "ruin": false, "corner": false},
+    {"label": "L", "position": "bottom-right corner, by a pond", "suit": "rabbit", "slots": 1, "ruin": false, "corner": true}
+  ],
+  "paths": [
+    ["A", "B"], ["A", "D"], ["A", "E"], ["B", "C"], ["C", "E"], ["C", "H"],
+    ["D", "F"], ["D", "I"], ["E", "F"], ["F", "G"], ["F", "I"], ["F", "K"],
+    ["G", "H"], ["G", "L"], ["H", "L"], ["I", "J"], ["J", "K"], ["K", "L"]
+  ],
+  "river": ["B", "E", "G", "K", "I"],
+  "_river_note": "The river runs from the top edge through B, past E, through G and K, and out west into the lake at I. Rivers are not paths except for the Riverfolk; the river links B-E, E-G, G-K and K-I.",
+  "oppositeCorners": [["A", "L"], ["C", "I"]],
+  "checks": {
+    "suitCounts": {"fox": 4, "rabbit": 4, "mouse": 4},
+    "ruins": 4,
+    "slots": 22,
+    "paths": 18
+  }
+}
