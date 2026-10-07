@@ -1,0 +1,7 @@
+bin/
+obj/
+*.trx
+TestResults/
+.vs/
+*.user
+pc-report.json

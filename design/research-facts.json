@@ -1,0 +1,1078 @@
+{
+ "e33": {
+  "characters": [
+   {
+    "name": "Gustave",
+    "acts": "Prologue and Act I (playable). He dies at the end of Act I.",
+    "story_role": "An engineer from Lumière and the lead protagonist of Act I. He is 32, so he is in the last year before his Gommage. His twin sister Emma is Lumière's Chief Councillor, and he and Emma are guardians of his foster sister Maelle. In the Prologue he says goodbye to Sophie when the number drops to 33. When Expedition 33 lands on the Continent, the white-haired man Renoir massacres most of the crew. Gustave regroups the survivors. At the end of Act I, Renoir ambushes the group on a beach and Gustave is killed protecting Maelle.",
+    "combat_signature": "Overcharge. His mechanical prosthetic arm, the Lumina Converter, builds charge as he fights. When fully charged it glows, and he can unleash Overcharge, a heavy lightning strike that breaks armor. On a charged Overcharge he says the expedition motto, 'For those who come after.'",
+    "personal_goal": "Reach and stop the Paintress before his own Gommage. Protect Maelle and leave something behind for those who come after.",
+    "signature_objects": "Mechanical prosthetic arm / Lumina Converter (Sandfall sold a life-size replica). The expedition motto 'For those who come after'. The expedition flag. His journal. The flower he takes to Sophie in the Prologue.",
+    "tie_to_33": "He embodies Expedition 33: one year left to live and doomed by the number 33. His death at the end of Act I is the game's big twist, and his motto is the theme of the whole expedition system.",
+    "confidence": "verified"
+   },
+   {
+    "name": "Lune",
+    "acts": "Act I to Act III (playable). She is gommaged by Renoir at the end of Act II and brought back by Maelle in Act III.",
+    "story_role": "The expedition's scholar, mage and pathfinder. She is entrusted with charting the route and carries heavy responsibility. Her parents were renowned researchers who died on an earlier expedition. They raised her to continue their work.",
+    "combat_signature": "Stains. Her skills generate elemental Stains (Fire, Ice, Lightning, Earth, Light), and other skills consume Stains for stronger effects. She is a caster, healer and status-effect support.",
+    "personal_goal": "Solve the mystery of the Paintress and finish her parents' work. Over the story she faces the grief and pressure her parents left her with.",
+    "signature_objects": "A dreamcatcher-like magic focus that holds her Stains. Her parents' research and journals. Sirène's Dress, the Act III area tied to her relationship level 6 quest, which gives 'Record: Lune'.",
+    "tie_to_33": "She is a core member of Expedition 33 and its knowledge-seeker. She wants to understand the Gommage rather than just survive it.",
+    "confidence": "verified"
+   },
+   {
+    "name": "Maelle / Alicia Dessendre",
+    "acts": "Prologue to Act III. She is the Act III protagonist, and Act III is titled 'Maelle'.",
+    "story_role": "A 16-year-old orphan who is Gustave's foster sister and Emma's ward. She feels she never belonged in Lumière and joins the expedition early to see the world. In Act III she recovers her memories. She is really Alicia Dessendre, the youngest daughter of the Painter family. Alicia was scarred in the fire that killed her brother Verso and left unable to speak. Within the Canvas, Aline repainted her as Maelle, born as a baby with no memory. Real-world Clea sent her into the Canvas to end the fight between Aline and Renoir. At the end of Act II, Renoir gommages Lumière, Maelle included, and she is thrown back into her real body. She returns as a Paintress, resurrects Lune and Sciel, and fights Renoir to save the Canvas. In the ending she and Verso fight over whether the Canvas should survive. Her ending is 'A Life to Paint'.",
+    "combat_signature": "Stances. She starts stanceless. Skills and weapon passives switch her between Offensive (+50% damage dealt and taken), Defensive (-50% damage taken, more AP from parries) and Virtuose (triple damage). Many skills gain bonuses when used from a specific stance. She fights with a rapier.",
+    "personal_goal": "Act I: find a place and family outside Lumière. Act III: keep the painted world and her friends alive, even against her own family.",
+    "signature_objects": "Rapier and fencing. Burn scars and the Alicia outfit, unlocked automatically in Act III. A brush (Paintress powers in Act III).",
+    "tie_to_33": "As a 16-year-old she is the youngest member of Expedition 33. Her secret identity connects Lumière to the Dessendre family behind the Gommage. In her ending she effectively becomes the new Paintress.",
+    "confidence": "verified"
+   },
+   {
+    "name": "Sciel",
+    "acts": "Prologue cameo, then Act I to Act III (playable). She is gommaged at the end of Act II and resurrected by Maelle in Act III.",
+    "story_role": "A warm, outgoing farmer-turned-teacher who smiles through tragedy. She worked on the Aquafarm project with Gustave and her best friend Sophie. Her husband Pierre died in an accident before his Gommage, and she also lost their unborn child. She is motivated to save Lumière's youth.",
+    "combat_signature": "Foretell and Twilight. Some skills apply Foretell stacks to enemies, and others consume them. Applying Foretell gives her a Sun charge and consuming it gives a Moon charge. With at least one of each at the start of her turn she enters Twilight for 2 turns, gaining +25% damage per charge consumed. Her weapon is a double-bladed scythe.",
+    "personal_goal": "Spare the children of Lumière the future she had, and come to terms with losing Pierre. In Act III she hopes to see him again.",
+    "signature_objects": "Double-bladed scythe (starting weapon Scieleson). Sun and Moon motifs. The farm and harvest theme (weapon 'Moisson' means harvest). Dorrie: Sciel is the one who finds Esquie's coral-breaking rock in Old Lumière.",
+    "tie_to_33": "She is a volunteer in her last year, a member of Expedition 33 and Sophie's best friend, who is gommaged in the Prologue.",
+    "confidence": "verified"
+   },
+   {
+    "name": "Monoco",
+    "acts": "Act II to Act III (playable). He is recruited at Monoco's Station.",
+    "story_role": "A Gestral and Verso's old friend, also friends with Esquie. He and Verso once lived together in Frozen Hearts and helped earlier expeditions. Monoco later stayed behind to guard the Grandis. To recruit him you must beat him in a duel and then defeat the Stalact boss at his mountain station. He is a battle-loving comic-relief character who collects the feet of defeated Nevrons. His questline is about rebirthing his protégé Noco at the Sacred River.",
+    "combat_signature": "Bestial Wheel and Nevron forms. He learns skills by defeating specific marked Nevrons and taking their feet, then transforms to use those Nevrons' moves. The Bestial Wheel rotates each turn through masks (Agile, Caster, Balanced, Heavy, Almighty). Using a skill that matches the current mask adds bonus effects.",
+    "personal_goal": "Fight strong opponents (he treats battle as meditation and thrill), protect his friends, and see Noco reborn.",
+    "signature_objects": "Collected Nevron feet. Masks on the Bestial Wheel. Monoco's Station. The Sacred River. The Thank You update's Baguette set (outfit, haircut and the Baguettaro weapon).",
+    "tie_to_33": "He joins Expedition 33's survivors with Verso. He is the Gestral (native Continent) view of the Paintress's world. He and Esquie rescue Alicia and Verso when Renoir starts destroying the Canvas.",
+    "confidence": "verified"
+   },
+   {
+    "name": "Verso",
+    "acts": "Act I as the mysterious man. Playable in Act II and Act III, which is titled 'Verso'. He is central to the ending and the Thank You update area Verso's Drafts.",
+    "story_role": "An immortal stranger who saves the survivors after Gustave dies. He is not the real Verso. He is a copy painted by Aline, and he knows he is painted. The real Verso Dessendre, Aline and Renoir's son, died in a fire set by the Writers while saving Alicia. The Canvas world was the real Verso's childhood painting and holds the last fragment of his soul. Painted Verso was in Expedition Zero with painted Renoir, Simon and Julie. His ending is 'A Life to Love', in which he ends the Canvas and sends Maelle home.",
+    "combat_signature": "Perfection ranks. A grade climbs D to C to B to A to S as he lands hits, dodges and parries, and drops when he takes damage. Higher rank means more damage. Many skills get extra effects at an exact rank, for example Perfect Break costs less AP at exactly rank B.",
+    "personal_goal": "Destroy the Paintress / Canvas to free his 'mother' and the real Verso's soul fragment, and finally find peace in death.",
+    "signature_objects": "Piano and music (the real Verso wanted to be a musician, not a painter). The letter from his sister Alicia. Esquie, his childhood creation. The Canvas itself. The Soarrie rock, which he gives to Esquie. Esquiso, the weapon from Osquio.",
+    "tie_to_33": "The world Expedition 33 lives in is literally his painting. He is the reason the Dessendres fight over the Canvas, and he is the person every Gommage is ultimately about.",
+    "confidence": "verified"
+   },
+   {
+    "name": "Esquie",
+    "acts": "Act I to Act III, plus the Thank You update. Recruited at Esquie's Nest in Act I.",
+    "story_role": "A huge, cheerful, balloon-like creature who becomes the party's world-map transport. Young Verso Dessendre painted him into his childhood Canvas, modelled on his favourite stuffed toy. He is an old friend of painted Verso and Monoco. He is friendly and endlessly patient, a 'French Winnie the Pooh', and his voice is full of 'whee/whoo' noises. He needs his lost magic rocks to gain traversal powers. Verso's Drafts contains a giant Esquie Head statue and Esquie's evil 'cousin' Osquio.",
+    "combat_signature": "Not a combat party member. His mechanics are world-map traversal unlocked by rocks: swim (Florrie), break coral (Dorrie), fly (Soarrie) and dive underwater (Urrie). In the original game he can also smash blue rock obstacles. His relationship levels unlock quests, and Urrie arrives at relationship level 6.",
+    "personal_goal": "Get his beloved rocks back (Florrie, Dorrie, Urrie, Soarrie), have fun and help his friends. He 'can be sad or bad or even rad, but never ever ever mad.'",
+    "signature_objects": "Four magic rocks (Florrie, Dorrie, Urrie, Soarrie). Esquie's Nest. His grumpy turtle neighbour François. The Esquie Head statue and Esquie outfits from the update. Osquio, his rival cousin.",
+    "tie_to_33": "Without him the expedition cannot cross the Continent's sea or reach the Monolith. He flies the party up against the titanic Paintress at the end of Act II. He is a piece of young Verso's soul and imagination, the origin of the whole Canvas.",
+    "confidence": "verified"
+   },
+   {
+    "name": "The Paintress / Aline Dessendre",
+    "acts": "Paints 33 in the Prologue. Final boss of Act II at the Monolith. Real-world scenes in Act III and the endings.",
+    "story_role": "The mother of Verso, Clea and Alicia, wife of Renoir, and described as head of the Painters' Council. Grieving the real Verso, she entered his Canvas and refused to leave. She painted copies of her family (Verso, Renoir, Clea, and Alicia/Maelle) to live with. Her fight with Renoir caused the Fracture, which split Lumière from the Continent and created the Monolith. She ended up trapped at the top of the Monolith. Each year 'the Paintress' paints a decreasing number on the Monolith, and everyone of that age or older in Lumière is gommaged into petals. Late-game sources say the erasing is Renoir's power and the number is Aline's warning or countdown. Expedition 33 defeats her at the end of Act II, sending Aline back to the real world.",
+    "combat_signature": "A boss, not playable. Act II climax at the Monolith, including a titanic Paintress form fought after Esquie flies the party up. For a Root design, her theme is painting, creating and spawning: she paints numbers and creatures into the world.",
+    "personal_goal": "Stay inside her dead son's painting with her painted family and keep the Canvas alive against Renoir. This is grief as refusal.",
+    "signature_objects": "The Monolith and the number painted on it (33 at game start). Paint and brush. Red petals of the Gommage. The Paintress's Heart in Old Lumière (destroyed in Act II).",
+    "tie_to_33": "She is the reason for the number 33 and for every Expedition. The game is named after her countdown, and Expedition 33 exists to kill her. Thematically she is the 'mother who has been playing too many board games' with her children's world.",
+    "confidence": "verified"
+   },
+   {
+    "name": "Renoir (painted, the 'white-haired man')",
+    "acts": "Act I and Act II. He is destroyed at the Monolith at the end of Act II.",
+    "story_role": "The main visible antagonist of Acts I and II. He is a copy of Aline's husband that she painted. With dark Nevrons (some sources call them 'Noirs') he slaughters Expedition 33 on the beach when they arrive. He kills Gustave at the end of Act I. The party fights him in Old Lumière and again with the 'Dark Creature' near the end of the Monolith. With the Curator's help, Maelle erases him.",
+    "combat_signature": "A boss, not playable. Recurring Act II fights in Old Lumière and the Monolith. In Act I he is effectively unbeatable.",
+    "personal_goal": "Protect the Paintress / Aline and stop the expeditions from reaching her.",
+    "signature_objects": "White hair and an aristocratic painter look. Dark Nevron minions. The beach ambush. Expedition Zero, which he led with painted Verso.",
+    "tie_to_33": "He is the reason Expedition 33 nearly dies on day one, and the reason past expeditions vanished.",
+    "confidence": "likely"
+   },
+   {
+    "name": "The Curator / Renoir Dessendre (real)",
+    "acts": "At camp from Act I. Revealed in Act III. Final boss of Act III in Lumière.",
+    "story_role": "The real Renoir, father of Verso, Clea and Alicia. He entered the Canvas to drag Aline and later Alicia out, because Painters who stay in a Canvas too long die. After the Fracture, Aline imprisoned him beneath the Monolith. He slipped out in a faceless, ethereal form, the Curator, and quietly helped Expedition 33 defeat the Paintress so Aline would be expelled. Sources state that the real Renoir's power erases the oldest of Aline's creations, which is the Gommage. Once Aline is out, he gommages Lumière and tries to destroy the Canvas. He is the final boss.",
+    "combat_signature": "As the Curator he is the camp NPC who upgrades weapons with Chroma Catalysts. As the final-boss Renoir he has a completely different moveset from the painted Renoir fights.",
+    "personal_goal": "End the Canvas so his wife and daughter grieve properly and survive.",
+    "signature_objects": "Faceless Curator form and the camp. Chroma Catalysts and weapon upgrades. The prison under the Monolith. Renoir's Drafts (late-game area). His theme 'Une vie à t'aimer'.",
+    "tie_to_33": "He is the hidden hand behind the Gommage and the true final opponent. He is also the man who quietly helped Expedition 33 succeed.",
+    "confidence": "likely"
+   },
+   {
+    "name": "Clea Dessendre (real) and painted Clea",
+    "acts": "The real Clea appears in lore and Act III. Painted Clea is an Act III superboss in the Flying Manor. 'Clea Unleashed' was added to the Endless Tower in the Thank You update.",
+    "story_role": "The real Clea is the eldest Dessendre daughter and a Painter. She is fighting a war outside the Canvas against the Writers who set the fire. She wants the Canvas destroyed and sent Alicia in to end her parents' conflict. She secretly abducted and repainted the painted Clea (Aline's copy) to keep producing Nevrons. This drains Aline's chroma so Renoir can erase the world. Painted Clea, the 'Regent' in the Flying Manor, is the source of the Nevrons. She is a secret superboss, recommended level 80+.",
+    "combat_signature": "A boss, not playable. The Flying Manor superboss is surrounded by Nevron creations. Clea Unleashed is a harder version in the Endless Tower.",
+    "personal_goal": "Real Clea: break the family's grief cycle and win the war against the Writers. Painted Clea: endlessly create 'perfect' Nevrons.",
+    "signature_objects": "Flying Manor. Nevrons. Clea Haircut and Clea Music Record (Endless Tower rewards). Her letters and orders.",
+    "tie_to_33": "She is the reason the Continent is full of the Nevrons that kill expeditions. She engineers the conditions for the Gommage to keep spreading, and she sends Alicia in.",
+    "confidence": "likely"
+   },
+   {
+    "name": "Sophie",
+    "acts": "Prologue",
+    "story_role": "Gustave's ex-girlfriend and Sciel's best friend, who worked on the Aquafarm with them. She is 33 when the number drops, and is gommaged in the Prologue after Gustave says goodbye.",
+    "combat_signature": "None (non-combat NPC).",
+    "personal_goal": "To face the Gommage with dignity and say goodbye.",
+    "signature_objects": "The flower Gustave brings her. The Gommage ceremony in Lumière. Red petals.",
+    "tie_to_33": "She is the first face of the number 33: the opening scene shows the cost of the Gommage through her.",
+    "confidence": "verified"
+   },
+   {
+    "name": "Emma",
+    "acts": "Prologue (Lumière)",
+    "story_role": "Gustave's twin sister and Lumière's Chief Councillor. She and Gustave are Maelle's guardians. She formally sends off Expedition 33 and oversees expedition logistics. She dislikes the expeditions, especially Gustave joining, but accepts that they matter.",
+    "combat_signature": "None (non-combat NPC).",
+    "personal_goal": "Keep Lumière running and her family safe.",
+    "signature_objects": "The Lumière council and the expedition send-off ceremony.",
+    "tie_to_33": "She is the institution that launches Expedition 33.",
+    "confidence": "verified"
+   },
+   {
+    "name": "Simon",
+    "acts": "Act III optional (The Abyss, inside Renoir's Drafts). 'Simon the Divergent Star' was added to the Endless Tower in the Thank You update.",
+    "story_role": "A member of Expedition Zero, painted Verso's close friend and painted Clea's love interest. He was believed dead but was sealed in the Abyss. He had meant to fight the Curator to free Clea. The real Clea repainted him as her enforcer, and his mind is broken.",
+    "combat_signature": "The hardest superboss, with a roughly 50 million HP pool. His later phases use 'We Lost', a remix of Renoir's theme.",
+    "personal_goal": "Free Clea from her suffering, now twisted into obeying her.",
+    "signature_objects": "The Abyss, Renoir's Drafts, and the Simon haircuts added in the update.",
+    "tie_to_33": "He is a ghost of Expedition Zero, the first expedition after the Fracture. He shows what became of the earliest attempt that came before Expedition 33.",
+    "confidence": "verified"
+   },
+   {
+    "name": "Julie (Expedition Zero)",
+    "acts": "Lore / flashbacks (appears in Maelle's nightmares)",
+    "story_role": "A deceased member of Expedition Zero ('Search and Rescue'). She grew suspicious of Verso's immortality and had him kidnapped. Painted Renoir convinced Verso she was Clea's creation and ordered her death, and Verso killed her.",
+    "combat_signature": "None known.",
+    "personal_goal": "Find survivors after the Fracture and expose what she thought was a traitor.",
+    "signature_objects": "Expedition Zero, and the Forgotten Battlefield area where the betrayal happened.",
+    "tie_to_33": "She is part of the expedition tradition's dark origin, the first in a line that ends with 33.",
+    "confidence": "likely"
+   },
+   {
+    "name": "Golgra",
+    "acts": "Act I (Gestral Village) and later fights through Monoco's quest (Sacred River, Dark Gestral Arena)",
+    "story_role": "The female chief of the Gestral Village. She runs the village's fighting culture, and you must win the Gestral Village tournament to get the password through the eastern gate to Esquie's Nest. She is an optional duel boss with very high HP (about 3.4M) and is fought several times through Monoco's quest.",
+    "combat_signature": "A boss: pure physical damage using her flexible body.",
+    "personal_goal": "Lead and test the Gestrals through combat.",
+    "signature_objects": "Gestral Village and its tournament / arena. Dark Gestral Arena.",
+    "tie_to_33": "She is the gatekeeper on Expedition 33's route to Esquie in Act I.",
+    "confidence": "verified"
+   },
+   {
+    "name": "François",
+    "acts": "Act I and Act III (Esquie's Nest)",
+    "story_role": "Esquie's grumpy turtle neighbour. Esquie claims François stole his rock Florrie, and the party beats him to recover it. In Act III, at Esquie's relationship level 5, he holds Urrie and refuses to trade, which leads to a rematch.",
+    "combat_signature": "A boss, weak to Dark damage.",
+    "personal_goal": "Keep the rocks and be left alone (comic rival).",
+    "signature_objects": "Florrie and Urrie, and Esquie's Nest.",
+    "tie_to_33": "He blocks Expedition 33's ability to cross the sea (Florrie) and later to dive (Urrie).",
+    "confidence": "verified"
+   },
+   {
+    "name": "Osquio",
+    "acts": "Thank You update (Verso's Drafts, Root of All Evil); Act III and post-game",
+    "story_role": "Esquie's self-proclaimed 'evil cousin' and arch-enemy. Young Verso created him to embody his negative thoughts, as the villain of his childhood Canvas. He taunts Verso that he will always be a painter and never a musician. He is the final boss of Verso's Drafts.",
+    "combat_signature": "A boss with unusual attacks and endgame-level stats (comparable to Simon). Defeating him rewards Esquiso (a Verso weapon) and the Osquio outfit and haircut.",
+    "personal_goal": "Play the villain to Esquie and Verso's hero.",
+    "signature_objects": "Root of All Evil, reached by a train by the giant Esquie Head statue. Osquio outfits.",
+    "tie_to_33": "He is the dark mirror of Esquie and a look at young Verso, the child whose Canvas Expedition 33 lives in.",
+    "confidence": "verified"
+   },
+   {
+    "name": "The Mimes",
+    "acts": "All acts. The first is in the Prologue in Lumière (the 'A Peculiar Encounter' trophy). A new Mime was added in Verso's Drafts.",
+    "story_role": "A recurring sight gag: silent black-and-white French mimes hidden in nearly every major area, about 17 across 12 locations. They are optional mini-bosses.",
+    "combat_signature": "An optional mini-boss. Whoever lands the killing blow earns a haircut, often with a matching outfit.",
+    "personal_goal": "None stated. Pure absurdist comedy.",
+    "signature_objects": "Haircuts and outfits, and the Baguette set for Monoco from the update's Mime.",
+    "tie_to_33": "They are 'the one constant' Expedition 33 meets across the Continent, the game's running joke.",
+    "confidence": "verified"
+   },
+   {
+    "name": "Noco",
+    "acts": "Act II and Act III (Monoco's questline)",
+    "story_role": "An ambitious Gestral merchant and Monoco's protégé. Monoco's final quest is about bringing Noco back to life at the Sacred River, where dead Gestrals are reborn with most of their memories gone.",
+    "combat_signature": "None (merchant).",
+    "personal_goal": "Prove his ambition as a merchant.",
+    "signature_objects": "His shop and the Sacred River.",
+    "tie_to_33": "A minor character who adds to Monoco's story and Gestral lore.",
+    "confidence": "likely"
+   }
+  ],
+  "esquie_lost_items": [
+   {
+    "name": "Florrie",
+    "power_it_restores": "Swim. Esquie can carry the party across the sea to new coasts and islands.",
+    "who_holds_it_and_where": "François, Esquie's grumpy turtle neighbour, at Esquie's Nest (Act I). Esquie says François stole it, and the party beats François in a boss fight to recover it. The swimming then takes them on to Stone Wave Cliffs, the last Act I area.",
+    "confidence": "verified"
+   },
+   {
+    "name": "Dorrie",
+    "power_it_restores": "Break coral. Esquie can smash coral reefs that block sea routes.",
+    "who_holds_it_and_where": "No rival holds it. Sciel finds it in Old Lumière, the sunken old city (Act II), while the party goes to destroy the Paintress's Heart.",
+    "confidence": "likely"
+   },
+   {
+    "name": "Soarrie",
+    "power_it_restores": "Fly. Esquie can fly with the party on his back, reaching the Monolith's top and most of the Act III map, including the Endless Tower, Sky Island and Flying Manor.",
+    "who_holds_it_and_where": "Verso. He reveals he had already recovered it at the top of the Monolith, when Aline unleashes the titanic Paintress at the end of Act II, and Esquie flies the party into that fight. Sources do not say who had it before Verso or where he found it.",
+    "confidence": "likely"
+   },
+   {
+    "name": "Urrie",
+    "power_it_restores": "Underwater diving. Esquie can dive at glowing blue whirlpools in the ocean, which give rewards and open hidden areas, including access to Renoir's Drafts and the Abyss.",
+    "who_holds_it_and_where": "François again, at Esquie's Nest. At Esquie's relationship level 5 (after Act II), Esquie talks about his long-missing favourite rock Urrie and points the party to François. François refuses to trade, the party defeats him in a rematch, and returning Urrie raises Esquie to level 6.",
+    "confidence": "likely"
+   }
+  ],
+  "continent_locations": [
+   {
+    "name": "Lumière",
+    "act": "Prologue; Act III final battle",
+    "note": "An island city based on Paris, with a twisted Eiffel Tower and a broken Arc de Triomphe. The Fracture split it from the Continent. The Gommage ceremony and Expedition send-off happen here. The final boss (real Renoir) is fought here in Act III. Natural 'home' clearing for the player."
+   },
+   {
+    "name": "The Monolith",
+    "act": "Visible from the Prologue; Act II finale",
+    "note": "A giant stone spire across the sea where the Paintress paints the yearly number. A barrier protects it until the two Axons are defeated. Areas include 'The Monolith' and 'Inside The Monolith'. Renoir and the Dark Creature are fought here, then the Paintress. Aline was trapped at the top and the real Renoir underneath."
+   },
+   {
+    "name": "Spring Meadows",
+    "act": "Act I",
+    "note": "The first area after landing. Boss: Eveque."
+   },
+   {
+    "name": "Flying Waters",
+    "act": "Act I",
+    "note": "Boss: Goblu."
+   },
+   {
+    "name": "Ancient Sanctuary",
+    "act": "Act I",
+    "note": "Boss: Ultimate Sakapatate, a Gestral-made machine."
+   },
+   {
+    "name": "Gestral Village",
+    "act": "Act I",
+    "note": "Chief Golgra and the tournament. Winning it gives the password to the eastern gate toward Esquie's Nest."
+   },
+   {
+    "name": "Esquie's Nest",
+    "act": "Act I (revisited in Act III)",
+    "note": "Esquie's home, where François holds Florrie and later Urrie."
+   },
+   {
+    "name": "Stone Wave Cliffs",
+    "act": "Act I",
+    "note": "The last Act I area, reached by swimming. Lampmaster boss, and the mysterious man (Verso) appears. Gustave dies at the end of Act I, when painted Renoir ambushes the group on a beach."
+   },
+   {
+    "name": "Forgotten Battlefield",
+    "act": "Act II",
+    "note": "Boss: Dualliste. Linked to Expedition Zero's betrayal of Verso by Julie's team."
+   },
+   {
+    "name": "Monoco's Station",
+    "act": "Act II",
+    "note": "A mountain station. Duel Monoco, then fight the Stalact boss to recruit him."
+   },
+   {
+    "name": "Old Lumière",
+    "act": "Act II",
+    "note": "The drowned old city. Destroy the Paintress's Heart, fight painted Renoir, and Sciel finds Esquie's rock Dorrie here."
+   },
+   {
+    "name": "Visages",
+    "act": "Act II",
+    "note": "Axon modelled on Verso. Bosses Visages and Mask Keeper, with sub-vales."
+   },
+   {
+    "name": "Sirène",
+    "act": "Act II",
+    "note": "Axon modelled on Aline. Glissando guards the approach near the Crumbling Path."
+   },
+   {
+    "name": "Gestral Beach(es) / Sacred River",
+    "act": "Act II–III optional",
+    "note": "Gestral side areas. The Sacred River is a river of chroma where dead Gestrals are reborn, used in Monoco's quest."
+   },
+   {
+    "name": "Frozen Hearts",
+    "act": "Act II–III optional",
+    "note": "A snowy area where Verso and Monoco once lived."
+   },
+   {
+    "name": "Yellow Harvest / Falling Leaves / Crimson Forest / Red Woods / Lost Woods",
+    "act": "Act II–III optional",
+    "note": "Optional regions that suit Root's forest clearings. Crimson Forest is near the Endless Tower."
+   },
+   {
+    "name": "Endless Tower",
+    "act": "Act III (needs flight)",
+    "note": "In the southwest of the map, south of the Crimson Forest. A gauntlet of 11 stages with 3 trials each, 33 trials in total. The Thank You update added the 'Clea Unleashed' and 'Simon the Divergent Star' bosses. A natural landmark."
+   },
+   {
+    "name": "Flying Manor",
+    "act": "Act III optional",
+    "note": "A floating manor inside a ring of floating rocks above the southwest of the big snowy island. Lair of painted Clea, the Nevron-maker superboss."
+   },
+   {
+    "name": "Renoir's Drafts / The Abyss",
+    "act": "Act III optional (needs diving)",
+    "note": "The highest-level area, reached by diving with Urrie. Simon waits in the Abyss past the Golden Tree rest point."
+   },
+   {
+    "name": "Sky Island",
+    "act": "Act III optional",
+    "note": "A small floating island east of the central snowy island, with a Chromatic boss."
+   },
+   {
+    "name": "Sirène's Dress",
+    "act": "Act III optional",
+    "note": "Reached by flight from behind Sirène. Lune's level 6 relationship area."
+   },
+   {
+    "name": "The Reacher",
+    "act": "Act III optional",
+    "note": "An Axon area modelled on Alicia, on the northwest shoreline near Visages. A fourth Axon, The Hauler, is modelled on Clea."
+   },
+   {
+    "name": "Flying Casino / White Sands / Floating Cemetery / Endless Night Sanctuary / Sunless Cliffs / Isle of the Eyes / The Canvas / Dark Gestral Arena / Esoteric Ruins / Twilight Quarry / The Manor / Painting Workshop",
+    "act": "Act II–III optional",
+    "note": "Extra side areas to fill out a 12-clearing map or to use as ruins and landmarks."
+   },
+   {
+    "name": "Verso's Drafts",
+    "act": "Act III (Thank You update, v1.5.0, Dec 2025)",
+    "note": "A storybook world from young Verso's imagination, reached through a portal next to or east of Lumière. Sub-areas: Candy Land, Reverie Path, Treehouse Forest, Licornapieds Station, and Root of All Evil (Osquio's lair, reached by a train at the giant Esquie Head statue). A natural landmark or hireling theme."
+   }
+  ],
+  "enemies_and_factions": [
+   {
+    "name": "Nevrons",
+    "note": "The general hostile creatures, which appeared after the Fracture and change with each area's theme or emotion. Lore says painted Clea makes them (repainted by the real Clea) to drain Aline's chroma."
+   },
+   {
+    "name": "Axons",
+    "note": "Four giant Nevrons with hearts of pure chroma, said to be made by Renoir in the image of Dessendre family members: Visages and the Mask Keeper (Verso), Sirène (Aline), The Reacher (Alicia) and The Hauler (Clea). In Act II the party defeats Visages and Sirène to forge a weapon that can pierce the Monolith barrier."
+   },
+   {
+    "name": "Chromatic Nevrons",
+    "note": "Optional elite boss variants, for example Chromatic Abbest, Chromatic Lancelier, Chromatic Portier, Chromatic Ranger Sakapatate and Chromatic Clair / Obscur. Good 'elite spawn' or loot-carrier theme."
+   },
+   {
+    "name": "Mimes",
+    "note": "A recurring comic optional mini-boss in almost every region (about 17). They drop haircuts and outfits."
+   },
+   {
+    "name": "Petanks",
+    "note": "Iron-ball Nevrons with legs that run away. You chase them until they stop on glowing stones, then fight them for rich loot. A good model for 'enemies that spawn carrying an item you must catch'."
+   },
+   {
+    "name": "White Nevrons",
+    "note": "Colourless Nevrons that can talk and are not hostile. They give side quests (e.g. Blanche, and the Small Bourgeon area)."
+   },
+   {
+    "name": "Gestrals",
+    "note": "A friendly but fight-loving native people. Chief Golgra; Monoco and Noco are Gestrals. Young Gestrals are 'patates', and dead Gestrals are reborn at the Sacred River with most memories lost. They build machines called Sakapatates (Ultimate Sakapatate is an Act I boss). Areas include Gestral Village, Gestral Beaches, Dark Gestral Arena and an Ancient Gestral City."
+   },
+   {
+    "name": "Grandis",
+    "note": "A people Monoco stayed behind to guard. Minor faction."
+   },
+   {
+    "name": "Renoir's dark Nevrons ('Noirs')",
+    "note": "The dark creatures that massacre Expedition 33 on the beach with painted Renoir. The exact in-game name is unconfirmed."
+   },
+   {
+    "name": "Expeditions of Lumière (Expedition Zero to 33)",
+    "note": "One expedition sails every year after the Gommage. Expedition Zero (Search and Rescue) included painted Verso, painted Renoir, Simon and Julie. The journals of past expeditions are collectibles. The motto is 'For those who come after.'"
+   },
+   {
+    "name": "The Dessendre family / Painters",
+    "note": "Real-world Painters who can enter Canvases: Renoir, Aline (head of the Painters' Council), Clea, Verso (died) and Alicia."
+   },
+   {
+    "name": "The Writers",
+    "note": "A rival real-world group of artists at war with the Dessendres. Their arson caused the fire that killed Verso and scarred Alicia. They are not on the Continent."
+   },
+   {
+    "name": "Main story bosses",
+    "note": "Eveque (Spring Meadows), Goblu (Flying Waters), Ultimate Sakapatate (Ancient Sanctuary), François (Esquie's Nest), Lampmaster (Act I), Dualliste (Forgotten Battlefield), Stalact (Monoco's Station), Renoir (Old Lumière), Visages and Mask Keeper, Glissando, Sirène, Renoir and the Dark Creature (Monolith), The Paintress, Creation, and Renoir as the final boss (Act III)."
+   },
+   {
+    "name": "Superbosses",
+    "note": "Painted Clea (Flying Manor), Simon (The Abyss), Golgra (repeat duels) and the Endless Tower gauntlet."
+   },
+   {
+    "name": "Verso's Drafts enemies (Thank You update)",
+    "note": "Osquio (final boss); Chromatic bosses Barbasucette (summons sweets that buff allies), Franctale, Licorne and Machinapieds; optional Licornapieds and the Half-baked Gestral; and a new Mime."
+   }
+  ],
+  "dlc_update_content": [
+   "E33's 'Thank You' Update (v1.5.0) is free. It was announced at The Game Awards 2025 (where E33 won Game of the Year) and released on Dec 11–12, 2025 for PS5, Xbox and PC.",
+   "Verso's Drafts is a new storybook region tied to young Verso, reached from Act III through a portal near or east of Lumière. Sub-areas: Candy Land, Reverie Path, Treehouse Forest, Licornapieds Station and Root of All Evil.",
+   "New bosses: Osquio (final boss, rewards the Esquiso weapon for Verso and the Osquio set); 4 new Chromatic bosses (Barbasucette, Franctale, Licorne, Machinapieds); optional Licornapieds and the Half-baked Gestral; and a new Mime that gives Monoco's Baguette set and the Baguettaro weapon.",
+   "New Endless Tower bosses: 'Clea Unleashed' and 'Simon the Divergent Star', both variations of main-game bosses.",
+   "About 20 new outfits (77 base plus 20 new): Chic and Esquie outfits for most characters, Osquio outfits for Lune, Maelle, Sciel and Verso, a Visages outfit for Verso, a Baguette outfit for Monoco, and Simon, Esquie and Osquio haircuts.",
+   "Also new weapons, Luminas, Pictos, quests, music tracks, Photo Mode, loadouts, 7 new languages (19 total), and Steam Deck and ROG Xbox Ally 'Verified' status.",
+   "Separate from E33, for the Root side: Root digital's 'Hirelings & Landmarks' DLC was released on Oct 20, 2025 ($9.99). It adds hirelings (e.g. Forest Patrol, Rabbit Scouts, Corvid Spies) and landmarks. Three hirelings join any game where they are enabled, each in a promoted or demoted form."
+  ],
+  "uncertainties": [
+   "WebFetch was blocked for every wiki and news domain I tried (fandom, wiki.gg, fextralife, gamefaqs, maxroll, wikipedia, pcgamesn, xbox wire and others). Every fact here comes from web-search result snippets, so wording should be spot-checked in game or on a wiki before final copy.",
+   "The user's 'nuts': Esquie's lost items are magic ROCKS / stones named Florrie, Dorrie, Urrie and Soarrie. Nothing in the game is called 'nuts'.",
+   "Who held Soarrie before Verso is not established. Sources only say Verso had already recovered it and reveals this at the top of the Monolith (end of Act II). One source says flying unlocks 'at the start of Act III'.",
+   "Dorrie is found by Sciel in Old Lumière, not taken from a rival, according to one fandom snippet plus guides saying coral-breaking unlocks after Old Lumière. Medium confidence.",
+   "Urrie: sources disagree on whether the hint comes at relationship level 5 or 6. They agree that you beat François again at Esquie's Nest and that returning it gives level 6 / diving.",
+   "Florrie: Esquie 'supposedly' says François stole it. It may be a comic misunderstanding rather than a real theft.",
+   "Gommage mechanics: early or marketing framing says the Paintress causes it. Late-game sources say the real Renoir's power does the erasing and Aline's number is a warning or countdown. Treat it as 'the Paintress paints the number; Renoir is behind the erasing' and avoid over-specifying.",
+   "There are two Renoirs. The painted Renoir (white-haired old man) is the Act I–II antagonist, kills Gustave and is erased at the Monolith. The real Renoir is the Curator and the Act III final boss. Some summaries mix them up.",
+   "There are two Cleas. The real Clea (eldest daughter, war with the Writers, sends Alicia in) and the painted Clea (repainted by the real Clea, makes Nevrons, Flying Manor superboss).",
+   "Gustave's exact death location: sources agree it is the end of Act I, on a beach ambush by painted Renoir after the Act I areas. Stone Wave Cliffs is the last listed Act I area, but the precise map spot is not confirmed.",
+   "Lune's parents' expedition number was given once as 'Expedition 46'. It is unverified and omitted above.",
+   "The beach massacre minions are called 'Noirs' / 'Noir Nevrons' by one source only. The landing beach may be the 'Dark Shores' area (unconfirmed).",
+   "Verso's Drafts placement is described both as 'next to / east of Lumière' and 'in the southern Continent'.",
+   "The 'Creation' boss's exact area and the 'Painted Love' fight (one source says the Curator and the Paintress together) are unverified and left out of detail.",
+   "Root Homeland expansion: the physical edition lists Q3 2026 and adds the Lilypad Diaspora, Twilight Council and Knaves of the Deepwood. I found no confirmed Root digital release, so assume it is unavailable for the mod.",
+   "Voice-actor names surfaced in searches but are deliberately not used. Barks must be original writing and not imitate any actor."
+  ],
+  "sources": [
+   "https://clair-obscur.fandom.com/wiki/Esquie",
+   "https://expedition33.wiki.fextralife.com/Esquie",
+   "https://maxroll.gg/clair-obscur-expedition-33/guides/how-to-unlock-diving-and-esquies-other-abilities",
+   "https://gamerant.com/clair-obscur-expedition-33-how-unlock-all-esquie-abilities/",
+   "https://vgtimes.com/guides/125690-clair-obscur-expedition-33-how-to-unlock-swimming-flying-and-all-esquies-powers.html",
+   "https://hardcoregamer.com/clair-obscur-expedition-33-underwater-diving/",
+   "https://deltiasgaming.com/?p=215588",
+   "https://dotgg.gg/clair-obscur-expedition-33-to-stone-wave-cliffs-walkthrough/",
+   "https://automaton-media.com/en/news/clair-obscur-expedition-33-actor-reveals-a-not-so-surprising-secret-behind-francois-the-turtles-motion-capture-performance/",
+   "https://www.thegamer.com/clair-obscur-expedition-33-we-want-more-characters-like-esquie/",
+   "https://clair-obscur.fandom.com/wiki/Gustave",
+   "https://clair-obscur.fandom.com/wiki/Emma",
+   "https://x.com/nolaklop/status/1915488225155502106",
+   "https://clairobscur.wiki.gg/wiki/Sciel",
+   "https://expedition33.wiki.fextralife.com/Sciel",
+   "https://clair-obscur.fandom.com/wiki/Lune",
+   "https://kotaku.com/clair-obscur-expedition-33-lune-stains-skills-burn-1851778480",
+   "https://x.com/expedition33/status/1904215353510461892",
+   "https://clair-obscur.fandom.com/wiki/Maelle",
+   "https://clair-obscur.fandom.com/wiki/Alicia",
+   "https://clairobscur.wiki.gg/wiki/Monoco",
+   "https://finalboss.io/clair-obscur-expedition-33-monoco-guide-skills-masks-and-builds",
+   "https://expedition33.wiki.fextralife.com/Perfection",
+   "https://kotaku.com/clair-obscur-expedition-33-verso-perfection-letters-1851781828",
+   "https://clairobscur.wiki.gg/wiki/Verso",
+   "https://clair-obscur.fandom.com/wiki/Verso",
+   "https://clair-obscur.fandom.com/wiki/Aline_Dessendre",
+   "https://clair-obscur.fandom.com/wiki/Renoir",
+   "https://clair-obscur.fandom.com/wiki/Renoir_Dessendre",
+   "https://villains.fandom.com/wiki/The_Curator",
+   "https://gamerant.com/clair-obscur-expedition-33-renoir-curator-hero-character-analysis/",
+   "https://www.thegamer.com/clair-obscur-expedition-33-gommage-explained/",
+   "https://clairobscur.wiki.gg/wiki/Clair_Obscur:_Expedition_33_timeline",
+   "https://clair-obscur.fandom.com/wiki/Clea",
+   "https://clairobscur.wiki.gg/wiki/Clea",
+   "https://clair-obscur.fandom.com/wiki/Dessendre_family",
+   "https://villains.fandom.com/wiki/Simon_(Clair_Obscur:_Expedition_33)",
+   "https://clair-obscur.fandom.com/wiki/Expedition_Zero",
+   "https://clair-obscur.fandom.com/wiki/Julie",
+   "https://clairobscur.wiki.gg/wiki/Gestrals",
+   "https://deltiasgaming.com/?p=213982",
+   "https://clairobscur.wiki.gg/wiki/Nevron",
+   "https://clair-obscur.fandom.com/wiki/Axons",
+   "https://www.pcgamesn.com/clair-obscur-expedition-33/mime",
+   "https://automaton-media.com/en/news/clair-obscur-expedition-33-how-to-defeat-petanks/",
+   "https://game8.co/games/Clair-Obscur-Expedition-33/archives/513923",
+   "https://game8.co/games/Clair-Obscur-Expedition-33/archives/515665",
+   "https://game8.co/games/Clair-Obscur-Expedition-33/archives/516263",
+   "https://expedition33.wiki.fextralife.com/Locations",
+   "https://www.dbltap.com/guides/clair-obscur-expedition-33-act-3-all-areas",
+   "https://expedition33.wiki.fextralife.com/Endless_Tower",
+   "https://game8.co/games/Clair-Obscur-Expedition-33/archives/519074",
+   "https://www.destructoid.com/clair-obscur-expedition-33-ending-explained/",
+   "https://www.gamesradar.com/games/rpg/clair-obscur-expedition-33-endings-and-story-explained-from-doppelgangers-to-the-true-purpose-of-the-gommage/",
+   "https://www.sportskeeda.com/esports/clair-obscur-expedition-33-endings-explained",
+   "https://expedition33.wiki.fextralife.com/Thank_You_Update",
+   "https://news.xbox.com/en-us/2025/12/11/clair-obscur-expedition-33-versos-drafts/",
+   "https://www.pcgamesn.com/clair-obscur-expedition-33/thank-you-update-versos-drafts",
+   "https://www.psu.com/news/clair-obscur-expedition-33-update-1-5-0-brings-versos-drafts-location-new-costumes-full-patch-notes-listed/",
+   "https://gamerant.com/all-versos-drafts-bosses-e33-clair-obscur-expedition-33/",
+   "https://expedition33.wiki.fextralife.com/Root_of_All_Evil",
+   "https://expedition33.wiki.fextralife.com/Osquio",
+   "https://gamerant.com/clair-obscur-expedition-33-e33-how-beat-osquio-tips-location-reward/",
+   "https://www.lootbar.com/blog/en/expedition-33-all-outfits-and-haircuts-guide.html",
+   "https://news.direwolfdigital.com/hirelings-landmarks-is-now-available/",
+   "https://steampulse.org/dlc/3874110",
+   "https://ledergames.com/products/root-the-homeland-expansion"
+  ]
+ },
+ "root": {
+  "factions": [
+   {
+    "name": "Marquise de Cat",
+    "expansion": "Base game (no DLC needed)",
+    "engine": "Pieces: 25 cat warriors, 6 sawmills, 6 workshops, 6 recruiters, 8 wood tokens, 1 keep token. Setup: the keep goes in a corner clearing, with 1 warrior in every clearing except the one diagonally opposite. One sawmill, one workshop and one recruiter start in or next to the keep, and 5 of each building stay on the faction-board tracks. Birdsong: place 1 wood at each sawmill. Daylight: craft using workshops, then up to 3 actions: Battle, March (2 moves), Recruit (1 warrior at each recruiter, once per turn), Build (pay wood from connected clearings she rules; the cost rises as each track empties) and Overwork (spend a card that matches a sawmill clearing to add wood). Each bird card spent buys one extra action. Evening: draw 1 card, plus bonus draws uncovered on the recruiter track. Keep: only the Marquise can place pieces in the keep clearing. Field Hospitals: when her warriors are removed, she may spend a card that matches their clearing to return them to the keep.",
+    "how_it_scores": "Scores VP each time she builds. The VP printed under the slot uncovered on that building's track rises as more of that type are built. She also scores normally for crafting item cards and for removing enemy buildings and tokens (1 VP each, a universal rule).",
+    "board_state_it_creates": "Number and position of sawmills, workshops and recruiters; wood tokens per clearing; keep token location (a corner clearing); cat warriors in every clearing; which clearings she rules (most warriors plus buildings). These make a good 'industry or occupation' check, e.g. 'have X buildings in clearings of every suit'.",
+    "digital_bot_available": "Yes. The built-in Dire Wolf AI plays it, and the Clockwork 'Mechanical Marquise 2.0' bot comes in the Clockwork Expansion DLC."
+   },
+   {
+    "name": "Eyrie Dynasties",
+    "expansion": "Base game",
+    "engine": "Pieces: 20 bird warriors, 7 roosts, 4 leader cards (Builder, Charismatic, Commander, Despot), 2 Loyal Vizier cards. The Decree has 4 columns: Recruit, Move, Battle, Build. Birdsong: add 1-2 cards to the Decree (at most one bird), and place a new roost if none is on the map. Daylight: craft with roosts, then resolve every Decree card left to right; each action must happen in a clearing that matches the card's suit (birds are wild). If any card cannot be resolved, Turmoil follows: lose VP equal to the bird cards in the Decree, discard the Decree except the viziers, depose the leader, choose a new one, and Daylight ends. Lords of the Forest: the Eyrie rule clearings they tie for. Disdain for Trade: crafted items give only 1 VP.",
+    "how_it_scores": "Each Evening, scores VP from the roost track by how many roosts are on the map (from memory roughly 0,1,2,3,4,4,5; not verified). Also scores by removing enemy buildings and tokens. Turmoil costs VP.",
+    "board_state_it_creates": "Roost count and positions, warriors per clearing, Decree length and current leader (card state), clearings ruled, including tied ones. Natural 'spread across N clearings' and 'hold corners' checks.",
+    "digital_bot_available": "Yes. The built-in AI plays it, and the Clockwork 'Electric Eyrie' bot comes in the Clockwork Expansion DLC."
+   },
+   {
+    "name": "Woodland Alliance",
+    "expansion": "Base game",
+    "engine": "Pieces: 10 warriors, 3 bases (fox, rabbit, mouse), 10 sympathy tokens. A Supporters stack of cards is capped at 5 while no base is on the map. Birdsong: Revolt (spend 2 supporters that match a sympathetic clearing: remove all enemy pieces there, place the matching base and warriors, gain an officer) and Spread Sympathy (spend supporters that match the target clearing; the cost rises as the track fills, plus extra under Martial Law). Daylight: craft using sympathy, Mobilize (a card goes to supporters), Train (spend a card that matches a base to gain an officer). Evening: Military Operations, one per officer: Move, Battle, Recruit at a base, Organize (remove a warrior to place sympathy). Outrage: anyone who removes sympathy or moves into a sympathetic clearing must give the Alliance a matching card. Guerrilla War: as defender, the Alliance uses the higher die. Losing a base discards that suit's supporters and half the officers.",
+    "how_it_scores": "Scores the VP printed on the sympathy track each time a sympathy token is placed (more tokens on the map means bigger payouts). It also scores for crafting and for removing enemy buildings and tokens, including through revolts.",
+    "board_state_it_creates": "Sympathy tokens per clearing (count and suits), bases on the map, officers, warriors. Ideal for 'win the hearts of N clearings' or 'revolt in every suit' checks.",
+    "digital_bot_available": "Yes. The built-in AI plays it, and the Clockwork 'Automated Alliance' bot comes in the Clockwork Expansion DLC."
+   },
+   {
+    "name": "Vagabond",
+    "expansion": "Base game (Thief, Tinker, Ranger). The Riverfolk DLC adds 3 characters and support for a second Vagabond; Exiles & Partisans & Vagabonds adds 3 more.",
+    "engine": "One pawn, which is not a warrior and cannot rule. Items sit on the character card and are exhausted or damaged as they are used. A relationship track for each non-Vagabond faction runs Indifferent, Amiable, Friendly, Allied, or the faction becomes Hostile. Quest cards are kept face up. Birdsong: refresh 3 items plus 2 per tea, and Slip to an adjacent clearing or forest. Daylight actions are paid by exhausting items: Move (boots, plus an extra boot when entering a hostile faction's clearing), Battle (sword; max hits = undamaged swords), Explore (torch: take the ruin item, +1 VP), Aid (any item plus a matching card given to a faction in the clearing; may take an item that faction crafted), Quest (exhaust the 2 items shown), Strike (crossbow: remove one piece), Repair (hammer), Craft (hammers), and a Special action (character-specific, usually costs a torch). Evening: repair everything if in a forest, draw 1 card plus 1 per coin, discard down to 5. Item capacity is 6 plus 2 per bag. Nimble: moves regardless of rule.",
+    "how_it_scores": "Raising relationships (VP printed on the track); each aid to an Allied faction (2 VP); quests (1 VP per quest of that suit completed so far, or draw 2 cards instead); exploring ruins (1 VP); crafting items; Infamy (an extra VP per piece of a Hostile faction removed in battle). It cannot win by dominance alone and forms a coalition instead (see alternative wins).",
+    "board_state_it_creates": "Pawn location (clearing or forest); item list with exhausted and damaged states; relationship level with each faction; completed quests by suit; ruins explored. Very readable for 'collect specific items or quest tokens across regions' goals and the best host for item-collection wins.",
+    "digital_bot_available": "Yes. The built-in AI plays the Vagabond, and the Clockwork 'Vagabot' comes in the Clockwork Expansion DLC."
+   },
+   {
+    "name": "Riverfolk Company",
+    "expansion": "The Riverfolk Expansion DLC (digital release Apr 28 2021)",
+    "engine": "Pieces: 15 otter warriors, 9 trade posts (3 per suit). The hand is kept face up. Payments, Funds and Committed boxes hold warriors used as currency. Swimmers: rivers count as paths for them, and they ignore rule when moving along rivers. Services that other players buy with their own warriors: Hand Card, Riverboats (rivers as paths), Mercenaries (rent Riverfolk warriors for rule and battle). A player may buy 1 service, plus 1 more per trade-post clearing where they have pieces; the Riverfolk set prices each Evening. Birdsong: Protectionism (if Payments is empty, add 2), Dividends, and collecting payments into Funds. Daylight: spend or commit funds to Move, Battle, Draw, Recruit, Establish a trade post at a river clearing, or craft by committing funds to the trade-post tracks.",
+    "how_it_scores": "VP when placing trade posts (printed on the trade-post tracks); Dividends of 1 VP per 2 funds in Birdsong while any trade post is on the map; crafting; removing enemy pieces. Losing a trade post also loses funds.",
+    "board_state_it_creates": "Trade posts per clearing (all at river clearings), funds count, warriors along the river, which services others bought. Good for 'control the river or trade' goals.",
+    "digital_bot_available": "Probably, through the built-in AI (unconfirmed per faction). The Clockwork 'Riverfolk Robots' bot is physical Clockwork 2 only, with no evidence of a digital release."
+   },
+   {
+    "name": "Lizard Cult",
+    "expansion": "The Riverfolk Expansion DLC",
+    "engine": "Pieces: 25 lizard warriors, 15 gardens (5 per suit), an Acolytes box, a Lost Souls pile and an Outcast marker (Outcast or Hated Outcast). Pilgrims: the Cult rules any clearing that has a garden. Lost Souls: cards discarded by other players feed this pile, and its most common suit becomes the Outcast suit. Conspiracies cost acolytes and are done in clearings of the Outcast suit: Crusade (2), Convert (2: an enemy warrior becomes a Lizard), Sanctify (3: an enemy building becomes a garden). Daylight Rituals are paid by revealing cards: Build a garden in a ruled clearing of matching suit, Recruit, Score (sacrifice a card of a suit to score that suit's garden-track value) and Sacrifice (bird card gives an acolyte). Acolytes are gained when Lizard warriors are removed while defending. Gardens are its crafting pieces.",
+    "how_it_scores": "Mainly the Score ritual: sacrifice a card of a suit to gain VP from that suit's garden track, which pays more the more gardens of that suit are on the map. Also crafting and removing enemy pieces.",
+    "board_state_it_creates": "Gardens by suit and clearing, warriors, the Outcast suit, acolyte count, the Lost Souls pile. Great for 'convert or spread a doctrine through N clearings' goals.",
+    "digital_bot_available": "Probably, through the built-in AI (unconfirmed per faction). The Clockwork 'Logical Lizards' bot is physical only."
+   },
+   {
+    "name": "Underground Duchy",
+    "expansion": "The Underworld Expansion DLC (digital release Mar 30 2023)",
+    "engine": "Pieces: 20 mole warriors, 3 tunnel tokens, 3 citadels, 3 markets, 9 minister cards (3 squires, 3 nobles, 3 lords) with crowns. The Burrow is an off-map, unsuited clearing the Duchy always rules, adjacent to every clearing with a tunnel; other factions cannot enter it. Birdsong: recruit into the Burrow. Daylight: Assemble actions (Build a citadel or market by revealing matching cards, Recruit, Move, Battle, Dig a tunnel to send warriors out of the Burrow), then Parliament (take the actions of swayed ministers). Evening: Sway a minister by revealing cards that match clearings where the Duchy has pieces (higher rank needs more cards), return revealed cards, craft by activating citadels and markets. Price of Failure: whenever Duchy buildings are removed, the highest-ranked swayed minister returns, its crown is removed permanently, and a random card is discarded.",
+    "how_it_scores": "Swaying ministers scores VP (higher ranks score more; exact crown values unverified). Also crafting and removing enemy pieces. Lost buildings permanently lose crowns.",
+    "board_state_it_creates": "Tunnel positions, citadels and markets, warriors in the Burrow versus on the map, swayed ministers (card state). Natural for 'dig out in N regions' or 'emerge from below' goals.",
+    "digital_bot_available": "Probably, through the built-in AI (unconfirmed per faction). The Clockwork 'Drillbit Duchy' bot is physical only."
+   },
+   {
+    "name": "Corvid Conspiracy",
+    "expansion": "The Underworld Expansion DLC",
+    "engine": "Pieces: 15 crow warriors, 8 plot tokens (2 each of Bomb, Snare, Extortion, Raid) placed face down. Plot: remove warriors to place a face-down plot; each extra plot in the same turn costs more. Trick: swap two plots. Recruit: place a warrior in every clearing of a card's suit. Plus Move and Battle. Flip: reveal a plot in a clearing that has a Corvid warrior. Effects: Bomb removes all enemy pieces, then itself; Snare blocks enemies from placing pieces in or moving out of the clearing; Extortion steals cards; Raid places warriors in adjacent clearings when removed. Embedded Agents: an extra hit when defending with a face-down plot. Exposure: an enemy in the clearing may show a matching card and guess the plot; a correct guess removes it for 1 VP, a wrong guess gives the card to the Corvids. Nimble.",
+    "how_it_scores": "Each flipped plot scores 1 VP per face-up plot token on the map, then its effect resolves. Also crafting and removing enemy pieces.",
+    "board_state_it_creates": "Plot tokens (face up or down, type, clearing), warriors spread thin across many clearings. Good for 'secret schemes in N places' or 'reveal schemes' goals.",
+    "digital_bot_available": "Probably, through the built-in AI (unconfirmed per faction). The Clockwork 'Cogwheel Corvids' bot is physical only."
+   },
+   {
+    "name": "Lord of the Hundreds",
+    "expansion": "The Marauder Expansion DLC (digital release Jan 14 2025)",
+    "engine": "Pieces: 20 rat warriors, 1 Warlord pawn, 6 strongholds, 5 mob tokens, 8 Mood cards. The Hoard has a Command track and a Prowess track, filled by items the Hundreds gain; items they cannot store are removed for 1 VP. A mood is chosen each turn and gives an ability, but moods matching hoarded items become unavailable. Command actions (number set by the Command track) are Move, Battle and Build stronghold. Advance: the Warlord moves and battles (number set by Prowess). Mobs are placed by inciting and spread; they destroy enemy buildings and tokens and raid ruins for items. If the Warlord is removed, a warrior is anointed to replace him. The Warlord can loot items in battle (exact rule unverified).",
+    "how_it_scores": "Oppress in Evening: count clearings they rule that hold a Hundreds piece and no enemy pieces at all: 1-2 clearings = 1 VP, 3-4 = 2, 5 = 3, 6+ = 4 (from search snippet of Law of Root). Plus 1 VP per removed overflow hoard item, removing enemy pieces and crafting.",
+    "board_state_it_creates": "Strongholds, mob tokens, Warlord location, 'pure' clearings with no enemies, Hoard items. Best host for 'conquer or terrorize N regions' or 'boss' goals.",
+    "digital_bot_available": "Probably, through the built-in AI (unconfirmed per faction). No Clockwork bot exists for it."
+   },
+   {
+    "name": "Keepers in Iron",
+    "expansion": "The Marauder Expansion DLC",
+    "engine": "Pieces: about 15 badger warriors (count unverified), 3 two-sided waystations (each shows one relic type per side), 12 relic tokens (4 each of figures, tablets, jewelry) with hidden values of 1-3 that start in forests. The Retinue is a set of cards in 3 columns (roughly Move / Battle-then-Delve / Move-or-Recover), resolved like the Eyrie Decree with suit matching; birds are wild. Delve takes a relic from an adjacent forest; Recover is done at a waystation of the relic's type and scores it, but may cost the Retinue card used. Devout Knights: in a clearing with a relic and a Keeper warrior, they ignore the first hit, and each moving warrior can carry one relic. Prized Trophies: an enemy that removes a relic puts it face up in a forest and scores 2 VP total.",
+    "how_it_scores": "Recovering a relic scores its value (1-3), plus 2 VP for completing a set of the three relic types (exact set rule unverified). Also crafting and removing enemy pieces.",
+    "board_state_it_creates": "Relics in forests versus clearings (with types), recovered relics by type, waystation positions and faces, warriors. This is the closest native match to 'collect lost things across regions'.",
+    "digital_bot_available": "Probably, through the built-in AI (unconfirmed per faction). No Clockwork bot exists for it."
+   },
+   {
+    "name": "Homeland factions: Lilypad Diaspora, Twilight Council, Knaves of the Deepwood (NOT in Root Digital)",
+    "expansion": "Root: The Homeland Expansion, physical only (Leder Games; BGG lists 2026, retail around Aug 2026). No digital release or announcement found as of Oct 2026.",
+    "engine": "Not usable by a Root Digital mod. Physical flavor only: Lilypad Diaspora are returning exiles; Twilight Council are nocturnal politicians running assemblies; Knaves of the Deepwood play three Vagabond pawns plus skunk meeples and take hostages for ransom. It also adds the Marsh and Gorge maps and a Homeland hireling pack.",
+    "how_it_scores": "Not applicable to the digital game.",
+    "board_state_it_creates": "None in the digital game. Do not design rows that depend on these.",
+    "digital_bot_available": "No, not in the digital game."
+   }
+  ],
+  "vagabond_characters": [
+   {
+    "name": "Thief",
+    "expansion": "Base game",
+    "special_action": "Steal: exhaust a torch to take a random card from a player who has pieces in your clearing.",
+    "starting_items": "Boots, Torch, Tea, Sword"
+   },
+   {
+    "name": "Tinker",
+    "expansion": "Base game",
+    "special_action": "Day Labor: exhaust a torch to take a card from the discard pile whose suit matches your clearing.",
+    "starting_items": "Boots, Torch, Bag (satchel/sack), Hammer"
+   },
+   {
+    "name": "Ranger",
+    "expansion": "Base game",
+    "special_action": "Hideout: exhaust a torch to repair 3 damaged items.",
+    "starting_items": "Boots, Torch, Crossbow, Sword"
+   },
+   {
+    "name": "Vagrant",
+    "expansion": "The Riverfolk Expansion DLC",
+    "special_action": "Instigate: exhaust a torch to make one player battle another player in your clearing.",
+    "starting_items": "Coins, Torch, Boots"
+   },
+   {
+    "name": "Scoundrel",
+    "expansion": "The Riverfolk Expansion DLC",
+    "special_action": "Scorched Earth: exhaust the torch (it stays in the clearing) to remove all enemy pieces in your clearing; nothing may be placed there afterwards (from memory, not re-verified this session).",
+    "starting_items": "Boots, Boots, Torch, Crossbow"
+   },
+   {
+    "name": "Arbiter",
+    "expansion": "The Riverfolk Expansion DLC",
+    "special_action": "Protector: before the roll, a defender in the Arbiter's clearing may enlist him; the Arbiter scores 1 VP and adds his undamaged swords to the defender's maximum hits.",
+    "starting_items": "Boots, Torch, Sword, Sword"
+   },
+   {
+    "name": "Adventurer",
+    "expansion": "Exiles & Partisans & Vagabonds DLC (digital release May 3 2022; tabletop Vagabond Pack)",
+    "special_action": "Improvise: once per turn while questing, treat one unexhausted item as any other item; that item is also damaged when exhausted for the quest.",
+    "starting_items": "Boots, Torch, Hammer"
+   },
+   {
+    "name": "Ronin",
+    "expansion": "Exiles & Partisans & Vagabonds DLC",
+    "special_action": "Swift Strike: in battle, after rolling, exhaust a sword to deal an extra hit.",
+    "starting_items": "Boots, Boots, Torch, Sword"
+   },
+   {
+    "name": "Harrier",
+    "expansion": "Exiles & Partisans & Vagabonds DLC",
+    "special_action": "Glide: exhaust a torch to move only your pawn to any clearing on the map (even a Hostile one), ignoring paths and without exhausting boots.",
+    "starting_items": "Coins, Torch, Sword, Crossbow"
+   }
+  ],
+  "hirelings": [
+   {
+    "name": "(General hireling rules as implemented in Root Digital)",
+    "expansion": "Root: Hirelings & Landmarks DLC (Steam app 3874110, released Oct 20 2025, $9.99; Steam and mobile, Switch later)",
+    "effect": "Exactly 3 random hirelings join a game. With 2 players all 3 are Promoted; each player beyond the second turns one into its Demoted form (digital is capped at 4 players, so at most 2 are Demoted). Hirelings start uncontrolled. The first player to reach 4 VP picks a hireling first, then 8 VP and 12 VP pick the next two. On gaining one, the player rolls the control die and places that many control markers; the leader (or anyone tied for the lead) counts only the gold pips, so leaders keep hirelings for less time. At the end of each turn one marker is removed; with none left, the hireling passes to another player. Promoted hirelings have board pieces and a once-per-Daylight action; Demoted ones grant a mostly passive ability. There are 13 pairs: one per digital faction plus 3 neutral."
+   },
+   {
+    "name": "Forest Patrol (Promoted) / Feline Physicians (Demoted)",
+    "expansion": "Hirelings & Landmarks DLC (tabletop: Marauder Hirelings Pack). Marquise-aligned.",
+    "effect": "Promoted: cat warriors spread across the map; removed ones return to the card. Once per turn the controller may battle with them or bring all patrol warriors to a clearing that already has one. Demoted: gives the controller the Marquise's Field Hospitals (spend a card to bring removed warriors back)."
+   },
+   {
+    "name": "Last Dynasty (Promoted) / Bluebird Nobles (Demoted)",
+    "expansion": "Hirelings & Landmarks DLC (tabletop: Marauder Hirelings Pack). Eyrie-aligned.",
+    "effect": "Promoted: the last Eyrie regiment, bird warriors the controller moves and battles with (exact action unverified). Demoted: the controller gains Lords of the Forest (wins ties for rule) and scores VP for clearings ruled (reported as 1 VP per 3; unverified)."
+   },
+   {
+    "name": "Spring Uprising (Promoted) / Rabbit Scouts (Demoted)",
+    "expansion": "Hirelings & Landmarks DLC (tabletop: Marauder Hirelings Pack). Alliance-aligned.",
+    "effect": "Promoted: uprisings place rabbit warriors in clearings picked by a die roll; the controller influences where they break out or disbands one. Demoted: the controller gets Guerrilla War (as defender, deals hits equal to the higher roll)."
+   },
+   {
+    "name": "The Exile (Promoted) / The Brigand (Demoted)",
+    "expansion": "Hirelings & Landmarks DLC (tabletop: Marauder Hirelings Pack). Vagabond-aligned.",
+    "effect": "Promoted: a bear pawn that roams the forests (not clearings) as the controller directs and battles enemies in adjacent clearings. Demoted: the Brigand, a stealing ability (exact rule unverified)."
+   },
+   {
+    "name": "Riverfolk Flotilla (Promoted) / Otter Divers (Demoted)",
+    "expansion": "Hirelings & Landmarks DLC (tabletop: Riverfolk Hirelings Pack). Riverfolk-aligned.",
+    "effect": "Promoted: a boat that travels along the river, gives a card to players at its location, and can move and battle for its controller. Demoted: the controller ignores rule when moving to or from river clearings."
+   },
+   {
+    "name": "Warm Sun Prophets (Promoted) / Lizard Envoys (Demoted)",
+    "expansion": "Hirelings & Landmarks DLC (tabletop: Riverfolk Hirelings Pack). Lizard-aligned.",
+    "effect": "Promoted: places lizard warriors that can force enemy movement and battles. Demoted: the controller may search the top 5 cards of the discard pile."
+   },
+   {
+    "name": "Sunward Expedition (Promoted) / Mole Artisans (Demoted)",
+    "expansion": "Hirelings & Landmarks DLC (tabletop: Underworld Hirelings Pack). Duchy-aligned.",
+    "effect": "Promoted: 'strike from the deep', mole warriors emerging onto the map (exact mechanics unverified). Demoted: 'preserve your crafts', a crafting-related passive (unverified)."
+   },
+   {
+    "name": "Corvid Spies (Promoted) / Raven Sentinels (Demoted)",
+    "expansion": "Hirelings & Landmarks DLC (tabletop: Underworld Hirelings Pack). Corvid-aligned.",
+    "effect": "Promoted: places Spy warriors in clearings; the controller can battle there or steal cards from enemy hands. Demoted: 'defend your assets', a defensive passive (unverified)."
+   },
+   {
+    "name": "Flame Bearers (Promoted) / Rat Smugglers (Demoted)",
+    "expansion": "Hirelings & Landmarks DLC (tabletop: Marauder Expansion). Hundreds-aligned.",
+    "effect": "Promoted: 'burn it all down', fire that destroys pieces in clearings (exact mechanics unverified). Demoted: 'dispatch special orders' (unverified)."
+   },
+   {
+    "name": "Vault Keepers (Promoted) / Badger Bodyguards (Demoted)",
+    "expansion": "Hirelings & Landmarks DLC (tabletop: Marauder Expansion). Keepers-aligned.",
+    "effect": "Promoted: places vaults in clearings that keep being reinforced with badger warriors who battle intruders; they can turn on the previous controller once someone else hires them. Demoted: 'shield yourself from harm', a protective passive (unverified)."
+   },
+   {
+    "name": "Highway Bandits (Promoted) / Bandit Gangs (Demoted)",
+    "expansion": "Hirelings & Landmarks DLC (tabletop: Riverfolk Hirelings Pack). Neutral.",
+    "effect": "Promoted: bandits sit on paths; anyone moving along a bandit path loses a piece, but the controller gains a warrior instead. Demoted: the controller adds their own warriors where the bandits are."
+   },
+   {
+    "name": "Furious Protector (Promoted) / Stoic Protector (Demoted)",
+    "expansion": "Hirelings & Landmarks DLC (tabletop: Underworld Hirelings Pack). Neutral.",
+    "effect": "Promoted: 'cut down your foes', a protector piece that battles for the controller (details unverified). Demoted: in the protector's clearing, enemies cannot battle or remove the controller's pieces."
+   },
+   {
+    "name": "Popular Band (Promoted) / Street Band (Demoted)",
+    "expansion": "Hirelings & Landmarks DLC (tabletop: Marauder Expansion). Neutral.",
+    "effect": "Promoted: a touring band that can force enemy movement, and enemies cannot move through its clearings. Demoted: keeps only the movement-blocking part (a BGG thread suggests it gets weaker as the game goes on)."
+   }
+  ],
+  "landmarks": [
+   {
+    "name": "Black Market",
+    "expansion": "Hirelings & Landmarks DLC (tabletop Landmarks Pack)",
+    "effect": "Lets players exchange a card from hand for one of 3 cards set aside at the landmark, sight unseen. Exact timing and cost unverified."
+   },
+   {
+    "name": "Lost City",
+    "expansion": "Hirelings & Landmarks DLC (tabletop Landmarks Pack)",
+    "effect": "Its clearing counts as fox, rabbit and mouse at once (a wild-suit clearing), so it counts toward any suit check, including dominance."
+   },
+   {
+    "name": "Legendary Forge",
+    "expansion": "Hirelings & Landmarks DLC (tabletop Landmarks Pack)",
+    "effect": "Gives extra benefits when crafting at its clearing ('craft a masterwork'). Exact rule unverified."
+   },
+   {
+    "name": "Elder Treetop",
+    "expansion": "Hirelings & Landmarks DLC (tabletop Landmarks Pack)",
+    "effect": "Goes in a corner clearing and adds an extra building slot there. Removing an enemy building from that clearing scores 1 extra VP."
+   },
+   {
+    "name": "Ferry",
+    "expansion": "Native to the Lake map (Underworld DLC). Reported usable on other maps with Hirelings & Landmarks (unverified).",
+    "effect": "Once per turn, pieces moving out of the Ferry's coastal clearing may cross the lake to another coastal clearing; the Ferry moves with them, and the moving player draws 1 card."
+   },
+   {
+    "name": "Tower",
+    "expansion": "Native to the Mountain map (Underworld DLC). Reported usable on other maps with Hirelings & Landmarks (unverified).",
+    "effect": "Its clearing becomes 'the Pass'. At the end of a player's Evening, if they rule the Pass, they score 1 VP."
+   },
+   {
+    "name": "(Landmark setup rule)",
+    "expansion": "Hirelings & Landmarks DLC",
+    "effect": "The group chooses to play with 1 or 2 landmarks and removes unwanted landmark cards. The rest are shuffled and the chosen number dealt; each card says where its piece goes. In digital this is a game-creation toggle. All 6 landmark cards (Black Market, Lost City, Legendary Forge, Elder Treetop, Ferry, Tower) appear in the tabletop pack."
+   }
+  ],
+  "maps": [
+   {
+    "name": "Autumn",
+    "expansion": "Base game",
+    "features": "12 clearings with fixed printed suits (4 fox, 4 rabbit, 4 mouse), joined by paths, with forests between them. A river runs through several clearings (it matters for Riverfolk, Otter Divers and Flotilla). There are 4 ruins on 'R' slots, each hiding an item. The 4 corner clearings are home sites (Marquise keep and Eyrie roost go in opposite corners; Bird dominance needs two opposite corners). Clearings have 1-3 building slots."
+   },
+   {
+    "name": "Winter",
+    "expansion": "Free update for Root Digital (no DLC)",
+    "features": "12 clearings on a different layout, back side of the Autumn board. Suits are assigned randomly at setup by shuffled suit markers. A 'Raging River' divides the forests the way printed paths do. Ruins sit in different places."
+   },
+   {
+    "name": "Lake",
+    "expansion": "The Underworld Expansion DLC",
+    "features": "12 clearings around a central lake that acts as a river linking every coastal clearing. The Ferry starts in a coastal corner clearing (see Ferry landmark). Suits are random via suit markers."
+   },
+   {
+    "name": "Mountain",
+    "expansion": "The Underworld Expansion DLC",
+    "features": "12 clearings. Six closed paths (landslide markers) mean their clearings are not adjacent. Once per turn in Daylight, a player with pieces at either end may spend a card to remove a closed path permanently and score 1 VP. The Tower sits in the central clearing ('the Pass'), worth 1 VP at the end of Evening to whoever rules it. Suits are random."
+   },
+   {
+    "name": "Marsh and Gorge (NOT in digital)",
+    "expansion": "Homeland Expansion, physical only",
+    "features": "No digital release found. Do not design around them."
+   }
+  ],
+  "items_and_ruins": "Item types: Boots, Bag (satchel/sack), Crossbow, Hammer, Sword, Tea, Coins, and Torch. The Torch belongs only to Vagabonds and cannot be crafted. Craftable items sit in a supply on the map (from memory: 2 boots, 2 bags, 1 crossbow, 1 hammer, 2 swords, 2 teas, 2 coins; not re-verified this session). Crafting an item card takes that item from the supply and scores the VP printed on the card (the Eyrie get only 1). Persistent-effect cards go to the crafter's play area instead. A faction crafts by activating its crafting pieces in clearings whose suits match the card cost: Marquise workshops, Eyrie roosts, Alliance sympathy, Riverfolk funds committed to trade posts, Lizard gardens, and Duchy citadels and markets in Evening. Vagabonds use hammers. Crafted items stay in the faction's crafted-items area, where a Vagabond can take one through Aid and the Hundreds can loot or hoard them. Ruins: 4 ruin chits sit on the 'R' slots of the Autumn map, and each hides a face-down ruin item (bag, boots, hammer, sword, per Law of Root). A ruin fills a building slot until emptied. A Vagabond explores by exhausting a torch, takes the item and scores 1 VP. Lord of the Hundreds mobs can raid ruins for items. The deck has 54 cards (fox, rabbit, mouse and bird suits; birds are wild for costs). It includes 4 dominance cards and 5 ambush cards (one each of fox, rabbit and mouse, plus two bird); ambush cards deal hits when played by a defender. The Exiles & Partisans & Vagabonds DLC adds an alternate 54-card Exiles and Partisans deck with new persistent powers. Mod-readable state: item supply contents, every faction's crafted items, Vagabond item states, ruin contents, Hoard items, and relics (Keepers). Items and relics are the cleanest native objects for 'collect lost things across regions' goals.",
+  "alternative_wins": "Standard win: the first player to reach 30 VP wins immediately. Dominance: four dominance cards exist, one each for fox, rabbit, mouse and bird. In Daylight, a player with at least 10 VP may activate one from hand. Their score marker comes off the track and they can no longer score VP. They win immediately if, at the start of their own Birdsong, they rule 3 clearings of that suit; for Bird dominance, they must rule 2 clearings in opposite corners. A dominance card can also be spent for its suit like a normal card. A discarded dominance card goes face up beside the map instead of the discard pile, and any player may take it by spending a card of matching suit (Law of Root). Coalition: a Vagabond cannot win by dominance. Activating a dominance card instead forms a coalition with the player who has the lowest score, and the Vagabond wins if that partner wins. Digital: dominance and coalitions are implemented, and some built-in Challenges require a dominance win. Mod note: a custom win check can reuse the same pattern (a VP threshold to unlock, a check at the start of Birdsong, a 'rule N clearings of a suit' predicate), which fits how Root already handles a second way to win. 'Rule' means having the most total warriors plus buildings in a clearing. Exceptions: Eyrie win ties, Lizard gardens always rule, and the Duchy always rules the Burrow.",
+  "digital_edition_modes": "Root (Dire Wolf Digital, Unity, Steam app 965580): Steam Early Access Aug 20 2020, full release Sep 24 2020. Also on Mac, iOS, Android and Nintendo Switch. Purchases unlock across platforms through a Dire Wolf account. Maximum 4 players (Dire Wolf said they have no plans for 5-6). Modes: solo against the built-in AI with 3 difficulty levels (exact level names not confirmed); local pass-and-play; online real-time or asynchronous cross-platform multiplayer, with password-protected games and AI to fill empty seats; Challenges (preset scenarios such as dominance-only wins or rivers as paths, more added by each DLC) with achievements; interactive tutorials for every faction; Advanced Setup (draft factions with setup buffs and balanced placement; creating such a game needs 6+ owned factions, but anyone can join one online). DLC and free content: (1) Winter Map, free update. (2) The Clockwork Expansion, about Nov 20 2020: Clockwork bots Mechanical Marquise 2.0, Electric Eyrie, Automated Alliance and Vagabot, presented as a customizable alternative to the normal AI, with 3 difficulty levels plus 1-4 traits each, and co-op play against bots. (3) The Riverfolk Expansion, Apr 28 2021: Riverfolk Company, Lizard Cult, Vagrant, Scoundrel, Arbiter, a second-Vagabond option, 6 challenges, AI improvements. (4) Exiles & Partisans & Vagabonds, May 3 2022, $7.99: the Exiles and Partisans deck plus Adventurer, Ronin and Harrier. (5) The Underworld Expansion, Mar 30 2023: Underground Duchy, Corvid Conspiracy, Lake and Mountain maps, Advanced Setup, challenges. (6) The Marauder Expansion, Jan 14 2025: Lord of the Hundreds, Keepers in Iron, tutorials, challenges and achievements; hirelings were not included at that point. (7) Hirelings & Landmarks, Oct 20 2025, $9.99, Steam app 3874110: 13 hireling pairs and the landmarks, plus 'tighter rules fidelity' and 'smarter opponents' in the same update; Switch version later. NOT found in digital: Clockwork Expansion 2 bots (Logical Lizards, Riverfolk Robots, Cogwheel Corvids, Drillbit Duchy) and the Homeland Expansion (factions or Marsh/Gorge maps). Base-game-only mod versions can rely on Marquise, Eyrie, Alliance, the Vagabond (Thief, Tinker, Ranger), the Autumn and Winter maps, dominance and coalitions, and the standard deck.",
+  "sources": [
+   "https://news.direwolfdigital.com/the-hirelings-landmarks-expansion-is-coming-soon-to-root-digital/",
+   "https://news.direwolfdigital.com/an-introduction-to-hirelings/",
+   "https://news.direwolfdigital.com/root-digital-meet-the-hirelings/",
+   "https://news.direwolfdigital.com/landmarks-in-root-digital/",
+   "https://news.direwolfdigital.com/hirelings-landmarks-is-now-available/",
+   "https://store.steampowered.com/app/3874110/Root_Hirelings__Landmarks/",
+   "https://steampulse.org/dlc/3874110",
+   "https://news.direwolfdigital.com/the-marauder-expansion-for-root-digital-is-now-available-on-steam",
+   "https://gamingtrend.com/news/the-marauder-expansion-is-now-available-for-root-digital/",
+   "https://www.pcgamesn.com/root/the-marauder-expansion",
+   "https://news.direwolfdigital.com/root-patch-1-32-3-the-marauder-expansion-patch",
+   "https://news.direwolfdigital.com/root-the-underworld-expansion-now-available",
+   "https://meeplesherald.com/news/dire-wolf-sets-root-the-underworld-release-date-to-march-30/",
+   "https://news.direwolfdigital.com/whats-new-in-the-riverfolk-expansion",
+   "https://news.direwolfdigital.com/riverfolk-now-available",
+   "https://news.direwolfdigital.com/root-exiles-partisans-vagabonds",
+   "https://www.pocketgamer.com/root/exiles-partisans-vagabonds-expansion-pack",
+   "https://www.nintendo.com/store/products/the-clockwork-expansion-70050000028386-switch",
+   "https://gg.deals/ca/dlc/root-the-clockwork-expansion/",
+   "https://ledergames.com/products/root-the-clockwork-expansion-2",
+   "https://news.direwolfdigital.com/root-now-in-early-access-on-steam",
+   "https://store.steampowered.com/app/965580/Root/",
+   "https://www.boardgamequest.com/root-digital-board-game-review/",
+   "https://en.wikipedia.org/wiki/Root_(board_game)",
+   "https://www.therootdatabase.com/law/hirelings/en/",
+   "https://www.therootdatabase.com/law/vagabonds/en/",
+   "https://therootdatabase.com/law/variant-maps/en",
+   "https://therootdatabase.com/law/maps/en",
+   "https://www.therootdatabase.com/law/victory/en/",
+   "https://therootdatabase.com/law/advanced-setup/en",
+   "https://www.therootdatabase.com/law/lord-of-the-hundreds/en/",
+   "https://www.therootdatabase.com/law/keepers-in-iron/en/",
+   "https://www.therootdatabase.com/law/underground-duchy/en/",
+   "https://www.therootdatabase.com/law/corvid-conspiracy/en/",
+   "https://therootdatabase.com/law/riverfolk-company/en",
+   "https://www.therootdatabase.com/law/the-lizard-cult/en/",
+   "https://www.therootdatabase.com/law/woodland-alliance/en/",
+   "https://www.therootdatabase.com/expansion/base-game/law/en/",
+   "https://www.therootdatabase.com/expansion/landmarks-pack/",
+   "https://ledergames.com/products/root-landmark-pack",
+   "https://ledergames.com/products/root-the-marauder-expansion",
+   "https://www.wargamer.com/root/expansion-marauder-reveal",
+   "https://www.geeksundergrace.com/tabletop/reviews-tabletop/review-root-the-marauder-expansion/",
+   "https://boardgamegeek.com/boardgame/336276/root-marauder-hirelings-pack-and-hireling-box",
+   "https://boardgamegeek.com/thread/2860103/street-band-hireling-useless-after-5-turns",
+   "https://boardgamegeek.com/boardgame/428335/root-the-homeland-expansion",
+   "https://icv2.com/articles/news/view/59533/leder-release-expansion-root",
+   "https://www.thefandomentals.com/root-the-homeland-expansion-interview/"
+  ],
+  "uncertainties": [
+   "Method: WebFetch was egress-blocked for every relevant domain (Dire Wolf news, Steam, steamdb, therootdatabase, root.fandom, ledergames), so all facts come from search-engine snippets plus model knowledge. Treat exact numbers as needing in-game confirmation.",
+   "Digital AI coverage: the built-in Dire Wolf AI almost certainly seats every faction you own (AI can fill online seats, and DLC notes mention AI improvements), but no source here confirmed per faction that Lizard, Riverfolk, Duchy, Corvid, Hundreds and Keepers each have an AI. The names of the 3 difficulty levels were not found.",
+   "Clockwork bots in digital: only the first Clockwork Expansion (Marquise, Eyrie, Alliance, Vagabot) has evidence of a digital release. The Nintendo store says 3 difficulty levels (the physical game has more). Clockwork Expansion 2 bots show no digital release.",
+   "DLC ownership for single-player: unclear whether a player who does not own a DLC can face AI opponents of that DLC's factions offline. For online Advanced Setup, non-owners can join. Assume the creator must own a DLC to use its factions, maps or hirelings.",
+   "Hireling effects not confirmed in detail: Last Dynasty, The Exile and The Brigand, Sunward Expedition and Mole Artisans, Raven Sentinels, Flame Bearers and Rat Smugglers, Badger Bodyguards, Furious Protector, Street Band. The Bluebird Nobles VP rate ('1 per 3 clearings') comes from a review snippet. Root Digital uses the newer control-die hireling rules (4/8/12 VP thresholds), not the original 2022 Marauder hireling rules.",
+   "Landmarks: exact rules for Black Market (timing, cost) and Legendary Forge (bonus) not confirmed. Reports that Ferry and Tower can be dealt onto any map in digital come from a search summary and are unverified. It is also unconfirmed whether all 6 landmark cards are in the digital deck, though all 6 are in the tabletop pack.",
+   "Faction numbers from memory and not re-verified: Marquise building-track and Eyrie roost-track VP values, the Alliance sympathy track, Duchy crown VP per minister rank, the Keepers warrior count and set-completion bonus (snippet says +2 per set of the three relic types), the Corvid Extortion effect, the Scoundrel's Scorched Earth wording, the Hundreds' looting rule, and which pieces the Hundreds, Keepers and Corvids craft with.",
+   "Item supply counts (2 boots, 2 bags, 1 crossbow, 1 hammer, 2 swords, 2 teas, 2 coins) and ruin items (bag, boots, hammer, sword) are from memory of Law of Root.",
+   "Map suits: whether Root Digital offers a random or balanced suit option on the Autumn map was not confirmed. Winter, Lake and Mountain use random suit markers in the tabletop rules, and digital probably does the same.",
+   "Homeland: physical release listed for 2026 (around Aug 2026). No Dire Wolf announcement of a digital Homeland was found as of Oct 2026, so treat it as unavailable.",
+   "Engine and modding: Root Digital is Unity, but it is not confirmed whether the Steam PC build is Mono or IL2CPP; that decides BepInEx 5 versus BepInEx 6 IL2CPP or MelonLoader. Check the install folder for GameAssembly.dll (IL2CPP) versus <Game>_Data/Managed/Assembly-CSharp.dll (Mono). Internal class names for board state (clearings, pieces, VP, items) are unknown and must be found by decompiling or with UnityExplorer.",
+   "The Oct 2025 Hirelings & Landmarks update promised 'tighter rules fidelity'. Later patches (Root Digital 2.x versions exist) may have changed details listed here."
+  ]
+ },
+ "lore_check": {
+  "verdict": "The roster is mostly accurate. I could only check through web-search snippets because every wiki fetch was blocked. Nothing is blocking. Four things need fixing before any player-facing text is written: (1) Florrie is in the wrong place; (2) the Paintress's portrait list includes a \"painted Alicia\" that the lore does not support; (3) Verso is called the lead of Act III, but Act III is Maelle's; (4) spoilers are not handled. Character names, row text and many barks from turn 1 give away the Act III reveals.\n\nConfirmed:\n- Combat signatures: Gustave's Overcharge (up to 10 charges in game), Lune's Stains, Sciel's Foretell/Sun/Moon/Twilight, Verso's Perfection D–S, Maelle's stances, Monoco's Bestial Wheel (Agile/Caster/Balanced/Heavy/Almighty) and Nevron feet.\n- Monoco is recruited at his Station by beating him in a duel, then the Stalact.\n- Rocks: François holds Urrie (relationship level 5 rematch, returning it gives level 6 and diving). Dorrie is in Old Lumière in Act II. Verso gives Esquie Soarrie during the Paintress fight at the Monolith.\n- Sciel's husband Pierre and the Aquafarm. Lune's parents were on Expedition 46.\n- Clea painted the Nevrons to drain Aline's chroma. The Curator is the real Renoir, trapped under the Monolith. The real Renoir does the erasing; Aline's number is a countdown.\n- Act titles are Gustave / Verso / Maelle. Osquio is Esquie's evil cousin. Expedition Flags are real E33 checkpoints, so Gustave's flags are a good fit.\n\nNone of the sample barks matched any game dialogue I could find, and the expedition motto is correctly never quoted. The two lore rewrites of the user's ideas hold up: Esquie's \"nuts\" are really four magic rocks, and the Paintress paints family portraits instead of copying herself. Two new lore facts support the design: as children Clea rode François while Verso rode Esquie (so Clea is the right owner of the François guards), and Esquie once saved Sciel from drowning.",
+  "issues": [
+   {
+    "character": "Esquie",
+    "problem": "Florrie is placed in Esquie's Nest guarded by 'François' warriors, and lore_basis says 'François the turtle holds Florrie in Act I'. In E33, Esquie claims François stole Florrie. The party beats François, but he hands over a different rock as a trick. The real Florrie is at Stone Wave Cliffs, recovered after the Lampmaster fight at the end of Act I. The fact sheet row for Florrie is also wrong.",
+    "severity": "major",
+    "fix": "Add a 'Stone Wave Cliffs' clearing tag 1–2 steps from the Nest. At setup, spawn Florrie there with 2 guard warriors reskinned as the Lampmaster. Optional Act I joke: a 1-guard François decoy at the Nest. Claiming it gives no rock, plays a 'That's not Florrie!' bark and points to the Cliffs. The bot plan skips the decoy; the Easy bot may fall for it. Keep François as Urrie's holder in Act III, which is correct. Rewrite lore_basis to say 'François fobs the party off with a fake Florrie in Act I and refuses to trade Urrie later; the real Florrie is at Stone Wave Cliffs.'"
+   },
+   {
+    "character": "The Paintress (Aline)",
+    "problem": "Her win lets her paint Verso, Clea, Renoir or Alicia, and says Maelle 'IS that painting' / 'Aline's repainting of Alicia' as a fourth family copy. No source shows a painted Alicia. Aline painted copies of Verso, Clea and Renoir. Maelle is the real Alicia, who entered the Canvas at Clea's request and was overwritten by Aline's chroma into a newborn in Lumière.",
+    "severity": "major",
+    "fix": "Use exactly three Portraits, one per suit: Verso, Clea and Renoir. Drop the Alicia option and the Maelle exclusion rule; this also simplifies the bot's site scoring. Correct lore_basis to say 'she painted copies of Verso, Clea and Renoir, and repainted the real Alicia as a newborn (Maelle).'"
+   },
+   {
+    "character": "All (spoiler handling)",
+    "problem": "Character-select names and row text give away Act II/III twists: 'The Curator (the real Renoir Dessendre)', 'Maelle (Alicia Dessendre)', 'Aline Dessendre', the two Renoirs, Verso being a painted copy, Clea existing at all, and Gustave's death (the 'Beach' vignette). Many barks that can fire from turn 1 reveal that the Paintress is Verso's and Maelle's mother: Esquie's 'Mister Verso says his mama...', Sciel's 'somebody's mum', Maelle's 'If she's my mother', the Paintress's 'Your father says...', the Curator's 'Aline. Put the brush down.', Monoco's 'Verso says his mother...' and Verso's 'Mother's been at this table'. The user's own requested gag ('their mother had been playing too many board games') is itself the Act III reveal. The win vignettes for Verso and Maelle also hint at the endings.",
+    "severity": "major",
+    "fix": "Add a spoiler setting on first launch: 'Spoiler-safe' vs 'I've finished E33'. Tag every bark, tooltip and vignette with a tier: safe, Act II, or Act III/ending. In safe mode use neutral display names ('The Curator', 'Maelle', 'The Paintress', 'The White-Haired Man', and Clea shown as '???' until unlocked). Give every 'mother' bark a safe variant, e.g. 'Whoever painted this world has been playing too many board games'. Even with spoilers on, only fire the true 'mother' lines in the mod's Act III. Show ending-flavoured win vignettes only in finished mode."
+   },
+   {
+    "character": "Verso",
+    "problem": "why_they_matter calls him 'the lead of Act III', which contradicts the Maelle row. The acts are Act I: Gustave, Act II: Verso, Act III: Maelle. The fact sheet's 'Act III, which is titled Verso' is also wrong.",
+    "severity": "minor",
+    "fix": "Change the text to 'the lead of Act II, central to Act III and one of the two endings'. Fix the fact sheet too. The campaign framing (Act II = Verso, Act III = Maelle) is already correct."
+   },
+   {
+    "character": "Esquie",
+    "problem": "lore_basis says 'Sciel finds Dorrie in Old Lumière'. The sources only confirm that Dorrie is found in Old Lumière in Act II and given to Esquie after the battle with painted Renoir there, once the party regroups at camp. Who finds it is unconfirmed.",
+    "severity": "minor",
+    "fix": "Drop 'Sciel finds it'. Optional lore touch: Dorrie can only be claimed when painted Renoir (Corvid) has no warriors in Old Lumière, echoing that it comes after the Renoir fight."
+   },
+   {
+    "character": "Esquie",
+    "problem": "The rule name 'NEVER MAD' points to Esquie's in-game rhyme ('sad or bad or rad, never mad'). 'Wheee/Whooo' are his signature exclamations.",
+    "severity": "minor",
+    "fix": "The two-word rule label and the interjections are fine. Never print the full rhyme or other known Esquie lines in UI text or barks."
+   },
+   {
+    "character": "Gustave",
+    "problem": "'Lumina Converter' is not verified as the name of his arm. The official replica is sold as the 'Arm of Gustave'. In E33 'Lumina' means the Pictos/Lumina build system (and the Curator's Colour of Lumina), so fans may find the name odd. 'Twin sister Emma' is also unverified; sources only say 'sister'.",
+    "severity": "minor",
+    "fix": "Label the gauge 'Gustave's Arm' or 'Overcharge gauge'. Three pips is a fine abstraction of the game's 10 charges. Write 'his sister Emma'."
+   },
+   {
+    "character": "Gustave",
+    "problem": "He is 'never removed' and his Act I death becomes a 'farewell that isn't one'. His death at the end of Act I (painted Renoir's ambush after the Lampmaster, protecting Maelle) is E33's defining twist. Rewriting it is a valid mashup choice, but the vignette both spoils the death and contradicts it.",
+    "severity": "minor",
+    "fix": "Present the 'Beach' vignette clearly as a what-if ('This time, the arm held') and put it behind the spoiler setting. Optionally offer a 'Faithful' toggle where Gustave's seat passes to Verso at Act II and keeps his flags."
+   },
+   {
+    "character": "Lune",
+    "problem": "The Parents' Journal is placed 'in a forest next to the Monolith' with generic justification, and the row says her parents 'raised her to finish their work'. In the lore, her parents were on Expedition 46, which was wiped out near Sirène's Dunes by a Chromatic Glissando. Their bodies and the Expedition 46 journal lie there, and that is her relationship quest.",
+    "severity": "minor",
+    "fix": "Tag the Parents' Journal to the forest next to the Sirène-tagged Axon clearing, which is already a Monolith neighbour in the map plan. A 'Glissando' flavour name for any nearby escort fight is optional. Reword to 'her parents left on Expedition 46 and never came back'."
+   },
+   {
+    "character": "The Paintress (Aline)",
+    "problem": "'Head of the Painters' Council' turned up in no source. Late-game lore also says the real Renoir does the erasing and Aline's number is a countdown or warning. Any text saying she gommages people is wrong after Act II.",
+    "severity": "minor",
+    "fix": "Leave the Council title out of player-facing text and rename the Councillor leader to 'The Matriarch'. Make sure tooltips and barks say she paints the number, never that she erases people."
+   },
+   {
+    "character": "Monoco",
+    "problem": "'His protégé Noco' is unverified; sources call Noco a friendly Gestral merchant whom Monoco's final quest brings back at the Sacred River in Act III, with a Golgra fight there. 'With Esquie, he rescues Verso and Alicia' is also unconfirmed. Barks like 'Monoco would like them' have him speak in the third person. No source shows that, and he is described as oddly scholarly and polite yet bloodthirsty.",
+    "severity": "minor",
+    "fix": "Write 'his friend Noco'. Drop or verify the rescue claim. Rewrite the barks in first person in his polite-brawler voice, e.g. 'I would like your feet. Respectfully.' The same check applies to Esquie's third-person line ('Esquie is much too round')."
+   },
+   {
+    "character": "The Curator (real Renoir)",
+    "problem": "The row says he was 'imprisoned beneath the Monolith by Aline'. Sources say he has been trapped beneath the Monolith since the Fracture caused by his clash with Aline, and acts through the faceless Curator form.",
+    "severity": "minor",
+    "fix": "Reword to 'trapped beneath the Monolith since the Fracture'. Everything else in the row checks out: he helps the expedition, his power does the Gommage, and he is the final boss in Lumière."
+   },
+   {
+    "character": "Clea",
+    "problem": "'Regent of the Flying Manor' is unverified, and the row blends the real Clea and her painted copy without explaining the split. Sources say the real Clea entered the Canvas, captured Aline's gentle painted Clea and repainted her into a Nevron-producing tool, and that Clea painted the Nevrons to drain Aline's chroma.",
+    "severity": "minor",
+    "fix": "Drop 'Regent'. Frame the seat as the real Clea working through her captured copy in the Flying Manor. Add a lore line that backs her as Esquie's guard host: as children Verso rode Esquie and Clea rode François."
+   },
+   {
+    "character": "Renoir (painted)",
+    "problem": "The 'dark Nevrons' and the 'Noirs Rising' plot name are not confirmed. Sources show the white-haired man massacring the expedition himself on landing. The bark 'Thirty-three of you this year' also treats the expedition's number as its headcount.",
+    "severity": "minor",
+    "fix": "Call the warriors 'Renoir's Nevrons' and note it as design liberty. Rename the Raid plot to something like 'Ambush on the Shore'. Rewrite the bark as 'Expedition Thirty-Three. Next year, Thirty-Two. That's arithmetic, not cruelty.' His Expedition Zero tie is confirmed: Verso calls him his former commander."
+   },
+   {
+    "character": "Maelle",
+    "problem": "She rides the Thief, and Steal is reskinned as 'quick fingers'. Nothing in E33 makes Maelle a thief; she is a fencer.",
+    "severity": "minor",
+    "fix": "Reskin Steal as a fencer's 'Disarm' (a feint that takes a card). Use the Ronin's Swift Strike as her riposte when Exiles & Partisans is owned."
+   },
+   {
+    "character": "Sciel",
+    "problem": "The facts check out: Pierre, the Aquafarm, Sophie as her best friend, and the lost child. But the bark 'Pierre always wanted a bigger farm...' jokes about her dead husband. Her backstory includes Pierre's fatal accident, a suicide attempt in the sea, and losing their unborn child, so the joke may read as flippant.",
+    "severity": "minor",
+    "fix": "Replace it with a warm line that isn't a joke (e.g. about the school or the Aquafarm). An optional spoiler-gated Act III pair: Esquie and Sciel trade a gentle bark, since Esquie is the one who pulled her out of the sea."
+   }
+  ]
+ },
+ "build_check": {
+  "issues": [
+   {
+    "character": "The Paintress (Aline Dessendre)",
+    "severity": "blocking",
+    "problem": "The win can become impossible on the default v1 table. A Portrait identity (Verso, Clea, Renoir, Alicia) is used up when a roost is placed, and with Maelle seated only 3 exist. Eyrie Build cards stay in the Decree until Turmoil, so the Decree keeps forcing roosts into the same suit, and each of those uses up an identity. On Gustave + Paintress + Sciel + Maelle she can end up with all 3 identities on only 2 suits. The only way to get one back is for an enemy to destroy a roost, and her bot cannot destroy its own. The Maelle exclusion is also inconsistent with the lore. The seated Verso, painted Renoir and painted Clea are also her paintings. Applying the same logic to them would leave her unable to win at a full E33 table.",
+    "fix": "Don't store Portraits; work them out at check time. A Portrait is any Living roost outside the Monolith, and she needs one Living roost in each of fox, rabbit and mouse. Identity is cosmetic and is reassigned at each check (a seated family member's portrait reads 'as she remembers them'). Drop the Maelle exclusion. This also survives save/load because there is no event-written PortraitMap."
+   },
+   {
+    "character": "Verso",
+    "severity": "blocking",
+    "problem": "He effectively cannot win on the v1 base table, where the Paintress is always seated. Vagabond max hits equal his undamaged swords, and the Ranger starts with 1. The Monolith is the Eyrie home: a roost plus the 3+ warriors her bot_plan keeps there. A defender deals the lower die, so the chance of taking no damage in a battle against warriors is 7/16. Even with 2 swords and the +1 from rank A/S, clearing 2 warriors and a roost with no damage is about 25% per attempt. After that, any faction can void the Birdsong check just by moving one warrior or pawn into the Monolith, and the spoiler layer on every bot will always do that.",
+    "fix": "Base the confirmation on Perfection, not on the Monolith staying empty. Announce at end of turn if he is rank S, in the Monolith, and removed the last enemy warrior there this turn (no enemy buildings left). He wins at his next Birdsong if he is still in the Monolith at rank S. Pieces that only walk in do not void it. To stop him, someone must battle him and land a hit, which drops him off S. That matches the lore that any hit breaks his rank. For Easy, allow rank A plus 2 undamaged swords."
+   },
+   {
+    "character": "Esquie",
+    "severity": "major",
+    "problem": "The guard spawns have three problems. (a) Root most likely stores warriors as per-faction counts per clearing, so guards cannot be told apart from the host's own warriors. The Marquise already has a setup warrior in the Nest and marches more in. 'guardSeat has 0 warriors' then means clearing every host warrior there, and 'host never moves guards' needs a filter on the host's moves. (b) 2-3 free warriors from supply give the host rule of the Nest (Gustave can build and flag it). (c) In v1, Clea needs Riverfolk, so the host is the Marquise or Eyrie. Under native rules, removing their warriors makes that faction Hostile, and Esquie then pays an extra boot to enter clearings with its warriors. Marquise warriors are in 11 of 12 clearings at setup, so his movement is crippled. That also breaks Never Mad, and the bot's 'Aid a friend to attack the guards' step makes no sense when the friend is the host.",
+    "fix": "Track guardsLeft per rock as a mod counter set to the spawned count, and decrement it when the host loses warriors in that clearing in any battle. The rock becomes loose at 0, and the host's own extra warriors do not matter. Enforce 'guards stay' as a count floor in the host's move generator for that clearing. The host may not build, recruit or place in a clearing with a guarded rock. Move Friends Not Foes into v1: one prefix patch skips the hostility change for warriors removed in a guarded-rock clearing. Host priority: Clea, then the non-Marquise faction with the most warriors in supply, then the Marquise. Remove the host from the bot's Aid-a-friend step. If placing another seat's warriors is not possible, make the no-spawn fallback the v1 default."
+   },
+   {
+    "character": "Gustave",
+    "severity": "major",
+    "problem": "The win is close to automatic. Marquise setup puts a warrior in every clearing except the Monolith, so he rules its neighbours from turn 1. He builds 1-3 times a turn, and because flags are permanent, the Lumière-to-Beachhead chain finishes in Act I and can never be cut. The Route bot is therefore cosmetic. The charge fills from battles where he only defends, so bots attacking him charge it for him. Act II starts when anyone reaches 10 VP, often Gustave himself, so the check can fire on his first Act II turn (around round 3-4), far ahead of the 30 VP pace. The only answer is flipping rule of one Beachhead. The Beach vignette's +1 charge is also a scripted edge, which contradicts the rule that 'act events are vignettes only'.",
+    "fix": "Bring back the ruled supply line: at both checks he must currently rule every clearing of some flagged chain from Lumière to the Beachhead. Flags stay as visual legacy and route memory. Charge goes +1 only for a battle he starts that removes at least one enemy piece. The Beachhead must hold a Marquise building at both checks. Optionally require flagged clearings in all 3 suits. Make the Beach vignette cosmetic. Opponents can then answer anywhere along the route."
+   },
+   {
+    "character": "Monoco",
+    "severity": "major",
+    "problem": "He wins too easily, and nobody gets a turn to answer. The Warlord Advances and battles every turn. Heavy, Caster, Agile and Balanced are routine within 4-6 rounds, because wood, sympathy and roosts are everywhere. Almighty is 'any piece of the leader who isn't Monoco', which he gets the turn after Act III opens. Quest wins fire instantly with no VP gate, so the Monoco bot will usually win around round 8 and be the strongest bot at the table. Naming clash: the Hoard is renamed 'Trophy Wheel', and so is the feet tracker.",
+    "fix": "Add a 10 VP gate. Feet must come from at least 3 different factions (or every opponent if fewer). Almighty means removing a building of the current VP leader, or winning one battle in which Hundreds remove 3+ of the leader's pieces. If the Warlord dies, he loses his most recent foot and Almighty. Alternatively, make it an area-style win: announce at 5 feet, and he wins at his next Birdsong if the Warlord is still on the map. Rename the Hoard 'Gestral Stash' and keep 'Bestial Wheel' for the feet."
+   },
+   {
+    "character": "Sciel",
+    "severity": "major",
+    "problem": "The win is too fragile at confirmation. A Sanctuary breaks the moment any warrior, pawn, building or token enters. Between her announce and her Birdsong, any bot with a warrior next door voids it with one move (paying an Outrage card), and the Vagabond can wander in for free. The spoiler layer on every bot makes an exact 5-Sanctuary win almost unreachable. In v1, Gustave also starts with warriors in 11 clearings, which her 10 warriors must evict first.",
+    "fix": "Announce on strict Sanctuaries as written. Confirm at Birdsong on Lanterns still standing in 5+ clearings across 3 suits, with no enemy building or token in them, and at least 1 base standing. Enemy warriors or pawns that only walked in (and paid Outrage) do not void it. To stop her, you must remove a Lantern or raze a base, which is the Alliance's real counterplay. Optionally require 6 Sanctuaries at the announce."
+   },
+   {
+    "character": "Renoir (painted)",
+    "severity": "major",
+    "problem": "Same fragility, and it is hard to set up as well. Any single warrior or Vagabond pawn stepping into one ring clearing voids the check. Snares stop placing pieces and moving out, not moving in. Ring clearings start with Marquise setup warriors, and the Corvids (15 warriors, weak in battle) must clear them and then keep every intruder out for a full round against spoiler bots. Like Verso and Sciel, this is an 'emptiness' test that one move answers.",
+    "fix": "Base it on rule instead. Every ring clearing holds a Renoir piece (warrior or plot) and is ruled by no faction other than Renoir or the Paintress, and the Monolith itself holds no other Vagabond pawn. Use the same test at the announce and at Birdsong. A face-up Snare in a ring clearing counts as his hold there even if he is outnumbered. Opponents must then win battles or out-stack him to stop it."
+   },
+   {
+    "character": "Clea",
+    "severity": "major",
+    "problem": "The bot_plan assumes a move action the Lizard Cult does not have. Lizards have no normal Move. Their only movement is the Crusade conspiracy (2 acolytes, starting from an Outcast-suit clearing), so 'split single warriors into adjacent clearings' cannot be built. Also, counting the Esquie guard stacks she hosts gives her a covered clearing for free.",
+    "fix": "Rewrite the bot plan. Spread through the Recruit ritual (it places a warrior by the revealed card's suit; confirm the exact wording against Law of Root) and through Convert in Outcast-suit clearings. Save bird cards for the Monolith. Use Crusade only for the Monolith push when the Monolith or its neighbour is the Outcast suit. Don't count guard warriors toward her 8-clearing total."
+   },
+   {
+    "character": "The Curator (real Renoir)",
+    "severity": "major",
+    "problem": "The setup tunnel in the Monolith makes the Burrow adjacent to the Eyrie home from turn 1. Duchy warriors can pour into the Paintress's home in Act I; the bot holds back, but a human Curator won't. It also uses 2 of the Duchy's 3 tunnels (home plus Monolith), leaving 1 to reach Lumière. If Gustave isn't seated, Lumière can be an empty corner, and the Curator can dig in and rule it the moment Act III starts.",
+    "fix": "Make the Monolith tunnel a mod overlay called 'Cell Crack'. It does not connect to the Burrow and does not count against his tunnels until Act III, when it becomes a real tunnel from his supply, or a free one if all three are on the map. That matches the lore: he is imprisoned until the reveal. When Lumière is not someone's home clearing, also require a Duchy building there, or rule with 3+ warriors."
+   },
+   {
+    "character": "All bots (Goal Director)",
+    "severity": "major",
+    "problem": "The whole bot design assumes Root's AI exposes lists of candidate moves that the mod can re-score. Nothing confirms this. The Dire Wolf AI may produce whole-turn plans or run an internal search, and whether the build is IL2CPP or Mono changes how practical Harmony patching is. If re-ranking isn't possible, every bot_plan falls apart.",
+    "fix": "Spend week 1 on a spike: decompile and find each faction's AI decision entry points. Make the main path a mod-owned priority policy that asks the engine for legal options through the same API the human UI uses to highlight clickable clearings, cards and items, and submits actions. Hand only the remaining sub-decisions (hit allocation, ambush, discards) to the native AI. The bot_plans are already priority lists in the style of the Clockwork flowcharts, so they port directly with no new search AI."
+   },
+   {
+    "character": "All characters (Clockwork seats)",
+    "severity": "minor",
+    "problem": "Clockwork bots (Mechanical Marquise 2.0, Electric Eyrie, Automated Alliance, Vagabot) play simplified rules: different economies, decrees and item handling. Checks and Goal Director hooks written against standard faction state (Supporters, wood, the relationship track, Decree resolvability) would misread or crash.",
+    "fix": "In E33 mode, every seat uses the standard Dire Wolf AI and the Clockwork options are hidden. Say this explicitly in each needs_dlc/engine note."
+   },
+   {
+    "character": "Gustave, Lune, Esquie (battle hooks)",
+    "severity": "minor",
+    "problem": "Overcharge ('may spend'), Stains ('may spend') and Belly Bounce (choosing the Bag as a sword) each need a new choice prompt inside Root's battle flow. That is new mid-battle UI, plus a new AI decision for each.",
+    "fix": "v1: Belly Bounce applies automatically, with the Bag counting as 1 sword in a rock clearing and no prompt. Overcharge and Stains become pre-battle toggles on the faction-board overlay, outside the battle flow. The bot sets them by its priority rule, e.g. Overcharge only when it takes the Beachhead or saves Lumière. Sciel's Twilight and Verso's Perfection are already automatic."
+   },
+   {
+    "character": "All area wins (dominance and coalitions)",
+    "severity": "minor",
+    "problem": "Activating a dominance card removes the player's VP marker, so 'VP>=10' is undefined. It is also unspecified whether a Vagabond in a coalition can still chase its own themed win (Esquie's has no VP gate), or whether it wins when its partner wins thematically.",
+    "fix": "State that themed wins are off while a player has an active dominance card or is in a coalition. A coalition Vagabond wins if its partner wins in any way, as in standard Root."
+   },
+   {
+    "character": "All characters (mod state)",
+    "severity": "minor",
+    "problem": "Some state comes from events (charge, rank, feet, rock status, act clock). It is lost or goes wrong on save/load, a resumed game, or any in-engine undo or rollback, which makes win checks unreliable.",
+    "fix": "Derive state from the board wherever possible: Portraits, Sanctuaries, ring, coverage and Beachhead rule. Save the rest alongside the game, keyed to its ID, and re-check it against the board on load."
+   },
+   {
+    "character": "Lune",
+    "severity": "minor",
+    "problem": "The win text has no Act gate, but how_checked uses act>=2. The Keepers usually have all 3 relic types by round 4-5, so the win comes down to one tagged relic. A value-3 tablet may not exist in every relic mix.",
+    "fix": "Put the Act II gate in the win text. Place (or reveal) the Parents' Journal in its forest only at the start of Act II, like Dorrie. Tag the highest-value tablet instead of 'value 3'."
+   },
+   {
+    "character": "Esquie (Soarrie)",
+    "severity": "minor",
+    "problem": "In v1 there is only one Vagabond seat, so Verso is never seated alongside him. Soarrie therefore always sits loose in the Monolith, and he just walks in and takes it: a free rock.",
+    "fix": "When Verso isn't seated, the Monolith's ruler holds Soarrie. Esquie claims it by Aiding that faction once while in the Monolith, or freely once no one rules the Monolith."
+   },
+   {
+    "character": "Maelle / Gustave (act vignettes)",
+    "severity": "minor",
+    "problem": "Alicia Awakens (+1 relationship with the Paintress) and the Beach (+1 Gustave charge) are scripted edges, which contradicts 'act events are vignettes only'. The relationship bump's VP and its cap are unspecified. In 2-player games Maelle needs only 1 Allied faction, which is easy.",
+    "fix": "The bump gives no track VP and can't go past Friendly; alternatively make both cosmetic. In 2-player games require Allied with the one faction plus 15 VP."
+   },
+   {
+    "character": "Roster similarity (Sciel / Clea / Renoir / Verso; Esquie / Lune)",
+    "severity": "minor",
+    "problem": "As written, four wins are presence or emptiness counts, and all are beaten the same way: move one piece in. Esquie and Lune both fetch tagged objects from near the Nest or Monolith.",
+    "fix": "The Birdsong fixes above separate them: Sciel becomes Lantern survival, Verso no-hit, Renoir rule of the ring, and Clea stays raw coverage. Keep Esquie as guarded fights and Lune as convoys, with the Journal revealed only in Act II, so the two play differently."
+   }
+  ],
+  "verdict": "The overall pattern works: each character rides an existing Root faction, adds a win checked from board or mod state at end of turn or at Birdsong, and gets a priority-list bot. The DLC tags are correct: Riverfolk for Clea and a second Vagabond, Marauder for Lune and Monoco, Underworld for the Curator, painted Renoir and the Lake/Mountain maps, and Exiles & Partisans & Vagabonds for the Ronin. No row depends on Homeland. Two rows are blocking. First, the Paintress's portrait names are used up when a roost is placed, so with Maelle seated she can end up unable to win; work Portraits out at check time and drop the exclusion. Second, Verso's 'Monolith empty at Birdsong' is effectively unwinnable against a seated Eyrie and spoiler bots; confirm on rank S instead. Sciel and Renoir have the same weakness, because one piece walking in breaks the win; confirm on Lanterns still standing and on rule. Gustave (permanent flags and passive charge) and Monoco (instant quest win with an easy Almighty foot) are too easy. Esquie's guard spawns need count-based tracking and the no-hostility patch in v1. Clea's bot plan uses a Move the Lizards don't have. The Curator's setup tunnel gives Burrow access to the Monolith on turn 1. The main technical risk: the Goal Director assumes Root's AI can be re-scored. Prove that with a decompile spike, and plan for a mod-owned priority bot that drives the engine's legal-action API. With these fixes, the v1 base-game set (Gustave, Paintress, Sciel, plus one of Esquie, Verso or Maelle) can be built and won by human and bot alike, and the bots stay beatable. Maelle and the Paintress (after her fix) are the closest to ready."
+ },
+ "_about": "Research gathered during design (web-search snippets; WebFetch was blocked for most wiki domains). Facts marked uncertain must be confirmed in game before final text."
+}

@@ -1,0 +1,348 @@
+{
+  "about": "Root 33 design sheets. Each sheet is a JSON file with a 'rows' array; each row is one thing and each column one of its properties. A row with an empty or unconfirmed cell is unfinished. Mark a filled-but-unconfirmed cell by naming it in the row's '_unverified' object with the reason (e.g. {\"engineSymbol\": \"find in Root's code on the creator's PC\"}). tools/preflight.py checks every cell and every cross-sheet reference; tools/gen_cs.py turns rows into C# definitions.",
+  "targets": {
+    "core": "Engine-independent logic (win checks, bot scoring, acts, barks, state) and its unit tests. Built and tested in any environment.",
+    "plugin": "The BepInEx plugin that binds the core to Root's own code. Needs the engine symbols and asset paths found on the creator's PC.",
+    "release": "The Melty package. Needs everything, plus real gameplay media."
+  },
+  "types": {
+    "id": "unique slug: lowercase letters, digits, dots, dashes, underscores",
+    "string": "short non-empty text",
+    "text": "long non-empty text",
+    "int": "integer",
+    "number": "number",
+    "bool": "true or false",
+    "enum:a|b": "one of the listed values",
+    "ref:sheet": "the id of a row in that sheet",
+    "refs:sheet": "a list of row ids in that sheet (may be empty only when the column is optional)",
+    "list": "a list of short strings",
+    "object": "a JSON object",
+    "tests": "a list of unit test method names in src/Root33.Core.Tests that prove the row"
+  },
+  "sheets": {
+    "systems": {
+      "file": "systems.json",
+      "description": "Every game system the mashup touches, and which sheets define it.",
+      "columns": {
+        "id": {"type": "id", "required": true, "neededBy": ["core"]},
+        "name": {"type": "string", "required": true, "neededBy": ["core"]},
+        "description": {"type": "text", "required": true, "neededBy": ["core"]},
+        "sheets": {"type": "list", "required": true, "neededBy": ["core"], "description": "sheet names that define this system"},
+        "v1": {"type": "bool", "required": true, "neededBy": ["core"]},
+        "needsCreatorPc": {"type": "bool", "required": true, "neededBy": ["core"], "description": "true when finishing it needs the games installed on the creator's PC"}
+      }
+    },
+    "dlc": {
+      "file": "dlc.json",
+      "description": "Root content packs that rows may depend on. 'base' is the base game.",
+      "columns": {
+        "id": {"type": "id", "required": true, "neededBy": ["core"]},
+        "name": {"type": "string", "required": true, "neededBy": ["core"]},
+        "contents": {"type": "text", "required": true, "neededBy": ["core"]},
+        "steamAppId": {"type": "string", "required": true, "neededBy": ["plugin"], "description": "Steam app id of the DLC, used to check ownership; 'base' uses the game's own id"}
+      }
+    },
+    "engines": {
+      "file": "engines.json",
+      "description": "Root factions and Vagabond characters a Clair Obscur character rides on (pieces, actions, UI, built-in AI).",
+      "columns": {
+        "id": {"type": "id", "required": true, "neededBy": ["core"]},
+        "rootName": {"type": "string", "required": true, "neededBy": ["core"]},
+        "kind": {"type": "enum:faction|vagabond", "required": true, "neededBy": ["core"]},
+        "dlc": {"type": "ref:dlc", "required": true, "neededBy": ["core"]},
+        "readableState": {"type": "list", "required": true, "neededBy": ["core"], "description": "board facts this engine creates that win checks read"},
+        "digitalAi": {"type": "enum:yes|no|unknown", "required": true, "neededBy": ["plugin"]},
+        "engineType": {"type": "string", "required": true, "neededBy": ["plugin"], "description": "Root's own class or id for this faction/character"}
+      }
+    },
+    "characters": {
+      "file": "characters.json",
+      "description": "Playable Clair Obscur characters. Each rides on one Root engine and has its own win condition and bot plan.",
+      "columns": {
+        "id": {"type": "id", "required": true, "neededBy": ["core"]},
+        "safeName": {"type": "string", "required": true, "neededBy": ["core"], "description": "name shown to players who have not finished Clair Obscur"},
+        "finishedName": {"type": "string", "required": true, "neededBy": ["core"]},
+        "engine": {"type": "ref:engines", "required": true, "neededBy": ["core"]},
+        "v1": {"type": "bool", "required": true, "neededBy": ["core"]},
+        "buildOrder": {"type": "int", "required": true, "neededBy": ["core"]},
+        "winCondition": {"type": "ref:win_conditions", "required": true, "neededBy": ["core"]},
+        "botPlan": {"type": "ref:bot_plans", "required": true, "neededBy": ["core"]},
+        "homeRole": {"type": "ref:map_roles", "required": false, "neededBy": ["core"], "description": "map role the character starts in, when setup forces one"},
+        "rivals": {"type": "refs:characters", "required": false, "neededBy": ["core"]},
+        "portrait": {"type": "ref:assets", "required": true, "neededBy": ["core"]},
+        "color": {"type": "string", "required": true, "neededBy": ["core"], "description": "#RRGGBB"},
+        "safeModeSelectable": {"type": "bool", "required": true, "neededBy": ["core"]},
+        "summarySafe": {"type": "text", "required": true, "neededBy": ["core"], "description": "spoiler-free one-paragraph pitch shown on character select"},
+        "whyTheyMatter": {"type": "text", "required": true, "neededBy": ["core"]},
+        "loreBasis": {"type": "text", "required": true, "neededBy": ["core"]}
+      }
+    },
+    "reskins": {
+      "file": "reskins.json",
+      "description": "Every Root piece, track, action or card a character renames.",
+      "columns": {
+        "id": {"type": "id", "required": true, "neededBy": ["core"]},
+        "character": {"type": "ref:characters", "required": true, "neededBy": ["core"]},
+        "rootThing": {"type": "string", "required": true, "neededBy": ["core"], "description": "what it is in Root, e.g. 'Marquise keep'"},
+        "safeName": {"type": "string", "required": true, "neededBy": ["core"]},
+        "finishedName": {"type": "string", "required": true, "neededBy": ["core"]},
+        "tooltip": {"type": "text", "required": true, "neededBy": ["core"]},
+        "engineSymbol": {"type": "string", "required": true, "neededBy": ["plugin"], "description": "Root's own localisation key or type for the thing"}
+      }
+    },
+    "win_conditions": {
+      "file": "win_conditions.json",
+      "description": "One themed way to win per character, on top of Root's 30 VP, dominance and coalitions.",
+      "columns": {
+        "id": {"type": "id", "required": true, "neededBy": ["core"]},
+        "character": {"type": "ref:characters", "required": true, "neededBy": ["core"]},
+        "title": {"type": "string", "required": true, "neededBy": ["core"]},
+        "kind": {"type": "enum:countdown|quest", "required": true, "neededBy": ["core"], "description": "countdown: announced at end of turn, wins at the next Birdsong if the confirm test still passes. quest: wins at end of turn."},
+        "actMin": {"type": "int", "required": true, "neededBy": ["core"]},
+        "vpMin": {"type": "int", "required": true, "neededBy": ["core"], "description": "0 when there is no VP gate"},
+        "playerText": {"type": "text", "required": true, "neededBy": ["core"], "description": "the win as shown to players, spoiler-safe"},
+        "announceTest": {"type": "text", "required": true, "neededBy": ["core"], "description": "exact board/state test at end of the owner's turn"},
+        "confirmTest": {"type": "text", "required": false, "neededBy": ["core"], "description": "exact test at the owner's next Birdsong (countdown wins)"},
+        "counterplay": {"type": "text", "required": true, "neededBy": ["core"]},
+        "offWithDominance": {"type": "bool", "required": true, "neededBy": ["core"]},
+        "offInCoalition": {"type": "bool", "required": true, "neededBy": ["core"]},
+        "params": {"type": "object", "required": true, "neededBy": ["core"], "description": "tuning numbers this win reads; each key must exist in tuning.json"},
+        "state": {"type": "refs:state", "required": false, "neededBy": ["core"]},
+        "hooks": {"type": "refs:game_hooks", "required": true, "neededBy": ["core"]},
+        "reads": {"type": "refs:board_reads", "required": true, "neededBy": ["core"]},
+        "overlays": {"type": "refs:overlays", "required": true, "neededBy": ["core"]},
+        "tests": {"type": "tests", "required": true, "neededBy": ["core"]}
+      }
+    },
+    "rule_tweaks": {
+      "file": "rule_tweaks.json",
+      "description": "Small rule changes a character brings (Overcharge, Belly Bounce, Perfection...).",
+      "columns": {
+        "id": {"type": "id", "required": true, "neededBy": ["core"]},
+        "character": {"type": "ref:characters", "required": true, "neededBy": ["core"]},
+        "name": {"type": "string", "required": true, "neededBy": ["core"]},
+        "rule": {"type": "text", "required": true, "neededBy": ["core"]},
+        "version": {"type": "enum:v1|v1.1", "required": true, "neededBy": ["core"]},
+        "hooks": {"type": "refs:game_hooks", "required": true, "neededBy": ["core"]},
+        "actions": {"type": "refs:board_actions", "required": false, "neededBy": ["core"]},
+        "tests": {"type": "tests", "required": true, "neededBy": ["core"]}
+      }
+    },
+    "state": {
+      "file": "state.json",
+      "description": "Mod state that is not read straight off the board. Saved with the game and re-checked on load.",
+      "columns": {
+        "id": {"type": "id", "required": true, "neededBy": ["core"]},
+        "owner": {"type": "string", "required": true, "neededBy": ["core"], "description": "a character id, or 'global'"},
+        "csType": {"type": "string", "required": true, "neededBy": ["core"], "description": "C# type, e.g. 'int', 'HashSet<ClearingId>', 'RockState[]'"},
+        "range": {"type": "string", "required": true, "neededBy": ["core"]},
+        "initial": {"type": "string", "required": true, "neededBy": ["core"]},
+        "writtenBy": {"type": "refs:game_hooks", "required": true, "neededBy": ["core"]},
+        "onLoad": {"type": "text", "required": true, "neededBy": ["core"], "description": "how it is re-checked against the board after loading a save"}
+      }
+    },
+    "game_hooks": {
+      "file": "game_hooks.json",
+      "description": "Moments in Root's game flow the mod listens to.",
+      "columns": {
+        "id": {"type": "id", "required": true, "neededBy": ["core"]},
+        "when": {"type": "text", "required": true, "neededBy": ["core"]},
+        "provides": {"type": "list", "required": true, "neededBy": ["core"], "description": "data the hook hands the core"},
+        "csHandler": {"type": "string", "required": true, "neededBy": ["core"], "description": "C# signature of the core handler, e.g. 'void OnBattleResolved(BattleResult r)'"},
+        "engineSymbol": {"type": "string", "required": true, "neededBy": ["plugin"], "description": "Root method/event to patch"},
+        "patchKind": {"type": "enum:prefix|postfix|event|poll", "required": true, "neededBy": ["plugin"]}
+      }
+    },
+    "board_reads": {
+      "file": "board_reads.json",
+      "description": "Facts the core reads from Root's board. Each row becomes one method of IBoardView.",
+      "columns": {
+        "id": {"type": "id", "required": true, "neededBy": ["core"]},
+        "description": {"type": "text", "required": true, "neededBy": ["core"]},
+        "csSignature": {"type": "string", "required": true, "neededBy": ["core"], "description": "C# interface member, e.g. 'int Warriors(SeatId seat, ClearingId c)'"},
+        "engineSymbol": {"type": "string", "required": true, "neededBy": ["plugin"], "description": "where Root keeps it"}
+      }
+    },
+    "board_actions": {
+      "file": "board_actions.json",
+      "description": "Changes the mod makes to Root's game. Each row becomes one method of IBoardActions.",
+      "columns": {
+        "id": {"type": "id", "required": true, "neededBy": ["core"]},
+        "description": {"type": "text", "required": true, "neededBy": ["core"]},
+        "csSignature": {"type": "string", "required": true, "neededBy": ["core"]},
+        "v1": {"type": "bool", "required": true, "neededBy": ["core"]},
+        "fallback": {"type": "text", "required": true, "neededBy": ["core"], "description": "what the design does if Root's code does not allow it"},
+        "engineSymbol": {"type": "string", "required": true, "neededBy": ["plugin"]}
+      }
+    },
+    "bot_plans": {
+      "file": "bot_plans.json",
+      "description": "How a bot playing each character chases its own win. Layered on Root's own AI for the engine.",
+      "columns": {
+        "id": {"type": "id", "required": true, "neededBy": ["core"]},
+        "character": {"type": "ref:characters", "required": true, "neededBy": ["core"]},
+        "goalModeTrigger": {"type": "text", "required": true, "neededBy": ["core"]},
+        "beatable": {"type": "text", "required": true, "neededBy": ["core"], "description": "how a human can see it coming and stop it"},
+        "easy": {"type": "text", "required": true, "neededBy": ["core"]},
+        "normal": {"type": "text", "required": true, "neededBy": ["core"]},
+        "hard": {"type": "text", "required": true, "neededBy": ["core"]},
+        "rules": {"type": "refs:bot_rules", "required": true, "neededBy": ["core"], "description": "priority order, first is highest"}
+      }
+    },
+    "bot_rules": {
+      "file": "bot_rules.json",
+      "description": "One priority step of a bot plan.",
+      "columns": {
+        "id": {"type": "id", "required": true, "neededBy": ["core"]},
+        "plan": {"type": "ref:bot_plans", "required": true, "neededBy": ["core"]},
+        "order": {"type": "int", "required": true, "neededBy": ["core"]},
+        "name": {"type": "string", "required": true, "neededBy": ["core"]},
+        "rule": {"type": "text", "required": true, "neededBy": ["core"]},
+        "scoring": {"type": "text", "required": true, "neededBy": ["core"], "description": "the formula or ordering it uses; 'none' for a plain condition"},
+        "reads": {"type": "refs:board_reads", "required": true, "neededBy": ["core"]},
+        "state": {"type": "refs:state", "required": false, "neededBy": ["core"]},
+        "tests": {"type": "tests", "required": true, "neededBy": ["core"]}
+      }
+    },
+    "acts": {
+      "file": "acts.json",
+      "description": "The three acts of one game (one year of Expedition 33).",
+      "columns": {
+        "id": {"type": "id", "required": true, "neededBy": ["core"]},
+        "number": {"type": "int", "required": true, "neededBy": ["core"]},
+        "name": {"type": "string", "required": true, "neededBy": ["core"]},
+        "endsAtVp": {"type": "int", "required": true, "neededBy": ["core"], "description": "act ends when any seat reaches this VP; 0 for the last act"},
+        "endsAfterRound": {"type": "int", "required": true, "neededBy": ["core"], "description": "or after this round; 0 for the last act"},
+        "events": {"type": "refs:story_events", "required": true, "neededBy": ["core"]},
+        "tests": {"type": "tests", "required": true, "neededBy": ["core"]}
+      }
+    },
+    "story_events": {
+      "file": "story_events.json",
+      "description": "What happens when an act starts: vignettes, spawns, unlocks, tags.",
+      "columns": {
+        "id": {"type": "id", "required": true, "neededBy": ["core"]},
+        "act": {"type": "ref:acts", "required": true, "neededBy": ["core"]},
+        "kind": {"type": "enum:vignette|spawn|unlock|tag|portrait", "required": true, "neededBy": ["core"]},
+        "what": {"type": "text", "required": true, "neededBy": ["core"]},
+        "spawn": {"type": "ref:spawns", "required": false, "neededBy": ["core"]},
+        "tier": {"type": "enum:safe|act2|finished", "required": true, "neededBy": ["core"]},
+        "changesBoard": {"type": "bool", "required": true, "neededBy": ["core"]}
+      }
+    },
+    "spawns": {
+      "file": "spawns.json",
+      "description": "Things the mod puts on the board or tags: Esquie's rocks and their guards, the Parents' Journal tag, the Cell Crack.",
+      "columns": {
+        "id": {"type": "id", "required": true, "neededBy": ["core"]},
+        "owner": {"type": "ref:characters", "required": true, "neededBy": ["core"]},
+        "appearsInAct": {"type": "ref:acts", "required": true, "neededBy": ["core"]},
+        "placeAt": {"type": "string", "required": true, "neededBy": ["core"], "description": "a map role id, or a rule such as 'Verso's card'"},
+        "guards": {"type": "int", "required": true, "neededBy": ["core"]},
+        "claimRule": {"type": "text", "required": true, "neededBy": ["core"]},
+        "state": {"type": "ref:state", "required": true, "neededBy": ["core"]},
+        "overlay": {"type": "ref:overlays", "required": true, "neededBy": ["core"]},
+        "actions": {"type": "refs:board_actions", "required": false, "neededBy": ["core"]},
+        "fallback": {"type": "text", "required": true, "neededBy": ["core"]},
+        "tests": {"type": "tests", "required": true, "neededBy": ["core"]}
+      }
+    },
+    "map_roles": {
+      "file": "map_roles.json",
+      "description": "Story places the rules refer to, assigned to clearings by rule on any map.",
+      "columns": {
+        "id": {"type": "id", "required": true, "neededBy": ["core"]},
+        "continentName": {"type": "string", "required": true, "neededBy": ["core"]},
+        "assignRule": {"type": "text", "required": true, "neededBy": ["core"], "description": "how the clearing is chosen on any map"},
+        "count": {"type": "string", "required": true, "neededBy": ["core"], "description": "'1', '0-1', '1-3', 'all river clearings'..."},
+        "usedBy": {"type": "refs:characters", "required": true, "neededBy": ["core"]},
+        "tests": {"type": "tests", "required": true, "neededBy": ["core"]}
+      }
+    },
+    "map_autumn": {
+      "file": "map_autumn.json",
+      "description": "The 12 clearings of Root's Autumn map, renamed as the Continent. Layout facts come from Root's own map data on the creator's PC.",
+      "columns": {
+        "id": {"type": "id", "required": true, "neededBy": ["core"]},
+        "continentName": {"type": "string", "required": true, "neededBy": ["core"]},
+        "role": {"type": "ref:map_roles", "required": false, "neededBy": ["core"], "description": "set when this clearing is fixed to a story role on Autumn"},
+        "flavor": {"type": "text", "required": true, "neededBy": ["core"], "description": "one line of place description for tooltips"},
+        "engineClearingId": {"type": "string", "required": true, "neededBy": ["plugin"]},
+        "suit": {"type": "enum:fox|rabbit|mouse", "required": true, "neededBy": ["plugin"]},
+        "corner": {"type": "bool", "required": true, "neededBy": ["plugin"]},
+        "ruin": {"type": "bool", "required": true, "neededBy": ["plugin"]}
+      }
+    },
+    "overlays": {
+      "file": "overlays.json",
+      "description": "Everything the mod draws: title screen, trackers, gauges, banners, badges, tokens.",
+      "columns": {
+        "id": {"type": "id", "required": true, "neededBy": ["core"]},
+        "owner": {"type": "string", "required": true, "neededBy": ["core"], "description": "a character id, or 'global'"},
+        "kind": {"type": "enum:screen|gauge|tracker|banner|badge|token|label|bubble", "required": true, "neededBy": ["core"]},
+        "shows": {"type": "text", "required": true, "neededBy": ["core"]},
+        "public": {"type": "bool", "required": true, "neededBy": ["core"]},
+        "art": {"type": "refs:assets", "required": true, "neededBy": ["core"]},
+        "state": {"type": "refs:state", "required": false, "neededBy": ["core"]},
+        "v1": {"type": "bool", "required": true, "neededBy": ["core"]}
+      }
+    },
+    "barks": {
+      "file": "barks.json",
+      "description": "Original speech-bubble lines. Never quotes Clair Obscur's script and never imitates a voice actor.",
+      "columns": {
+        "id": {"type": "id", "required": true, "neededBy": ["core"]},
+        "character": {"type": "ref:characters", "required": true, "neededBy": ["core"]},
+        "trigger": {"type": "ref:bark_triggers", "required": true, "neededBy": ["core"]},
+        "tier": {"type": "enum:safe|act2|finished", "required": true, "neededBy": ["core"]},
+        "text": {"type": "text", "required": true, "neededBy": ["core"]},
+        "safeSibling": {"type": "ref:barks", "required": false, "neededBy": ["core"], "description": "required for finished lines: the safe line used instead in safe mode"},
+        "original": {"type": "bool", "required": true, "neededBy": ["core"]}
+      }
+    },
+    "bark_triggers": {
+      "file": "bark_triggers.json",
+      "description": "When a speech bubble may appear.",
+      "columns": {
+        "id": {"type": "id", "required": true, "neededBy": ["core"]},
+        "description": {"type": "text", "required": true, "neededBy": ["core"]},
+        "hook": {"type": "ref:game_hooks", "required": true, "neededBy": ["core"]},
+        "cooldownTurns": {"type": "int", "required": true, "neededBy": ["core"]}
+      }
+    },
+    "options": {
+      "file": "options.json",
+      "description": "Player-facing settings.",
+      "columns": {
+        "id": {"type": "id", "required": true, "neededBy": ["core"]},
+        "name": {"type": "string", "required": true, "neededBy": ["core"]},
+        "values": {"type": "list", "required": true, "neededBy": ["core"]},
+        "default": {"type": "string", "required": true, "neededBy": ["core"]},
+        "description": {"type": "text", "required": true, "neededBy": ["core"]}
+      }
+    },
+    "assets": {
+      "file": "assets.json",
+      "description": "Art, audio and fonts. Clair Obscur and Root content is read from the player's own install, never shipped.",
+      "columns": {
+        "id": {"type": "id", "required": true, "neededBy": ["core"]},
+        "kind": {"type": "enum:texture|audio|font", "required": true, "neededBy": ["core"]},
+        "source": {"type": "enum:e33-install|root-install|made-for-mod", "required": true, "neededBy": ["core"]},
+        "description": {"type": "text", "required": true, "neededBy": ["core"]},
+        "license": {"type": "text", "required": true, "neededBy": ["core"]},
+        "sourcePath": {"type": "string", "required": true, "neededBy": ["plugin"], "description": "path inside the install, or the file in this repo for made-for-mod"},
+        "fallback": {"type": "text", "required": true, "neededBy": ["core"], "description": "what shows when the source is missing"}
+      }
+    },
+    "tuning": {
+      "file": "tuning.json",
+      "description": "Every number the rules read, in one place.",
+      "columns": {
+        "id": {"type": "id", "required": true, "neededBy": ["core"]},
+        "value": {"type": "number", "required": true, "neededBy": ["core"]},
+        "description": {"type": "text", "required": true, "neededBy": ["core"]},
+        "usedBy": {"type": "list", "required": true, "neededBy": ["core"], "description": "ids of rows that read it"}
+      }
+    }
+  }
+}
