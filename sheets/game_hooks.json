@@ -1,0 +1,545 @@
+{
+  "rows": [
+    {
+      "id": "hook.title-screen",
+      "when": "Root's title screen is shown (every launch and every return to the main menu). The mod draws the ROOT 33 title with the 33 tearing out of a rift, and on first launch asks 'Spoiler-safe' or 'I've finished Clair Obscur: Expedition 33', then offers the skippable prologue.",
+      "provides": [
+        "whether a spoiler choice is already saved (first launch or not)"
+      ],
+      "csHandler": "void OnTitleScreenShown(bool firstLaunch)",
+      "engineSymbol": "unknown: Root's main-menu scene or controller start",
+      "patchKind": "postfix",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC",
+        "patchKind": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "hook.character-select",
+      "when": "Root's new-game faction selection screen is shown in E33 mode. The mod relabels factions as characters, hides the Clockwork bots, and locks finished-only characters (Clea) in safe mode.",
+      "provides": [
+        "engines the player owns (base game plus DLC)",
+        "maximum seat count"
+      ],
+      "csHandler": "void OnCharacterSelectShown(IReadOnlyList<EngineId> ownedEngines)",
+      "engineSymbol": "unknown: Root's faction-selection screen setup",
+      "patchKind": "postfix",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC",
+        "patchKind": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "hook.seat-assigned",
+      "when": "A seat is given a faction or Vagabond when the game is created, either by the human's pick or by a bot filling an empty seat.",
+      "provides": [
+        "seat",
+        "engine",
+        "whether the seat is a bot"
+      ],
+      "csHandler": "void OnSeatAssigned(SeatId seat, EngineId engine, bool isBot)",
+      "engineSymbol": "unknown: Root's game-setup seat/faction assignment",
+      "patchKind": "postfix",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC",
+        "patchKind": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "hook.game-start",
+      "when": "A new game has been created, after every seat is assigned and before the map and setup. The core resets all mod state (act 1, round 1, empty flags, rank D, rocks not spawned) and copies difficulty and spoiler mode into the game.",
+      "provides": [
+        "seats in turn order",
+        "difficulty",
+        "spoiler mode"
+      ],
+      "csHandler": "void OnGameStart(IReadOnlyList<SeatId> turnOrder, Difficulty difficulty, SpoilerMode spoilers)",
+      "engineSymbol": "unknown: Root's new-game start (match/session creation)",
+      "patchKind": "postfix",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC",
+        "patchKind": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "hook.map-loaded",
+      "when": "The map for a new game is built, before any setup piece is placed. When Gustave is not seated, the core assigns every map role by rule here (Lumière, the Monolith, the Axons, Old Lumière, Esquie's Nest, the Flying Manor, Stone Wave Cliffs, the Sacred River); when he is, it waits until his keep is placed (hook.piece-placed).",
+      "provides": [
+        "map name",
+        "clearings with suits, paths, rivers, corners, ruins and slots (read through board_reads)"
+      ],
+      "csHandler": "void OnMapLoaded(string mapName)",
+      "engineSymbol": "unknown: Root's map/board construction for a new game",
+      "patchKind": "postfix",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC",
+        "patchKind": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "hook.setup-home",
+      "when": "During setup, just before a seat chooses where its starting pieces go: the Marquise keep corner, the Eyrie starting roost, another faction's home corner (Lizards, Duchy and the rest), or a Vagabond's starting forest. The core restricts the choice with do.restrict-home or do.restrict-start-forest.",
+      "provides": [
+        "seat about to choose"
+      ],
+      "csHandler": "void OnSetupChoice(SeatId seat)",
+      "engineSymbol": "unknown: Root's setup step that offers home clearings or starting forests",
+      "patchKind": "prefix",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC",
+        "patchKind": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "hook.setup-complete",
+      "when": "Every seat has finished setup, before the first Birdsong. The core places the Act I spawns (Florrie and her guards, the François decoy, the Cell Crack overlay), flags Lumière for Gustave, and starts the prologue.",
+      "provides": [
+        "the board after setup"
+      ],
+      "csHandler": "void OnSetupComplete()",
+      "engineSymbol": "unknown: Root's end-of-setup / first-turn start",
+      "patchKind": "postfix",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC",
+        "patchKind": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "hook.round-start",
+      "when": "The first seat in turn order starts its turn, which begins a new round. If Root keeps no round counter, the core counts rounds here.",
+      "provides": [
+        "round number"
+      ],
+      "csHandler": "void OnRoundStart(int round)",
+      "engineSymbol": "unknown: Root's turn-order wrap to the first seat",
+      "patchKind": "postfix",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC",
+        "patchKind": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "hook.birdsong-start",
+      "when": "The start of a seat's Birdsong, before any Birdsong step. Countdown confirmation tests run here first (dominance timing); bots plan their turn.",
+      "provides": [
+        "seat whose Birdsong it is"
+      ],
+      "csHandler": "void OnBirdsongStart(SeatId seat)",
+      "engineSymbol": "unknown: Root's phase change into Birdsong",
+      "patchKind": "prefix",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC",
+        "patchKind": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "hook.evening-start",
+      "when": "The start of a seat's Evening, before any Evening step. Sciel's Twilight checks her Sun and Moon charges here.",
+      "provides": [
+        "seat whose Evening it is"
+      ],
+      "csHandler": "void OnEveningStart(SeatId seat)",
+      "engineSymbol": "unknown: Root's phase change into Evening",
+      "patchKind": "postfix",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC",
+        "patchKind": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "hook.evening-end",
+      "when": "A seat's Evening has fully resolved (draw and discard done): the end of its turn. The roster's 'end of his Evening' and 'end of her turn' both mean this moment. Gustave plants his flags first, then the seat's themed-win test runs (countdown announce or quest win), then Esquie's Soarrie hand-off is checked.",
+      "provides": [
+        "seat whose turn is ending"
+      ],
+      "csHandler": "void OnEveningEnd(SeatId seat)",
+      "engineSymbol": "unknown: Root's end of the Evening phase",
+      "patchKind": "postfix",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC",
+        "patchKind": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "hook.turn-end",
+      "when": "The turn passes from one seat to the next, right after hook.evening-end. Per-turn toggles and logs reset (unused Overcharge, stance-turn flags, Still Life), the Monolith Barrier is re-checked, and the act clock moves to the next act if its VP or round limit was reached during this turn.",
+      "provides": [
+        "seat whose turn just ended"
+      ],
+      "csHandler": "void OnTurnEnd(SeatId seat)",
+      "engineSymbol": "unknown: Root's advance to the next seat",
+      "patchKind": "postfix",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC",
+        "patchKind": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "hook.act-change",
+      "when": "The core moves the game into the next act (raised from hook.turn-end). Act-start story events run: vignettes, spawns (Dorrie, Soarrie, Urrie and guards), unlocks (themed wins at Act II, the Curator's and Almighty at Act III), the Parents' Journal tag, and the Cell Crack opening.",
+      "provides": [
+        "new act number"
+      ],
+      "csHandler": "void OnActChanged(int act)",
+      "engineSymbol": "none: raised by the mod's core, not by Root",
+      "patchKind": "event"
+    },
+    {
+      "id": "hook.action-resolved",
+      "when": "Any single action of any seat has resolved (move, battle, explore, aid, strike, quest, craft, build, recruit, dig, special action, and so on). Esquie claims loose rocks in his clearing after each of his actions; the Urrie early spawn is checked.",
+      "provides": [
+        "seat that acted"
+      ],
+      "csHandler": "void OnActionResolved(SeatId seat)",
+      "engineSymbol": "unknown: Root's action executor / action-complete callback",
+      "patchKind": "postfix",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC",
+        "patchKind": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "hook.piece-moved",
+      "when": "One or more pieces of a seat moved (move, march, slip, advance, dig out of the Burrow, Crusade). Esquie entering the Nest while the François decoy is up triggers the decoy joke.",
+      "provides": [
+        "owner seat",
+        "piece kind",
+        "from clearing (null for a forest or the Burrow)",
+        "to clearing (null for a forest or the Burrow)",
+        "count"
+      ],
+      "csHandler": "void OnPieceMoved(SeatId owner, PieceKind kind, ClearingId? from, ClearingId? to, int count)",
+      "engineSymbol": "unknown: Root's piece-move execution",
+      "patchKind": "postfix",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC",
+        "patchKind": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "hook.piece-placed",
+      "when": "A piece is placed on the map by any means (build, recruit, spread sympathy, organize, plot, dig, setup, the mod's own spawns). When Gustave's keep is placed during setup, the core assigns every map role (Lumière is the keep's corner) before any other faction sets up. Sciel gains a Sun charge when she places a Lantern.",
+      "provides": [
+        "owner seat",
+        "piece kind",
+        "building or token type",
+        "clearing"
+      ],
+      "csHandler": "void OnPiecePlaced(SeatId owner, PieceKind kind, string type, ClearingId c)",
+      "engineSymbol": "unknown: Root's piece-placement method",
+      "patchKind": "postfix",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC",
+        "patchKind": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "hook.piece-removed",
+      "when": "A piece leaves the map by any means: battle hit, Strike, Bomb, Revolt, mob, Sanctify, Convert. The Curator's Quiet Helper fires when the Paintress's roost leaves the Monolith; guard counters drop for host warriors removed outside a battle.",
+      "provides": [
+        "seat that caused the removal (null when no seat did)",
+        "removed piece (owner, kind, type)",
+        "clearing"
+      ],
+      "csHandler": "void OnPieceRemoved(SeatId? remover, RemovedPiece piece, ClearingId c)",
+      "engineSymbol": "unknown: Root's piece-removal method",
+      "patchKind": "postfix",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC",
+        "patchKind": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "hook.battle-legal",
+      "when": "Root (or its AI, or the human UI) asks whether a seat may start a battle or a Strike against another seat in a clearing. Returning false hides the option. Used by Esquie's Never Mad and the v1.1 Monolith Barrier.",
+      "provides": [
+        "attacker seat",
+        "defender seat",
+        "clearing",
+        "whether it is a Strike"
+      ],
+      "csHandler": "bool CanStartBattle(SeatId attacker, SeatId defender, ClearingId c, bool strike)",
+      "engineSymbol": "unknown: Root's battle/strike legality check used by the UI and AI",
+      "patchKind": "prefix",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC",
+        "patchKind": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "hook.battle-start",
+      "when": "A battle has been declared (attacker, defender and clearing fixed) and nothing has been rolled yet, before Ambush cards. Pre-battle toggles (Overcharge, Stains) are read and hit modifiers are registered (Perfection, Twilight, Belly Bounce, Unbeatable in Act I); Still Life may move a warrior in.",
+      "provides": [
+        "attacker seat",
+        "defender seat",
+        "clearing"
+      ],
+      "csHandler": "void OnBattleStarting(SeatId attacker, SeatId defender, ClearingId c)",
+      "engineSymbol": "unknown: Root's battle start, before the ambush step",
+      "patchKind": "prefix",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC",
+        "patchKind": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "hook.battle-resolved",
+      "when": "A battle has fully resolved: hits dealt, pieces removed, items damaged. Gustave's Arm, Verso's rank, Monoco's feet, Esquie's guard counters, Sciel's Moon charge and Maelle's stance update here.",
+      "provides": [
+        "clearing",
+        "attacker and defender seats",
+        "every removed piece with owner, kind and type",
+        "each Vagabond's damaged-item count before and after",
+        "whether the attacker's pawn or Warlord entered the clearing this turn",
+        "the VP leader when the battle started (null on a tie)"
+      ],
+      "csHandler": "void OnBattleResolved(BattleResult r)",
+      "engineSymbol": "unknown: Root's battle resolution, after removals and item damage",
+      "patchKind": "postfix",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC",
+        "patchKind": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "hook.explore-resolved",
+      "when": "A Vagabond's Explore action has resolved in a ruin clearing. Esquie claims Dorrie by Exploring Old Lumière in Act II or later.",
+      "provides": [
+        "Vagabond seat",
+        "clearing explored"
+      ],
+      "csHandler": "void OnExploreResolved(SeatId vagabond, ClearingId c)",
+      "engineSymbol": "unknown: Root's Vagabond Explore action",
+      "patchKind": "postfix",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC",
+        "patchKind": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "hook.aid-resolved",
+      "when": "A Vagabond's Aid action has resolved. Esquie claims Soarrie by Aiding the Monolith's ruler while in the Monolith; Maelle's stance turns Defensive.",
+      "provides": [
+        "Vagabond seat",
+        "faction seat aided",
+        "clearing"
+      ],
+      "csHandler": "void OnAidResolved(SeatId vagabond, SeatId receiver, ClearingId c)",
+      "engineSymbol": "unknown: Root's Vagabond Aid action",
+      "patchKind": "postfix",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC",
+        "patchKind": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "hook.hostility-change",
+      "when": "Root is about to make a faction Hostile to a Vagabond because the Vagabond removed that faction's warriors in a battle. Returning false skips the change (Friends Not Foes in guarded-rock clearings).",
+      "provides": [
+        "Vagabond seat",
+        "faction seat",
+        "clearing of the battle"
+      ],
+      "csHandler": "bool AllowHostile(SeatId vagabond, SeatId faction, ClearingId battleClearing)",
+      "engineSymbol": "unknown: Root's Vagabond relationship change to Hostile",
+      "patchKind": "prefix",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC",
+        "patchKind": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "hook.relationship-changed",
+      "when": "A Vagabond's relationship with a faction has changed (Aid steps, Hostile). Maelle's family row and barks update.",
+      "provides": [
+        "Vagabond seat",
+        "faction seat",
+        "relationship before",
+        "relationship after"
+      ],
+      "csHandler": "void OnRelationshipChanged(SeatId vagabond, SeatId faction, Relationship before, Relationship after)",
+      "engineSymbol": "unknown: Root's Vagabond relationship track setter",
+      "patchKind": "postfix",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC",
+        "patchKind": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "hook.item-changed",
+      "when": "A Vagabond item was gained, lost, damaged, repaired, exhausted or refreshed. Verso's hit chord, Maelle's undamaged-item count on the Goal Tracker, and bot gear checks use it.",
+      "provides": [
+        "Vagabond seat",
+        "item before (null when gained)",
+        "item after (null when lost)"
+      ],
+      "csHandler": "void OnItemChanged(SeatId vagabond, ItemState? before, ItemState? after)",
+      "engineSymbol": "unknown: Root's Vagabond item state change",
+      "patchKind": "postfix",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC",
+        "patchKind": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "hook.warlord-removed",
+      "when": "The Lord of the Hundreds' Warlord pawn has been removed, before Root anoints a new one. Monoco's Sacred River Rebirth fires.",
+      "provides": [
+        "Hundreds seat",
+        "clearing where the Warlord fell"
+      ],
+      "csHandler": "void OnWarlordRemoved(SeatId hundreds, ClearingId c)",
+      "engineSymbol": "unknown: Root's Warlord removal / anoint step",
+      "patchKind": "prefix",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC",
+        "patchKind": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "hook.relic-recovered",
+      "when": "The Keepers in Iron recovered a relic at a waystation. Lune gains a Stain; her win is checked at her end of turn.",
+      "provides": [
+        "Keepers seat",
+        "relic id",
+        "relic type (tablet, figure or jewelry)"
+      ],
+      "csHandler": "void OnRelicRecovered(SeatId keepers, int relicId, string relicType)",
+      "engineSymbol": "unknown: Root's Keepers Recover action",
+      "patchKind": "postfix",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC",
+        "patchKind": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "hook.relic-moved",
+      "when": "A relic changed place: delved out of a forest, carried, dropped face up into a forest by Prized Trophies, or moved by the mod. Lune's Parents' Journal tag is re-attached here.",
+      "provides": [
+        "relic id"
+      ],
+      "csHandler": "void OnRelicMoved(int relicId)",
+      "engineSymbol": "unknown: Root's relic token move/flip",
+      "patchKind": "postfix",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC",
+        "patchKind": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "hook.vp-changed",
+      "when": "A seat's VP changed. The Monolith Number (33 minus the top score) and the Goal Tracker refresh; the act clock notes that an act's VP limit was reached.",
+      "provides": [
+        "seat",
+        "VP before",
+        "VP after"
+      ],
+      "csHandler": "void OnVpChanged(SeatId seat, int before, int after)",
+      "engineSymbol": "unknown: Root's score track setter",
+      "patchKind": "postfix",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC",
+        "patchKind": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "hook.turmoil",
+      "when": "The Eyrie fell into Turmoil (the Paintress's Grief). The smeared-canvas bubble plays; the rules are unchanged.",
+      "provides": [
+        "Eyrie seat"
+      ],
+      "csHandler": "void OnTurmoil(SeatId eyrie)",
+      "engineSymbol": "unknown: Root's Eyrie Turmoil step",
+      "patchKind": "postfix",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC",
+        "patchKind": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "hook.convert",
+      "when": "The Lizard Cult converted an enemy warrior. Clea's 'perfect specimen' bark plays on the first Convert of each other faction.",
+      "provides": [
+        "Lizard seat",
+        "seat whose warrior was converted",
+        "clearing"
+      ],
+      "csHandler": "void OnConvert(SeatId lizards, SeatId victim, ClearingId c)",
+      "engineSymbol": "unknown: Root's Lizard Convert conspiracy",
+      "patchKind": "postfix",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC",
+        "patchKind": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "hook.ui-toggle",
+      "when": "A pre-battle toggle on a mod faction-board overlay is switched on or off, by the human clicking it or by a bot's Goal Director (Gustave's Overcharge, Lune's Stains).",
+      "provides": [
+        "seat",
+        "toggle id (e.g. 'overcharge', 'stain.fire')",
+        "on or off"
+      ],
+      "csHandler": "void OnToggle(SeatId seat, string toggleId, bool on)",
+      "engineSymbol": "none: the mod's own faction-board overlay button",
+      "patchKind": "event"
+    },
+    {
+      "id": "hook.bot-decision",
+      "when": "Root's AI is about to make a decision for a bot seat. The Goal Director picks one of the legal actions by the character's bot plan, or returns null to let Root's own AI decide (also used for hit allocation, Ambush and discards).",
+      "provides": [
+        "bot seat",
+        "legal action keys from the engine's legal-action API"
+      ],
+      "csHandler": "string? OnBotDecision(SeatId seat, IReadOnlyList<string> legalActions)",
+      "engineSymbol": "unknown: the Dire Wolf AI decision entry point for each faction",
+      "patchKind": "prefix",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC",
+        "patchKind": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "hook.game-over",
+      "when": "The game ended (30 VP, dominance, a coalition partner's win, or a themed win declared by the mod). The winner's ending card plays and campaign progress is saved.",
+      "provides": [
+        "winning seats (a coalition gives two)"
+      ],
+      "csHandler": "void OnGameOver(IReadOnlyList<SeatId> winners)",
+      "engineSymbol": "unknown: Root's end-of-game / victory screen",
+      "patchKind": "postfix",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC",
+        "patchKind": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "hook.save",
+      "when": "Root writes a save (autosave, manual save, or an async online turn). The core returns its state as text, stored beside the save under the game's ID.",
+      "provides": [
+        "the game's ID (to key the mod's file)"
+      ],
+      "csHandler": "string OnSave()",
+      "engineSymbol": "unknown: Root's save-game serializer",
+      "patchKind": "postfix",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC",
+        "patchKind": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "hook.load",
+      "when": "Root has loaded a save (resume, async turn, or an undo/rollback that restores a snapshot). The core restores its state and re-checks every piece of it against the board.",
+      "provides": [
+        "the mod's saved text for this game's ID (empty when the save has none)"
+      ],
+      "csHandler": "void OnLoad(string saved)",
+      "engineSymbol": "unknown: Root's save-game loader and undo/rollback restore",
+      "patchKind": "postfix",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC",
+        "patchKind": "confirm in Root's code on the creator's PC"
+      }
+    }
+  ]
+}

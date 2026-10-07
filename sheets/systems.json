@@ -1,0 +1,246 @@
+{
+  "rows": [
+    {
+      "id": "sys.title-screen",
+      "name": "Title screen and prologue",
+      "description": "The ROOT 33 title is drawn over Root's main menu, with the 33 tearing out of a rift (overlay ui.global.title; the made-for-mod art asset.title-rift is composited onto Root's own logo, read from the player's install). On first launch it asks 'Spoiler-safe' or 'I've finished Clair Obscur: Expedition 33' and stores the answer as opt.spoiler-mode. Then a skippable speech-bubble prologue shows the Gommage and the send-off. The title-screen roster, the store page and the mod's description use safe names only.",
+      "sheets": [
+        "overlays",
+        "assets",
+        "options"
+      ],
+      "v1": true,
+      "needsCreatorPc": true,
+      "_notes": "The prologue's lines have no sheet of their own yet; they are speech bubbles, so they can become barks rows if a prologue trigger is added."
+    },
+    {
+      "id": "sys.spoiler-mode",
+      "name": "Spoiler mode",
+      "description": "Every name, bark, tooltip and vignette carries a tier: safe, act2 or finished. Safe mode uses neutral names (The Paintress, The Curator, The White-Haired Man, Maelle, Verso, and '???' for Clea), locks Clea to finished mode, keeps the Curator selectable with a vague description ('end the painting from Lumière'), never fires a 'mother' line (it uses 'whoever painted this world...' variants instead), and skips the Beach vignette and the ending-flavoured win vignettes. act2 content shows in either mode once the mod's own Act II has started. Finished mode unlocks true names and lines, but the true 'mother' lines still fire only during the mod's Act III. Every finished line needs a safe sibling.",
+      "sheets": [
+        "options",
+        "characters",
+        "reskins",
+        "barks",
+        "story_events",
+        "overlays"
+      ],
+      "v1": true,
+      "needsCreatorPc": false,
+      "_notes": "The roster tags content [safe], [Act II+] or [finished] but does not say how safe mode treats Act II+ content; it is read here as 'shown in either mode from the mod's Act II on'. The tier filtering is core logic; showing the chosen text inside Root goes through the reskin and speech-bubble systems, which do need the creator's PC."
+    },
+    {
+      "id": "sys.table-seating",
+      "name": "Character select and table seating",
+      "description": "The human picks any character whose engine's DLC they own, and bots fill the other seats: 2-4 seats in all (Root digital's cap is 4). The mod tries to seat a lore rival of the human's pick: Gustave vs the Paintress, Verso vs Maelle, Esquie vs Clea, the Curator vs the Paintress, the White-Haired Man vs Gustave. Without The Riverfolk Expansion only one Vagabond character (Esquie, Verso or Maelle) can be seated; Riverfolk opens a second Vagabond seat. The base-game table is Gustave + the Paintress + Sciel + one of Esquie, Verso or Maelle. Setup forces homes: Gustave's keep in Lumière, the Paintress's first roost in the Monolith, Clea in the Flying Manor, the Curator in a free corner other than Lumière and the Monolith, and Esquie in the forest next to the Nest. In this E33 mode every seat uses the standard Dire Wolf AI and the Clockwork bots are hidden. Safe mode shows Clea as a locked '???'.",
+      "sheets": [
+        "characters",
+        "engines",
+        "dlc",
+        "map_roles",
+        "options"
+      ],
+      "v1": true,
+      "needsCreatorPc": true
+    },
+    {
+      "id": "sys.continent-map",
+      "name": "Continent map and role assignment",
+      "description": "v1 reskins Root's Autumn map as the Continent: each of its 12 clearings gets a Continent name and a flavour line. The story places the rules refer to (Lumière, the Monolith, Esquie's Nest, the Flying Manor, Stone Wave Cliffs, Old Lumière, the Axons Visages, Sirène and The Reacher, and the Sacred River) are map roles, assigned to clearings by rule once the map and Gustave's keep are known and before any other faction sets up, so every win works on Autumn, Winter, Lake and Mountain. Roles never move during a game. A role's clearing always shows the role's name: on Autumn, when a role lands on a clearing other than the one map_autumn names after it, the two clearings swap names for that game, so all 12 names stay unique. On the other maps only role clearings are renamed. The Sacred River is drawn over the river clearings, which keep their own names. A purpose-built Continent map comes later.",
+      "sheets": [
+        "map_roles",
+        "map_autumn",
+        "overlays",
+        "assets"
+      ],
+      "v1": true,
+      "needsCreatorPc": true,
+      "_notes": "The name swap is this sheet's choice: the roster assigns roles by rule and also gives Autumn fixed names, and swapping is the simplest way to keep both."
+    },
+    {
+      "id": "sys.faction-reskins",
+      "name": "Faction reskins",
+      "description": "Each character renames its engine's pieces, tracks, actions, leaders and cards (Gustave's keep becomes the Expedition Camp, the Paintress's roosts become Easels, Sciel's sympathy becomes Lanterns, and so on), each with a safe name, a finished name and a journal-style tooltip, bound to Root's own localisation keys or types. A reskin never changes a rule; only names, art and tooltips change.",
+      "sheets": [
+        "reskins",
+        "characters",
+        "engines",
+        "assets"
+      ],
+      "v1": true,
+      "needsCreatorPc": true
+    },
+    {
+      "id": "sys.win-conditions",
+      "name": "Themed win conditions and countdown banners",
+      "description": "One themed win per character, on top of Root's 30 VP, dominance and coalitions, which work as normal. Countdown wins (Gustave, the Paintress, Sciel, Verso, Maelle, Monoco, the Curator, Clea, the White-Haired Man) need 10+ VP: the win is announced with a public banner at the end of the owner's turn and takes effect at the start of their next Birdsong if the confirm test still passes. Every confirm test is answered by a real Root action (win a battle, flip rule, remove a token or building, damage items). Quest wins (Esquie, Lune) take effect at the end of the owner's turn and are paced by story spawns. No themed win can happen in Act I, and the Curator's waits for Act III. Themed wins are off for a player holding an active dominance card or in a coalition; a coalition Vagabond wins if its partner wins in any way. Every progress meter is public on the Goal Tracker. Each themed win plays that character's ending card (original text; ending-flavoured cards only in finished mode). Easy assists, such as a human Verso qualifying at rank A, never apply to bots.",
+      "sheets": [
+        "win_conditions",
+        "characters",
+        "tuning",
+        "state",
+        "game_hooks",
+        "board_reads",
+        "overlays"
+      ],
+      "v1": true,
+      "needsCreatorPc": true
+    },
+    {
+      "id": "sys.acts",
+      "name": "Acts, story events and the Monolith Number",
+      "description": "One game is one year of Expedition 33, in three acts. Act I, 'The Landing', runs until any seat reaches 10 VP or round 4 ends; Act II, 'The Monolith', until any seat reaches 20 VP or round 8 ends; Act III, 'The Canvas', to the end of the game. Each act opens with its story events (vignettes, spawns, unlocks, tags and portrait changes), each played only when its owner is seated and its spoiler tier allows. No act event changes VP, charge, rank or relationships. The Monolith Number, shown on the Monolith, is the story clock: 33 minus the top score, ticking down as anyone scores.",
+      "sheets": [
+        "acts",
+        "story_events",
+        "spawns",
+        "state",
+        "game_hooks",
+        "overlays",
+        "tuning"
+      ],
+      "v1": true,
+      "needsCreatorPc": true
+    },
+    {
+      "id": "sys.spawns",
+      "name": "Story spawns",
+      "description": "Things the mod puts on the board or tags, only when their owner is seated: Esquie's four rocks (Florrie at Stone Wave Cliffs with 2 guards from setup; Dorrie hidden in Old Lumière and Soarrie on Verso's card or with the Monolith's ruler from Act II; Urrie at the Nest with 3 guards from Act III), the cosmetic François decoy at the Nest during Act I, Lune's Parents' Journal tag beside Sirène from Act II, and the Curator's Cell Crack, inert in the Monolith until Act III. Rocks are mod overlay tokens; guards are real warriors of a 'Nevron host' seat, counted by a mod guard counter. If the week-1 spike shows the mod cannot place another seat's warriors, the no-spawn fallback becomes the v1 default.",
+      "sheets": [
+        "spawns",
+        "story_events",
+        "map_roles",
+        "state",
+        "board_actions",
+        "overlays"
+      ],
+      "v1": true,
+      "needsCreatorPc": true
+    },
+    {
+      "id": "sys.rule-tweaks",
+      "name": "Rule tweaks",
+      "description": "Small rule changes a character brings, such as Overcharge, Belly Bounce, Never Mad, Friends Not Foes, Perfection, Stains, Sacred River Rebirth, Quiet Helper and Unbeatable in Act I. In v1 a choice that would need a mid-battle prompt (Overcharge, Stains) is a pre-battle toggle on the faction board, and Belly Bounce is automatic. v1.1 adds Esquie's rock powers, Sciel's Twilight, the Paintress's Still Life and the optional Monolith Barrier (no battle may start in the Monolith until both Axon clearings have been ruled at the end of a turn by someone other than the White-Haired Man or the Paintress).",
+      "sheets": [
+        "rule_tweaks",
+        "game_hooks",
+        "board_actions",
+        "tuning"
+      ],
+      "v1": true,
+      "needsCreatorPc": true
+    },
+    {
+      "id": "sys.bots",
+      "name": "Bots: goal director, spoiler layer and difficulty",
+      "description": "Every bot chases its own character's themed win, in three layers. (1) Legal moves come from the engine's legal-action API, the same one the human UI uses to highlight clickable clearings, cards and items; Root's native faction AI keeps the sub-decisions (hit allocation, Ambush, discards) and is the fallback whenever nothing goal-relevant is legal. (2) The goal director runs the character's bot plan, a priority list in the style of the Clockwork flowcharts: it chooses targets, sites and cards and decides when to switch from VP play to goal mode. A week-1 decompile spike decides whether it re-ranks the native AI's candidates or, as the default plan, drives the engine directly as a mod-owned policy. (3) The spoiler layer reads the public Goal Tracker and, when anyone (the human included) is one step from a themed win or has a banner up, attacks or blocks the key clearing. Bots use only public information plus their own hand and hidden pieces, and bark their next goal move. Difficulty (Easy, Normal, Hard) sets when goal mode starts, how well bots guard key pieces and how hard they block. A faction without a native digital AI uses a fallback planner with the same priorities.",
+      "sheets": [
+        "bot_plans",
+        "bot_rules",
+        "board_reads",
+        "state",
+        "options",
+        "tuning",
+        "engines"
+      ],
+      "v1": true,
+      "needsCreatorPc": true
+    },
+    {
+      "id": "sys.speech-bubbles",
+      "name": "Speech bubbles",
+      "description": "Characters talk in speech bubbles, with original lines that never quote Clair Obscur's script and never imitate a voice actor; there is no voice audio. Each line has a character, a trigger with a cooldown, and a spoiler tier, and every finished line has a safe sibling. Bots use bubbles to announce their next goal move; the prologue and the act vignettes play as bubbles too.",
+      "sheets": [
+        "barks",
+        "bark_triggers",
+        "game_hooks",
+        "overlays"
+      ],
+      "v1": true,
+      "needsCreatorPc": true
+    },
+    {
+      "id": "sys.saved-state",
+      "name": "Saved mod state",
+      "description": "Wherever possible the mod reads state straight from the board at each check (Portraits, Sanctuaries, the Ring, coverage, the ruled Chain). Everything else (flags, arm charge, rank, feet, rocks, the relic tag, the act, countdowns) is saved with the game under its id and re-checked against the board on load, so save/load, resumed games and undo do not break a win.",
+      "sheets": [
+        "state",
+        "game_hooks",
+        "board_reads"
+      ],
+      "v1": true,
+      "needsCreatorPc": true
+    },
+    {
+      "id": "sys.install-assets",
+      "name": "Art and music from the player's installs",
+      "description": "Clair Obscur portraits, art and music, and Root's own art, are read at runtime from the player's own installs of both games and never shipped. Each asset names its path inside the install and what shows when the source is missing (for example, when Clair Obscur is not installed). Only art made for the mod, such as the title rift, ships in the package.",
+      "sheets": [
+        "assets",
+        "overlays"
+      ],
+      "v1": true,
+      "needsCreatorPc": true
+    },
+    {
+      "id": "sys.melty-launch",
+      "name": "Melty one-click launch",
+      "description": "The Melty package starts Root 33 in one click. It runs a separate copy of the player's own Root install (Steam app 965580) that it keeps for the mod, so the Steam install stays untouched, adds the mod loader to it (BepInEx 5 for a Mono build; BepInEx 6 IL2CPP or MelonLoader for an IL2CPP build, decided by the week-1 spike) together with the Root 33 plugin, and launches it. It also locates Clair Obscur (Steam app 1903340) for art and music. Nothing from Root or Clair Obscur ships in the package.",
+      "sheets": [
+        "dlc",
+        "assets"
+      ],
+      "v1": true,
+      "needsCreatorPc": true,
+      "_notes": "No sheet describes the package layout itself: dlc gives Root's Steam app id and assets lists what is read from each install. 'Own copy of Root' is read as a separate modded copy of the player's install, which is why tools/pc/find-games.ps1 reports Root's size and the free space per drive; Clair Obscur's app id also comes from that script."
+    },
+    {
+      "id": "sys.dlc-detection",
+      "name": "DLC detection",
+      "description": "The mod checks which Root content packs the player owns, by each pack's Steam app id, and offers only those: a character whose engine needs a missing DLC is hidden from character select and never seated as a bot, the second Vagabond seat needs The Riverfolk Expansion, the Lake and Mountain maps need The Underworld Expansion, Maelle's optional Ronin needs Exiles & Partisans & Vagabonds, and hireling and landmark theming needs Hirelings & Landmarks.",
+      "sheets": [
+        "dlc",
+        "engines",
+        "characters"
+      ],
+      "v1": true,
+      "needsCreatorPc": true,
+      "_notes": "Research could not confirm whether Root lets a non-owner face a DLC faction's AI offline, so the simplest safe rule is used: a character's DLC must be owned for it to be seated at all, by the human or a bot."
+    },
+    {
+      "id": "sys.settings",
+      "name": "Settings",
+      "description": "The four player options: spoiler mode (asked on first launch), bot difficulty, the Faithful Gustave retitle (finished mode only) and the campaign. Spoiler mode stays with the player's mod profile; the other three are chosen when a game is set up. A change to spoiler mode takes effect from the next game.",
+      "sheets": [
+        "options"
+      ],
+      "v1": true,
+      "needsCreatorPc": true,
+      "_notes": "Where each option is chosen and when a spoiler-mode change applies are left open by the roster; the simplest choice is used (read once when a game starts)."
+    },
+    {
+      "id": "sys.campaign",
+      "name": "Campaign",
+      "description": "Optional (opt.campaign): three linked games, Act I with Gustave as the suggested lead, Act II with Verso and Act III with Maelle or the Curator. Losing never ends the campaign, because the next expedition carries on: the player gets the last expedition's journal, worth +1 card in the next game. With the campaign off the game is Free Play, with no restrictions.",
+      "sheets": [
+        "options",
+        "characters",
+        "acts"
+      ],
+      "v1": true,
+      "needsCreatorPc": true,
+      "_notes": "The roster does not list the campaign among its v1.1 items, so it is marked v1; it is off by default. '+1 card' is read as one extra card in the player's opening hand."
+    },
+    {
+      "id": "sys.hirelings-landmarks-theming",
+      "name": "Hirelings and landmarks theming",
+      "description": "Optional, v1.1, with Root's Hirelings & Landmarks DLC. Landmarks become Continent places: Lost City = Verso's Drafts, Tower = the Endless Tower, Legendary Forge = the Curator's camp, Black Market = Noco's shop, Elder Treetop = the Esquie Head statue. Hirelings become Clair Obscur figures: Popular/Street Band = the Mimes, Highway Bandits = Petanks, Furious/Stoic Protector = Golgra, The Exile = Osquio prowling the forests, Forest Patrol = Expedition 33 survivors. Names and art only; their rules are unchanged.",
+      "sheets": [
+        "dlc"
+      ],
+      "v1": false,
+      "needsCreatorPc": true,
+      "_notes": "No rows exist for these names yet: reskins rows must belong to a character, so v1.1 needs a home for theming that belongs to no character. The Riverfolk Company engine stays free for a later Golgra or Gestral character."
+    }
+  ]
+}

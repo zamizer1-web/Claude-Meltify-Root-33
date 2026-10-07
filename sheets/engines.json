@@ -1,0 +1,238 @@
+{
+  "rows": [
+    {
+      "id": "marquise",
+      "rootName": "Marquise de Cat",
+      "kind": "faction",
+      "dlc": "base",
+      "readableState": [
+        "warriors per clearing",
+        "sawmills, workshops and recruiters per clearing",
+        "wood tokens per clearing",
+        "keep clearing",
+        "ruler of each clearing"
+      ],
+      "digitalAi": "yes",
+      "engineType": "unknown",
+      "_unverified": {
+        "engineType": "Root's own class or id for this engine is unknown; confirm in Root's code on the creator's PC"
+      },
+      "_notes": "Gustave rides it."
+    },
+    {
+      "id": "eyrie",
+      "rootName": "Eyrie Dynasties",
+      "kind": "faction",
+      "dlc": "base",
+      "readableState": [
+        "warriors per clearing",
+        "roosts per clearing",
+        "ruler of each clearing, counting Lords of the Forest ties",
+        "Decree cards and current leader",
+        "Turmoil"
+      ],
+      "digitalAi": "yes",
+      "engineType": "unknown",
+      "_unverified": {
+        "engineType": "Root's own class or id for this engine is unknown; confirm in Root's code on the creator's PC"
+      },
+      "_notes": "The Paintress rides it."
+    },
+    {
+      "id": "alliance",
+      "rootName": "Woodland Alliance",
+      "kind": "faction",
+      "dlc": "base",
+      "readableState": [
+        "sympathy tokens per clearing",
+        "bases on the map, by suit",
+        "warriors per clearing",
+        "officers",
+        "supporters"
+      ],
+      "digitalAi": "yes",
+      "engineType": "unknown",
+      "_unverified": {
+        "engineType": "Root's own class or id for this engine is unknown; confirm in Root's code on the creator's PC"
+      },
+      "_notes": "Sciel rides it."
+    },
+    {
+      "id": "vagabond-tinker",
+      "rootName": "Vagabond (Tinker)",
+      "kind": "vagabond",
+      "dlc": "base",
+      "readableState": [
+        "pawn location (clearing or forest)",
+        "items with damaged and exhausted state",
+        "relationship with each non-Vagabond faction",
+        "coalition partner",
+        "completed quests by suit"
+      ],
+      "digitalAi": "yes",
+      "engineType": "unknown",
+      "_unverified": {
+        "engineType": "Root's own class or id for this engine is unknown; confirm in Root's code on the creator's PC"
+      },
+      "_notes": "Esquie rides it (starting items Boots, Torch, Bag, Hammer)."
+    },
+    {
+      "id": "vagabond-ranger",
+      "rootName": "Vagabond (Ranger)",
+      "kind": "vagabond",
+      "dlc": "base",
+      "readableState": [
+        "pawn location (clearing or forest)",
+        "items with damaged and exhausted state",
+        "relationship with each non-Vagabond faction",
+        "coalition partner",
+        "completed quests by suit"
+      ],
+      "digitalAi": "yes",
+      "engineType": "unknown",
+      "_unverified": {
+        "engineType": "Root's own class or id for this engine is unknown; confirm in Root's code on the creator's PC"
+      },
+      "_notes": "Verso rides it (starting items Boots, Torch, Crossbow, Sword)."
+    },
+    {
+      "id": "vagabond-thief",
+      "rootName": "Vagabond (Thief)",
+      "kind": "vagabond",
+      "dlc": "base",
+      "readableState": [
+        "pawn location (clearing or forest)",
+        "items with damaged and exhausted state",
+        "relationship with each non-Vagabond faction",
+        "coalition partner",
+        "completed quests by suit"
+      ],
+      "digitalAi": "yes",
+      "engineType": "unknown",
+      "_unverified": {
+        "engineType": "Root's own class or id for this engine is unknown; confirm in Root's code on the creator's PC"
+      },
+      "_notes": "Maelle rides it (starting items Boots, Torch, Tea, Sword). With Exiles & Partisans & Vagabonds she may ride the Ronin instead; the Ronin has no row in the fixed engine list and maps to EngineId.VagabondOther in the core."
+    },
+    {
+      "id": "riverfolk",
+      "rootName": "Riverfolk Company",
+      "kind": "faction",
+      "dlc": "riverfolk",
+      "readableState": [
+        "warriors per clearing",
+        "trade posts per clearing",
+        "funds and payments",
+        "services bought"
+      ],
+      "digitalAi": "unknown",
+      "engineType": "unknown",
+      "_unverified": {
+        "digitalAi": "research found only 'probably' for a native Dire Wolf AI for this faction; confirm in Root's code on the creator's PC (week-1 spike)",
+        "engineType": "Root's own class or id for this engine is unknown; confirm in Root's code on the creator's PC"
+      },
+      "_notes": "No Root 33 character rides it yet; it is kept free for a later Golgra or Gestral character."
+    },
+    {
+      "id": "lizards",
+      "rootName": "Lizard Cult",
+      "kind": "faction",
+      "dlc": "riverfolk",
+      "readableState": [
+        "warriors per clearing",
+        "gardens per clearing, by suit",
+        "Outcast suit",
+        "acolytes",
+        "Lost Souls pile"
+      ],
+      "digitalAi": "unknown",
+      "engineType": "unknown",
+      "_unverified": {
+        "digitalAi": "research found only 'probably' for a native Dire Wolf AI for this faction; confirm in Root's code on the creator's PC (week-1 spike)",
+        "engineType": "Root's own class or id for this engine is unknown; confirm in Root's code on the creator's PC"
+      },
+      "_notes": "Clea rides it."
+    },
+    {
+      "id": "duchy",
+      "rootName": "Underground Duchy",
+      "kind": "faction",
+      "dlc": "underworld",
+      "readableState": [
+        "warriors per clearing",
+        "warriors in the Burrow",
+        "tunnels per clearing",
+        "citadels and markets per clearing",
+        "swayed ministers"
+      ],
+      "digitalAi": "unknown",
+      "engineType": "unknown",
+      "_unverified": {
+        "digitalAi": "research found only 'probably' for a native Dire Wolf AI for this faction; confirm in Root's code on the creator's PC (week-1 spike)",
+        "engineType": "Root's own class or id for this engine is unknown; confirm in Root's code on the creator's PC"
+      },
+      "_notes": "The Curator rides it."
+    },
+    {
+      "id": "corvids",
+      "rootName": "Corvid Conspiracy",
+      "kind": "faction",
+      "dlc": "underworld",
+      "readableState": [
+        "warriors per clearing",
+        "plot tokens per clearing, face up or face down",
+        "type of each face-up plot",
+        "ruler of each clearing"
+      ],
+      "digitalAi": "unknown",
+      "engineType": "unknown",
+      "_unverified": {
+        "digitalAi": "research found only 'probably' for a native Dire Wolf AI for this faction; confirm in Root's code on the creator's PC (week-1 spike)",
+        "engineType": "Root's own class or id for this engine is unknown; confirm in Root's code on the creator's PC"
+      },
+      "_notes": "The White-Haired Man rides it."
+    },
+    {
+      "id": "hundreds",
+      "rootName": "Lord of the Hundreds",
+      "kind": "faction",
+      "dlc": "marauder",
+      "readableState": [
+        "Warlord location",
+        "warriors per clearing",
+        "strongholds per clearing",
+        "mob tokens per clearing",
+        "Hoard items",
+        "current mood"
+      ],
+      "digitalAi": "unknown",
+      "engineType": "unknown",
+      "_unverified": {
+        "digitalAi": "research found only 'probably' for a native Dire Wolf AI for this faction; confirm in Root's code on the creator's PC (week-1 spike)",
+        "engineType": "Root's own class or id for this engine is unknown; confirm in Root's code on the creator's PC"
+      },
+      "_notes": "Monoco rides it."
+    },
+    {
+      "id": "keepers",
+      "rootName": "Keepers in Iron",
+      "kind": "faction",
+      "dlc": "marauder",
+      "readableState": [
+        "relic tokens per forest and clearing, by type",
+        "relic values once face up",
+        "recovered relics by type",
+        "waystations and their faces",
+        "warriors per clearing",
+        "Retinue cards"
+      ],
+      "digitalAi": "unknown",
+      "engineType": "unknown",
+      "_unverified": {
+        "digitalAi": "research found only 'probably' for a native Dire Wolf AI for this faction; confirm in Root's code on the creator's PC (week-1 spike)",
+        "engineType": "Root's own class or id for this engine is unknown; confirm in Root's code on the creator's PC"
+      },
+      "_notes": "Lune rides it. Whether relic type and value are readable while face down is a week-1 spike item."
+    }
+  ]
+}

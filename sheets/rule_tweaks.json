@@ -1,0 +1,497 @@
+{
+  "rows": [
+    {
+      "id": "tweak.gustave.overcharge",
+      "character": "gustave",
+      "name": "Overcharge",
+      "rule": "A pre-battle toggle on his faction board, never a mid-battle prompt. When he attacks with Gustave's Arm at tune.gustave-arm-max (3/3), he may arm it for +tune.gustave-overcharge-hits hit in that battle; when the battle resolves the Arm empties to 0 (instead of charging). An unused armed toggle switches off at the end of his turn. His bot arms it only to take the Beachhead or retake Lumière.",
+      "version": "v1",
+      "hooks": [
+        "hook.ui-toggle",
+        "hook.battle-start",
+        "hook.battle-resolved",
+        "hook.turn-end"
+      ],
+      "actions": [
+        "do.add-hits"
+      ],
+      "tests": [
+        "Overcharge_AddsHitAndEmptiesArm",
+        "Overcharge_UnavailableBelowFullArm",
+        "Overcharge_DisarmsUnusedAtTurnEnd"
+      ],
+      "_notes": "Switching off an unused armed toggle at the end of his turn is the simplest option; the roster does not say."
+    },
+    {
+      "id": "tweak.gustave.keep-in-lumiere",
+      "character": "gustave",
+      "name": "Expedition Camp in Lumière",
+      "rule": "Setup: the Marquise keep (the Expedition Camp) goes in Lumière. The corner where Gustave places it becomes Lumière for the game, and the corner diagonally opposite becomes the Monolith, before any other faction sets up. Normal Marquise setup then leaves the Monolith as the one clearing with no Expeditioners.",
+      "version": "v1",
+      "hooks": [
+        "hook.setup-home",
+        "hook.piece-placed"
+      ],
+      "actions": [],
+      "tests": [
+        "GustaveSetup_KeepCornerBecomesLumiere",
+        "GustaveSetup_MonolithIsDiagonalAndHasNoExpeditioners"
+      ],
+      "_notes": "Aligned with map_roles.json: Lumière is defined as the keep's corner, so 'forced into Lumière' always holds and the keep choice itself is never restricted."
+    },
+    {
+      "id": "tweak.esquie.belly-bounce",
+      "character": "esquie",
+      "name": "Belly Bounce",
+      "rule": "Automatic, no prompt: in a clearing with a guarded rock, his Bag counts as tune.esquie-belly-bounce-swords undamaged sword for his max hits.",
+      "version": "v1",
+      "hooks": [
+        "hook.battle-start"
+      ],
+      "actions": [
+        "do.add-max-hits"
+      ],
+      "tests": [
+        "BellyBounce_BagAddsMaxHitInGuardedRockClearing",
+        "BellyBounce_NoEffectOutsideRockClearings",
+        "BellyBounce_DamagedBagDoesNotCount"
+      ],
+      "_notes": "Needs at least one undamaged Bag (a damaged Bag cannot stand in for an undamaged sword) and gives one sword however many Bags he has. Under the no-spawn fallback it applies in a clearing with an unclaimed Florrie or Urrie."
+    },
+    {
+      "id": "tweak.esquie.never-mad",
+      "character": "esquie",
+      "name": "Never Mad",
+      "rule": "He may start a battle or Strike only against the Nevron host's warriors in a clearing with a guarded rock. Every other battle or Strike is not offered to him (AI and human UI alike).",
+      "version": "v1",
+      "hooks": [
+        "hook.battle-legal"
+      ],
+      "actions": [],
+      "tests": [
+        "NeverMad_AllowsBattleAgainstHostGuards",
+        "NeverMad_BlocksBattleOutsideGuardedRockClearing",
+        "NeverMad_BlocksStrikeOnNonHostPieces"
+      ],
+      "_notes": "Read literally: guard fights are his only battles. Under the no-spawn fallback there is no host, so he may battle only in a clearing with an unclaimed Florrie or Urrie, against any faction's warriors there."
+    },
+    {
+      "id": "tweak.esquie.friends-not-foes",
+      "character": "esquie",
+      "name": "Friends Not Foes",
+      "rule": "Removing guard warriors never moves the host toward Hostile: one prefix patch skips Root's hostility change for battles in a clearing with a guarded rock.",
+      "version": "v1",
+      "hooks": [
+        "hook.hostility-change"
+      ],
+      "actions": [],
+      "tests": [
+        "FriendsNotFoes_HostNotMadeHostileInGuardedRockClearing",
+        "FriendsNotFoes_HostilityNormalElsewhere"
+      ],
+      "_notes": "The patch is keyed to the clearing, so it applies to any Vagabond battling there, as the roster's 'for battles in guarded-rock clearings' says."
+    },
+    {
+      "id": "tweak.esquie.start-near-nest",
+      "character": "esquie",
+      "name": "Starts by the Nest",
+      "rule": "Setup: Esquie's pawn starts in a forest touching Esquie's Nest.",
+      "version": "v1",
+      "hooks": [
+        "hook.setup-home"
+      ],
+      "actions": [
+        "do.restrict-start-forest"
+      ],
+      "tests": [
+        "EsquieSetup_StartsInForestTouchingNest"
+      ],
+      "_notes": "If several forests touch the Nest, all of them are allowed and the bot picks the one closest to Stone Wave Cliffs."
+    },
+    {
+      "id": "tweak.esquie.guard-floor",
+      "character": "esquie",
+      "name": "Guards hold their post",
+      "rule": "While a rock is guarded in a clearing, the host's move generator (Root's AI and the human UI too) keeps at least GuardsLeft of its warriors there. It is a count floor: the host's other warriors come and go. The floor lifts when the rock becomes loose. Applies to any host, a human Clea included.",
+      "version": "v1",
+      "hooks": [
+        "hook.setup-complete",
+        "hook.act-change",
+        "hook.battle-resolved",
+        "hook.piece-removed",
+        "hook.load"
+      ],
+      "actions": [
+        "do.set-guard-floor"
+      ],
+      "tests": [
+        "GuardFloor_HostCannotMoveBelowGuardsLeft",
+        "GuardFloor_ExtraHostWarriorsMoveFreely",
+        "GuardFloor_LiftsWhenRockLoose"
+      ]
+    },
+    {
+      "id": "tweak.esquie.guard-no-placement",
+      "character": "esquie",
+      "name": "No building at a guarded rock",
+      "rule": "While a rock is guarded in a clearing, the host may not build, recruit or place pieces there (AI and human UI alike). The block lifts when the rock becomes loose.",
+      "version": "v1",
+      "hooks": [
+        "hook.setup-complete",
+        "hook.act-change",
+        "hook.battle-resolved",
+        "hook.piece-removed",
+        "hook.load"
+      ],
+      "actions": [
+        "do.block-placement"
+      ],
+      "tests": [
+        "GuardRules_HostCannotBuildRecruitOrPlaceInRockClearing",
+        "GuardRules_PlacementBlockLiftsWhenRockLoose"
+      ]
+    },
+    {
+      "id": "tweak.esquie.guards-never-count",
+      "character": "esquie",
+      "name": "Guards are not the host's",
+      "rule": "Guard warriors never count toward any themed win (Clea's coverage, the White-Haired Man's Ring). Wherever a themed-win test counts a seat's warriors in a clearing, it first subtracts GuardsLeft of the guarded rocks that seat hosts there.",
+      "version": "v1",
+      "hooks": [
+        "hook.evening-end",
+        "hook.birdsong-start"
+      ],
+      "actions": [],
+      "tests": [
+        "GuardRules_HostedGuardsExcludedFromCleaCoverage",
+        "GuardRules_HostedGuardsExcludedFromRingPresence",
+        "GuardRules_HostedGuardsExcludedFromPortraitWarriors"
+      ],
+      "_notes": "Root's own rule (read.ruler) still counts guards, because it is Root's computation; only the mod's direct warrior counts subtract them. The Paintress's 2-warrior Portrait count is included as 'any themed win'."
+    },
+    {
+      "id": "tweak.esquie.florrie-swim",
+      "character": "esquie",
+      "name": "Rock power: Florrie",
+      "rule": "Once Esquie holds Florrie, rivers count as paths for him.",
+      "version": "v1.1",
+      "hooks": [
+        "hook.action-resolved",
+        "hook.load"
+      ],
+      "actions": [
+        "do.grant-ability"
+      ],
+      "tests": [
+        "RockPowers_FlorrieLetsRiversCountAsPaths"
+      ]
+    },
+    {
+      "id": "tweak.esquie.dorrie-coral",
+      "character": "esquie",
+      "name": "Rock power: Dorrie",
+      "rule": "Once Esquie holds Dorrie, he no longer pays the extra boot for entering a Hostile faction's clearing.",
+      "version": "v1.1",
+      "hooks": [
+        "hook.action-resolved",
+        "hook.explore-resolved",
+        "hook.load"
+      ],
+      "actions": [
+        "do.grant-ability"
+      ],
+      "tests": [
+        "RockPowers_DorrieWaivesHostileBoot"
+      ]
+    },
+    {
+      "id": "tweak.esquie.soarrie-glide",
+      "character": "esquie",
+      "name": "Rock power: Soarrie",
+      "rule": "Once Esquie holds Soarrie, he may exhaust a torch once per turn to move to any clearing (the Harrier's Glide logic).",
+      "version": "v1.1",
+      "hooks": [
+        "hook.action-resolved",
+        "hook.aid-resolved",
+        "hook.evening-end",
+        "hook.load"
+      ],
+      "actions": [
+        "do.grant-ability"
+      ],
+      "tests": [
+        "RockPowers_SoarrieGlideOncePerTurn"
+      ],
+      "_notes": "Urrie's power in the roster is the victory dive, which is win-vignette presentation rather than a rule, so it has no row here."
+    },
+    {
+      "id": "tweak.paintress.roost-in-monolith",
+      "character": "paintress",
+      "name": "First easel in the Monolith",
+      "rule": "Setup: her starting roost (Easel) must go in the Monolith. Normal setup already puts it there when Gustave's keep is in Lumière.",
+      "version": "v1",
+      "hooks": [
+        "hook.setup-home"
+      ],
+      "actions": [
+        "do.restrict-home"
+      ],
+      "tests": [
+        "PaintressSetup_RoostRestrictedToMonolith"
+      ],
+      "_notes": "Root's own Eyrie setup already uses the corner diagonal to the keep; the restriction matters when Gustave is not seated and Lumière is chosen by rule."
+    },
+    {
+      "id": "tweak.paintress.still-life",
+      "character": "paintress",
+      "name": "Still Life",
+      "rule": "Once per turn, when an enemy starts a battle in a Living Portrait clearing, she may move tune.paintress-still-life-warriors warrior there from an adjacent clearing before the roll.",
+      "version": "v1.1",
+      "hooks": [
+        "hook.battle-start",
+        "hook.turn-end"
+      ],
+      "actions": [
+        "do.move-warriors"
+      ],
+      "tests": [
+        "StillLife_MovesOneWarriorBeforeRoll",
+        "StillLife_OncePerTurn"
+      ],
+      "_notes": "'Once per turn' is read as once per turn of whichever seat is playing, since enemies start battles on their own turns."
+    },
+    {
+      "id": "tweak.sciel.twilight",
+      "character": "sciel",
+      "name": "Twilight",
+      "rule": "Automatic. Placing a Lantern gives her a Sun charge; removing an enemy warrior in a battle she starts gives a Moon charge. If she holds both at the start of her Evening, her first battle that Evening deals +tune.sciel-twilight-hits hit, then both reset.",
+      "version": "v1.1",
+      "hooks": [
+        "hook.piece-placed",
+        "hook.battle-resolved",
+        "hook.evening-start",
+        "hook.battle-start",
+        "hook.turn-end"
+      ],
+      "actions": [
+        "do.add-hits"
+      ],
+      "tests": [
+        "Twilight_SunAndMoonAddHitToFirstEveningBattle",
+        "Twilight_ChargesResetAfterBoostedBattle",
+        "Twilight_NoHitWithOnlyOneCharge"
+      ],
+      "_notes": "Charges are held (yes or no), not counted. If she holds both but does not battle that Evening, the charges are kept for a later Evening; the roster resets them only after the boosted battle."
+    },
+    {
+      "id": "tweak.verso.perfection",
+      "character": "verso",
+      "name": "Perfection",
+      "rule": "Automatic: at rank A or S (tune.verso-perfection-rank or higher) he deals +tune.verso-perfection-hits hit when attacking, once per battle. Any hit he takes knocks the rank down, so it balances itself.",
+      "version": "v1",
+      "hooks": [
+        "hook.battle-start"
+      ],
+      "actions": [
+        "do.add-hits"
+      ],
+      "tests": [
+        "Perfection_AddsHitAtRankAOrS",
+        "Perfection_NoHitBelowRankA",
+        "Perfection_NoHitWhenDefending"
+      ]
+    },
+    {
+      "id": "tweak.verso.soarrie-handoff",
+      "character": "verso",
+      "name": "Soarrie hand-off",
+      "rule": "If Esquie is seated (needs The Riverfolk Expansion), Soarrie appears on Verso's card at the start of Act II. It passes to Esquie when Esquie ends a turn in Verso's clearing in Act II or later, and Verso scores tune.verso-soarrie-vp VP.",
+      "version": "v1",
+      "hooks": [
+        "hook.act-change",
+        "hook.evening-end"
+      ],
+      "actions": [
+        "do.score-vp",
+        "do.hide-overlay"
+      ],
+      "tests": [
+        "SoarrieHandoff_PassesWhenEsquieEndsTurnInVersoClearing",
+        "SoarrieHandoff_VersoScoresOneVp",
+        "SoarrieHandoff_NotWhenVersoInForest"
+      ],
+      "_notes": "Both pawns must be in the same clearing (not the same forest), as the roster says 'Verso's clearing'."
+    },
+    {
+      "id": "tweak.maelle.stance-chip",
+      "character": "maelle",
+      "name": "Stance chip",
+      "rule": "Cosmetic: the chip on her card turns Offensive after she battles, Defensive after she Aids or is attacked, and Virtuose after she both battles and Aids in one turn. It changes her portrait and barks only.",
+      "version": "v1",
+      "hooks": [
+        "hook.battle-resolved",
+        "hook.aid-resolved",
+        "hook.turn-end"
+      ],
+      "actions": [
+        "do.show-overlay",
+        "do.show-bubble"
+      ],
+      "tests": [
+        "StanceChip_OffensiveAfterBattle",
+        "StanceChip_DefensiveAfterAidOrAttacked",
+        "StanceChip_VirtuoseAfterBattleAndAidSameTurn"
+      ],
+      "_notes": "The chip keeps its last stance between turns; only the 'did both this turn' record resets at the end of her turn."
+    },
+    {
+      "id": "tweak.lune.stains",
+      "character": "lune",
+      "name": "Stains",
+      "rule": "Each relic she recovers gives a Stain of its element: Chroma Sample (jewelry) = Fire, Journal (tablet) = Ice, Route Chart (figure) = Lightning. A pre-battle toggle on her board (not a mid-battle prompt) arms one Stain for +tune.lune-stain-hits hit in her next battle; the Stain is spent when that battle resolves.",
+      "version": "v1",
+      "hooks": [
+        "hook.relic-recovered",
+        "hook.ui-toggle",
+        "hook.battle-start",
+        "hook.battle-resolved"
+      ],
+      "actions": [
+        "do.add-hits"
+      ],
+      "tests": [
+        "Stains_RecoveredRelicGivesMatchingStain",
+        "Stains_ArmedStainAddsHitAndIsSpent",
+        "Stains_CannotArmWithoutStain"
+      ],
+      "_notes": "v1 here means it ships with Lune's first build (Lune is a later character). Stains are spent when used and have no cap, and an armed Stain applies to her next battle whether she attacks or defends; the roster leaves these open."
+    },
+    {
+      "id": "tweak.monoco.sacred-river-rebirth",
+      "character": "monoco",
+      "name": "Sacred River Rebirth",
+      "rule": "Whenever the Warlord is removed, Monoco loses his Almighty foot and his most recently earned other foot; when Root anoints a new Warlord, it is Monoco reborn with some memories gone. Killing the Warlord during the countdown therefore stops him.",
+      "version": "v1",
+      "hooks": [
+        "hook.warlord-removed"
+      ],
+      "actions": [
+        "do.show-overlay"
+      ],
+      "tests": [
+        "SacredRiverRebirth_LosesAlmightyAndLatestFoot",
+        "SacredRiverRebirth_NoFeetNoChange"
+      ],
+      "_notes": "v1 here means it ships with Monoco's first build (Monoco is a later character)."
+    },
+    {
+      "id": "tweak.curator.quiet-helper",
+      "character": "curator",
+      "name": "Quiet Helper",
+      "rule": "Whenever another player removes the Paintress's roost from the Monolith, that player draws tune.curator-quiet-helper-cards card ('the Curator upgraded your weapon').",
+      "version": "v1",
+      "hooks": [
+        "hook.piece-removed"
+      ],
+      "actions": [
+        "do.draw-cards",
+        "do.show-bubble"
+      ],
+      "tests": [
+        "QuietHelper_RoostRemoverDrawsCard",
+        "QuietHelper_NotForRoostsOutsideMonolith",
+        "QuietHelper_NotWhenCuratorRemovesIt"
+      ],
+      "_notes": "v1 here means it ships with the Curator's first build. 'Another player' is read as any seat other than the Curator and the Paintress."
+    },
+    {
+      "id": "tweak.curator.home-corner",
+      "character": "curator",
+      "name": "Home corner",
+      "rule": "Setup: his home corner may be any free corner except Lumière and the Monolith.",
+      "version": "v1",
+      "hooks": [
+        "hook.setup-home"
+      ],
+      "actions": [
+        "do.restrict-home"
+      ],
+      "tests": [
+        "CuratorSetup_HomeCornerExcludesLumiereAndMonolith"
+      ],
+      "_notes": "v1 here means it ships with the Curator's first build."
+    },
+    {
+      "id": "tweak.clea.home-flying-manor",
+      "character": "clea",
+      "name": "Home in the Flying Manor",
+      "rule": "Setup: her home corner is the Flying Manor.",
+      "version": "v1",
+      "hooks": [
+        "hook.setup-home"
+      ],
+      "actions": [
+        "do.restrict-home"
+      ],
+      "tests": [
+        "CleaSetup_HomeIsFlyingManor"
+      ],
+      "_notes": "v1 here means it ships with Clea's first build."
+    },
+    {
+      "id": "tweak.clea.nevron-host",
+      "character": "clea",
+      "name": "Nevron host",
+      "rule": "When Clea is seated, Esquie's rock guards always come from her supply, and she follows the guard host rules (count floor, no building, recruiting or placing at a guarded rock) through the human UI too.",
+      "version": "v1",
+      "hooks": [
+        "hook.setup-complete",
+        "hook.act-change"
+      ],
+      "actions": [
+        "do.place-warriors"
+      ],
+      "tests": [
+        "GuardHost_CleaHostsWhenSeated",
+        "GuardHost_HumanCleaUiRespectsFloor"
+      ],
+      "_notes": "v1 here means it ships with Clea's first build."
+    },
+    {
+      "id": "tweak.white-haired-man.unbeatable-act1",
+      "character": "white-haired-man",
+      "name": "Unbeatable in Act I",
+      "rule": "During Act I only, his warriors in Ring clearings ignore the first hit of each battle (tune.white-haired-man-unbeatable-hits). It switches off at Act II. Exposure works as normal.",
+      "version": "v1",
+      "hooks": [
+        "hook.battle-start"
+      ],
+      "actions": [
+        "do.ignore-first-hit"
+      ],
+      "tests": [
+        "UnbeatableActOne_RingWarriorsIgnoreFirstHit",
+        "UnbeatableActOne_OffFromActTwo",
+        "UnbeatableActOne_OnlyInRingClearings"
+      ],
+      "_notes": "v1 here means it ships with his first build. It applies whether he attacks or defends, like the Keepers' Devout Knights."
+    },
+    {
+      "id": "tweak.white-haired-man.monolith-barrier",
+      "character": "white-haired-man",
+      "name": "Monolith Barrier",
+      "rule": "Optional: no battle may start in the Monolith until Visages and Sirène have both been ruled, at the end of the same turn, by seats other than the White-Haired Man and the Paintress. Once that happens the Barrier is down for the rest of the game.",
+      "version": "v1.1",
+      "hooks": [
+        "hook.battle-legal",
+        "hook.turn-end"
+      ],
+      "actions": [],
+      "tests": [
+        "MonolithBarrier_BlocksMonolithBattleUntilAxonsRuled",
+        "MonolithBarrier_StaysDownOnceBroken"
+      ],
+      "_notes": "The roster lists this as an optional v1.1 table rule with no owner. It is filed under the White-Haired Man (the Barrier is his imagery) and is active only while he is seated. 'Both Axon clearings' is read as Visages and Sirène, ruled at the end of the same turn."
+    }
+  ]
+}

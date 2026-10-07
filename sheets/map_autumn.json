@@ -1,0 +1,197 @@
+{
+  "rows": [
+    {
+      "id": "autumn.01",
+      "continentName": "Lumière",
+      "role": null,
+      "flavor": "A broken island city of crooked towers, where every expedition is waved off under the number painted across the sea.",
+      "engineClearingId": "1",
+      "suit": "fox",
+      "corner": true,
+      "ruin": false,
+      "_unverified": {
+        "engineClearingId": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
+        "suit": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
+        "corner": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
+        "ruin": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research"
+      },
+      "_notes": "'role' is empty on every Autumn row because roles are assigned by rule when the map loads (see map_roles). These names are the default layout, written for the guessed layout below (Lumière and the Monolith in opposite corners, the Axons beside the Monolith, Old Lumière a central ruin). When a role lands on another clearing, that clearing and the one named after the role here swap names for that game. engineClearingId, suit, corner and ruin are guesses on every row, with 4 fox, 4 rabbit and 4 mouse clearings, 4 corners and 4 ruins."
+    },
+    {
+      "id": "autumn.02",
+      "continentName": "Esquie's Nest",
+      "role": null,
+      "flavor": "A cosy hollow of round stones and enormous footprints, with a grumpy turtle living next door.",
+      "engineClearingId": "2",
+      "suit": "mouse",
+      "corner": true,
+      "ruin": false,
+      "_unverified": {
+        "engineClearingId": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
+        "suit": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
+        "corner": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
+        "ruin": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research"
+      }
+    },
+    {
+      "id": "autumn.03",
+      "continentName": "The Monolith",
+      "role": null,
+      "flavor": "A stone spire at the edge of the world where the number is painted, one stroke shorter every year.",
+      "engineClearingId": "3",
+      "suit": "rabbit",
+      "corner": true,
+      "ruin": false,
+      "_unverified": {
+        "engineClearingId": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
+        "suit": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
+        "corner": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
+        "ruin": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research"
+      }
+    },
+    {
+      "id": "autumn.04",
+      "continentName": "Flying Manor",
+      "role": null,
+      "flavor": "A manor adrift in a ring of floating rocks; its windows are always lit and nobody answers the door.",
+      "engineClearingId": "4",
+      "suit": "rabbit",
+      "corner": true,
+      "ruin": false,
+      "_unverified": {
+        "engineClearingId": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
+        "suit": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
+        "corner": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
+        "ruin": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research"
+      }
+    },
+    {
+      "id": "autumn.05",
+      "continentName": "Spring Meadows",
+      "role": null,
+      "flavor": "Soft green hills just past the landing beach, where the expedition first learned the Continent bites back.",
+      "engineClearingId": "5",
+      "suit": "rabbit",
+      "corner": false,
+      "ruin": false,
+      "_unverified": {
+        "engineClearingId": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
+        "suit": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
+        "corner": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
+        "ruin": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research"
+      }
+    },
+    {
+      "id": "autumn.06",
+      "continentName": "Stone Wave Cliffs",
+      "role": null,
+      "flavor": "Waves of rock frozen mid-crash, patrolled by a lamp that should not be able to walk.",
+      "engineClearingId": "6",
+      "suit": "fox",
+      "corner": false,
+      "ruin": false,
+      "_unverified": {
+        "engineClearingId": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
+        "suit": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
+        "corner": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
+        "ruin": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research"
+      }
+    },
+    {
+      "id": "autumn.07",
+      "continentName": "Gestral Village",
+      "role": null,
+      "flavor": "Wooden arenas and cheerful brawlers who settle every argument with a friendly duel.",
+      "engineClearingId": "7",
+      "suit": "mouse",
+      "corner": false,
+      "ruin": true,
+      "_unverified": {
+        "engineClearingId": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
+        "suit": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
+        "corner": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
+        "ruin": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research"
+      }
+    },
+    {
+      "id": "autumn.08",
+      "continentName": "Old Lumière",
+      "role": null,
+      "flavor": "The drowned old city, its rooftops poking out of still green water like gravestones.",
+      "engineClearingId": "8",
+      "suit": "mouse",
+      "corner": false,
+      "ruin": true,
+      "_unverified": {
+        "engineClearingId": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
+        "suit": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
+        "corner": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
+        "ruin": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research"
+      }
+    },
+    {
+      "id": "autumn.09",
+      "continentName": "Visages",
+      "role": null,
+      "flavor": "A valley of carved stone faces, each one wearing a different mood.",
+      "engineClearingId": "9",
+      "suit": "fox",
+      "corner": false,
+      "ruin": false,
+      "_unverified": {
+        "engineClearingId": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
+        "suit": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
+        "corner": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
+        "ruin": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research"
+      }
+    },
+    {
+      "id": "autumn.10",
+      "continentName": "Sirène",
+      "role": null,
+      "flavor": "Silk-draped dunes and a slow, lovely song that pulls travellers off the path.",
+      "engineClearingId": "10",
+      "suit": "mouse",
+      "corner": false,
+      "ruin": false,
+      "_unverified": {
+        "engineClearingId": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
+        "suit": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
+        "corner": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
+        "ruin": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research"
+      }
+    },
+    {
+      "id": "autumn.11",
+      "continentName": "The Reacher",
+      "role": null,
+      "flavor": "A long cold shoreline where something enormous keeps stretching toward the sky.",
+      "engineClearingId": "11",
+      "suit": "fox",
+      "corner": false,
+      "ruin": true,
+      "_unverified": {
+        "engineClearingId": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
+        "suit": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
+        "corner": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
+        "ruin": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research"
+      }
+    },
+    {
+      "id": "autumn.12",
+      "continentName": "Forgotten Battlefield",
+      "role": null,
+      "flavor": "Rusted blades and torn banners from an expedition nobody remembers sailing.",
+      "engineClearingId": "12",
+      "suit": "rabbit",
+      "corner": false,
+      "ruin": true,
+      "_unverified": {
+        "engineClearingId": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
+        "suit": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
+        "corner": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
+        "ruin": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research"
+      }
+    }
+  ]
+}

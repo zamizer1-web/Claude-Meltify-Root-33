@@ -1,0 +1,430 @@
+{
+  "rows": [
+    {
+      "id": "state.global.act",
+      "owner": "global",
+      "csType": "int",
+      "range": "1-3 (act1 The Landing, act2 The Monolith, act3 The Canvas); never goes back",
+      "initial": "1",
+      "writtenBy": [
+        "hook.game-start",
+        "hook.turn-end",
+        "hook.load"
+      ],
+      "onLoad": "Restored from the save. If the save has none, recomputed: act 2 once any seat has reached tune.act1-end-vp or the round is past tune.act1-end-round, act 3 likewise with tune.act2-end-vp and tune.act2-end-round. Never moved backwards.",
+      "_notes": "The act changes at hook.turn-end, after that turn's themed-win checks (hook.evening-end), at most once per turn, matching acts.json."
+    },
+    {
+      "id": "state.global.round",
+      "owner": "global",
+      "csType": "int",
+      "range": "1 or more",
+      "initial": "1",
+      "writtenBy": [
+        "hook.game-start",
+        "hook.round-start",
+        "hook.load"
+      ],
+      "onLoad": "Restored from the save; if Root exposes its own counter (read.round > 0), that value wins."
+    },
+    {
+      "id": "state.global.countdowns",
+      "owner": "global",
+      "csType": "HashSet<SeatId>",
+      "range": "seats whose countdown banner is up (announced at the end of their turn, waiting for their next Birdsong)",
+      "initial": "empty",
+      "writtenBy": [
+        "hook.evening-end",
+        "hook.birdsong-start",
+        "hook.load"
+      ],
+      "onLoad": "For each seat in the set, rerun that character's confirm test on the loaded board; keep it (and redraw its banner) only if it passes, otherwise drop it and clear the banner."
+    },
+    {
+      "id": "state.global.spoiler-mode",
+      "owner": "global",
+      "csType": "SpoilerMode",
+      "range": "Safe or Finished",
+      "initial": "Safe until the first-launch question is answered; copied from opt.spoiler-mode when a game is created",
+      "writtenBy": [
+        "hook.title-screen",
+        "hook.game-start",
+        "hook.load"
+      ],
+      "onLoad": "Restored from the save: a game keeps the spoiler mode it started with, and a change to opt.spoiler-mode applies from the next game. Finished-mode 'mother' lines still wait for Act III.",
+      "_notes": "The first-launch answer lives in the player's mod profile (opt.spoiler-mode); this row is the copy a game reads, taken once at game start as the settings system says."
+    },
+    {
+      "id": "state.global.difficulty",
+      "owner": "global",
+      "csType": "Difficulty",
+      "range": "Easy, Normal or Hard",
+      "initial": "Normal (copied from opt.difficulty when the game is created)",
+      "writtenBy": [
+        "hook.game-start",
+        "hook.load"
+      ],
+      "onLoad": "Restored from the save, so a game keeps the difficulty it started with."
+    },
+    {
+      "id": "state.global.seat-characters",
+      "owner": "global",
+      "csType": "Dictionary<SeatId,string>",
+      "range": "every seat maps to one character id from characters.json",
+      "initial": "empty; filled as seats are assigned",
+      "writtenBy": [
+        "hook.seat-assigned",
+        "hook.load"
+      ],
+      "onLoad": "Restored from the save, then each seat's engine (read.seat-engine) is compared with its character's engine; on a mismatch that seat plays plain Root (no themed win or bot plan) and the player is warned."
+    },
+    {
+      "id": "state.global.roles",
+      "owner": "global",
+      "csType": "Dictionary<RoleId,IReadOnlyList<ClearingId>>",
+      "range": "each map role id to its clearings (one for most roles; none for Sirène or The Reacher when the Monolith lacks that many path neighbours; all river clearings for the Sacred River)",
+      "initial": "empty; filled at map load, or when Gustave's keep is placed if he is seated",
+      "writtenBy": [
+        "hook.map-loaded",
+        "hook.piece-placed",
+        "hook.load"
+      ],
+      "onLoad": "Restored from the save as is, because roles never move during a game (Lumière stays the keep's corner even after the keep is gone). Only a save with no mod state recomputes them by the map_roles rules."
+    },
+    {
+      "id": "state.global.e33-mode",
+      "owner": "global",
+      "csType": "bool",
+      "range": "true for a game created from the mod's character select; false for a plain Root game",
+      "initial": "false",
+      "writtenBy": [
+        "hook.character-select",
+        "hook.game-start",
+        "hook.load"
+      ],
+      "onLoad": "True only if the save carries mod state for this game's ID; a save without it loads as plain Root."
+    },
+    {
+      "id": "state.global.campaign-game",
+      "owner": "global",
+      "csType": "int",
+      "range": "0 = Free Play, 1-3 = game number in the 3-game campaign (Act I, Act II, Act III)",
+      "initial": "0",
+      "writtenBy": [
+        "hook.game-start",
+        "hook.game-over"
+      ],
+      "onLoad": "Kept in the player's profile, not the game save; a loaded campaign game keeps the number saved with it."
+    },
+    {
+      "id": "state.global.campaign-journal",
+      "owner": "global",
+      "csType": "bool",
+      "range": "true when the human lost the previous campaign game and gets the last expedition's journal (+1 card at setup)",
+      "initial": "false",
+      "writtenBy": [
+        "hook.game-over",
+        "hook.setup-complete"
+      ],
+      "onLoad": "Kept in the player's profile; spent at hook.setup-complete of the next campaign game.",
+      "_notes": "The roster says the journal is 'worth +1 card'; read, as opt.campaign does, as one extra card in the human's opening hand."
+    },
+    {
+      "id": "state.gustave.flags",
+      "owner": "gustave",
+      "csType": "HashSet<ClearingId>",
+      "range": "clearings ever flagged; Lumière always included; only grows",
+      "initial": "{Lumière}",
+      "writtenBy": [
+        "hook.setup-complete",
+        "hook.evening-end",
+        "hook.load"
+      ],
+      "onLoad": "Restored from the save; ids not on the current map are dropped and Lumière is added back if missing. Flags never come off, so the board is not used to remove any."
+    },
+    {
+      "id": "state.gustave.arm",
+      "owner": "gustave",
+      "csType": "int",
+      "range": "0 to tune.gustave-arm-max (3)",
+      "initial": "0",
+      "writtenBy": [
+        "hook.game-start",
+        "hook.battle-resolved",
+        "hook.load"
+      ],
+      "onLoad": "Restored and clamped to 0..tune.gustave-arm-max."
+    },
+    {
+      "id": "state.gustave.overcharge-armed",
+      "owner": "gustave",
+      "csType": "bool",
+      "range": "true while the Overcharge toggle is armed for his next battle",
+      "initial": "false",
+      "writtenBy": [
+        "hook.ui-toggle",
+        "hook.battle-resolved",
+        "hook.turn-end",
+        "hook.load"
+      ],
+      "onLoad": "Always false after loading (a save never falls inside a battle); the arm keeps its charge."
+    },
+    {
+      "id": "state.gustave.route",
+      "owner": "gustave",
+      "csType": "IReadOnlyList<ClearingId>",
+      "range": "the bot's planned Route from Lumière to a Beachhead, in path order; empty for a human Gustave",
+      "initial": "empty",
+      "writtenBy": [
+        "hook.birdsong-start",
+        "hook.load"
+      ],
+      "onLoad": "Not trusted after loading: recomputed at his next Birdsong."
+    },
+    {
+      "id": "state.esquie.rocks",
+      "owner": "esquie",
+      "csType": "RockState[]",
+      "range": "4 entries in order Florrie, Dorrie, Soarrie, Urrie. RockState fields: string Status (notSpawned | hidden | guarded | loose | heldByRuler | withVerso | held); ClearingId? Clearing (null while withVerso, heldByRuler or held); SeatId? HostSeat (the Nevron host for guarded rocks, Verso's seat for withVerso, null otherwise); int GuardsLeft (0-3). Soarrie's holder is HostSeat while withVerso, and the Monolith's current ruler while heldByRuler.",
+      "initial": "all notSpawned",
+      "writtenBy": [
+        "hook.game-start",
+        "hook.setup-complete",
+        "hook.act-change",
+        "hook.battle-resolved",
+        "hook.piece-removed",
+        "hook.action-resolved",
+        "hook.explore-resolved",
+        "hook.aid-resolved",
+        "hook.evening-end",
+        "hook.load"
+      ],
+      "onLoad": "Restored from the save. Held rocks stay held. For each guarded rock, GuardsLeft = min(saved GuardsLeft, host warriors now in its clearing), and it becomes loose at 0. Guard floors and placement blocks are re-sent to the plugin (do.set-guard-floor, do.block-placement). Rocks whose act has not come yet stay notSpawned.",
+      "_notes": "The roster's status list is hidden | guarded | loose | heldByRuler | held; notSpawned (a rock before its act) and withVerso (Soarrie on Verso's card) were added because the roster describes both states without naming them."
+    },
+    {
+      "id": "state.esquie.decoy",
+      "owner": "esquie",
+      "csType": "bool",
+      "range": "true while the François decoy badge sits at Esquie's Nest",
+      "initial": "false; true at setup when Esquie is seated",
+      "writtenBy": [
+        "hook.setup-complete",
+        "hook.piece-moved",
+        "hook.act-change",
+        "hook.load"
+      ],
+      "onLoad": "Restored; forced false if the loaded act is 2 or later."
+    },
+    {
+      "id": "state.esquie.target",
+      "owner": "esquie",
+      "csType": "int?",
+      "range": "index (0-3) of the rock the bot is chasing this turn, or null",
+      "initial": "null",
+      "writtenBy": [
+        "hook.birdsong-start",
+        "hook.load"
+      ],
+      "onLoad": "Not trusted after loading: recomputed at his next Birdsong (a new target triggers his target bark)."
+    },
+    {
+      "id": "state.paintress.still-life-used",
+      "owner": "paintress",
+      "csType": "bool",
+      "range": "true once Still Life has moved a warrior this turn (v1.1)",
+      "initial": "false",
+      "writtenBy": [
+        "hook.battle-start",
+        "hook.turn-end",
+        "hook.load"
+      ],
+      "onLoad": "Restored; reset at the next hook.turn-end."
+    },
+    {
+      "id": "state.paintress.repaint-avoid",
+      "owner": "paintress",
+      "csType": "Dictionary<ClearingId,int>",
+      "range": "clearings where a Portrait was destroyed, mapped to her turns left to avoid rebuilding there (0-2)",
+      "initial": "empty",
+      "writtenBy": [
+        "hook.piece-removed",
+        "hook.turn-end",
+        "hook.load"
+      ],
+      "onLoad": "Restored; entries for clearings not on the map are dropped."
+    },
+    {
+      "id": "state.sciel.sun",
+      "owner": "sciel",
+      "csType": "bool",
+      "range": "true while she holds a Sun charge (v1.1 Twilight)",
+      "initial": "false",
+      "writtenBy": [
+        "hook.piece-placed",
+        "hook.battle-resolved",
+        "hook.load"
+      ],
+      "onLoad": "Restored from the save (the charge is an event record the board cannot show)."
+    },
+    {
+      "id": "state.sciel.moon",
+      "owner": "sciel",
+      "csType": "bool",
+      "range": "true while she holds a Moon charge (v1.1 Twilight)",
+      "initial": "false",
+      "writtenBy": [
+        "hook.battle-resolved",
+        "hook.load"
+      ],
+      "onLoad": "Restored from the save."
+    },
+    {
+      "id": "state.sciel.twilight-armed",
+      "owner": "sciel",
+      "csType": "bool",
+      "range": "true from the start of her Evening (holding Sun and Moon) until her first battle of that Evening",
+      "initial": "false",
+      "writtenBy": [
+        "hook.evening-start",
+        "hook.battle-resolved",
+        "hook.turn-end",
+        "hook.load"
+      ],
+      "onLoad": "Restored; cleared at the next hook.turn-end."
+    },
+    {
+      "id": "state.verso.rank",
+      "owner": "verso",
+      "csType": "int",
+      "range": "0-4 = D, C, B, A, S",
+      "initial": "0 (D)",
+      "writtenBy": [
+        "hook.game-start",
+        "hook.battle-resolved",
+        "hook.load"
+      ],
+      "onLoad": "Restored and clamped to 0..tune.verso-rank-s."
+    },
+    {
+      "id": "state.maelle.stance",
+      "owner": "maelle",
+      "csType": "string",
+      "range": "'none', 'offensive', 'defensive' or 'virtuose' (cosmetic stance chip)",
+      "initial": "none",
+      "writtenBy": [
+        "hook.battle-resolved",
+        "hook.aid-resolved",
+        "hook.turn-end",
+        "hook.load"
+      ],
+      "onLoad": "Restored from the save; cosmetic only."
+    },
+    {
+      "id": "state.maelle.stance-turn",
+      "owner": "maelle",
+      "csType": "HashSet<string>",
+      "range": "what she did during her current turn: 'battled', 'aided'",
+      "initial": "empty",
+      "writtenBy": [
+        "hook.battle-resolved",
+        "hook.aid-resolved",
+        "hook.turn-end",
+        "hook.load"
+      ],
+      "onLoad": "Restored; cleared at the next hook.turn-end."
+    },
+    {
+      "id": "state.maelle.family",
+      "owner": "maelle",
+      "csType": "HashSet<SeatId>",
+      "range": "the bot's two chosen family factions (one in a 2-player game); empty for a human Maelle",
+      "initial": "empty",
+      "writtenBy": [
+        "hook.birdsong-start",
+        "hook.load"
+      ],
+      "onLoad": "Restored; seats that are now Hostile are dropped and re-picked at her next Birdsong."
+    },
+    {
+      "id": "state.lune.tagged-relic",
+      "owner": "lune",
+      "csType": "int?",
+      "range": "relic id of the Parents' Journal, or null before Act II",
+      "initial": "null",
+      "writtenBy": [
+        "hook.act-change",
+        "hook.relic-moved",
+        "hook.load"
+      ],
+      "onLoad": "Restored; if that relic id no longer exists, the relic is re-found by its type, value and last place; if it cannot be found and it is not among her recovered relics, the tagging rule runs again."
+    },
+    {
+      "id": "state.lune.stains",
+      "owner": "lune",
+      "csType": "Dictionary<string,int>",
+      "range": "Stains held by element: 'fire' (Chroma Sample), 'ice' (Journal), 'lightning' (Route Chart); 0 or more each",
+      "initial": "all 0",
+      "writtenBy": [
+        "hook.relic-recovered",
+        "hook.battle-resolved",
+        "hook.load"
+      ],
+      "onLoad": "Restored from the save."
+    },
+    {
+      "id": "state.lune.stain-armed",
+      "owner": "lune",
+      "csType": "string?",
+      "range": "the element armed for her next battle, or null",
+      "initial": "null",
+      "writtenBy": [
+        "hook.ui-toggle",
+        "hook.battle-resolved",
+        "hook.load"
+      ],
+      "onLoad": "Restored; dropped if she no longer holds a Stain of that element."
+    },
+    {
+      "id": "state.monoco.feet",
+      "owner": "monoco",
+      "csType": "FootState[]",
+      "range": "5 entries in order Agile, Caster, Balanced, Heavy, Almighty. FootState fields: bool Earned; SeatId? Faction (the seat it came from); int Order (1 for the first foot earned and rising; 0 while not earned).",
+      "initial": "all not earned",
+      "writtenBy": [
+        "hook.game-start",
+        "hook.battle-resolved",
+        "hook.warlord-removed",
+        "hook.load"
+      ],
+      "onLoad": "Restored from the save; Almighty is cleared if the loaded act is below tune.monoco-almighty-act; feet whose Faction is no longer a seat are cleared."
+    },
+    {
+      "id": "state.curator.cell-crack",
+      "owner": "curator",
+      "csType": "string",
+      "range": "'none' (Curator not seated), 'inert' (setup to end of Act II), 'tunnel' (opened at Act III), 'dig-owed' (fallback: his first Act III action is a free Dig into the Monolith), 'gone' (the Monolith tunnel was removed; he may Dig again normally)",
+      "initial": "none; inert at setup when the Curator is seated",
+      "writtenBy": [
+        "hook.setup-complete",
+        "hook.act-change",
+        "hook.action-resolved",
+        "hook.piece-removed",
+        "hook.load"
+      ],
+      "onLoad": "Restored, then checked against the board: 'tunnel' with no Duchy tunnel in the Monolith becomes 'gone'; 'inert' in Act III becomes 'dig-owed' if the opening never happened."
+    },
+    {
+      "id": "state.white-haired-man.barrier-down",
+      "owner": "white-haired-man",
+      "csType": "bool",
+      "range": "true once Visages and Sirène were both ruled at the end of a turn by seats other than the White-Haired Man and the Paintress (v1.1 Monolith Barrier)",
+      "initial": "false",
+      "writtenBy": [
+        "hook.turn-end",
+        "hook.load"
+      ],
+      "onLoad": "Restored from the save; it never goes back up."
+    }
+  ]
+}

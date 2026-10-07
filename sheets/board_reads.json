@@ -1,0 +1,526 @@
+{
+  "rows": [
+    {
+      "id": "read.seats",
+      "description": "Every seat at the table, in turn order (2-4 seats).",
+      "csSignature": "IReadOnlyList<SeatId> Seats()",
+      "engineSymbol": "unknown: Root's player/faction list in turn order",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.seat-engine",
+      "description": "The Root engine a seat plays (faction or Vagabond character).",
+      "csSignature": "EngineId EngineOf(SeatId seat)",
+      "engineSymbol": "unknown: Root's per-player faction type",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.is-bot",
+      "description": "Whether a seat is played by Root's AI rather than a human.",
+      "csSignature": "bool IsBot(SeatId seat)",
+      "engineSymbol": "unknown: Root's player controller type (human/AI)",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.current-seat",
+      "description": "The seat whose turn it is.",
+      "csSignature": "SeatId CurrentSeat()",
+      "engineSymbol": "unknown: Root's active player",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.phase",
+      "description": "The current phase of the current seat's turn.",
+      "csSignature": "TurnPhase Phase()",
+      "engineSymbol": "unknown: Root's turn phase state",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.round",
+      "description": "Root's own round counter, or 0 if Root keeps none (the core then uses state.global.round).",
+      "csSignature": "int Round()",
+      "engineSymbol": "unknown: Root's round/turn counter, if any",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.vp",
+      "description": "A seat's victory points. Undefined while the seat has an active dominance card (its marker is off the track); callers check read.active-dominance first.",
+      "csSignature": "int Vp(SeatId seat)",
+      "engineSymbol": "unknown: Root's score track",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.active-dominance",
+      "description": "The suit of the dominance card a seat has activated, or null when it has none.",
+      "csSignature": "Suit? ActiveDominance(SeatId seat)",
+      "engineSymbol": "unknown: Root's active dominance card per player",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.coalition-partner",
+      "description": "For a Vagabond in a coalition, its partner seat; null when not in a coalition.",
+      "csSignature": "SeatId? CoalitionPartner(SeatId seat)",
+      "engineSymbol": "unknown: Root's Vagabond coalition state",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.hand-size",
+      "description": "Number of cards in a seat's hand (public). Verso's bot treats a defender with 3+ cards as a possible Ambush.",
+      "csSignature": "int HandSize(SeatId seat)",
+      "engineSymbol": "unknown: Root's player hand",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.hand-suits",
+      "description": "Suits of the cards in a seat's own hand (birds as Suit.Bird). Bots may call this only for their own seat.",
+      "csSignature": "IReadOnlyList<Suit> HandSuits(SeatId seat)",
+      "engineSymbol": "unknown: Root's player hand card suits",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.legal-actions",
+      "description": "Every action the seat may legally take now, as stable action keys from the engine's legal-action API (the same API the human UI uses to highlight clickable clearings, cards and items).",
+      "csSignature": "IReadOnlyList<string> LegalActions(SeatId seat)",
+      "engineSymbol": "unknown: Root's legal-action generator used by the UI and AI",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.map-name",
+      "description": "The map in play: 'autumn', 'winter', 'lake' or 'mountain'.",
+      "csSignature": "string MapName()",
+      "engineSymbol": "unknown: Root's selected map id",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.clearings",
+      "description": "Every clearing on the map.",
+      "csSignature": "IReadOnlyList<ClearingId> Clearings()",
+      "engineSymbol": "unknown: Root's map clearing list",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.suits-of",
+      "description": "The suit of a clearing (from suit markers on random-suit maps). A Lost City landmark returns fox, rabbit and mouse, since it counts as every suit.",
+      "csSignature": "IReadOnlyList<Suit> SuitsOf(ClearingId c)",
+      "engineSymbol": "unknown: Root's clearing suit and landmark data",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.path-neighbours",
+      "description": "Clearings joined to this one by an open path. Rivers are not paths; Mountain's closed paths are left out until removed.",
+      "csSignature": "IReadOnlyList<ClearingId> PathNeighbours(ClearingId c)",
+      "engineSymbol": "unknown: Root's clearing adjacency (paths)",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.river-neighbours",
+      "description": "Clearings joined to this one by river (Lake: every coastal clearing via the lake).",
+      "csSignature": "IReadOnlyList<ClearingId> RiverNeighbours(ClearingId c)",
+      "engineSymbol": "unknown: Root's river adjacency",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.on-river",
+      "description": "Whether a river touches a clearing; on Lake, whether it is on the lake shore (the Sacred River role).",
+      "csSignature": "bool OnRiver(ClearingId c)",
+      "engineSymbol": "unknown: Root's river clearing flag",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.corners",
+      "description": "The four corner clearings (home sites).",
+      "csSignature": "IReadOnlyList<ClearingId> Corners()",
+      "engineSymbol": "unknown: Root's corner/home clearing data",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.opposite-corner",
+      "description": "The corner Root itself treats as diagonally opposite a corner (the pairing Bird dominance and Marquise setup use), or null on a map where Root has no such pairing.",
+      "csSignature": "ClearingId? OppositeCorner(ClearingId corner)",
+      "engineSymbol": "unknown: Root's diagonal corner pairs (as used by Bird dominance)",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.has-ruin",
+      "description": "Whether a clearing still holds a ruin with its item (true until it is explored or raided).",
+      "csSignature": "bool HasRuin(ClearingId c)",
+      "engineSymbol": "unknown: Root's ruin chits per clearing",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.total-slots",
+      "description": "Building slots printed in a clearing.",
+      "csSignature": "int TotalSlots(ClearingId c)",
+      "engineSymbol": "unknown: Root's clearing slot count",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.free-slots",
+      "description": "Building slots not filled by a building or a ruin.",
+      "csSignature": "int FreeSlots(ClearingId c)",
+      "engineSymbol": "unknown: Root's clearing slot occupancy",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.forests-around",
+      "description": "Forests (numbered by the mod in Root's own order) that touch a clearing.",
+      "csSignature": "IReadOnlyList<int> ForestsAround(ClearingId c)",
+      "engineSymbol": "unknown: Root's forest areas and their bordering clearings",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.forest-clearings",
+      "description": "Clearings that touch a forest.",
+      "csSignature": "IReadOnlyList<ClearingId> ForestClearings(int forest)",
+      "engineSymbol": "unknown: Root's forest areas and their bordering clearings",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.ruler",
+      "description": "The seat that rules a clearing under Root's own rule (most warriors plus buildings; Eyrie win ties by Lords of the Forest; Lizard gardens always rule), or null when nobody rules it.",
+      "csSignature": "SeatId? Ruler(ClearingId c)",
+      "engineSymbol": "unknown: Root's clearing ruler computation",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.warriors",
+      "description": "A seat's warriors in a clearing, guards included (themed-win tests subtract hosted guards themselves).",
+      "csSignature": "int Warriors(SeatId seat, ClearingId c)",
+      "engineSymbol": "unknown: Root's per-clearing warrior count by faction",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.buildings",
+      "description": "A seat's buildings of any type in a clearing.",
+      "csSignature": "int Buildings(SeatId seat, ClearingId c)",
+      "engineSymbol": "unknown: Root's per-clearing buildings by faction",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.buildings-of-type",
+      "description": "A seat's buildings of one type in a clearing. Type is a PieceTypes string; a bare type also matches its suited forms ('base' matches 'base.fox', 'waystation' matches 'waystation.tablet').",
+      "csSignature": "int BuildingsOfType(SeatId seat, ClearingId c, string type)",
+      "engineSymbol": "unknown: Root's per-clearing buildings by faction and type",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.tokens",
+      "description": "A seat's tokens of any type in a clearing.",
+      "csSignature": "int Tokens(SeatId seat, ClearingId c)",
+      "engineSymbol": "unknown: Root's per-clearing tokens by faction",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.tokens-of-type",
+      "description": "A seat's tokens of one type in a clearing (sympathy, wood, keep, tunnel, plot, mob...). Plots count face up and face down.",
+      "csSignature": "int TokensOfType(SeatId seat, ClearingId c, string type)",
+      "engineSymbol": "unknown: Root's per-clearing tokens by faction and type",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.pawn-clearing",
+      "description": "The clearing of a seat's pawn: a Vagabond pawn or the Hundreds' Warlord. Null when the pawn is in a forest, off the map, or the seat has none.",
+      "csSignature": "ClearingId? PawnClearing(SeatId seat)",
+      "engineSymbol": "unknown: Root's Vagabond pawn / Warlord location",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.pawn-forest",
+      "description": "The forest a Vagabond pawn stands in, or null when it is in a clearing.",
+      "csSignature": "int? PawnForest(SeatId seat)",
+      "engineSymbol": "unknown: Root's Vagabond pawn location",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.supply-warriors",
+      "description": "Warriors left in a seat's supply (the Nevron host is chosen by this).",
+      "csSignature": "int SupplyWarriors(SeatId seat)",
+      "engineSymbol": "unknown: Root's faction supply",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.supply-pieces",
+      "description": "Pieces of one building or token type left in a seat's supply (e.g. Duchy tunnels for the Cell Crack).",
+      "csSignature": "int SupplyPieces(SeatId seat, string type)",
+      "engineSymbol": "unknown: Root's faction supply by piece type",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.items",
+      "description": "The items on a Vagabond's card with damaged and exhausted state.",
+      "csSignature": "IReadOnlyList<ItemState> Items(SeatId seat)",
+      "engineSymbol": "unknown: Root's Vagabond item satchel/track",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.relationship",
+      "description": "A Vagabond's relationship with a non-Vagabond faction.",
+      "csSignature": "Relationship RelationshipOf(SeatId vagabond, SeatId faction)",
+      "engineSymbol": "unknown: Root's Vagabond relationship markers",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.crafted-items",
+      "description": "Items a faction has crafted and holds (a Vagabond may take one through Aid).",
+      "csSignature": "IReadOnlyList<ItemType> CraftedItems(SeatId seat)",
+      "engineSymbol": "unknown: Root's per-faction crafted items area",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.eyrie-leader",
+      "description": "The Eyrie's current leader: 'builder', 'charismatic', 'commander' or 'despot'.",
+      "csSignature": "string EyrieLeader(SeatId eyrie)",
+      "engineSymbol": "unknown: Root's Eyrie leader card",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.eyrie-decree",
+      "description": "Suits of the cards in one Decree column ('recruit', 'move', 'battle', 'build'), viziers as Suit.Bird.",
+      "csSignature": "IReadOnlyList<Suit> DecreeColumn(SeatId eyrie, string column)",
+      "engineSymbol": "unknown: Root's Eyrie Decree",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.alliance-supporters",
+      "description": "Suits of the Alliance's supporter cards. Only the Alliance seat's own bot may call it.",
+      "csSignature": "IReadOnlyList<Suit> Supporters(SeatId alliance)",
+      "engineSymbol": "unknown: Root's Alliance supporters stack",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.alliance-officers",
+      "description": "Number of Alliance officers.",
+      "csSignature": "int Officers(SeatId alliance)",
+      "engineSymbol": "unknown: Root's Alliance officers box",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.relics-in-forest",
+      "description": "Relic ids lying in a forest.",
+      "csSignature": "IReadOnlyList<int> RelicsInForest(int forest)",
+      "engineSymbol": "unknown: Root's Keepers relic tokens by location",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.relic-type",
+      "description": "A relic's type: 'tablet', 'figure' or 'jewelry'.",
+      "csSignature": "string RelicType(int relicId)",
+      "engineSymbol": "unknown: Root's relic token type",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.relic-value",
+      "description": "A relic's value (1-3), or null while it is face down and hidden from the mod (to confirm in the week-1 spike).",
+      "csSignature": "int? RelicValue(int relicId)",
+      "engineSymbol": "unknown: Root's relic token value",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.relic-face-up",
+      "description": "Whether a relic is face up.",
+      "csSignature": "bool RelicFaceUp(int relicId)",
+      "engineSymbol": "unknown: Root's relic token face state",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.relic-forest",
+      "description": "The forest a relic lies in, or null when it is carried or recovered.",
+      "csSignature": "int? RelicForest(int relicId)",
+      "engineSymbol": "unknown: Root's relic token location",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.relic-clearing",
+      "description": "The clearing where a relic is being carried by a Keeper warrior, or null.",
+      "csSignature": "ClearingId? RelicClearing(int relicId)",
+      "engineSymbol": "unknown: Root's relic token location",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.recovered-relics",
+      "description": "Relic ids in the Keepers' recovered-relic area.",
+      "csSignature": "IReadOnlyList<int> RecoveredRelics(SeatId keepers)",
+      "engineSymbol": "unknown: Root's Keepers recovered relics",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.keepers-retinue",
+      "description": "Suits of the cards in one Retinue column ('move', 'battle-delve', 'move-recover').",
+      "csSignature": "IReadOnlyList<Suit> RetinueColumn(SeatId keepers, string column)",
+      "engineSymbol": "unknown: Root's Keepers Retinue",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.duchy-burrow",
+      "description": "Duchy warriors in the Burrow.",
+      "csSignature": "int BurrowWarriors(SeatId duchy)",
+      "engineSymbol": "unknown: Root's Duchy Burrow",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.duchy-ministers",
+      "description": "Ids of the minister cards the Duchy has swayed (Root's own card ids; rank read from the card).",
+      "csSignature": "IReadOnlyList<string> SwayedMinisters(SeatId duchy)",
+      "engineSymbol": "unknown: Root's Duchy minister cards",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.corvid-face-up-plot",
+      "description": "The type of a Corvid face-up plot in a clearing ('bomb', 'snare', 'extortion', 'raid'), or null when there is none or it is face down.",
+      "csSignature": "string? FaceUpPlot(SeatId corvids, ClearingId c)",
+      "engineSymbol": "unknown: Root's Corvid plot tokens",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.corvid-hidden-plot",
+      "description": "The type of a face-down Corvid plot in a clearing. Only the Corvid seat's own bot may call it.",
+      "csSignature": "string? HiddenPlotType(SeatId corvids, ClearingId c)",
+      "engineSymbol": "unknown: Root's Corvid plot tokens",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.lizard-outcast",
+      "description": "The Lizard Cult's Outcast suit, or null before one is set.",
+      "csSignature": "Suit? OutcastSuit(SeatId lizards)",
+      "engineSymbol": "unknown: Root's Lizard outcast marker",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.lizard-hated",
+      "description": "Whether the Outcast marker is on its Hated side.",
+      "csSignature": "bool OutcastHated(SeatId lizards)",
+      "engineSymbol": "unknown: Root's Lizard outcast marker",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.lizard-acolytes",
+      "description": "Acolytes in the Lizard Cult's box.",
+      "csSignature": "int Acolytes(SeatId lizards)",
+      "engineSymbol": "unknown: Root's Lizard acolytes",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.hundreds-mood",
+      "description": "The Lord of the Hundreds' current mood card id.",
+      "csSignature": "string Mood(SeatId hundreds)",
+      "engineSymbol": "unknown: Root's Hundreds mood card",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    }
+  ]
+}

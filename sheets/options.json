@@ -1,0 +1,47 @@
+{
+  "rows": [
+    {
+      "id": "opt.spoiler-mode",
+      "name": "Spoiler mode",
+      "values": [
+        "safe",
+        "finished"
+      ],
+      "default": "safe",
+      "description": "Asked on first launch: 'Spoiler-safe' (safe) or 'I've finished Clair Obscur: Expedition 33' (finished). Safe uses neutral names (The Paintress, The Curator, The White-Haired Man, Maelle, Verso, and '???' for Clea), locks Clea, never fires a 'mother' line and skips the Beach vignette and the ending-flavoured win vignettes. Finished unlocks true names and lines, but the true 'mother' lines still fire only in the mod's Act III. It can be changed later in the mod's settings and applies from the next game.",
+      "_notes": "Changing it later, and applying the change from the next game, is this sheet's choice; the roster only says it is asked on first launch."
+    },
+    {
+      "id": "opt.difficulty",
+      "name": "Bot difficulty",
+      "values": [
+        "easy",
+        "normal",
+        "hard"
+      ],
+      "default": "normal",
+      "description": "Applies to every bot seat and is chosen when a game is set up. It sets when bots switch from VP play to goal mode, how well they guard their key pieces and how hard they block other players' themed wins. It never changes win thresholds, with one human-only exception: on Easy, a human Verso qualifies at rank A with 2 undamaged swords. Bots never get easy assists, so an Easy bot is never better at winning than a Normal one."
+    },
+    {
+      "id": "opt.faithful-gustave",
+      "name": "Faithful Gustave",
+      "values": [
+        "off",
+        "on"
+      ],
+      "default": "off",
+      "description": "Finished mode only; hidden and treated as off in safe mode. On: from Act II, Gustave's seat is retitled 'Expedition 33', the survivors carrying his flag, with the same engine, flags, gauge and win, and the Beach vignette plays as that retitle. Off: the Beach plays as a what-if ('This time, the arm held.'). The seat never changes faction, because Root cannot swap a seat's faction mid-game."
+    },
+    {
+      "id": "opt.campaign",
+      "name": "Campaign",
+      "values": [
+        "off",
+        "on"
+      ],
+      "default": "off",
+      "description": "Off is Free Play, with no restrictions. On: a campaign of three linked games, Act I (suggested lead Gustave), Act II (Verso) and Act III (Maelle or the Curator). Losing never ends the campaign, because the next expedition carries on: the player gets the last expedition's journal, worth +1 card in the next game.",
+      "_notes": "'+1 card' is read as one extra card in the player's opening hand."
+    }
+  ]
+}

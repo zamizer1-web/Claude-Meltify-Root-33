@@ -1,0 +1,604 @@
+{
+  "rows": [
+    {
+      "id": "win.gustave",
+      "character": "gustave",
+      "title": "The Road to the Monolith",
+      "kind": "countdown",
+      "actMin": 2,
+      "vpMin": 10,
+      "playerText": "From Act II with 10+ VP. At the end of each of his turns, every clearing he rules that holds one of his buildings gets a permanent Expedition Flag (Lumière starts flagged), but a flag only counts while he still rules that clearing. Gustave's Arm (0-3) gains a charge only when he starts a battle that removes an enemy piece; using Overcharge empties it. His Chain is the flagged clearings he rules that connect to Lumière by paths. The table is warned at the end of his turn if the Chain reaches a Beachhead (a clearing next to the Monolith) holding one of his buildings, covers fox, rabbit and mouse, his Arm is 3/3 and he has 10+ VP. He wins at the start of his next Birdsong if all of that still holds. 30 VP still wins.",
+      "announceTest": "At hook.evening-end for the seat playing Gustave (Marquise). First the flags: every clearing c with Ruler(c) == seat and Buildings(seat, c) >= tune.gustave-flag-buildings is added to state.gustave.flags. Then the test: act >= 2, Vp(seat) >= tune.countdown-vp, ActiveDominance(seat) == null, and state.gustave.arm == tune.gustave-arm-max. Chain = breadth-first search from Lumière (state.global.roles[role.lumiere]) along PathNeighbours only (rivers are not paths), visiting only clearings that are in state.gustave.flags and have Ruler(c) == seat; if Lumière itself fails that, the Chain is empty. Pass when (1) some Chain clearing b is in PathNeighbours(Monolith) and has Buildings(seat, b) >= tune.gustave-beachhead-buildings, and (2) the union of SuitsOf(c) over the Chain holds tune.gustave-chain-suits distinct suits among fox, rabbit and mouse (a Lost City gives all three). A pass adds the seat to state.global.countdowns and shows the public banner.",
+      "confirmTest": "At hook.birdsong-start for his seat, before any Birdsong step, if the seat is in state.global.countdowns: rerun the same test on the current board and state (act, VP, no active dominance, Arm full, a ruled flagged Chain from Lumière reaching a Beachhead with his building, three suits). No new flags are planted. Pass: do.declare-winner. Fail: remove the seat from state.global.countdowns and clear the banner.",
+      "counterplay": "Flip rule of any one Chain clearing (including Lumière), or remove the Beachhead's Marquise buildings, before his next Birdsong. Draining the Arm also works: if he spends Overcharge it must refill to 3 first.",
+      "offWithDominance": true,
+      "offInCoalition": false,
+      "params": {
+        "tune.countdown-vp": 10,
+        "tune.gustave-arm-max": 3,
+        "tune.gustave-chain-suits": 3,
+        "tune.gustave-flag-buildings": 1,
+        "tune.gustave-beachhead-buildings": 1
+      },
+      "state": [
+        "state.gustave.flags",
+        "state.gustave.arm",
+        "state.gustave.overcharge-armed",
+        "state.global.countdowns",
+        "state.global.act",
+        "state.global.roles"
+      ],
+      "hooks": [
+        "hook.setup-complete",
+        "hook.battle-resolved",
+        "hook.ui-toggle",
+        "hook.evening-end",
+        "hook.birdsong-start",
+        "hook.load"
+      ],
+      "reads": [
+        "read.ruler",
+        "read.buildings",
+        "read.path-neighbours",
+        "read.suits-of",
+        "read.vp",
+        "read.active-dominance",
+        "read.clearings"
+      ],
+      "overlays": [
+        "ui.gustave.flags",
+        "ui.gustave.arm",
+        "ui.gustave.road",
+        "ui.global.countdown-banner",
+        "ui.global.goal-tracker"
+      ],
+      "tests": [
+        "GustaveWin_AnnouncesWithRuledThreeSuitChainToBeachhead",
+        "GustaveWin_ConfirmFailsAfterChainClearingFlips",
+        "GustaveWin_BlockedInActOneAndBelowTenVp",
+        "GustaveWin_FlaggedButUnruledClearingBreaksChain"
+      ],
+      "_notes": "Arm charging (state.gustave.arm): +1, capped at tune.gustave-arm-max, after a battle he started whose removed list holds a non-Marquise piece; set to 0 instead when Overcharge was armed for that battle. offInCoalition is false: this non-Vagabond seat can only ever be a coalition partner, the roster's how_checked gates it on dominance only, and a coalition Vagabond wins when its partner wins in any way."
+    },
+    {
+      "id": "win.esquie",
+      "character": "esquie",
+      "title": "Esquie's Rocks Come Home",
+      "kind": "quest",
+      "actMin": 2,
+      "vpMin": 0,
+      "playerText": "Bring all four of Esquie's rocks home and he wins at the end of any of his turns, with no VP needed. Florrie waits at Stone Wave Cliffs under 2 guards from the start; Dorrie hides in the Old Lumière ruin from Act II; Soarrie appears in Act II on Verso's card, or with whoever rules the Monolith; Urrie waits at Esquie's Nest under 3 guards from Act III, or as soon as he holds the other three. Guards fall to anyone's battles; once a rock has no guards left, Esquie picks it up after any of his actions in that clearing. Claimed rocks are never lost. No win while he is in a coalition.",
+      "announceTest": "At hook.evening-end for the seat playing Esquie: act >= 2 and CoalitionPartner(seat) == null, and the number of entries in state.esquie.rocks with Status == held is >= tune.esquie-rocks. Pass: do.declare-winner at once. Claims that feed it: after every Esquie action (hook.action-resolved), each loose rock whose Clearing == PawnClearing(seat) becomes held, as does Soarrie while heldByRuler if Ruler(Monolith) == null and he stands in the Monolith; Explore of Old Lumière with act >= 2 makes Dorrie held unless Corvid warriors are there; Aiding Ruler(Monolith) while in the Monolith makes a heldByRuler Soarrie held; ending his turn in Verso's clearing makes a withVerso Soarrie held.",
+      "confirmTest": "None: a quest win takes effect at the end of the owner's turn, with no Birdsong confirmation.",
+      "counterplay": "Keep host warriors stacked on the last guarded rock (more defenders deal more hits to him) and attack his pawn to damage items so he cannot fight; keep Corvid warriors in Old Lumière; hold the Monolith so he must Aid you for Soarrie. With the no-spawn fallback, keep any warriors in a rock's clearing.",
+      "offWithDominance": true,
+      "offInCoalition": true,
+      "params": {
+        "tune.esquie-rocks": 4,
+        "tune.esquie-guards-florrie": 2,
+        "tune.esquie-guards-urrie": 3,
+        "tune.esquie-guard-spawns": 1
+      },
+      "state": [
+        "state.esquie.rocks",
+        "state.esquie.decoy",
+        "state.global.act",
+        "state.global.roles",
+        "state.global.seat-characters"
+      ],
+      "hooks": [
+        "hook.setup-complete",
+        "hook.act-change",
+        "hook.battle-resolved",
+        "hook.piece-removed",
+        "hook.action-resolved",
+        "hook.explore-resolved",
+        "hook.aid-resolved",
+        "hook.piece-moved",
+        "hook.evening-end",
+        "hook.load"
+      ],
+      "reads": [
+        "read.pawn-clearing",
+        "read.warriors",
+        "read.ruler",
+        "read.has-ruin",
+        "read.seats",
+        "read.seat-engine",
+        "read.coalition-partner",
+        "read.supply-warriors",
+        "read.vp"
+      ],
+      "overlays": [
+        "ui.esquie.rocks",
+        "ui.esquie.rock-ring",
+        "ui.esquie.lampmaster-badge",
+        "ui.esquie.francois-badge",
+        "ui.esquie.francois-decoy",
+        "ui.global.goal-tracker"
+      ],
+      "tests": [
+        "EsquieWin_WinsAtTurnEndWithFourRocks",
+        "EsquieWin_GuardsLeftDropsOnHostLossesByAnyAttacker",
+        "EsquieWin_OffInCoalition",
+        "EsquieWin_DorrieBlockedByCorvidWarriors"
+      ],
+      "_notes": "actMin 2 matches the roster's pacing (Dorrie and Soarrie only appear at Act II, so it cannot complete before then) and the story framing's 'no themed wins in Act I'. A Vagabond cannot hold an active dominance card (activating one forms a coalition), so offWithDominance is true and is covered by the coalition gate."
+    },
+    {
+      "id": "win.paintress",
+      "character": "paintress",
+      "title": "The Family Portrait",
+      "kind": "countdown",
+      "actMin": 2,
+      "vpMin": 10,
+      "playerText": "From Act II with 10+ VP. A Living Portrait is a roost outside the Monolith, in a clearing she rules (ties count, as Lords of the Forest), with 2+ of her warriors. The table is warned at the end of her turn if she rules the Monolith and has a roost there, and has Living Portraits in a fox, a rabbit and a mouse clearing. She wins at the start of her next Birdsong if the same test still passes.",
+      "announceTest": "At hook.evening-end for the seat playing the Paintress (Eyrie): act >= 2, Vp(seat) >= tune.countdown-vp, ActiveDominance(seat) == null; Ruler(Monolith) == seat and BuildingsOfType(seat, Monolith, 'roost') >= tune.paintress-monolith-roosts; L = {c != Monolith : BuildingsOfType(seat, c, 'roost') >= 1, Ruler(c) == seat, Warriors(seat, c) minus the GuardsLeft of rocks she hosts in c >= tune.paintress-portrait-warriors}; the union of SuitsOf(c) over L includes fox, rabbit and mouse (a Lost City gives all three). Portraits are not stored; they are worked out at each check and labelled Verso, Clea and Renoir, one per suit, for display only. A pass adds the seat to state.global.countdowns and shows the banner.",
+      "confirmTest": "At hook.birdsong-start for her seat, before any Birdsong step, if the seat is in state.global.countdowns: the same test on the current board. Pass: do.declare-winner. Fail: remove the countdown and clear the banner.",
+      "counterplay": "Before her next Birdsong: break one easel, flip rule in one Portrait clearing, thin a Portrait below 2 warriors, or take the Monolith. Grief (Turmoil) also resets her Decree.",
+      "offWithDominance": true,
+      "offInCoalition": false,
+      "params": {
+        "tune.countdown-vp": 10,
+        "tune.paintress-portrait-warriors": 2,
+        "tune.paintress-monolith-roosts": 1
+      },
+      "state": [
+        "state.global.countdowns",
+        "state.global.act",
+        "state.global.roles",
+        "state.esquie.rocks"
+      ],
+      "hooks": [
+        "hook.evening-end",
+        "hook.birdsong-start",
+        "hook.load"
+      ],
+      "reads": [
+        "read.ruler",
+        "read.buildings-of-type",
+        "read.warriors",
+        "read.suits-of",
+        "read.clearings",
+        "read.vp",
+        "read.active-dominance"
+      ],
+      "overlays": [
+        "ui.paintress.portraits",
+        "ui.paintress.portrait-tracker",
+        "ui.global.countdown-banner",
+        "ui.global.goal-tracker"
+      ],
+      "tests": [
+        "PaintressWin_AnnouncesWithThreeSuitsAndMonolith",
+        "PaintressWin_ConfirmFailsAfterPortraitDropsBelowTwoWarriors",
+        "PaintressWin_BlockedWithActiveDominance",
+        "PaintressWin_LordsOfTheForestTieCountsAsRule"
+      ],
+      "_notes": "Hosted guard warriors are subtracted from her Portrait warrior count by tweak.esquie.guards-never-count. offInCoalition is false: this non-Vagabond seat can only ever be a coalition partner, the roster's how_checked gates it on dominance only, and a coalition Vagabond wins when its partner wins in any way."
+    },
+    {
+      "id": "win.sciel",
+      "character": "sciel",
+      "title": "Twilight Harvest",
+      "kind": "countdown",
+      "actMin": 2,
+      "vpMin": 10,
+      "playerText": "From Act II with 10+ VP. A Sanctuary is a clearing with her Lantern and no enemy pieces of any kind. The table is warned at the end of her turn if she has 5+ Sanctuaries spanning fox, rabbit and mouse, at least one Aquafarm is on the map, and she has 10+ VP. She wins at the start of her next Birdsong if at least 5 clearings across all three suits still hold her Lantern with no enemy building or token, and an Aquafarm still stands. Enemy warriors or pawns that only walk in do not stop it.",
+      "announceTest": "At hook.evening-end for the seat playing Sciel (Alliance): act >= 2, Vp(seat) >= tune.countdown-vp, ActiveDominance(seat) == null; S = {c : TokensOfType(seat, c, 'sympathy') >= 1 and, for every other seat o, Warriors(o, c) + Buildings(o, c) + Tokens(o, c) == 0 and PawnClearing(o) != c}; |S| >= tune.sciel-sanctuaries; the union of SuitsOf over S includes fox, rabbit and mouse; the sum over all clearings of BuildingsOfType(seat, c, 'base') >= tune.sciel-aquafarms. A pass adds the countdown and shows the banner.",
+      "confirmTest": "At hook.birdsong-start for her seat, if in state.global.countdowns: S' = {c : TokensOfType(seat, c, 'sympathy') >= 1 and, for every other seat o, Buildings(o, c) + Tokens(o, c) == 0} (other seats' warriors and pawns are ignored); |S'| >= tune.sciel-sanctuaries, the suits of S' include fox, rabbit and mouse, and Aquafarms on the map >= tune.sciel-aquafarms. Pass: do.declare-winner. Fail: clear the countdown and banner.",
+      "counterplay": "Before the announce, step any piece into a Sanctuary (paying Outrage). After it, battle one Lantern off the board, place a building or token in a Lantern clearing, or raze her only Aquafarm before her Birdsong.",
+      "offWithDominance": true,
+      "offInCoalition": false,
+      "params": {
+        "tune.countdown-vp": 10,
+        "tune.sciel-sanctuaries": 5,
+        "tune.sciel-aquafarms": 1
+      },
+      "state": [
+        "state.global.countdowns",
+        "state.global.act"
+      ],
+      "hooks": [
+        "hook.evening-end",
+        "hook.birdsong-start",
+        "hook.load"
+      ],
+      "reads": [
+        "read.tokens-of-type",
+        "read.warriors",
+        "read.buildings",
+        "read.tokens",
+        "read.pawn-clearing",
+        "read.buildings-of-type",
+        "read.suits-of",
+        "read.clearings",
+        "read.seats",
+        "read.vp",
+        "read.active-dominance"
+      ],
+      "overlays": [
+        "ui.sciel.gauges",
+        "ui.global.countdown-banner",
+        "ui.global.goal-tracker"
+      ],
+      "tests": [
+        "ScielWin_AnnouncesWithFiveSanctuariesAndAquafarm",
+        "ScielWin_ConfirmIgnoresWalkInWarriors",
+        "ScielWin_ConfirmFailsAfterLanternRemoved",
+        "ScielWin_BlockedInActOne"
+      ],
+      "_notes": "offInCoalition is false: this non-Vagabond seat can only ever be a coalition partner, the roster's how_checked gates it on dominance only, and a coalition Vagabond wins when its partner wins in any way."
+    },
+    {
+      "id": "win.verso",
+      "character": "verso",
+      "title": "The Last Note",
+      "kind": "countdown",
+      "actMin": 2,
+      "vpMin": 10,
+      "playerText": "From Act II with 10+ VP. His public Perfection rank runs D, C, B, A, S, starting at D. After each battle he is in: +1 if he removed an enemy piece and none of his items were damaged, -1 if 1-2 were damaged, -2 if 3 or more were. Strikes and other removals do not change it. The table is warned at the end of his turn if he is rank S, his pawn is in the Monolith, and no other faction has warriors, buildings or pawns there. He wins at the start of his next Birdsong if he is still in the Monolith at rank S; pieces that only walk in do not stop it. On Easy, a human Verso at rank A with 2 undamaged swords counts as S. No win while he is in a coalition.",
+      "announceTest": "At hook.evening-end for the seat playing Verso: act >= 2, Vp(seat) >= tune.countdown-vp, CoalitionPartner(seat) == null; rank qualifies: state.verso.rank == tune.verso-rank-s, or (IsBot(seat) == false and state.global.difficulty == Easy and state.verso.rank >= tune.verso-easy-rank and the count of Items(seat) that are swords and not Damaged >= tune.verso-easy-swords); PawnClearing(seat) == Monolith; for every other seat o: Warriors(o, Monolith) + Buildings(o, Monolith) == 0 and PawnClearing(o) != Monolith. A pass adds the countdown and shows the banner.",
+      "confirmTest": "At hook.birdsong-start for his seat, if in state.global.countdowns: PawnClearing(seat) == Monolith and the rank still qualifies by the same rule (gates act >= 2 and no coalition re-checked). Other pieces in the Monolith are ignored. Pass: do.declare-winner. Fail: clear the countdown and banner.",
+      "counterplay": "Battle him in the Monolith before his Birdsong and land a hit: any damaged item drops him off S. Ambush cards are the classic answer.",
+      "offWithDominance": true,
+      "offInCoalition": true,
+      "params": {
+        "tune.countdown-vp": 10,
+        "tune.verso-rank-s": 4,
+        "tune.verso-easy-rank": 3,
+        "tune.verso-easy-swords": 2,
+        "tune.verso-rank-up": 1,
+        "tune.verso-rank-down-small": 1,
+        "tune.verso-rank-down-large": 2,
+        "tune.verso-heavy-damage": 3
+      },
+      "state": [
+        "state.verso.rank",
+        "state.global.countdowns",
+        "state.global.act",
+        "state.global.difficulty",
+        "state.global.roles"
+      ],
+      "hooks": [
+        "hook.battle-resolved",
+        "hook.evening-end",
+        "hook.birdsong-start",
+        "hook.load"
+      ],
+      "reads": [
+        "read.pawn-clearing",
+        "read.warriors",
+        "read.buildings",
+        "read.items",
+        "read.is-bot",
+        "read.seats",
+        "read.vp",
+        "read.coalition-partner"
+      ],
+      "overlays": [
+        "ui.verso.rank",
+        "ui.global.countdown-banner",
+        "ui.global.goal-tracker"
+      ],
+      "tests": [
+        "VersoWin_AnnouncesAtRankSAloneInMonolith",
+        "VersoWin_ConfirmFailsAfterHitDropsRank",
+        "VersoWin_EasyAssistOnlyForHuman",
+        "VersoWin_ConfirmIgnoresWalkIns"
+      ],
+      "_notes": "Rank update (state.verso.rank) at hook.battle-resolved when he is attacker or defender: damaged = DamagedItemsAfter - DamagedItemsBefore for his seat; if damaged == 0 and the removed list holds a piece of another seat, +tune.verso-rank-up; if 1 <= damaged < tune.verso-heavy-damage, -tune.verso-rank-down-small; if damaged >= tune.verso-heavy-damage, -tune.verso-rank-down-large; clamp 0..tune.verso-rank-s. A Vagabond cannot hold an active dominance card, so the coalition gate covers dominance."
+    },
+    {
+      "id": "win.maelle",
+      "character": "maelle",
+      "title": "A Home in the Canvas",
+      "kind": "countdown",
+      "actMin": 2,
+      "vpMin": 10,
+      "playerText": "From Act II with 10+ VP. The table is warned at the end of her turn if she is Allied with at least 2 non-Vagabond factions (if only one is seated: Allied with it and 15+ VP instead), Hostile with none, her pawn is in Lumière, and she has 3+ undamaged items (exhausted items count). She wins at the start of her next Birdsong if it still holds. No win while she is in a coalition.",
+      "announceTest": "At hook.evening-end for the seat playing Maelle: act >= 2, CoalitionPartner(seat) == null; F = seats o with EngineOf(o) not a Vagabond; allied = |{o in F : RelationshipOf(seat, o) == Allied}|; hostile = |{o in F : RelationshipOf(seat, o) == Hostile}|; if |F| >= 2: allied >= tune.maelle-allied and Vp(seat) >= tune.countdown-vp; if |F| == 1: allied == 1 and Vp(seat) >= tune.maelle-2p-vp; hostile == 0; PawnClearing(seat) == Lumière; the count of Items(seat) with Damaged == false >= tune.maelle-items. A pass adds the countdown and shows the banner.",
+      "confirmTest": "At hook.birdsong-start for her seat, if in state.global.countdowns: the same test on the current board. Pass: do.declare-winner. Fail: clear the countdown and banner.",
+      "counterplay": "Attack her in Lumière before her Birdsong and damage items until fewer than 3 are undamaged; or push her off Allied with a faction (no Aid), or make a faction Hostile by drawing her into a fight.",
+      "offWithDominance": true,
+      "offInCoalition": true,
+      "params": {
+        "tune.countdown-vp": 10,
+        "tune.maelle-allied": 2,
+        "tune.maelle-items": 3,
+        "tune.maelle-2p-vp": 15
+      },
+      "state": [
+        "state.global.countdowns",
+        "state.global.act",
+        "state.global.roles"
+      ],
+      "hooks": [
+        "hook.evening-end",
+        "hook.birdsong-start",
+        "hook.load"
+      ],
+      "reads": [
+        "read.seats",
+        "read.seat-engine",
+        "read.relationship",
+        "read.pawn-clearing",
+        "read.items",
+        "read.vp",
+        "read.coalition-partner"
+      ],
+      "overlays": [
+        "ui.maelle.family",
+        "ui.maelle.stance",
+        "ui.global.countdown-banner",
+        "ui.global.goal-tracker"
+      ],
+      "tests": [
+        "MaelleWin_AnnouncesWithTwoAlliedInLumiere",
+        "MaelleWin_ConfirmFailsWhenItemsDamagedBelowThree",
+        "MaelleWin_SingleFactionNeedsFifteenVp",
+        "MaelleWin_BlockedByAnyHostile"
+      ],
+      "_notes": "'If only one is seated' is applied to the count of non-Vagabond seats (a 2-player game, or a 3-player table with two Vagabonds). A Vagabond cannot hold an active dominance card, so the coalition gate covers dominance."
+    },
+    {
+      "id": "win.lune",
+      "character": "lune",
+      "title": "Her Parents' Work",
+      "kind": "quest",
+      "actMin": 2,
+      "vpMin": 0,
+      "playerText": "From Act II. At the start of Act II one relic in a forest is tagged as the Parents' Journal and its forest glows gold. She wins at the end of any of her turns once her recovered relics include a Journal (tablet), a Route Chart (figure) and a Chroma Sample (jewelry), with the Parents' Journal among them. If an enemy knocks the Parents' Journal loose, it goes face up into a forest and keeps its tag.",
+      "announceTest": "At hook.evening-end for the seat playing Lune (Keepers): act >= 2, ActiveDominance(seat) == null; R = RecoveredRelics(seat); the set {RelicType(r) : r in R} holds tune.lune-relic-types distinct types (tablet, figure, jewelry); and state.lune.tagged-relic is in R. Pass: do.declare-winner at once.",
+      "confirmTest": "None: a quest win takes effect at the end of the owner's turn, with no Birdsong confirmation.",
+      "counterplay": "Intercept her carriers on the way to a waystation (the attacker scores Prized Trophies and the Journal drops face up, still tagged); hold the clearings around the gold forest by Sirène so she cannot delve it safely; she announces the journal run a turn early.",
+      "offWithDominance": true,
+      "offInCoalition": false,
+      "params": {
+        "tune.lune-relic-types": 3
+      },
+      "state": [
+        "state.lune.tagged-relic",
+        "state.global.act",
+        "state.global.roles"
+      ],
+      "hooks": [
+        "hook.act-change",
+        "hook.relic-moved",
+        "hook.relic-recovered",
+        "hook.evening-end",
+        "hook.load"
+      ],
+      "reads": [
+        "read.recovered-relics",
+        "read.relic-type",
+        "read.relic-value",
+        "read.relics-in-forest",
+        "read.relic-forest",
+        "read.forests-around",
+        "read.forest-clearings",
+        "read.active-dominance"
+      ],
+      "overlays": [
+        "ui.lune.journal-glow",
+        "ui.lune.thesis",
+        "ui.global.goal-tracker"
+      ],
+      "tests": [
+        "LuneWin_WinsWithThreeTypesIncludingTaggedJournal",
+        "LuneWin_NoWinWithoutTaggedJournal",
+        "LuneWin_BlockedInActOne",
+        "LuneWin_DroppedJournalKeepsTag"
+      ],
+      "_notes": "offInCoalition is false: this non-Vagabond seat can only ever be a coalition partner, the roster's how_checked gates it on dominance only, and a coalition Vagabond wins when its partner wins in any way."
+    },
+    {
+      "id": "win.monoco",
+      "character": "monoco",
+      "title": "The Bestial Wheel",
+      "kind": "countdown",
+      "actMin": 2,
+      "vpMin": 10,
+      "playerText": "From Act II with 10+ VP. Monoco takes a foot only in a battle his Warlord is in, when Hundreds hits remove an enemy piece. Agile: an enemy warrior, in a clearing the Warlord moved into this turn. Heavy: an enemy building. Caster: an enemy token. Balanced: a battle where he removed an enemy piece and lost one of his own. Almighty (Act III only): a building of the current VP leader, or 3+ of the leader's pieces in one battle. The five feet must come from at least 3 different factions, or every opponent if fewer are seated. The table is warned at the end of his turn when he has all five and 10+ VP; he wins at the start of his next Birdsong if he still has all five and the Warlord is on the map. Whenever the Warlord is removed, he loses Almighty and his most recent other foot.",
+      "announceTest": "At hook.evening-end for the seat playing Monoco (Hundreds): act >= 2, Vp(seat) >= tune.countdown-vp, ActiveDominance(seat) == null; all tune.monoco-feet entries of state.monoco.feet have Earned == true; the number of distinct Faction values among them >= min(tune.monoco-feet-factions, number of other seats). A pass adds the countdown and shows the banner.",
+      "confirmTest": "At hook.birdsong-start for his seat, if in state.global.countdowns: the same test, and PawnClearing(seat) != null (the Warlord is on the map). Pass: do.declare-winner. Fail: clear the countdown and banner.",
+      "counterplay": "Kill the Warlord during the countdown: Sacred River Rebirth strips Almighty and his latest other foot. Otherwise deny him fights against new factions; the Warlord is one exposed pawn.",
+      "offWithDominance": true,
+      "offInCoalition": false,
+      "params": {
+        "tune.countdown-vp": 10,
+        "tune.monoco-feet": 5,
+        "tune.monoco-feet-factions": 3,
+        "tune.monoco-almighty-act": 3,
+        "tune.monoco-almighty-pieces": 3
+      },
+      "state": [
+        "state.monoco.feet",
+        "state.global.countdowns",
+        "state.global.act"
+      ],
+      "hooks": [
+        "hook.battle-resolved",
+        "hook.warlord-removed",
+        "hook.evening-end",
+        "hook.birdsong-start",
+        "hook.load"
+      ],
+      "reads": [
+        "read.pawn-clearing",
+        "read.seats",
+        "read.vp",
+        "read.active-dominance"
+      ],
+      "overlays": [
+        "ui.monoco.wheel",
+        "ui.global.countdown-banner",
+        "ui.global.goal-tracker"
+      ],
+      "tests": [
+        "MonocoWin_AnnouncesWithFiveFeetFromThreeFactions",
+        "MonocoWin_ConfirmFailsAfterWarlordRemoved",
+        "MonocoWin_AlmightyOnlyInActThree",
+        "MonocoWin_FewerOpponentsNeedEveryOpponent"
+      ],
+      "_notes": "Feet (state.monoco.feet) at hook.battle-resolved when the Warlord is attacker or defender and Hundreds hits removed enemy pieces: for each removed enemy piece, Agile if a warrior and AttackerMovedInThisTurn (Warlord attacking), Heavy if a building, Caster if a token; Balanced if the battle removed an enemy piece and at least one Hundreds piece; Almighty if act >= tune.monoco-almighty-act, VpLeaderAtStart is not his seat, and either a building of that leader was removed or >= tune.monoco-almighty-pieces of the leader's pieces were removed. A foot already earned is re-earned from a new faction only if that raises the count of distinct factions. 'Hundreds hits remove' is read from the battle's removed list (pieces of other seats removed in a battle the Warlord is in). offInCoalition is false: this non-Vagabond seat can only ever be a coalition partner, the roster's how_checked gates it on dominance only, and a coalition Vagabond wins when its partner wins in any way."
+    },
+    {
+      "id": "win.curator",
+      "character": "curator",
+      "title": "Curtain Call",
+      "kind": "countdown",
+      "actMin": 3,
+      "vpMin": 10,
+      "playerText": "End the painting from Lumière. From Act III with 10+ VP. The table is warned at the end of his turn if no Paintress roost stands in the Monolith (always true if she is not seated), one of his tunnels stands in the Monolith (the crack there opens into a tunnel at Act III), and he rules Lumière, with one of his buildings or 3+ of his warriors there if no keep stands in Lumière. He wins at the start of his next Birdsong if it still holds.",
+      "announceTest": "At hook.evening-end for the seat playing the Curator (Duchy): act >= 3, Vp(seat) >= tune.countdown-vp, ActiveDominance(seat) == null; p = the seat playing the Paintress (state.global.seat-characters), and either p is not seated or BuildingsOfType(p, Monolith, 'roost') == 0; TokensOfType(seat, Monolith, 'tunnel') >= tune.curator-monolith-tunnels; Ruler(Lumière) == seat; and if no seat s has TokensOfType(s, Lumière, 'keep') >= 1, then Buildings(seat, Lumière) >= 1 or Warriors(seat, Lumière) >= tune.curator-lumiere-warriors. A pass adds the countdown and shows the banner.",
+      "confirmTest": "At hook.birdsong-start for his seat, if in state.global.countdowns: the same test on the current board. Pass: do.declare-winner. Fail: clear the countdown and banner.",
+      "counterplay": "Before his Birdsong: flip rule of Lumière, remove his tunnel from the Monolith, or (with no keep in Lumière) raze his building there and cut his warriors below 3. Keeping the Paintress's roost alive in the Monolith blocks him; every camp or stall destroyed also costs him a minister (Price of Failure).",
+      "offWithDominance": true,
+      "offInCoalition": false,
+      "params": {
+        "tune.countdown-vp": 10,
+        "tune.curator-monolith-tunnels": 1,
+        "tune.curator-lumiere-warriors": 3
+      },
+      "state": [
+        "state.curator.cell-crack",
+        "state.global.countdowns",
+        "state.global.act",
+        "state.global.roles",
+        "state.global.seat-characters"
+      ],
+      "hooks": [
+        "hook.setup-complete",
+        "hook.act-change",
+        "hook.evening-end",
+        "hook.birdsong-start",
+        "hook.load"
+      ],
+      "reads": [
+        "read.buildings-of-type",
+        "read.tokens-of-type",
+        "read.ruler",
+        "read.buildings",
+        "read.warriors",
+        "read.seats",
+        "read.vp",
+        "read.active-dominance"
+      ],
+      "overlays": [
+        "ui.curator.cell-crack",
+        "ui.global.countdown-banner",
+        "ui.global.goal-tracker"
+      ],
+      "tests": [
+        "CuratorWin_AnnouncesWithMonolithTunnelAndLumiereRuled",
+        "CuratorWin_ConfirmFailsAfterLumiereRuleFlips",
+        "CuratorWin_BlockedBeforeActThree",
+        "CuratorWin_NoKeepNeedsBuildingOrThreeWarriors"
+      ],
+      "_notes": "The roster gives no counterplay line for the Curator; it is written from his test and his bot plan's BEATABLE note. offInCoalition is false: this non-Vagabond seat can only ever be a coalition partner, the roster's how_checked gates it on dominance only, and a coalition Vagabond wins when its partner wins in any way."
+    },
+    {
+      "id": "win.clea",
+      "character": "clea",
+      "title": "Nevron Tide",
+      "kind": "countdown",
+      "actMin": 2,
+      "vpMin": 10,
+      "playerText": "From Act II with 10+ VP. The table is warned at the end of her turn if her Nevrons (warriors) stand in 8+ different clearings, one of them the Monolith, and she has an atelier (garden) in the Flying Manor. Guard warriors she hosts on Esquie's rocks do not count. She wins at the start of her next Birdsong if it still holds.",
+      "announceTest": "At hook.evening-end for the seat playing Clea (Lizards): act >= 2, Vp(seat) >= tune.countdown-vp, ActiveDominance(seat) == null; covered = {c : Warriors(seat, c) minus the GuardsLeft of rocks in c whose HostSeat == seat >= 1}; |covered| >= tune.clea-coverage; Monolith is in covered; BuildingsOfType(seat, FlyingManor, 'garden') >= tune.clea-manor-gardens. A pass adds the countdown and shows the banner.",
+      "confirmTest": "At hook.birdsong-start for her seat, if in state.global.countdowns: the same test on the current board. Pass: do.declare-winner. Fail: clear the countdown and banner.",
+      "counterplay": "Before her Birdsong: remove her warriors from one counted clearing or from the Monolith, or raze the Flying Manor atelier. Lone Nevrons fall to any battle.",
+      "offWithDominance": true,
+      "offInCoalition": false,
+      "params": {
+        "tune.countdown-vp": 10,
+        "tune.clea-coverage": 8,
+        "tune.clea-manor-gardens": 1
+      },
+      "state": [
+        "state.esquie.rocks",
+        "state.global.countdowns",
+        "state.global.act",
+        "state.global.roles"
+      ],
+      "hooks": [
+        "hook.evening-end",
+        "hook.birdsong-start",
+        "hook.load"
+      ],
+      "reads": [
+        "read.warriors",
+        "read.buildings-of-type",
+        "read.clearings",
+        "read.vp",
+        "read.active-dominance"
+      ],
+      "overlays": [
+        "ui.clea.coverage",
+        "ui.global.countdown-banner",
+        "ui.global.goal-tracker"
+      ],
+      "tests": [
+        "CleaWin_AnnouncesWithEightCoveredIncludingMonolith",
+        "CleaWin_ConfirmFailsAfterManorAtelierRazed",
+        "CleaWin_HostedGuardsDoNotCount",
+        "CleaWin_BlockedBelowTenVp"
+      ],
+      "_notes": "If the week-1 spike shows the Lizard Recruit ritual is narrower than remembered, the roster says to lower tune.clea-coverage from 8 to 7. offInCoalition is false: this non-Vagabond seat can only ever be a coalition partner, the roster's how_checked gates it on dominance only, and a coalition Vagabond wins when its partner wins in any way."
+    },
+    {
+      "id": "win.white-haired-man",
+      "character": "white-haired-man",
+      "title": "Nobody Reaches Her",
+      "kind": "countdown",
+      "actMin": 2,
+      "vpMin": 10,
+      "playerText": "From Act II with 10+ VP. The Ring is the Monolith's path neighbours. The table is warned at the end of his turn if every Ring clearing either holds his face-up Snare (Barrier), or holds at least one of his pieces (warrior or plot, face up or down) and is ruled by no faction other than him or the Paintress; and the Monolith is ruled by no faction other than him or the Paintress and holds no Vagabond pawn. He wins at the start of his next Birdsong if the same test still passes.",
+      "announceTest": "At hook.evening-end for the seat playing the White-Haired Man (Corvids): act >= 2, Vp(seat) >= tune.countdown-vp, ActiveDominance(seat) == null; p = the seat playing the Paintress, if seated; Ring = PathNeighbours(Monolith); for every r in Ring: FaceUpPlot(seat, r) == 'snare', or (Warriors(seat, r) minus the GuardsLeft of rocks he hosts in r, plus TokensOfType(seat, r, 'plot'), >= 1, and Ruler(r) is seat, p or null); and for the Monolith: Ruler(Monolith) is seat, p or null, and no seat v whose EngineOf(v) is a Vagabond has PawnClearing(v) == Monolith. A pass adds the countdown and shows the banner.",
+      "confirmTest": "At hook.birdsong-start for his seat, if in state.global.countdowns: the same test on the current board. Pass: do.declare-winner. Fail: clear the countdown and banner.",
+      "counterplay": "Before his Birdsong: out-stack him in one Ring clearing, strip a plot with an Exposure guess, or walk a Vagabond into the Monolith (the one deliberate walk-in answer).",
+      "offWithDominance": true,
+      "offInCoalition": false,
+      "params": {
+        "tune.countdown-vp": 10
+      },
+      "state": [
+        "state.global.countdowns",
+        "state.global.act",
+        "state.global.roles",
+        "state.global.seat-characters",
+        "state.esquie.rocks"
+      ],
+      "hooks": [
+        "hook.evening-end",
+        "hook.birdsong-start",
+        "hook.load"
+      ],
+      "reads": [
+        "read.path-neighbours",
+        "read.corvid-face-up-plot",
+        "read.warriors",
+        "read.tokens-of-type",
+        "read.ruler",
+        "read.pawn-clearing",
+        "read.seats",
+        "read.seat-engine",
+        "read.vp",
+        "read.active-dominance"
+      ],
+      "overlays": [
+        "ui.white-haired-man.ring",
+        "ui.global.countdown-banner",
+        "ui.global.goal-tracker"
+      ],
+      "tests": [
+        "WhiteHairedManWin_AnnouncesWithRingHeld",
+        "WhiteHairedManWin_ConfirmFailsWhenVagabondEntersMonolith",
+        "WhiteHairedManWin_FaceUpSnareHoldsOutstackedClearing",
+        "WhiteHairedManWin_PaintressRuleCountsAsHeld"
+      ],
+      "_notes": "offInCoalition is false: this non-Vagabond seat can only ever be a coalition partner, the roster's how_checked gates it on dominance only, and a coalition Vagabond wins when its partner wins in any way."
+    }
+  ]
+}

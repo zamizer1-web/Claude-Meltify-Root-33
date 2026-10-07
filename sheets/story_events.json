@@ -1,0 +1,125 @@
+{
+  "rows": [
+    {
+      "id": "story.act1.landing",
+      "act": "act1",
+      "kind": "vignette",
+      "what": "Act I, 'The Landing', opens after the prologue with a short, skippable speech-bubble scene: Expedition 33 comes ashore on the Continent, the landing goes badly, and the survivors regroup. The Monolith Number appears on the Monolith (33 minus the top score). No themed win can happen in Act I. Nothing on the board changes.",
+      "spawn": null,
+      "tier": "safe",
+      "changesBoard": false,
+      "_notes": "tier is the spoiler level of the version safe mode sees: safe says nothing about Clair Obscur's story past its opening; act2 touches Act II beats (Old Lumière, Soarrie, the Monolith's fall) and plays in either mode because the mod's own act has reached that point; finished plays only in finished mode. Finished-mode extras (true names, faces) are described in 'what'. Every event whose 'what' names a character fires only when that character is seated."
+    },
+    {
+      "id": "story.act1.florrie",
+      "act": "act1",
+      "kind": "spawn",
+      "what": "At setup, if Esquie is seated: Florrie is placed at Stone Wave Cliffs with 2 guard warriors from the Nevron host's supply under a Lampmaster badge (fewer if the host's supply runs short; the guard counter equals the number placed). No-spawn fallback, the v1 default if the week-1 spike shows the mod cannot place another seat's warriors: Florrie sits at the Cliffs unguarded and can be claimed only when no faction other than Esquie has warriors there.",
+      "spawn": "spawn.florrie",
+      "tier": "safe",
+      "changesBoard": true,
+      "_notes": "changesBoard is true because the planned spawn places real host warriors; the no-spawn fallback places only the rock overlay."
+    },
+    {
+      "id": "story.act1.francois-decoy",
+      "act": "act1",
+      "kind": "spawn",
+      "what": "At setup, if Esquie is seated: a cosmetic François decoy badge sits at Esquie's Nest. It has no guard warrior and holds no rock. When Esquie enters the Nest while it is up, he barks that this is not Florrie, the badge points him to Stone Wave Cliffs, and it is removed. It also goes when Act I ends.",
+      "spawn": "spawn.francois-decoy",
+      "tier": "safe",
+      "changesBoard": false,
+      "_notes": "Removing the decoy when Act I ends follows the roster's 'during Act I'."
+    },
+    {
+      "id": "story.act2.beach",
+      "act": "act2",
+      "kind": "vignette",
+      "what": "Opens Act II in finished mode only, and only when Gustave is seated: 'The Beach' plays as a what-if ('This time, the arm held.'). With Faithful Gustave on, it instead retitles Gustave's seat 'Expedition 33', the survivors carrying his flag, with the same engine, flags, gauge and win. Safe mode skips it. Cosmetic: no charge, VP or board change.",
+      "spawn": null,
+      "tier": "finished",
+      "changesBoard": false
+    },
+    {
+      "id": "story.act2.unlock-wins",
+      "act": "act2",
+      "kind": "unlock",
+      "what": "Themed wins unlock: from now on the announce and quest checks run for every character whose win starts in Act II, so banners can go up. The Curator's win stays locked until Act III. The White-Haired Man's Act I-only rule, Unbeatable in Act I, switches off at the same moment.",
+      "spawn": null,
+      "tier": "safe",
+      "changesBoard": false
+    },
+    {
+      "id": "story.act2.dorrie",
+      "act": "act2",
+      "kind": "spawn",
+      "what": "If Esquie is seated: Dorrie is hidden in the Old Lumière ruin. He claims it by Exploring that ruin, or just by entering if the ruin is already empty. While the White-Haired Man is seated, Dorrie cannot be claimed while his warriors are in Old Lumière. It has no guards, so nothing is placed on Root's board.",
+      "spawn": "spawn.dorrie",
+      "tier": "act2",
+      "changesBoard": false
+    },
+    {
+      "id": "story.act2.soarrie",
+      "act": "act2",
+      "kind": "spawn",
+      "what": "If Esquie is seated: Soarrie appears on Verso's card when Verso is seated; otherwise whichever faction rules the Monolith holds it. Esquie takes it from Verso by ending his turn in Verso's clearing (Verso then scores 1 VP for the reunion, a player action rather than part of this event), from the Monolith's ruler by Aiding that faction once while in the Monolith, or by entering the Monolith while no faction rules it.",
+      "spawn": "spawn.soarrie",
+      "tier": "act2",
+      "changesBoard": false
+    },
+    {
+      "id": "story.act2.parents-journal",
+      "act": "act2",
+      "kind": "tag",
+      "what": "If Lune is seated: the mod tags one relic as the Parents' Journal, the highest-value tablet still lying in a forest (if no tablet is left in the forests, the highest-value relic of any type in a forest). It is moved into the forest beside Sirène if the engine allows, otherwise tagged where it lies, and its forest glows gold. If an enemy knocks the tagged relic loose (Prized Trophies), it goes face up into a forest and keeps its tag.",
+      "spawn": "spawn.parents-journal",
+      "tier": "act2",
+      "changesBoard": true,
+      "_notes": "changesBoard is true because the plan moves the relic; the fallback only tags it in place."
+    },
+    {
+      "id": "story.act3.fall",
+      "act": "act3",
+      "kind": "vignette",
+      "what": "Act III, 'The Canvas', opens with 'The Fall at the Monolith': a short, skippable vignette, after which Lumière is marked as the final battlefield (a highlight on its clearing). Safe mode plays a neutral version. Nothing on the board changes.",
+      "spawn": null,
+      "tier": "act2",
+      "changesBoard": false
+    },
+    {
+      "id": "story.act3.alicia",
+      "act": "act3",
+      "kind": "portrait",
+      "what": "If Maelle is seated, her portrait changes. Finished mode shows Alicia, with scars and a brush, and unlocks her Act III barks; safe mode shows 'a memory returns'. Cosmetic only: no relationship or VP change.",
+      "spawn": null,
+      "tier": "act2",
+      "changesBoard": false
+    },
+    {
+      "id": "story.act3.cell-crack",
+      "act": "act3",
+      "kind": "spawn",
+      "what": "If the Curator is seated: the Cell Crack overlay, inert in the Monolith since setup, becomes a real Duchy tunnel from his supply (a free extra one if all three are on the map). Fallback if the mod cannot place it: his first Act III action is a free Dig into the Monolith. His win unlocks now. Finished mode also reveals his face; safe mode keeps the faceless Curator.",
+      "spawn": "spawn.cell-crack",
+      "tier": "act2",
+      "changesBoard": true
+    },
+    {
+      "id": "story.act3.urrie",
+      "act": "act3",
+      "kind": "spawn",
+      "what": "If Esquie is seated and Urrie has not spawned yet: Urrie is placed at Esquie's Nest with 3 guard warriors from the Nevron host's supply under a François badge (fewer if the host's supply runs short). Outside this event, Urrie spawns early as soon as Esquie holds the other three rocks. The no-spawn fallback works as for Florrie.",
+      "spawn": "spawn.urrie",
+      "tier": "act2",
+      "changesBoard": true
+    },
+    {
+      "id": "story.act3.almighty",
+      "act": "act3",
+      "kind": "unlock",
+      "what": "If Monoco is seated, his Almighty foot opens: from now on he earns it by removing a building of the current VP leader (when the leader is not Monoco), or in one battle where the Hundreds remove 3 or more of the leader's pieces.",
+      "spawn": null,
+      "tier": "safe",
+      "changesBoard": false
+    }
+  ]
+}

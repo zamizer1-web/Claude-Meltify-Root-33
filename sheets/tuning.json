@@ -1,0 +1,857 @@
+{
+  "rows": [
+    {
+      "id": "tune.countdown-vp",
+      "value": 10,
+      "description": "VP gate for every countdown win: the owner needs at least this many VP at the announce and at the confirmation.",
+      "usedBy": [
+        "win.clea",
+        "win.curator",
+        "win.gustave",
+        "win.maelle",
+        "win.monoco",
+        "win.paintress",
+        "win.sciel",
+        "win.verso",
+        "win.white-haired-man"
+      ]
+    },
+    {
+      "id": "tune.act1-end-vp",
+      "value": 10,
+      "description": "Act I ends at the end of the turn in which any seat reaches this many VP.",
+      "usedBy": [
+        "act1",
+        "hook.turn-end",
+        "state.global.act"
+      ]
+    },
+    {
+      "id": "tune.act1-end-round",
+      "value": 4,
+      "description": "Act I ends when this round ends, if no seat reached tune.act1-end-vp first.",
+      "usedBy": [
+        "act1",
+        "hook.turn-end",
+        "state.global.act"
+      ]
+    },
+    {
+      "id": "tune.act2-end-vp",
+      "value": 20,
+      "description": "Act II ends at the end of the turn in which any seat reaches this many VP.",
+      "usedBy": [
+        "act2",
+        "hook.turn-end",
+        "state.global.act"
+      ]
+    },
+    {
+      "id": "tune.act2-end-round",
+      "value": 8,
+      "description": "Act II ends when this round ends, if no seat reached tune.act2-end-vp first.",
+      "usedBy": [
+        "act2",
+        "hook.turn-end",
+        "state.global.act"
+      ]
+    },
+    {
+      "id": "tune.monolith-number-start",
+      "value": 33,
+      "description": "The Monolith Number shown on the Monolith clearing is this minus the top score, so it ticks down as anyone scores.",
+      "usedBy": [
+        "hook.vp-changed"
+      ]
+    },
+    {
+      "id": "tune.campaign-games",
+      "value": 3,
+      "description": "Games in the optional linked campaign (Act I, Act II, Act III).",
+      "usedBy": [
+        "opt.campaign",
+        "state.global.campaign-game"
+      ]
+    },
+    {
+      "id": "tune.campaign-journal-cards",
+      "value": 1,
+      "description": "Extra cards the human draws at setup after losing the previous campaign game (the last expedition's journal).",
+      "usedBy": [
+        "do.draw-cards",
+        "opt.campaign",
+        "state.global.campaign-journal"
+      ]
+    },
+    {
+      "id": "tune.gustave-arm-max",
+      "value": 3,
+      "description": "Pips on Gustave's Arm; the Arm must be full for his win and to arm Overcharge.",
+      "usedBy": [
+        "state.gustave.arm",
+        "tweak.gustave.overcharge",
+        "win.gustave"
+      ]
+    },
+    {
+      "id": "tune.gustave-chain-suits",
+      "value": 3,
+      "description": "Distinct suits (of fox, rabbit and mouse) his ruled Chain must cover.",
+      "usedBy": [
+        "win.gustave"
+      ]
+    },
+    {
+      "id": "tune.gustave-flag-buildings",
+      "value": 1,
+      "description": "Marquise buildings a ruled clearing needs to receive an Expedition Flag at the end of his turn.",
+      "usedBy": [
+        "state.gustave.flags",
+        "win.gustave"
+      ]
+    },
+    {
+      "id": "tune.gustave-beachhead-buildings",
+      "value": 1,
+      "description": "Marquise buildings the Beachhead (a Chain clearing next to the Monolith) must hold at both checks.",
+      "usedBy": [
+        "win.gustave"
+      ]
+    },
+    {
+      "id": "tune.gustave-overcharge-hits",
+      "value": 1,
+      "description": "Extra hits Overcharge gives in the armed battle.",
+      "usedBy": [
+        "tweak.gustave.overcharge"
+      ]
+    },
+    {
+      "id": "tune.gustave-goal-vp",
+      "value": 8,
+      "description": "Gustave's bot enters goal mode at this many VP (Normal and Hard).",
+      "usedBy": [
+        "bot.gustave"
+      ]
+    },
+    {
+      "id": "tune.gustave-goal-route-cost",
+      "value": 4,
+      "description": "Gustave's bot also enters goal mode once its Route cost is at most this.",
+      "usedBy": [
+        "bot.gustave"
+      ]
+    },
+    {
+      "id": "tune.gustave-easy-goal-vp",
+      "value": 12,
+      "description": "Gustave's Easy bot enters goal mode at this many VP.",
+      "usedBy": [
+        "bot.gustave"
+      ]
+    },
+    {
+      "id": "tune.gustave-hard-rule-margin",
+      "value": 2,
+      "description": "Gustave's Hard bot keeps at least this margin of rule on every Chain clearing.",
+      "usedBy": [
+        "bot.gustave"
+      ]
+    },
+    {
+      "id": "tune.gustave-route-cost-ruled",
+      "value": 1,
+      "description": "Route cost of a clearing he rules that has a free slot but no flag (a flagged, ruled clearing costs 0).",
+      "usedBy": [
+        "bot.gustave"
+      ]
+    },
+    {
+      "id": "tune.gustave-route-cost-unruled",
+      "value": 2,
+      "description": "Route cost of a clearing he does not rule, before adding 1 per enemy warrior there.",
+      "usedBy": [
+        "bot.gustave"
+      ]
+    },
+    {
+      "id": "tune.gustave-route-cost-full",
+      "value": 3,
+      "description": "Extra Route cost when enemy buildings fill a clearing's slots.",
+      "usedBy": [
+        "bot.gustave"
+      ]
+    },
+    {
+      "id": "tune.esquie-rocks",
+      "value": 4,
+      "description": "Rocks Esquie must hold to win (Florrie, Dorrie, Soarrie, Urrie).",
+      "usedBy": [
+        "win.esquie"
+      ]
+    },
+    {
+      "id": "tune.esquie-guards-florrie",
+      "value": 2,
+      "description": "Guard warriors spawned with Florrie at Stone Wave Cliffs at setup.",
+      "usedBy": [
+        "spawn.florrie",
+        "win.esquie"
+      ]
+    },
+    {
+      "id": "tune.esquie-guards-urrie",
+      "value": 3,
+      "description": "Guard warriors spawned with Urrie at Esquie's Nest.",
+      "usedBy": [
+        "spawn.urrie",
+        "win.esquie"
+      ]
+    },
+    {
+      "id": "tune.esquie-guard-spawns",
+      "value": 1,
+      "description": "1 = guards spawn from the Nevron host; 0 = the no-spawn fallback (no guards; Florrie and Urrie are claimable only when no other faction has warriors in their clearing). Set to 0 if the week-1 spike shows the mod cannot place another seat's warriors.",
+      "usedBy": [
+        "do.place-warriors",
+        "tweak.esquie.guard-floor",
+        "tweak.esquie.guard-no-placement",
+        "win.esquie"
+      ]
+    },
+    {
+      "id": "tune.esquie-belly-bounce-swords",
+      "value": 1,
+      "description": "Undamaged swords his Bag counts as for max hits in a clearing with a guarded rock.",
+      "usedBy": [
+        "tweak.esquie.belly-bounce"
+      ]
+    },
+    {
+      "id": "tune.esquie-bot-guard-weight",
+      "value": 2,
+      "description": "Esquie's bot target cost = path distance + this x GuardsLeft - his max hits there.",
+      "usedBy": [
+        "bot.esquie"
+      ]
+    },
+    {
+      "id": "tune.esquie-bot-repair-damaged",
+      "value": 2,
+      "description": "Esquie's bot repairs in a forest first once this many items are damaged.",
+      "usedBy": [
+        "bot.esquie"
+      ]
+    },
+    {
+      "id": "tune.esquie-bot-rock-range",
+      "value": 3,
+      "description": "If no claimable rock is within this many moves, Esquie's bot plays normal Vagabond VP.",
+      "usedBy": [
+        "bot.esquie"
+      ]
+    },
+    {
+      "id": "tune.esquie-bot-guard-battles",
+      "value": 1,
+      "description": "Guard battles per turn for Esquie's bot (Easy and Normal).",
+      "usedBy": [
+        "bot.esquie"
+      ]
+    },
+    {
+      "id": "tune.esquie-hard-guard-battles",
+      "value": 2,
+      "description": "Guard battles per turn for Esquie's Hard bot.",
+      "usedBy": [
+        "bot.esquie"
+      ]
+    },
+    {
+      "id": "tune.esquie-endgame-rocks",
+      "value": 3,
+      "description": "Rocks held at which Esquie's bot goes straight for the last one (and the host and other bots start defending it).",
+      "usedBy": [
+        "bot.esquie"
+      ]
+    },
+    {
+      "id": "tune.paintress-portrait-warriors",
+      "value": 2,
+      "description": "Her warriors a roost clearing needs to be a Living Portrait.",
+      "usedBy": [
+        "bot.paintress",
+        "win.paintress"
+      ]
+    },
+    {
+      "id": "tune.paintress-monolith-roosts",
+      "value": 1,
+      "description": "Her roosts the Monolith must hold at both checks.",
+      "usedBy": [
+        "win.paintress"
+      ]
+    },
+    {
+      "id": "tune.paintress-still-life-warriors",
+      "value": 1,
+      "description": "Warriors Still Life moves into a Living Portrait clearing (v1.1).",
+      "usedBy": [
+        "tweak.paintress.still-life"
+      ]
+    },
+    {
+      "id": "tune.paintress-goal-vp",
+      "value": 8,
+      "description": "The Paintress's bot enters finish mode at this many VP (with tune.paintress-finish-portraits Portraits).",
+      "usedBy": [
+        "bot.paintress"
+      ]
+    },
+    {
+      "id": "tune.paintress-finish-portraits",
+      "value": 2,
+      "description": "Living Portraits the Paintress's bot needs before finish mode.",
+      "usedBy": [
+        "bot.paintress"
+      ]
+    },
+    {
+      "id": "tune.paintress-hard-portrait-warriors",
+      "value": 3,
+      "description": "Warriors the Paintress's Hard bot garrisons on each Portrait.",
+      "usedBy": [
+        "bot.paintress"
+      ]
+    },
+    {
+      "id": "tune.paintress-monolith-garrison",
+      "value": 3,
+      "description": "Warriors the Paintress's bot keeps in the Monolith.",
+      "usedBy": [
+        "bot.paintress"
+      ]
+    },
+    {
+      "id": "tune.paintress-repaint-avoid-turns",
+      "value": 2,
+      "description": "Turns the Paintress's bot avoids rebuilding a destroyed Portrait in the same clearing.",
+      "usedBy": [
+        "bot.paintress",
+        "state.paintress.repaint-avoid"
+      ]
+    },
+    {
+      "id": "tune.paintress-site-adjacent",
+      "value": 3,
+      "description": "Site score bonus for a candidate Portrait clearing next to a clearing she rules.",
+      "usedBy": [
+        "bot.paintress"
+      ]
+    },
+    {
+      "id": "tune.paintress-site-near-monolith",
+      "value": 2,
+      "description": "Site score bonus for a candidate within tune.paintress-site-near-monolith-steps of the Monolith.",
+      "usedBy": [
+        "bot.paintress"
+      ]
+    },
+    {
+      "id": "tune.paintress-site-near-monolith-steps",
+      "value": 2,
+      "description": "Path steps from the Monolith that count as near for the site score.",
+      "usedBy": [
+        "bot.paintress"
+      ]
+    },
+    {
+      "id": "tune.paintress-site-enemy-warrior",
+      "value": -1,
+      "description": "Site score per enemy warrior in a candidate clearing.",
+      "usedBy": [
+        "bot.paintress"
+      ]
+    },
+    {
+      "id": "tune.paintress-site-guarded-rock",
+      "value": -3,
+      "description": "Site score for a candidate holding a guarded rock (the host may not build there).",
+      "usedBy": [
+        "bot.paintress"
+      ]
+    },
+    {
+      "id": "tune.sciel-sanctuaries",
+      "value": 5,
+      "description": "Sanctuaries needed at the announce, and Lantern clearings without enemy buildings or tokens needed at the confirmation.",
+      "usedBy": [
+        "bot.sciel",
+        "win.sciel"
+      ]
+    },
+    {
+      "id": "tune.sciel-aquafarms",
+      "value": 1,
+      "description": "Aquafarms (bases) that must stand on the map at both checks.",
+      "usedBy": [
+        "win.sciel"
+      ]
+    },
+    {
+      "id": "tune.sciel-twilight-hits",
+      "value": 1,
+      "description": "Extra hits Twilight gives her first battle of an Evening (v1.1).",
+      "usedBy": [
+        "tweak.sciel.twilight"
+      ]
+    },
+    {
+      "id": "tune.sciel-finish-sanctuaries",
+      "value": 4,
+      "description": "Sciel's bot enters finish mode at this many Sanctuaries.",
+      "usedBy": [
+        "bot.sciel"
+      ]
+    },
+    {
+      "id": "tune.sciel-spread-base",
+      "value": 3,
+      "description": "Base score of a Spread candidate, before subtracting enemy pieces there and enemy warriors adjacent.",
+      "usedBy": [
+        "bot.sciel"
+      ]
+    },
+    {
+      "id": "tune.sciel-spread-new-suit",
+      "value": 2,
+      "description": "Spread score bonus when the candidate's suit has no Sanctuary yet.",
+      "usedBy": [
+        "bot.sciel"
+      ]
+    },
+    {
+      "id": "tune.sciel-spread-max-enemy",
+      "value": 2,
+      "description": "Sciel's bot never spreads into a clearing with this many or more enemy pieces.",
+      "usedBy": [
+        "bot.sciel"
+      ]
+    },
+    {
+      "id": "tune.sciel-revolt-supporters",
+      "value": 2,
+      "description": "Matching supporters Sciel's bot keeps ready for a Revolt.",
+      "usedBy": [
+        "bot.sciel"
+      ]
+    },
+    {
+      "id": "tune.sciel-easy-evict-ratio",
+      "value": 2,
+      "description": "Sciel's Easy bot evicts only with at least this many of her warriors per enemy piece.",
+      "usedBy": [
+        "bot.sciel"
+      ]
+    },
+    {
+      "id": "tune.verso-rank-s",
+      "value": 4,
+      "description": "Perfection rank S as a number (D=0, C=1, B=2, A=3, S=4); the top of the clamp and the rank his win needs.",
+      "usedBy": [
+        "state.verso.rank",
+        "win.verso"
+      ]
+    },
+    {
+      "id": "tune.verso-perfection-rank",
+      "value": 3,
+      "description": "From this rank (A) up, Perfection adds a hit when he attacks.",
+      "usedBy": [
+        "bot.verso",
+        "tweak.verso.perfection"
+      ]
+    },
+    {
+      "id": "tune.verso-perfection-hits",
+      "value": 1,
+      "description": "Extra hits Perfection gives once per battle when attacking.",
+      "usedBy": [
+        "tweak.verso.perfection"
+      ]
+    },
+    {
+      "id": "tune.verso-easy-rank",
+      "value": 3,
+      "description": "Rank a human Verso on Easy needs instead of S (with tune.verso-easy-swords undamaged swords). Never for bots.",
+      "usedBy": [
+        "win.verso"
+      ]
+    },
+    {
+      "id": "tune.verso-easy-swords",
+      "value": 2,
+      "description": "Undamaged swords a human Verso on Easy needs to count rank A as S.",
+      "usedBy": [
+        "win.verso"
+      ]
+    },
+    {
+      "id": "tune.verso-rank-up",
+      "value": 1,
+      "description": "Rank gained after a battle where he removed an enemy piece with no item damaged.",
+      "usedBy": [
+        "state.verso.rank",
+        "win.verso"
+      ]
+    },
+    {
+      "id": "tune.verso-rank-down-small",
+      "value": 1,
+      "description": "Rank lost after a battle in which 1 to tune.verso-heavy-damage - 1 of his items were damaged.",
+      "usedBy": [
+        "state.verso.rank",
+        "win.verso"
+      ]
+    },
+    {
+      "id": "tune.verso-rank-down-large",
+      "value": 2,
+      "description": "Rank lost after a battle in which tune.verso-heavy-damage or more of his items were damaged.",
+      "usedBy": [
+        "state.verso.rank",
+        "win.verso"
+      ]
+    },
+    {
+      "id": "tune.verso-heavy-damage",
+      "value": 3,
+      "description": "Items damaged in one battle that count as heavy damage for the rank.",
+      "usedBy": [
+        "state.verso.rank",
+        "win.verso"
+      ]
+    },
+    {
+      "id": "tune.verso-soarrie-vp",
+      "value": 1,
+      "description": "VP Verso scores when Soarrie passes to Esquie.",
+      "usedBy": [
+        "spawn.soarrie",
+        "tweak.verso.soarrie-handoff"
+      ]
+    },
+    {
+      "id": "tune.verso-bot-max-expected-hits",
+      "value": 0.5,
+      "description": "Below rank A, Verso's bot starts a battle only when the hits it expects to take are under this.",
+      "usedBy": [
+        "bot.verso"
+      ]
+    },
+    {
+      "id": "tune.verso-bot-ambush-hand",
+      "value": 3,
+      "description": "A defender holding this many cards is treated as a possible Ambush by Verso's bot.",
+      "usedBy": [
+        "bot.verso"
+      ]
+    },
+    {
+      "id": "tune.verso-bot-ambush-swords",
+      "value": 2,
+      "description": "Undamaged swords Verso's bot wants before fighting a possible Ambush.",
+      "usedBy": [
+        "bot.verso"
+      ]
+    },
+    {
+      "id": "tune.verso-bot-assault-max-damage",
+      "value": 1,
+      "description": "Verso's bot assaults the Monolith only when expected damage is under this.",
+      "usedBy": [
+        "bot.verso"
+      ]
+    },
+    {
+      "id": "tune.verso-easy-assault-swords",
+      "value": 4,
+      "description": "Undamaged swords Verso's Easy bot waits for before assaulting the Monolith.",
+      "usedBy": [
+        "bot.verso"
+      ]
+    },
+    {
+      "id": "tune.maelle-allied",
+      "value": 2,
+      "description": "Non-Vagabond factions Maelle must be Allied with (when 2+ are seated).",
+      "usedBy": [
+        "bot.maelle",
+        "win.maelle"
+      ]
+    },
+    {
+      "id": "tune.maelle-items",
+      "value": 3,
+      "description": "Undamaged items (exhausted ones count) Maelle needs in Lumière.",
+      "usedBy": [
+        "bot.maelle",
+        "win.maelle"
+      ]
+    },
+    {
+      "id": "tune.maelle-2p-vp",
+      "value": 15,
+      "description": "VP Maelle needs instead of tune.countdown-vp when only one non-Vagabond faction is seated.",
+      "usedBy": [
+        "bot.maelle",
+        "win.maelle"
+      ]
+    },
+    {
+      "id": "tune.maelle-family-repick-vp",
+      "value": 22,
+      "description": "Maelle's bot re-picks its family only if a family member passes this many VP.",
+      "usedBy": [
+        "bot.maelle",
+        "state.maelle.family"
+      ]
+    },
+    {
+      "id": "tune.maelle-threat-vp",
+      "value": 5,
+      "description": "Maelle's bot fights a non-Hostile faction only if it is within this many VP of winning.",
+      "usedBy": [
+        "bot.maelle"
+      ]
+    },
+    {
+      "id": "tune.lune-relic-types",
+      "value": 3,
+      "description": "Distinct relic types (tablet, figure, jewelry) among her recovered relics for her win.",
+      "usedBy": [
+        "win.lune"
+      ]
+    },
+    {
+      "id": "tune.lune-stain-hits",
+      "value": 1,
+      "description": "Extra hits an armed Stain gives.",
+      "usedBy": [
+        "tweak.lune.stains"
+      ]
+    },
+    {
+      "id": "tune.lune-delve-escort",
+      "value": 3,
+      "description": "Warriors Lune's bot wants next to the Journal's forest before delving it.",
+      "usedBy": [
+        "bot.lune"
+      ]
+    },
+    {
+      "id": "tune.lune-convoy-size",
+      "value": 2,
+      "description": "Minimum warriors in a convoy carrying a relic (Normal and Hard; Easy sends single carriers).",
+      "usedBy": [
+        "bot.lune"
+      ]
+    },
+    {
+      "id": "tune.monoco-feet",
+      "value": 5,
+      "description": "Feet on the Bestial Wheel (Agile, Caster, Balanced, Heavy, Almighty).",
+      "usedBy": [
+        "win.monoco"
+      ]
+    },
+    {
+      "id": "tune.monoco-feet-factions",
+      "value": 3,
+      "description": "Distinct source factions his feet must come from (or every opponent if fewer are seated).",
+      "usedBy": [
+        "bot.monoco",
+        "win.monoco"
+      ]
+    },
+    {
+      "id": "tune.monoco-almighty-act",
+      "value": 3,
+      "description": "Act from which the Almighty foot can be earned.",
+      "usedBy": [
+        "state.monoco.feet",
+        "win.monoco"
+      ]
+    },
+    {
+      "id": "tune.monoco-almighty-pieces",
+      "value": 3,
+      "description": "Pieces of the VP leader removed in one battle that earn Almighty (instead of a leader building).",
+      "usedBy": [
+        "win.monoco"
+      ]
+    },
+    {
+      "id": "tune.monoco-bot-missing-foot",
+      "value": 10,
+      "description": "Battle score bonus for Monoco's bot when the battle fills a missing foot.",
+      "usedBy": [
+        "bot.monoco"
+      ]
+    },
+    {
+      "id": "tune.monoco-bot-new-faction",
+      "value": 4,
+      "description": "Battle score bonus when it adds a new faction toward the 3-faction rule.",
+      "usedBy": [
+        "bot.monoco"
+      ]
+    },
+    {
+      "id": "tune.monoco-bot-target-guards",
+      "value": 1,
+      "description": "Monoco's bot targets enemy buildings or tokens guarded by at most this many warriors for Heavy and Caster.",
+      "usedBy": [
+        "bot.monoco"
+      ]
+    },
+    {
+      "id": "tune.monoco-bot-escort",
+      "value": 2,
+      "description": "Gestrals Monoco's bot keeps escorting the Warlord once it has tune.monoco-bot-escort-after-feet feet.",
+      "usedBy": [
+        "bot.monoco"
+      ]
+    },
+    {
+      "id": "tune.monoco-bot-escort-after-feet",
+      "value": 3,
+      "description": "Feet after which Monoco's bot escorts the Warlord.",
+      "usedBy": [
+        "bot.monoco"
+      ]
+    },
+    {
+      "id": "tune.monoco-easy-outnumber",
+      "value": 2,
+      "description": "Monoco's Easy bot advances only when the Warlord outnumbers the defenders by this many.",
+      "usedBy": [
+        "bot.monoco"
+      ]
+    },
+    {
+      "id": "tune.curator-monolith-tunnels",
+      "value": 1,
+      "description": "Duchy tunnels the Monolith must hold at both checks.",
+      "usedBy": [
+        "win.curator"
+      ]
+    },
+    {
+      "id": "tune.curator-lumiere-warriors",
+      "value": 3,
+      "description": "Warriors the Curator needs in Lumière when no keep stands there and he has no building there.",
+      "usedBy": [
+        "bot.curator",
+        "win.curator"
+      ]
+    },
+    {
+      "id": "tune.curator-quiet-helper-cards",
+      "value": 1,
+      "description": "Cards drawn by a player who removes the Paintress's roost from the Monolith.",
+      "usedBy": [
+        "tweak.curator.quiet-helper"
+      ]
+    },
+    {
+      "id": "tune.curator-burrow-stock",
+      "value": 6,
+      "description": "Warriors the Curator's bot stocks in the Burrow during Acts I-II.",
+      "usedBy": [
+        "bot.curator"
+      ]
+    },
+    {
+      "id": "tune.curator-assault-margin",
+      "value": 2,
+      "description": "The Curator's bot attacks the Monolith or Lumière with defenders plus this many warriors.",
+      "usedBy": [
+        "bot.curator"
+      ]
+    },
+    {
+      "id": "tune.curator-easy-assault-margin",
+      "value": 3,
+      "description": "The Curator's Easy bot attacks Lumière only with defenders plus this many warriors.",
+      "usedBy": [
+        "bot.curator"
+      ]
+    },
+    {
+      "id": "tune.clea-coverage",
+      "value": 8,
+      "description": "Different clearings her (non-guard) warriors must stand in. Lower to 7 if the Lizard Recruit ritual proves narrower.",
+      "usedBy": [
+        "bot.clea",
+        "win.clea"
+      ]
+    },
+    {
+      "id": "tune.clea-manor-gardens",
+      "value": 1,
+      "description": "Gardens (ateliers) the Flying Manor must hold at both checks.",
+      "usedBy": [
+        "win.clea"
+      ]
+    },
+    {
+      "id": "tune.clea-goal-coverage",
+      "value": 6,
+      "description": "Clea's bot enters goal mode at this many covered clearings.",
+      "usedBy": [
+        "bot.clea"
+      ]
+    },
+    {
+      "id": "tune.clea-bot-sacrifice-birds",
+      "value": 2,
+      "description": "Clea's bot sacrifices bird cards for acolytes only while holding at least this many birds.",
+      "usedBy": [
+        "bot.clea"
+      ]
+    },
+    {
+      "id": "tune.white-haired-man-goal-vp",
+      "value": 8,
+      "description": "The White-Haired Man's bot enters goal mode at this many VP.",
+      "usedBy": [
+        "bot.white-haired-man"
+      ]
+    },
+    {
+      "id": "tune.white-haired-man-hard-margin",
+      "value": 2,
+      "description": "Margin of warriors the Hard bot keeps in every Ring clearing.",
+      "usedBy": [
+        "bot.white-haired-man"
+      ]
+    },
+    {
+      "id": "tune.white-haired-man-bomb-warriors",
+      "value": 3,
+      "description": "Enemy warriors gathered in or beside the Ring that make the bot place a Bomb there.",
+      "usedBy": [
+        "bot.white-haired-man"
+      ]
+    },
+    {
+      "id": "tune.white-haired-man-unbeatable-hits",
+      "value": 1,
+      "description": "Hits his Ring warriors ignore in each battle during Act I.",
+      "usedBy": [
+        "tweak.white-haired-man.unbeatable-act1"
+      ]
+    }
+  ]
+}

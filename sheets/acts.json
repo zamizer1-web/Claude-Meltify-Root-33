@@ -1,0 +1,62 @@
+{
+  "rows": [
+    {
+      "id": "act1",
+      "number": 1,
+      "name": "The Landing",
+      "endsAtVp": 10,
+      "endsAfterRound": 4,
+      "events": [
+        "story.act1.landing",
+        "story.act1.florrie",
+        "story.act1.francois-decoy"
+      ],
+      "tests": [
+        "Acts_Act1EndsWhenAnySeatReaches10Vp",
+        "Acts_Act1EndsAfterRound4",
+        "Acts_NoThemedWinCanHappenInAct1",
+        "Acts_ActAdvancesAtEndOfTurnAfterWinChecks"
+      ],
+      "_notes": "The roster leaves the exact moment open. Chosen: the act check runs at the end of every turn, after that turn's themed-win checks; the next act's events fire before the next Birdsong, and the act advances at most once per turn. 'Round N ends' means the last seat in turn order has finished its turn in round N, counting rounds from the start of the game. Act I's events fire at setup."
+    },
+    {
+      "id": "act2",
+      "number": 2,
+      "name": "The Monolith",
+      "endsAtVp": 20,
+      "endsAfterRound": 8,
+      "events": [
+        "story.act2.beach",
+        "story.act2.unlock-wins",
+        "story.act2.dorrie",
+        "story.act2.soarrie",
+        "story.act2.parents-journal"
+      ],
+      "tests": [
+        "Acts_Act2EndsWhenAnySeatReaches20Vp",
+        "Acts_Act2EndsAfterRound8",
+        "Acts_Act2UnlocksThemedWinsExceptTheCurator",
+        "Acts_ActEventsFireOnlyForSeatedOwners"
+      ]
+    },
+    {
+      "id": "act3",
+      "number": 3,
+      "name": "The Canvas",
+      "endsAtVp": 0,
+      "endsAfterRound": 0,
+      "events": [
+        "story.act3.fall",
+        "story.act3.alicia",
+        "story.act3.cell-crack",
+        "story.act3.urrie",
+        "story.act3.almighty"
+      ],
+      "tests": [
+        "Acts_Act3RunsToTheEndOfTheGame",
+        "Acts_ActEventsNeverChangeVpChargeRankOrRelationships",
+        "Acts_CurrentActSurvivesSaveAndLoad"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "rows": [
+    {
+      "id": "base",
+      "name": "Root (base game)",
+      "contents": "The Marquise de Cat, Eyrie Dynasties and Woodland Alliance, and the Vagabond as Thief, Tinker or Ranger; the Autumn map and the free Winter map; the standard 54-card deck with dominance and ambush cards; coalitions; the built-in Dire Wolf AI for every base faction. It holds everything the six first-version characters need: Gustave, Esquie, the Paintress, Sciel, Verso and Maelle.",
+      "steamAppId": "965580",
+      "_notes": "The Clockwork Expansion has no row: E33 mode hides the Clockwork bots, so the mod never depends on it."
+    },
+    {
+      "id": "riverfolk",
+      "name": "The Riverfolk Expansion",
+      "contents": "The Riverfolk Company and the Lizard Cult; the Vagrant, Scoundrel and Arbiter Vagabonds; a second Vagabond seat; 6 challenges and AI improvements (digital release April 28 2021). Root 33 uses it for Clea (Lizard Cult) and for the second Vagabond seat that a table with two of Esquie, Verso and Maelle needs. The Riverfolk Company stays free for a later Golgra or Gestral character.",
+      "steamAppId": "unknown",
+      "_unverified": {
+        "steamAppId": "not found in research; confirm in Root's code on the creator's PC (or on the DLC's Steam store page)"
+      }
+    },
+    {
+      "id": "underworld",
+      "name": "The Underworld Expansion",
+      "contents": "The Underground Duchy and the Corvid Conspiracy; the Lake and Mountain maps; Advanced Setup; challenges (digital release March 30 2023). Root 33 uses it for the Curator (Duchy) and the White-Haired Man (Corvids); Lake and Mountain work too, because map roles are assigned by rule.",
+      "steamAppId": "unknown",
+      "_unverified": {
+        "steamAppId": "not found in research; confirm in Root's code on the creator's PC (or on the DLC's Steam store page)"
+      }
+    },
+    {
+      "id": "marauder",
+      "name": "The Marauder Expansion",
+      "contents": "Lord of the Hundreds and Keepers in Iron, with tutorials, challenges and achievements (digital release January 14 2025; hirelings came later in their own DLC). Root 33 uses it for Monoco (Hundreds) and Lune (Keepers).",
+      "steamAppId": "unknown",
+      "_unverified": {
+        "steamAppId": "not found in research; confirm in Root's code on the creator's PC (or on the DLC's Steam store page)"
+      }
+    },
+    {
+      "id": "exiles-partisans",
+      "name": "Exiles & Partisans & Vagabonds",
+      "contents": "The Exiles and Partisans deck and the Adventurer, Ronin and Harrier Vagabonds (digital release May 3 2022). Root 33 uses it only as an option: Maelle may ride the Ronin instead of the Thief, with Swift Strike as her riposte.",
+      "steamAppId": "unknown",
+      "_unverified": {
+        "steamAppId": "not found in research; confirm in Root's code on the creator's PC (or on the DLC's Steam store page)"
+      }
+    },
+    {
+      "id": "hirelings-landmarks",
+      "name": "Hirelings & Landmarks",
+      "contents": "13 hireling pairs (each with a promoted and a demoted form; three join a game) and the landmarks Black Market, Lost City, Legendary Forge, Elder Treetop, Ferry and Tower, plus rules-fidelity and AI updates (digital release October 20 2025). Root 33 uses it only for the v1.1 theming of hirelings and landmarks.",
+      "steamAppId": "3874110",
+      "_unverified": {
+        "steamAppId": "from a search snippet in research; confirm in Root's code on the creator's PC (or on the DLC's Steam store page)"
+      }
+    }
+  ]
+}

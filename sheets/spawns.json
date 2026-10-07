@@ -1,0 +1,160 @@
+{
+  "rows": [
+    {
+      "id": "spawn.florrie",
+      "owner": "esquie",
+      "appearsInAct": "act1",
+      "placeAt": "role.stone-wave-cliffs",
+      "guards": 2,
+      "claimRule": "Guarded rock (spawned at setup when Esquie is seated). tune.esquie-guards-florrie warriors are placed from the Nevron host's supply with a Lampmaster badge; GuardsLeft = the number actually placed (0 placed makes it loose at once). Host: Clea if seated; otherwise the non-Marquise, non-Vagabond faction with the most warriors in supply (ties: lowest VP, then lowest seat); otherwise the Marquise. GuardsLeft drops by one for every host warrior removed in that clearing in any battle, whoever fought it; at 0 the rock is loose. After each of Esquie's actions he claims every loose rock in his pawn's clearing. A claimed rock is never lost.",
+      "state": "state.esquie.rocks",
+      "overlay": "ui.esquie.rocks",
+      "actions": [
+        "do.place-warriors",
+        "do.set-guard-floor",
+        "do.block-placement",
+        "do.show-overlay",
+        "do.hide-overlay"
+      ],
+      "fallback": "No-spawn fallback (the v1 default if the week-1 spike shows the mod cannot place another seat's warriors): no guards and no host; Florrie can be claimed only when no faction other than Esquie has warriors at Stone Wave Cliffs.",
+      "tests": [
+        "FlorrieSpawn_PlacedAtCliffsWithTwoGuards",
+        "FlorrieSpawn_HostPriorityCleaThenSupplyThenMarquise",
+        "FlorrieSpawn_ShortSupplySetsGuardsLeftToPlaced",
+        "FlorrieSpawn_NoSpawnFallbackClaimsWhenClearingFree"
+      ],
+      "_notes": "Host ties beyond 'lowest VP' go to the lowest seat number (the roster stops at lowest VP). Host warriors removed outside a battle (Strike, Bomb, Revolt) also lower GuardsLeft, so the counter can never exceed the host's warriors actually there; the roster names only battles and leaves other removals open, and Never Mad explicitly allows Esquie to Strike guards."
+    },
+    {
+      "id": "spawn.dorrie",
+      "owner": "esquie",
+      "appearsInAct": "act2",
+      "placeAt": "role.old-lumiere",
+      "guards": 0,
+      "claimRule": "Hidden in the Old Lumière ruin from the start of Act II (loose at once if that ruin was already emptied, or if Old Lumière has no ruin on this map). Esquie claims it by Exploring that ruin, or by ending any action there while Dorrie is loose. If the White-Haired Man (Corvids) is seated, it cannot be claimed while Corvid warriors are in Old Lumière; an Explore made then empties the ruin and leaves Dorrie loose. Never lost once claimed.",
+      "state": "state.esquie.rocks",
+      "overlay": "ui.esquie.rocks",
+      "actions": [
+        "do.show-overlay",
+        "do.hide-overlay"
+      ],
+      "fallback": "If Root's Explore cannot be hooked, Dorrie is claimed by ending an action in Old Lumière once its ruin is empty (the core polls read.has-ruin after each action).",
+      "tests": [
+        "DorrieSpawn_ClaimedByExploringOldLumiere",
+        "DorrieSpawn_LooseWhenRuinAlreadyEmpty",
+        "DorrieSpawn_BlockedWhileCorvidWarriorsPresent"
+      ],
+      "_notes": "An Explore while Corvid warriors are present leaving Dorrie loose (instead of lost or held) is the simplest reading of 'cannot be claimed while Corvid warriors are in Old Lumière'."
+    },
+    {
+      "id": "spawn.soarrie",
+      "owner": "esquie",
+      "appearsInAct": "act2",
+      "placeAt": "rule: on Verso's card if Verso is seated; otherwise held by whichever faction rules role.monolith",
+      "guards": 0,
+      "claimRule": "With Verso seated (needs The Riverfolk Expansion): Soarrie passes to Esquie when Esquie ends his turn in Verso's clearing, and Verso scores tune.verso-soarrie-vp VP. Without Verso: the Monolith's current ruler holds it; Esquie claims it by Aiding that faction once while in the Monolith, or by ending any action in the Monolith while no faction rules it. Never lost once claimed.",
+      "state": "state.esquie.rocks",
+      "overlay": "ui.esquie.rocks",
+      "actions": [
+        "do.score-vp",
+        "do.show-overlay",
+        "do.hide-overlay"
+      ],
+      "fallback": "If VP cannot be added at the end of Esquie's turn, Verso's 1 VP is added at the start of his next Birdsong; the hand-off itself is pure mod state and always works.",
+      "tests": [
+        "SoarrieSpawn_StartsOnVersoWhenSeated",
+        "SoarrieSpawn_HeldByMonolithRulerWithoutVerso",
+        "SoarrieSpawn_ClaimedByAidingRulerInMonolith",
+        "SoarrieSpawn_ClaimedFreeWhenMonolithUnruled"
+      ]
+    },
+    {
+      "id": "spawn.urrie",
+      "owner": "esquie",
+      "appearsInAct": "act3",
+      "placeAt": "role.esquies-nest",
+      "guards": 3,
+      "claimRule": "Guarded rock: spawns at the start of Act III, or as soon as Esquie holds the other three rocks if that comes first. tune.esquie-guards-urrie warriors are placed from the Nevron host's supply with a François badge (host chosen again at spawn time by the same priority as Florrie); GuardsLeft = the number actually placed. GuardsLeft drops by one for every host warrior removed in that clearing in any battle; at 0 it is loose and Esquie claims it after any of his actions in the Nest. Never lost once claimed.",
+      "state": "state.esquie.rocks",
+      "overlay": "ui.esquie.rocks",
+      "actions": [
+        "do.place-warriors",
+        "do.set-guard-floor",
+        "do.block-placement",
+        "do.show-overlay",
+        "do.hide-overlay"
+      ],
+      "fallback": "No-spawn fallback: no guards; Urrie can be claimed only when no faction other than Esquie has warriors at Esquie's Nest.",
+      "tests": [
+        "UrrieSpawn_AppearsAtActThreeWithThreeGuards",
+        "UrrieSpawn_AppearsEarlyWhenOtherThreeHeld",
+        "UrrieSpawn_NoSpawnFallbackClaimsWhenNestFree"
+      ]
+    },
+    {
+      "id": "spawn.francois-decoy",
+      "owner": "esquie",
+      "appearsInAct": "act1",
+      "placeAt": "role.esquies-nest",
+      "guards": 0,
+      "claimRule": "Cosmetic only, no guard warrior and no rock. When Esquie's pawn enters the Nest during Act I while the decoy is up, his 'that's not Florrie' bark plays, the bubble points to Stone Wave Cliffs, and the decoy is removed. It is also removed at the start of Act II.",
+      "state": "state.esquie.decoy",
+      "overlay": "ui.esquie.francois-decoy",
+      "actions": [
+        "do.show-bubble",
+        "do.show-overlay",
+        "do.hide-overlay"
+      ],
+      "fallback": "If the badge cannot be drawn on the board, only the bark plays when Esquie first enters the Nest in Act I.",
+      "tests": [
+        "FrancoisDecoy_EnteringNestGivesNoRockAndRemovesDecoy",
+        "FrancoisDecoy_GoneAtActTwo"
+      ]
+    },
+    {
+      "id": "spawn.parents-journal",
+      "owner": "lune",
+      "appearsInAct": "act2",
+      "placeAt": "rule: the forest touching both role.sirene and role.monolith (lowest forest number if several); wherever the chosen relic lies if relics cannot be moved or the map has no Sirène",
+      "guards": 0,
+      "claimRule": "At the start of Act II (when Lune is seated) the highest-value tablet still lying in a forest is tagged as the Parents' Journal (if no tablet is left in the forests, the highest-value relic of any type in a forest) and moved into the forest beside Sirène if the engine allows; its forest glows gold. Lune recovers it like any relic (Delve, carry, Recover at a matching waystation). If an enemy knocks it loose (Prized Trophies) it goes face up into a forest and keeps its tag.",
+      "state": "state.lune.tagged-relic",
+      "overlay": "ui.lune.journal-glow",
+      "actions": [
+        "do.tag-relic",
+        "do.move-relic",
+        "do.show-overlay",
+        "do.hide-overlay"
+      ],
+      "fallback": "If relics cannot be moved, tag the chosen relic where it lies. If relic values are hidden while face down, choose the forest tablet nearest to Sirène by path distance from the clearings around its forest (ties: lowest forest number).",
+      "tests": [
+        "ParentsJournal_TagsHighestValueForestTablet",
+        "ParentsJournal_FallsBackToHighestValueAnyType",
+        "ParentsJournal_TagSurvivesPrizedTrophies"
+      ],
+      "_notes": "'The forest beside the Sirène-tagged Axon' is read as the forest touching both Sirène and the Monolith, which keeps the gold forest in the Monolith hot zone as the bot plan says. Ties between equal-value tablets go to the lowest relic id; the hidden-value fallback is the simplest option consistent with the roster."
+    },
+    {
+      "id": "spawn.cell-crack",
+      "owner": "curator",
+      "appearsInAct": "act1",
+      "placeAt": "role.monolith",
+      "guards": 0,
+      "claimRule": "Not claimable. At setup (when the Curator is seated) a crack overlay is drawn in the Monolith. Until Act III it does nothing: it is not a tunnel, does not connect to the Burrow and does not use one of his three tunnels. At the start of Act III it becomes a real Duchy tunnel from his supply, or a free extra tunnel if all three are on the map. If that tunnel is later removed, he may Dig it again normally.",
+      "state": "state.curator.cell-crack",
+      "overlay": "ui.curator.cell-crack",
+      "actions": [
+        "do.place-tunnel",
+        "do.show-overlay",
+        "do.hide-overlay"
+      ],
+      "fallback": "If the mod cannot place a tunnel, his first Act III action is a free Dig into the Monolith (state 'dig-owed').",
+      "tests": [
+        "CellCrack_InertBeforeActThree",
+        "CellCrack_BecomesTunnelAtActThree",
+        "CellCrack_FreeExtraTunnelWhenAllPlaced"
+      ],
+      "_notes": "appearsInAct is act1 because the inert crack overlay is drawn at setup; it opens into a tunnel with story.act3.cell-crack."
+    }
+  ]
+}

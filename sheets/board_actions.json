@@ -1,0 +1,280 @@
+{
+  "rows": [
+    {
+      "id": "do.place-warriors",
+      "description": "Place warriors of any seat from that seat's supply into a clearing, outside that seat's turn. Used for Esquie's guards (Florrie's 2, Urrie's 3, from the Nevron host). Returns how many were actually placed when the supply runs short.",
+      "csSignature": "int PlaceWarriors(SeatId seat, ClearingId c, int count)",
+      "v1": true,
+      "fallback": "Esquie's no-spawn fallback becomes the v1 default: no guards spawn, and Florrie and Urrie can be claimed only when no faction other than Esquie has warriors in their clearing.",
+      "engineSymbol": "unknown: Root's warrior placement from supply (as used by recruit/setup)",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "do.move-warriors",
+      "description": "Move warriors of a seat between two clearings outside that seat's normal move (the Paintress's Still Life: 1 warrior from an adjacent clearing into a Living Portrait clearing before the roll).",
+      "csSignature": "bool MoveWarriors(SeatId seat, ClearingId from, ClearingId to, int count)",
+      "v1": false,
+      "fallback": "Still Life is left out (it is v1.1 only); nothing replaces it.",
+      "engineSymbol": "unknown: Root's piece move execution",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "do.place-tunnel",
+      "description": "Place a Duchy tunnel token in a clearing from the Duchy's supply, or as a free extra token when all three are on the map (the Cell Crack opening at Act III).",
+      "csSignature": "bool PlaceTunnel(SeatId duchy, ClearingId c, bool extraPiece)",
+      "v1": false,
+      "fallback": "The Curator's first Act III action is a free Dig into the Monolith; the crack overlay stays until he digs there.",
+      "engineSymbol": "unknown: Root's Duchy tunnel placement (Dig)",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "do.move-relic",
+      "description": "Move a relic token from one forest to another (the Parents' Journal moved into the forest beside Sirène at Act II).",
+      "csSignature": "bool MoveRelicToForest(int relicId, int forest)",
+      "v1": false,
+      "fallback": "Tag the chosen relic where it lies; only the gold glow marks it.",
+      "engineSymbol": "unknown: Root's relic token placement in forests",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "do.tag-relic",
+      "description": "Keep a stable handle on one relic so its id survives being delved, carried, dropped face up by Prized Trophies and recovered (the Parents' Journal tag); the gold glow follows it.",
+      "csSignature": "bool TagRelic(int relicId)",
+      "v1": false,
+      "fallback": "If relic objects have no stable identity, the core re-finds the tagged relic after each hook.relic-moved by its type, value and last place.",
+      "engineSymbol": "unknown: Root's relic token object/identifier",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "do.declare-winner",
+      "description": "End the game with a themed win for a seat (and its coalition partner, if any), showing that character's ending card.",
+      "csSignature": "void DeclareWinner(SeatId seat, string winConditionId)",
+      "v1": true,
+      "fallback": "Raise the winner's score to 30 through Root's own scoring so Root's 30 VP win ends the game, then show the ending card.",
+      "engineSymbol": "unknown: Root's game-over / victory trigger",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "do.score-vp",
+      "description": "Add VP to a seat outside the usual scoring (Verso's 1 VP when Soarrie passes to Esquie).",
+      "csSignature": "void ScoreVp(SeatId seat, int vp)",
+      "v1": true,
+      "fallback": "If VP cannot be added outside the seat's own turn, queue it and add it at the start of that seat's next Birdsong.",
+      "engineSymbol": "unknown: Root's score track increment",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "do.draw-cards",
+      "description": "Make a seat draw cards from the deck outside its normal draw (the Curator's Quiet Helper; the campaign's last-expedition journal worth +1 card).",
+      "csSignature": "void DrawCards(SeatId seat, int count)",
+      "v1": true,
+      "fallback": "If a draw cannot happen outside the seat's own turn, add the cards to that seat's next Evening draw.",
+      "engineSymbol": "unknown: Root's deck draw for a player",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      },
+      "_notes": "v1 true because the optional campaign's journal bonus uses it; the Curator's Quiet Helper comes with his later build."
+    },
+    {
+      "id": "do.add-hits",
+      "description": "Give a seat extra hits in the battle being fought, on top of its roll (Overcharge, Perfection, Twilight, Stains). Extra hits are not capped by a Vagabond's max hits, like Root's other extra hits.",
+      "csSignature": "void AddHits(SeatId seat, int hits)",
+      "v1": true,
+      "fallback": "After the roll, deal the extra hit as a separate one-hit removal through Root's own hit allocation (the owner of the hit pieces chooses), before hook.battle-resolved reads the result.",
+      "engineSymbol": "unknown: Root's battle hit totals (where Ambush and defenseless extra hits are added)",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "do.add-max-hits",
+      "description": "Raise a Vagabond's max hits (normally its undamaged swords) for the battle being fought (Belly Bounce: the Bag counts as one undamaged sword).",
+      "csSignature": "void AddMaxHits(SeatId vagabond, int extra)",
+      "v1": true,
+      "fallback": "If max hits cannot be changed, give one extra hit (do.add-hits) only when his roll was higher than his undamaged swords, which has the same effect.",
+      "engineSymbol": "unknown: Root's Vagabond max-hits calculation",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "do.ignore-first-hit",
+      "description": "Make a seat's warriors in the battle's clearing ignore the first hit they take, like the Keepers' Devout Knights (the White-Haired Man's Unbeatable in Act I).",
+      "csSignature": "void IgnoreFirstHit(SeatId seat)",
+      "v1": false,
+      "fallback": "After the battle, return one removed warrior of that seat to the clearing from its supply (do.place-warriors), which nets out the first hit.",
+      "engineSymbol": "unknown: Root's Devout Knights hit-ignore logic",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "do.set-guard-floor",
+      "description": "Keep at least this many of the host's warriors in a clearing: Root's move generator, its AI and the human UI may not move the host below the floor. 0 lifts it. Only a count: the host's other warriors come and go freely.",
+      "csSignature": "void SetGuardFloor(SeatId host, ClearingId c, int floor)",
+      "v1": true,
+      "fallback": "Esquie's no-spawn fallback (no guards, so no floor is needed).",
+      "engineSymbol": "unknown: Root's move legality / legal-move generator for warriors",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "do.block-placement",
+      "description": "Forbid a seat from building, recruiting or placing any piece in a clearing (the Nevron host in a clearing with a guarded rock), for the AI and the human UI alike.",
+      "csSignature": "void BlockPlacement(SeatId seat, ClearingId c, bool blocked)",
+      "v1": true,
+      "fallback": "Esquie's no-spawn fallback (no guards, so no host and nothing to block).",
+      "engineSymbol": "unknown: Root's build/recruit/place legality checks",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "do.restrict-home",
+      "description": "Limit the clearings a seat may pick as its home during setup: the Paintress's first roost to the Monolith, Clea's home to the Flying Manor, the Curator's home to a free corner other than Lumière and the Monolith. (Gustave's keep is never restricted: the corner it goes in becomes Lumière.)",
+      "csSignature": "void RestrictHomeChoice(SeatId seat, IReadOnlyList<ClearingId> allowed)",
+      "v1": true,
+      "fallback": "Highlight the required clearing for a human and steer a bot there with do.submit-action. Roles never move, so a human who picks another corner is warned that the character's rules still point at the role clearing (Clea still needs her atelier in the Flying Manor).",
+      "engineSymbol": "unknown: Root's setup home-clearing choice",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "do.restrict-start-forest",
+      "description": "Limit the forests a Vagabond may start in (Esquie starts in a forest next to Esquie's Nest).",
+      "csSignature": "void RestrictStartForest(SeatId vagabond, IReadOnlyList<int> forests)",
+      "v1": true,
+      "fallback": "Esquie starts wherever the player or AI puts him; nothing else depends on it.",
+      "engineSymbol": "unknown: Root's Vagabond starting-forest choice",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "do.grant-ability",
+      "description": "Give a seat a movement ability for the rest of the game: 'rivers-as-paths' (Florrie), 'no-hostile-boot' (Dorrie), 'glide' (Soarrie: exhaust a torch once per turn to move to any clearing, the Harrier's Glide logic).",
+      "csSignature": "void GrantAbility(SeatId seat, string abilityKey)",
+      "v1": false,
+      "fallback": "Leave the rock powers out (they are v1.1 only); the rocks still count for the win.",
+      "engineSymbol": "unknown: Root's Riverboats/Swimmers path rules, Hostile boot cost, and the Harrier's Glide",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "do.show-banner",
+      "description": "Show the public countdown banner for a seat's themed win (announced at the end of its turn).",
+      "csSignature": "void ShowBanner(SeatId seat, string winConditionId)",
+      "v1": true,
+      "fallback": "Write the warning into Root's game log or notification area.",
+      "engineSymbol": "unknown: Root's HUD canvas to attach the banner to",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "do.clear-banner",
+      "description": "Remove a seat's countdown banner (its confirmation failed, or it won).",
+      "csSignature": "void ClearBanner(SeatId seat)",
+      "v1": true,
+      "fallback": "Write the cancellation into Root's game log.",
+      "engineSymbol": "unknown: Root's HUD canvas",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "do.show-bubble",
+      "description": "Show a speech bubble with a bark over a seat's portrait or pawn.",
+      "csSignature": "void ShowBubble(SeatId seat, string barkId)",
+      "v1": true,
+      "fallback": "Write the line into Root's game log.",
+      "engineSymbol": "unknown: Root's player portrait / pawn view to anchor the bubble",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "do.show-overlay",
+      "description": "Draw a mod overlay (token, badge, gauge, tracker, label or screen) anchored to a seat's board, a clearing, a forest, or the whole screen when all anchors are null.",
+      "csSignature": "void ShowOverlay(string overlayId, SeatId? seat, ClearingId? c, int? forest)",
+      "v1": true,
+      "fallback": "If it cannot be anchored on Root's board, show it in the mod's side panel instead, naming the clearing or seat.",
+      "engineSymbol": "unknown: Root's clearing and faction-board view transforms",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "do.hide-overlay",
+      "description": "Remove a mod overlay from its anchor (a claimed rock, the removed François decoy, an opened Cell Crack).",
+      "csSignature": "void HideOverlay(string overlayId, SeatId? seat, ClearingId? c, int? forest)",
+      "v1": true,
+      "fallback": "Remove it from the mod's side panel.",
+      "engineSymbol": "unknown: Root's clearing and faction-board view transforms",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "do.set-seat-title",
+      "description": "Change the name Root shows for a seat (character safe or finished names; the Faithful retitle of Gustave's seat to 'Expedition 33' from Act II).",
+      "csSignature": "void SetSeatTitle(SeatId seat, string title)",
+      "v1": true,
+      "fallback": "Show the name on the mod's own seat label overlay over Root's.",
+      "engineSymbol": "unknown: Root's player name/faction label text",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "do.hide-clockwork",
+      "description": "Hide the Clockwork bots (Mechanical Marquise 2.0, Electric Eyrie, Automated Alliance, Vagabot) from seat selection in E33 mode, so every bot seat uses the standard Dire Wolf AI.",
+      "csSignature": "void HideClockworkBots()",
+      "v1": true,
+      "fallback": "Refuse to start an E33 game while a Clockwork bot is seated and say why.",
+      "engineSymbol": "unknown: Root's AI type options on the setup screen",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "do.submit-action",
+      "description": "Make a bot seat take one legal action chosen by its Goal Director, through the engine's legal-action API (the mod-owned policy path).",
+      "csSignature": "bool SubmitAction(SeatId seat, string actionKey)",
+      "v1": true,
+      "fallback": "Re-rank Root's own AI candidates instead (hook.bot-decision); if neither is possible, the seat plays Root's AI only and its themed win stays checkable for humans.",
+      "engineSymbol": "unknown: Root's action executor used by the UI and AI",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "do.native-ai-step",
+      "description": "Hand the bot seat's next decision to Root's own AI (when nothing goal-relevant is legal, and for hit allocation, Ambush and discards).",
+      "csSignature": "void UseNativeAi(SeatId seat)",
+      "v1": true,
+      "fallback": "If Root's AI cannot be called one decision at a time, let it play the bot's whole turn whenever the Goal Director finds nothing goal-relevant at the start of that turn.",
+      "engineSymbol": "unknown: the Dire Wolf AI per-faction decision entry point",
+      "_unverified": {
+        "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    }
+  ]
+}
