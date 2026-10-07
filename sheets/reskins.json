@@ -1,0 +1,819 @@
+{
+  "rows": [
+    {
+      "id": "reskin.gustave.keep",
+      "character": "gustave",
+      "rootThing": "Marquise keep token",
+      "safeName": "Expedition Camp",
+      "finishedName": "Expedition Camp",
+      "tooltip": "Journal, day one: camp pitched in Lumière, with the first Expedition Flag planted beside it. Only Expeditioners may put anything down here.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      },
+      "_notes": "Tooltips show in both spoiler modes, so every reskin tooltip is written spoiler-safe; where a rule is mentioned, the tooltip says it is Root's own rule rather than restating details the research could not verify. engineSymbol is 'unknown' on every reskin until Root's localisation keys are found."
+    },
+    {
+      "id": "reskin.gustave.sawmill",
+      "character": "gustave",
+      "rootThing": "Marquise sawmill",
+      "safeName": "Chroma Extractor",
+      "finishedName": "Chroma Extractor",
+      "tooltip": "Journal: the extractor hums all night and leaves a little chroma by morning. Every building is paid for in chroma.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.gustave.wood",
+      "character": "gustave",
+      "rootThing": "Marquise wood token",
+      "safeName": "Chroma",
+      "finishedName": "Chroma",
+      "tooltip": "Journal: raw chroma, bottled and stacked. It only travels along clearings we hold. Same rules as Root's wood.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.gustave.workshop",
+      "character": "gustave",
+      "rootThing": "Marquise workshop",
+      "safeName": "Lumière Workshop",
+      "finishedName": "Lumière Workshop",
+      "tooltip": "Journal: a bench, a vice and never enough hours. We craft here.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.gustave.recruiter",
+      "character": "gustave",
+      "rootThing": "Marquise recruiter",
+      "safeName": "Rally Post",
+      "finishedName": "Rally Post",
+      "tooltip": "Journal: a pole, a flag and a bell. Ring it and volunteers turn up.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.gustave.warrior",
+      "character": "gustave",
+      "rootThing": "Marquise cat warriors",
+      "safeName": "Expeditioners",
+      "finishedName": "Expeditioners",
+      "tooltip": "Journal: Expedition 33, and everyone brave enough to march with it. Count heads every evening.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.esquie.character",
+      "character": "esquie",
+      "rootThing": "Vagabond character card (Tinker)",
+      "safeName": "Esquie",
+      "finishedName": "Esquie",
+      "tooltip": "A very large, very round friend who carries everyone. Starts with Boots, Torch, Bag (his Big Belly) and Hammer, and no sword.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      },
+      "_notes": "The Tinker's character name becomes the character, as the roster's 'Esquie rides the Tinker' implies; this is a rename only."
+    },
+    {
+      "id": "reskin.esquie.bag",
+      "character": "esquie",
+      "rootThing": "Tinker's starting Bag item",
+      "safeName": "Big Belly",
+      "finishedName": "Big Belly",
+      "tooltip": "Room for every rock he finds, and a snack. In a clearing with a guarded rock it also counts as one undamaged sword (Belly Bounce). Otherwise a Bag by Root's rules.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.esquie.day-labor",
+      "character": "esquie",
+      "rootThing": "Tinker special action: Day Labor",
+      "safeName": "Whee, found it!",
+      "finishedName": "Whee, found it!",
+      "tooltip": "He rummages through the discard pile and comes up with a card that matches his clearing. Same rule as the Tinker's Day Labor.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.paintress.warrior",
+      "character": "paintress",
+      "rootThing": "Eyrie bird warriors",
+      "safeName": "Painted Servants",
+      "finishedName": "Painted Servants",
+      "tooltip": "Figures she painted to keep the brushes moving and the Monolith guarded.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.paintress.roost",
+      "character": "paintress",
+      "rootThing": "Eyrie roost",
+      "safeName": "Easel",
+      "finishedName": "Easel",
+      "tooltip": "An easel set up somewhere on the Continent. Outside the Monolith, in a clearing she rules with two of her Servants beside it, it becomes a Living Portrait.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.paintress.decree",
+      "character": "paintress",
+      "rootThing": "Eyrie Decree",
+      "safeName": "Canvas Plan",
+      "finishedName": "Canvas Plan",
+      "tooltip": "Every stroke planned in advance and painted left to right. If one stroke cannot be made, the whole plan smears into Grief. Same rules as the Decree.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.paintress.turmoil",
+      "character": "paintress",
+      "rootThing": "Eyrie Turmoil",
+      "safeName": "Grief",
+      "finishedName": "Grief",
+      "tooltip": "Same rules as Turmoil: she loses VP for each bird in the plan, the plan is cleared and her mood changes.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.paintress.leader-builder",
+      "character": "paintress",
+      "rootThing": "Eyrie leader card: Builder",
+      "safeName": "The Artist",
+      "finishedName": "The Artist",
+      "tooltip": "The mood that cares only for the work. Same ability as the Builder.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.paintress.leader-charismatic",
+      "character": "paintress",
+      "rootThing": "Eyrie leader card: Charismatic",
+      "safeName": "The Muse",
+      "finishedName": "The Mother",
+      "tooltip": "The mood that draws everyone to her side. Same ability as the Charismatic.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      },
+      "_notes": "Safe and finished names are the roster's ('The Muse' / 'The Mother')."
+    },
+    {
+      "id": "reskin.paintress.leader-commander",
+      "character": "paintress",
+      "rootThing": "Eyrie leader card: Commander",
+      "safeName": "The Warden",
+      "finishedName": "The Warden",
+      "tooltip": "The mood that guards what is hers. Same ability as the Commander.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.paintress.leader-despot",
+      "character": "paintress",
+      "rootThing": "Eyrie leader card: Despot",
+      "safeName": "The Matriarch",
+      "finishedName": "The Matriarch",
+      "tooltip": "The mood that will not be argued with. Same ability as the Despot.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.paintress.viziers",
+      "character": "paintress",
+      "rootThing": "Eyrie Loyal Vizier cards",
+      "safeName": "Brush and Palette",
+      "finishedName": "Brush and Palette",
+      "tooltip": "Two tools that never leave the Canvas Plan, even in Grief. Same rules as the Loyal Viziers.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.sciel.sympathy",
+      "character": "sciel",
+      "rootThing": "Alliance sympathy token",
+      "safeName": "Lantern",
+      "finishedName": "Lantern",
+      "tooltip": "A sun-gold mark over a little schoolhouse. A Lantern with no enemy pieces of any kind around it is a Sanctuary.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.sciel.base",
+      "character": "sciel",
+      "rootThing": "Alliance base",
+      "safeName": "Aquafarm",
+      "finishedName": "Aquafarm",
+      "tooltip": "Fields on the water that feed a city. Same rules as a base: losing one costs the matching Foretold cards and half her Teachers.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.sciel.officer",
+      "character": "sciel",
+      "rootThing": "Alliance officer",
+      "safeName": "Teacher",
+      "finishedName": "Teacher",
+      "tooltip": "Each Teacher leads one evening task: move, battle, recruit, or light a new Lantern. Same rules as an officer.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.sciel.warrior",
+      "character": "sciel",
+      "rootThing": "Alliance warriors",
+      "safeName": "Aquafarm Volunteers",
+      "finishedName": "Aquafarm Volunteers",
+      "tooltip": "Farmhands who will put down the hoe and pick up something sharper when the fields are threatened.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.sciel.supporters",
+      "character": "sciel",
+      "rootThing": "Alliance supporters stack",
+      "safeName": "Foretold Cards",
+      "finishedName": "Foretold Cards",
+      "tooltip": "Cards set aside for what is coming. Spend them to light Lanterns or bring in the harvest. Same rules as supporters.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.sciel.revolt",
+      "character": "sciel",
+      "rootThing": "Alliance Revolt",
+      "safeName": "The Reaping",
+      "finishedName": "The Reaping",
+      "tooltip": "Same rules as Revolt: every enemy piece in the Lantern clearing is swept away like a harvest, and an Aquafarm rises.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.sciel.outrage",
+      "character": "sciel",
+      "rootThing": "Alliance Outrage",
+      "safeName": "Trampled Crops",
+      "finishedName": "Trampled Crops",
+      "tooltip": "You trampled the crops, pay the farmer. Same rules as Outrage.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      },
+      "_notes": "The roster gives the rename as the sentence 'you trampled the crops, pay the farmer'; the short name is taken from it and the full sentence is the tooltip."
+    },
+    {
+      "id": "reskin.verso.character",
+      "character": "verso",
+      "rootThing": "Vagabond character card (Ranger)",
+      "safeName": "Verso",
+      "finishedName": "Verso",
+      "tooltip": "A stranger who cannot die and fights as if he were grading himself. Starts with Boots, Torch, Crossbow (his pistol) and Sword.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.verso.hideout",
+      "character": "verso",
+      "rootThing": "Ranger special action: Hideout",
+      "safeName": "Get Back Up",
+      "finishedName": "Get Back Up",
+      "tooltip": "He pulls himself back together and repairs 3 items. Same rule as the Ranger's Hideout.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.verso.crossbow",
+      "character": "verso",
+      "rootThing": "Ranger's starting Crossbow item",
+      "safeName": "Pistol",
+      "finishedName": "Pistol",
+      "tooltip": "A crossbow by Root's rules, a pistol by his.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.maelle.character",
+      "character": "maelle",
+      "rootThing": "Vagabond character card (Thief, or the Ronin with Exiles & Partisans & Vagabonds)",
+      "safeName": "Maelle",
+      "finishedName": "Alicia Dessendre",
+      "tooltip": "The youngest member of Expedition 33, looking for somewhere to belong. A fencer, not a thief.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      },
+      "_notes": "One row covers both cards she may ride, since only one is in play. finishedName follows the character's finished name."
+    },
+    {
+      "id": "reskin.maelle.steal",
+      "character": "maelle",
+      "rootThing": "Thief special action: Steal",
+      "safeName": "Disarm",
+      "finishedName": "Disarm",
+      "tooltip": "A rapier feint that flicks a card out of an opponent's hand. Same rule as Steal.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.maelle.swift-strike",
+      "character": "maelle",
+      "rootThing": "Ronin's Swift Strike",
+      "safeName": "Riposte",
+      "finishedName": "Riposte",
+      "tooltip": "Only when she rides the Ronin (Exiles & Partisans & Vagabonds). Same rule as Swift Strike.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      },
+      "_notes": "Only used with Exiles & Partisans & Vagabonds, when she rides the Ronin."
+    },
+    {
+      "id": "reskin.lune.warrior",
+      "character": "lune",
+      "rootThing": "Keepers badger warriors",
+      "safeName": "Survey Team",
+      "finishedName": "Survey Team",
+      "tooltip": "Her surveyors: they map the forests, carry what they find and guard it on the way home.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.lune.tablet",
+      "character": "lune",
+      "rootThing": "Keepers relic: tablet",
+      "safeName": "Expedition Journal",
+      "finishedName": "Expedition Journal",
+      "tooltip": "Notes from an expedition that never came back. Same rules as a tablet relic.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.lune.figure",
+      "character": "lune",
+      "rootThing": "Keepers relic: figure",
+      "safeName": "Route Chart",
+      "finishedName": "Route Chart",
+      "tooltip": "A chart of a route someone walked before. Same rules as a figure relic.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.lune.jewelry",
+      "character": "lune",
+      "rootThing": "Keepers relic: jewelry",
+      "safeName": "Chroma Sample",
+      "finishedName": "Chroma Sample",
+      "tooltip": "A sealed vial of the Continent's colour. Same rules as a jewelry relic.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.lune.waystation",
+      "character": "lune",
+      "rootThing": "Keepers waystation",
+      "safeName": "Research Camp",
+      "finishedName": "Research Camp",
+      "tooltip": "Where recovered research is catalogued. Each side files one kind of find. Same rules as a waystation.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.lune.retinue",
+      "character": "lune",
+      "rootThing": "Keepers Retinue",
+      "safeName": "The Charted Route",
+      "finishedName": "The Charted Route",
+      "tooltip": "Her plan for the expedition, followed column by column. Same rules as the Retinue.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.lune.devout-knights",
+      "character": "lune",
+      "rootThing": "Keepers Devout Knights ability",
+      "safeName": "Research Escort",
+      "finishedName": "Research Escort",
+      "tooltip": "Surveyors guarding a find shrug off the first hit, and each one walking can carry a find. Same rules as Devout Knights.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.monoco.warlord",
+      "character": "monoco",
+      "rootThing": "Hundreds Warlord pawn",
+      "safeName": "Monoco",
+      "finishedName": "Monoco",
+      "tooltip": "The Gestral himself, out for a good duel. Whoever is anointed after a fall is Monoco reborn at the Sacred River, with some memories gone.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.monoco.warrior",
+      "character": "monoco",
+      "rootThing": "Hundreds rat warriors",
+      "safeName": "Gestrals",
+      "finishedName": "Gestrals",
+      "tooltip": "Cheerful brawlers who follow Monoco from duel to duel.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.monoco.stronghold",
+      "character": "monoco",
+      "rootThing": "Hundreds stronghold",
+      "safeName": "Gestral Arena",
+      "finishedName": "Gestral Arena",
+      "tooltip": "Wooden arenas where every argument ends in a friendly duel. Same rules as a stronghold.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.monoco.mob",
+      "character": "monoco",
+      "rootThing": "Hundreds mob token",
+      "safeName": "Rowdy Young Gestrals",
+      "finishedName": "Rowdy Young Gestrals",
+      "tooltip": "Youngsters who got carried away. Same rules as a mob.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.monoco.hoard",
+      "character": "monoco",
+      "rootThing": "Hundreds Hoard",
+      "safeName": "Gestral Stash",
+      "finishedName": "Gestral Stash",
+      "tooltip": "Everything the Gestrals have picked up along the way. Same rules as the Hoard; the Bestial Wheel is separate and only holds feet.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.monoco.mask-agile",
+      "character": "monoco",
+      "rootThing": "Hundreds Mood card (one of the eight; which one is set on the creator's PC)",
+      "safeName": "Agile Mask",
+      "finishedName": "Agile Mask",
+      "tooltip": "A mood worn as a mask. Same effect as Root's mood card.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      },
+      "_notes": "The roster renames five of the eight Mood cards after his masks and three after Gestral moods, but does not say which card is which. Root's mood list and effects could not be checked here, so the pairing is chosen on the creator's PC, matching each mask to the mood whose effect fits it best. Effects never change."
+    },
+    {
+      "id": "reskin.monoco.mask-caster",
+      "character": "monoco",
+      "rootThing": "Hundreds Mood card (one of the eight; which one is set on the creator's PC)",
+      "safeName": "Caster Mask",
+      "finishedName": "Caster Mask",
+      "tooltip": "A mood worn as a mask. Same effect as Root's mood card.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.monoco.mask-balanced",
+      "character": "monoco",
+      "rootThing": "Hundreds Mood card (one of the eight; which one is set on the creator's PC)",
+      "safeName": "Balanced Mask",
+      "finishedName": "Balanced Mask",
+      "tooltip": "A mood worn as a mask. Same effect as Root's mood card.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.monoco.mask-heavy",
+      "character": "monoco",
+      "rootThing": "Hundreds Mood card (one of the eight; which one is set on the creator's PC)",
+      "safeName": "Heavy Mask",
+      "finishedName": "Heavy Mask",
+      "tooltip": "A mood worn as a mask. Same effect as Root's mood card.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.monoco.mask-almighty",
+      "character": "monoco",
+      "rootThing": "Hundreds Mood card (one of the eight; which one is set on the creator's PC)",
+      "safeName": "Almighty Mask",
+      "finishedName": "Almighty Mask",
+      "tooltip": "A mood worn as a mask. Same effect as Root's mood card. (The Almighty foot on the Bestial Wheel is separate and opens in Act III.)",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.monoco.gestral-moods",
+      "character": "monoco",
+      "rootThing": "The three Hundreds Mood cards not used for masks",
+      "safeName": "Gestral Mood",
+      "finishedName": "Gestral Mood",
+      "tooltip": "A Gestral's passing mood. The card reads 'Gestral Mood' above Root's own mood name, with the same effect.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      },
+      "_notes": "The roster leaves the three Gestral mood names open; the simplest choice is one heading, 'Gestral Mood', above Root's own mood name."
+    },
+    {
+      "id": "reskin.curator.burrow",
+      "character": "curator",
+      "rootThing": "Duchy Burrow",
+      "safeName": "The Cell",
+      "finishedName": "The Cell",
+      "tooltip": "Somewhere below, where his warriors wait. Only he can go there. Same rules as the Burrow.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      },
+      "_notes": "The roster's name is 'the Cell beneath the Monolith'. It gives no separate safe name, and its flavour lets safe mode hint at the cell below, so both modes say 'The Cell'; the tooltip stays vague."
+    },
+    {
+      "id": "reskin.curator.tunnel",
+      "character": "curator",
+      "rootThing": "Duchy tunnel token",
+      "safeName": "Crack in the Canvas",
+      "finishedName": "Crack in the Canvas",
+      "tooltip": "A crack his warriors slip through. Same rules as a tunnel.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.curator.citadel",
+      "character": "curator",
+      "rootThing": "Duchy citadel",
+      "safeName": "Curator's Camp",
+      "finishedName": "Curator's Camp",
+      "tooltip": "A quiet camp where weapons come back sharper. Same rules as a citadel.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.curator.market",
+      "character": "curator",
+      "rootThing": "Duchy market",
+      "safeName": "Chroma Catalyst Stall",
+      "finishedName": "Chroma Catalyst Stall",
+      "tooltip": "A stall that trades in the catalysts he uses for upgrades. Same rules as a market.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.curator.minister",
+      "character": "curator",
+      "rootThing": "Duchy minister cards",
+      "safeName": "Contacts",
+      "finishedName": "Contacts",
+      "tooltip": "People who owe him a favour. Same rules as ministers.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.curator.price-of-failure",
+      "character": "curator",
+      "rootThing": "Duchy Price of Failure",
+      "safeName": "His Grip Slips",
+      "finishedName": "His Grip Slips",
+      "tooltip": "When one of his camps or stalls falls, a contact walks away for good. Same rules as Price of Failure.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.clea.warrior",
+      "character": "clea",
+      "rootThing": "Lizard warriors",
+      "safeName": "Nevrons",
+      "finishedName": "Nevrons",
+      "tooltip": "Painted creatures that keep coming. Same rules as Lizard warriors.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.clea.garden",
+      "character": "clea",
+      "rootThing": "Lizard garden",
+      "safeName": "Nevron Atelier",
+      "finishedName": "Nevron Atelier",
+      "tooltip": "A workshop that turns out Nevrons. Same rules as a garden.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.clea.convert",
+      "character": "clea",
+      "rootThing": "Lizard conspiracy: Convert",
+      "safeName": "Repaint as Nevron",
+      "finishedName": "Repaint as Nevron",
+      "tooltip": "An enemy warrior is painted over into one of hers. Same rules as Convert.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.clea.sanctify",
+      "character": "clea",
+      "rootThing": "Lizard conspiracy: Sanctify",
+      "safeName": "Repaint",
+      "finishedName": "Repaint",
+      "tooltip": "An enemy building is painted over into an Atelier. Same rules as Sanctify.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.clea.lost-souls",
+      "character": "clea",
+      "rootThing": "Lizard Lost Souls pile",
+      "safeName": "Drained Chroma",
+      "finishedName": "Drained Chroma",
+      "tooltip": "Colour that other players threw away. Same rules as the Lost Souls pile.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.clea.acolytes",
+      "character": "clea",
+      "rootThing": "Lizard acolytes",
+      "safeName": "Chroma Vials",
+      "finishedName": "Chroma Vials",
+      "tooltip": "Stored colour, spent on repainting. Same rules as acolytes.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.clea.outcast",
+      "character": "clea",
+      "rootThing": "Lizard Outcast suit marker",
+      "safeName": "Weak Colour",
+      "finishedName": "Mother's Weak Colour",
+      "tooltip": "The colour that is easiest to paint over right now. Same rules as the Outcast suit.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      },
+      "_notes": "Safe and finished names are the roster's ('the Weak Colour' / 'Mother's Weak Colour')."
+    },
+    {
+      "id": "reskin.white-haired-man.warrior",
+      "character": "white-haired-man",
+      "rootThing": "Corvid warriors",
+      "safeName": "The White-Haired Man's Nevrons",
+      "finishedName": "Renoir's Nevrons",
+      "tooltip": "Dark shapes that wait where expeditions land. Same rules as Corvid warriors.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      },
+      "_notes": "'Renoir's Nevrons' (the roster's name, itself design liberty) would reveal his name, which safe mode hides behind 'The White-Haired Man', so the safe name uses his safe title."
+    },
+    {
+      "id": "reskin.white-haired-man.bomb",
+      "character": "white-haired-man",
+      "rootThing": "Corvid plot: Bomb",
+      "safeName": "Massacre",
+      "finishedName": "Massacre",
+      "tooltip": "Same rules as a Bomb plot: when flipped, every enemy piece in the clearing is removed.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.white-haired-man.snare",
+      "character": "white-haired-man",
+      "rootThing": "Corvid plot: Snare",
+      "safeName": "Barrier",
+      "finishedName": "Barrier",
+      "tooltip": "A shimmering wall across the road. Same rules as a Snare plot.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.white-haired-man.extortion",
+      "character": "white-haired-man",
+      "rootThing": "Corvid plot: Extortion",
+      "safeName": "Seized Journals",
+      "finishedName": "Seized Journals",
+      "tooltip": "Expedition notes taken off the shore. Same rules as an Extortion plot.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "reskin.white-haired-man.raid",
+      "character": "white-haired-man",
+      "rootThing": "Corvid plot: Raid",
+      "safeName": "Ambush on the Shore",
+      "finishedName": "Ambush on the Shore",
+      "tooltip": "Same rules as a Raid plot: removed, it sends his warriors into the clearings around it.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+      }
+    }
+  ]
+}

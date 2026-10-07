@@ -1,0 +1,542 @@
+{
+  "rows": [
+    {
+      "id": "ui.global.title",
+      "owner": "global",
+      "kind": "screen",
+      "shows": "The ROOT 33 title over Root's main menu: Root's own logo with the 33 tearing out of a glowing rift beside it, petals drifting off. Shown at every launch and on every return to the main menu (hook.title-screen). Any roster shown on the title screen uses safe names only.",
+      "public": true,
+      "art": [
+        "asset.title-rift",
+        "asset.root-logo",
+        "asset.root-font"
+      ],
+      "state": [],
+      "v1": true,
+      "_notes": "Root's logo is read from the player's install and the rift art ships with the mod, so nothing of Root's or Clair Obscur's art is copied."
+    },
+    {
+      "id": "ui.global.spoiler-prompt",
+      "owner": "global",
+      "kind": "screen",
+      "shows": "First launch only: two buttons, 'Spoiler-safe' and 'I've finished Clair Obscur: Expedition 33', with a line saying the choice can be changed later in settings. Then an offer to play or skip the speech-bubble prologue (the Gommage and the send-off).",
+      "public": true,
+      "art": [
+        "asset.prompt-frame",
+        "asset.root-font"
+      ],
+      "state": [],
+      "v1": true,
+      "_notes": "The answer is stored as the player's opt.spoiler-mode and copied into each game at hook.game-start, so this overlay names no state row."
+    },
+    {
+      "id": "ui.global.settings",
+      "owner": "global",
+      "kind": "screen",
+      "shows": "The mod's settings panel: spoiler mode, bot difficulty, Faithful Gustave (shown only in finished mode) and the campaign. A spoiler-mode change applies from the next game.",
+      "public": true,
+      "art": [
+        "asset.prompt-frame",
+        "asset.root-font"
+      ],
+      "state": [],
+      "v1": true
+    },
+    {
+      "id": "ui.global.character-select",
+      "owner": "global",
+      "kind": "screen",
+      "shows": "One card per character on Root's faction-select screen in E33 mode: portrait, safe or finished name, the Root engine and any DLC it needs, the spoiler-safe summary, the win's title, and the lore rival the mod will try to seat. In safe mode Clea's card shows '???' and a lock. A character whose DLC is not owned is hidden, and the Clockwork bots are not offered.",
+      "public": true,
+      "art": [
+        "asset.card-frame",
+        "asset.portrait-fallback",
+        "asset.root-font"
+      ],
+      "state": [],
+      "v1": true,
+      "_notes": "Each card's portrait is the character's own portrait asset (characters.portrait); art lists only the card's shared pieces."
+    },
+    {
+      "id": "ui.global.vignette",
+      "owner": "global",
+      "kind": "screen",
+      "shows": "Short, skippable speech-bubble scenes: the prologue (the Gommage and the send-off), each act's opening vignette (The Landing; The Beach in finished mode; The Fall at the Monolith) and story-event captions such as 'a memory returns'. Each scene plays the version its spoiler tier allows.",
+      "public": true,
+      "art": [
+        "asset.vignette-frame",
+        "asset.bubble-frame",
+        "asset.petals"
+      ],
+      "state": [
+        "state.global.act"
+      ],
+      "v1": true
+    },
+    {
+      "id": "ui.global.ending-card",
+      "owner": "global",
+      "kind": "screen",
+      "shows": "The winner's ending card when a themed win is declared: portrait, the win's title and an original-text ending over a short camera tour of the board (Gustave's flag trail lit end to end, the whole table riding home on Esquie, the Paintress's three portraits and a frozen Monolith Number, and so on). Ending-flavoured cards, such as Verso's and Maelle's, appear only in finished mode; safe mode shows a plain version.",
+      "public": true,
+      "art": [
+        "asset.vignette-frame",
+        "asset.petals",
+        "asset.portrait-fallback"
+      ],
+      "state": [],
+      "v1": true
+    },
+    {
+      "id": "ui.global.countdown-banner",
+      "owner": "global",
+      "kind": "banner",
+      "shows": "A public banner put up at the end of a seat's turn when its countdown win is announced: the character, the win's title, that it takes effect at the start of their next Birdsong, and how to stop it (the win's counterplay line). It comes down when the confirmation fails or the game ends.",
+      "public": true,
+      "art": [
+        "asset.banner-frame",
+        "asset.root-font"
+      ],
+      "state": [
+        "state.global.countdowns"
+      ],
+      "v1": true
+    },
+    {
+      "id": "ui.global.goal-tracker",
+      "owner": "global",
+      "kind": "tracker",
+      "shows": "A public panel with one row per seat: the character, the win's title, each step of its test marked done or not (read live from the board or from saved state), and a highlight when a seat is one step away. A win that is still locked shows the act that unlocks it. Bots' spoiler layer reads exactly what this panel shows.",
+      "public": true,
+      "art": [
+        "asset.tracker-frame",
+        "asset.root-suit-icons",
+        "asset.root-font"
+      ],
+      "state": [
+        "state.global.act",
+        "state.global.countdowns",
+        "state.gustave.flags",
+        "state.gustave.arm",
+        "state.esquie.rocks",
+        "state.verso.rank",
+        "state.lune.tagged-relic",
+        "state.monoco.feet",
+        "state.curator.cell-crack"
+      ],
+      "v1": true
+    },
+    {
+      "id": "ui.global.monolith-number",
+      "owner": "global",
+      "kind": "label",
+      "shows": "The Monolith Number painted on the Monolith clearing: 33 (tune.monolith-number-start) minus the top score, ticking down as anyone scores. Refreshed at hook.vp-changed.",
+      "public": true,
+      "art": [
+        "asset.monolith-plate",
+        "asset.root-font"
+      ],
+      "state": [],
+      "v1": true
+    },
+    {
+      "id": "ui.global.act-banner",
+      "owner": "global",
+      "kind": "banner",
+      "shows": "A banner when an act begins: 'Act I: The Landing' after setup, 'Act II: The Monolith' and 'Act III: The Canvas' later, each with one line on what unlocks (themed wins at Act II; the Curator's win and Almighty at Act III).",
+      "public": true,
+      "art": [
+        "asset.banner-frame",
+        "asset.root-font"
+      ],
+      "state": [
+        "state.global.act"
+      ],
+      "v1": true
+    },
+    {
+      "id": "ui.global.speech-bubble",
+      "owner": "global",
+      "kind": "bubble",
+      "shows": "A speech bubble over a seat's portrait or pawn showing one bark's text (do.show-bubble). Text only, no voice. One bubble at a time; it fades after a few seconds or on a click.",
+      "public": true,
+      "art": [
+        "asset.bubble-frame",
+        "asset.root-font"
+      ],
+      "state": [],
+      "v1": true,
+      "_notes": "'One bubble at a time' is this sheet's choice; the roster only says barks are speech bubbles."
+    },
+    {
+      "id": "ui.global.clearing-names",
+      "owner": "global",
+      "kind": "label",
+      "shows": "Continent names on the clearings (the map_autumn names on Autumn, role names on any map), each with its flavour line as a tooltip, and the Sacred River drawn as a ribbon of chroma along the river clearings.",
+      "public": true,
+      "art": [
+        "asset.label-plate",
+        "asset.sacred-river",
+        "asset.root-font"
+      ],
+      "state": [
+        "state.global.roles"
+      ],
+      "v1": true
+    },
+    {
+      "id": "ui.global.final-battlefield",
+      "owner": "global",
+      "kind": "badge",
+      "shows": "From Act III, a highlight on Lumière marking it as the final battlefield (story.act3.fall).",
+      "public": true,
+      "art": [
+        "asset.final-battlefield"
+      ],
+      "state": [
+        "state.global.act",
+        "state.global.roles"
+      ],
+      "v1": true
+    },
+    {
+      "id": "ui.gustave.flags",
+      "owner": "gustave",
+      "kind": "token",
+      "shows": "An Expedition Flag painted with 33 on every flagged clearing, joined by a dotted route back to Lumière. A flag in a clearing he no longer rules is drawn faded: it stays, but does not count toward his Chain.",
+      "public": true,
+      "art": [
+        "asset.flag-token",
+        "asset.route-dots"
+      ],
+      "state": [
+        "state.gustave.flags"
+      ],
+      "v1": true
+    },
+    {
+      "id": "ui.gustave.arm",
+      "owner": "gustave",
+      "kind": "gauge",
+      "shows": "Gustave's Arm on his faction board: three pips that glow from blue to white as it charges, and the pre-battle Overcharge toggle, which can be switched on only at 3/3 when he attacks. Firing Overcharge plays a lightning crack.",
+      "public": true,
+      "art": [
+        "asset.arm-gauge",
+        "asset.sfx.overcharge"
+      ],
+      "state": [
+        "state.gustave.arm",
+        "state.gustave.overcharge-armed"
+      ],
+      "v1": true
+    },
+    {
+      "id": "ui.gustave.road",
+      "owner": "gustave",
+      "kind": "tracker",
+      "shows": "The public Road tracker: the clearings of his current ruled Chain, the suits it covers out of fox, rabbit and mouse, whether it reaches a Beachhead holding one of his buildings, and the Arm's charge.",
+      "public": true,
+      "art": [
+        "asset.tracker-frame",
+        "asset.root-suit-icons"
+      ],
+      "state": [
+        "state.gustave.flags",
+        "state.gustave.arm"
+      ],
+      "v1": true
+    },
+    {
+      "id": "ui.esquie.rocks",
+      "owner": "esquie",
+      "kind": "token",
+      "shows": "Esquie's four rocks on the map: Florrie sparkling at Stone Wave Cliffs, Dorrie hidden in the Old Lumière ruin, Soarrie on Verso's card or beside whoever rules the Monolith, and Urrie at Esquie's Nest. A guarded rock shows how many guards are left, a loose rock bounces, and a claimed rock leaves the map for his ring.",
+      "public": true,
+      "art": [
+        "asset.rock-tokens"
+      ],
+      "state": [
+        "state.esquie.rocks"
+      ],
+      "v1": true
+    },
+    {
+      "id": "ui.esquie.rock-ring",
+      "owner": "esquie",
+      "kind": "tracker",
+      "shows": "The public four-slot rock ring on his board; each slot lights up as its rock comes home.",
+      "public": true,
+      "art": [
+        "asset.rock-ring",
+        "asset.rock-tokens"
+      ],
+      "state": [
+        "state.esquie.rocks"
+      ],
+      "v1": true
+    },
+    {
+      "id": "ui.esquie.lampmaster-badge",
+      "owner": "esquie",
+      "kind": "badge",
+      "shows": "A lamp-headed guard badge over Florrie's guard stack at Stone Wave Cliffs, until Florrie is loose.",
+      "public": true,
+      "art": [
+        "asset.badge-lampmaster"
+      ],
+      "state": [
+        "state.esquie.rocks"
+      ],
+      "v1": true
+    },
+    {
+      "id": "ui.esquie.francois-badge",
+      "owner": "esquie",
+      "kind": "badge",
+      "shows": "A grumpy turtle badge over Urrie's guard stack at Esquie's Nest, until Urrie is loose.",
+      "public": true,
+      "art": [
+        "asset.badge-francois"
+      ],
+      "state": [
+        "state.esquie.rocks"
+      ],
+      "v1": true
+    },
+    {
+      "id": "ui.esquie.francois-decoy",
+      "owner": "esquie",
+      "kind": "badge",
+      "shows": "During Act I only, the same turtle badge sits at Esquie's Nest pretending to have Florrie. It has no guard and no rock: when Esquie enters, it points him to Stone Wave Cliffs and goes.",
+      "public": true,
+      "art": [
+        "asset.badge-francois"
+      ],
+      "state": [
+        "state.esquie.decoy"
+      ],
+      "v1": true
+    },
+    {
+      "id": "ui.paintress.portraits",
+      "owner": "paintress",
+      "kind": "token",
+      "shows": "A framed portrait over every easel that is a Living Portrait right now, with the Paintress drawn at work beside it and red petals drifting as it goes up. Finished mode labels the three (one per suit) Verso, Clea and Renoir, 'as she remembers them' when that character is seated; safe mode shows veiled portraits.",
+      "public": true,
+      "art": [
+        "asset.portrait-frame",
+        "asset.portrait-veiled",
+        "asset.paintress-at-work",
+        "asset.petals",
+        "asset.portrait.verso",
+        "asset.portrait.clea",
+        "asset.portrait.white-haired-man"
+      ],
+      "state": [],
+      "v1": true,
+      "_notes": "Portraits are worked out at each check, never stored, so this overlay names no state. The finished-mode labels reuse the painted characters' own portraits (the painted Renoir is the White-Haired Man)."
+    },
+    {
+      "id": "ui.paintress.portrait-tracker",
+      "owner": "paintress",
+      "kind": "tracker",
+      "shows": "The public 'Portraits 0/3' tracker: one slot per suit (fox, rabbit, mouse), filled by a Living Portrait, plus whether she rules the Monolith with an easel there.",
+      "public": true,
+      "art": [
+        "asset.tracker-frame",
+        "asset.root-suit-icons"
+      ],
+      "state": [],
+      "v1": true
+    },
+    {
+      "id": "ui.paintress.grief",
+      "owner": "paintress",
+      "kind": "bubble",
+      "shows": "When she falls into Grief (Turmoil, hook.turmoil): a smeared-canvas bubble over her board. Finished mode shows a short original real-world flashback caption inside it.",
+      "public": true,
+      "art": [
+        "asset.smeared-canvas",
+        "asset.bubble-frame"
+      ],
+      "state": [],
+      "v1": true,
+      "_notes": "The roster's Grief bubble; added so hook.turmoil has something to draw. Rules are unchanged."
+    },
+    {
+      "id": "ui.sciel.gauges",
+      "owner": "sciel",
+      "kind": "gauge",
+      "shows": "Public Sun and Moon gauges on her board: Sun counts her Sanctuaries (out of 5, with the suits they cover), Moon counts Aquafarms on the map. A dusk tint spreads over the board as both fill. From v1.1 the gauges also show her Twilight Sun and Moon charges.",
+      "public": true,
+      "art": [
+        "asset.sun-moon-gauge",
+        "asset.dusk-tint"
+      ],
+      "state": [
+        "state.sciel.sun",
+        "state.sciel.moon",
+        "state.sciel.twilight-armed"
+      ],
+      "v1": true,
+      "_notes": "The gauges are v1; the Twilight charge pips light up only once v1.1's Twilight is on."
+    },
+    {
+      "id": "ui.verso.rank",
+      "owner": "verso",
+      "kind": "label",
+      "shows": "A large public Perfection letter (D, C, B, A or S) on his character card. A rank-up plays a rising piano phrase; a hit that knocks it down plays a discordant chord.",
+      "public": true,
+      "art": [
+        "asset.rank-letters",
+        "asset.stinger.verso-rank-up",
+        "asset.stinger.verso-hit"
+      ],
+      "state": [
+        "state.verso.rank"
+      ],
+      "v1": true
+    },
+    {
+      "id": "ui.maelle.family",
+      "owner": "maelle",
+      "kind": "tracker",
+      "shows": "Her public 'family' row: one portrait frame per non-Vagabond faction showing her relationship with it (Indifferent up to Allied, or Hostile), with a sketch of that character added at each step. A bot Maelle's chosen family factions are marked, since she says who her family is.",
+      "public": true,
+      "art": [
+        "asset.family-frames",
+        "asset.portrait-fallback"
+      ],
+      "state": [
+        "state.maelle.family"
+      ],
+      "v1": true,
+      "_notes": "Relationships are read from Root's own track; state.maelle.family only marks the bot's chosen factions."
+    },
+    {
+      "id": "ui.maelle.stance",
+      "owner": "maelle",
+      "kind": "badge",
+      "shows": "The stance chip on her card: Offensive, Defensive or Virtuose. Cosmetic; it changes her portrait pose and barks.",
+      "public": true,
+      "art": [
+        "asset.stance-chips"
+      ],
+      "state": [
+        "state.maelle.stance"
+      ],
+      "v1": true
+    },
+    {
+      "id": "ui.lune.journal-glow",
+      "owner": "lune",
+      "kind": "token",
+      "shows": "From Act II, a gold glow on the forest holding the Parents' Journal and a tag on the relic itself, which follows it if it is carried or knocked loose.",
+      "public": true,
+      "art": [
+        "asset.journal-glow"
+      ],
+      "state": [
+        "state.lune.tagged-relic"
+      ],
+      "v1": false,
+      "_notes": "v1 is false because this character ships after the mod's first version; the overlay ships with the character's first build."
+    },
+    {
+      "id": "ui.lune.thesis",
+      "owner": "lune",
+      "kind": "tracker",
+      "shows": "The public thesis tracker: Journal, Route Chart and Chroma Sample slots filled by the relics she has recovered, and a gold slot for the Parents' Journal.",
+      "public": true,
+      "art": [
+        "asset.thesis-tracker"
+      ],
+      "state": [
+        "state.lune.tagged-relic"
+      ],
+      "v1": false,
+      "_notes": "v1 is false because this character ships after the mod's first version; the overlay ships with the character's first build."
+    },
+    {
+      "id": "ui.lune.stains",
+      "owner": "lune",
+      "kind": "gauge",
+      "shows": "Her Stains (Fire, Ice, Lightning) glowing on her focus, with the pre-battle toggle that arms one for her next battle.",
+      "public": true,
+      "art": [
+        "asset.stain-icons"
+      ],
+      "state": [
+        "state.lune.stains",
+        "state.lune.stain-armed"
+      ],
+      "v1": false,
+      "_notes": "v1 is false because this character ships after the mod's first version; the overlay ships with the character's first build. Added because Stains are a pre-battle toggle on her board (tweak.lune.stains, hook.ui-toggle), which needs somewhere to be drawn."
+    },
+    {
+      "id": "ui.monoco.wheel",
+      "owner": "monoco",
+      "kind": "tracker",
+      "shows": "The public five-slot Bestial Wheel: each foot (Agile, Caster, Balanced, Heavy, Almighty) with the faction it came from, the count of different factions, and Almighty locked until Act III. Each foot snaps on with a Gestral cheer, a rebirth plays a quick Sacred River fade, and his portrait wears the current mood's mask.",
+      "public": true,
+      "art": [
+        "asset.wheel-frame",
+        "asset.monoco-masks",
+        "asset.sfx.gestral-cheer"
+      ],
+      "state": [
+        "state.monoco.feet"
+      ],
+      "v1": false,
+      "_notes": "v1 is false because this character ships after the mod's first version; the overlay ships with the character's first build."
+    },
+    {
+      "id": "ui.curator.cell-crack",
+      "owner": "curator",
+      "kind": "token",
+      "shows": "A hairline crack on the Monolith from setup, doing nothing until Act III. At Act III it splits open into a real Duchy tunnel; in finished mode his music swells as his face is revealed.",
+      "public": true,
+      "art": [
+        "asset.cell-crack",
+        "asset.stinger.curator-reveal"
+      ],
+      "state": [
+        "state.curator.cell-crack"
+      ],
+      "v1": false,
+      "_notes": "v1 is false because this character ships after the mod's first version; the overlay ships with the character's first build."
+    },
+    {
+      "id": "ui.clea.coverage",
+      "owner": "clea",
+      "kind": "tracker",
+      "shows": "The public coverage tracker: the clearings holding her Nevrons (out of 8, each marked on the map; guard warriors she hosts on Esquie's rocks do not count), whether the Monolith is one of them, and whether the Flying Manor has her atelier.",
+      "public": true,
+      "art": [
+        "asset.tracker-frame",
+        "asset.nevron-mark"
+      ],
+      "state": [
+        "state.esquie.rocks"
+      ],
+      "v1": false,
+      "_notes": "v1 is false because this character ships after the mod's first version; the overlay ships with the character's first build. state.esquie.rocks is listed because hosted guards are subtracted from her count."
+    },
+    {
+      "id": "ui.white-haired-man.ring",
+      "owner": "white-haired-man",
+      "kind": "tracker",
+      "shows": "A ring around the Monolith with one segment per Ring clearing, lit where he holds it (his face-up Barrier, or one of his pieces with no ruler but him or the Paintress), plus the Monolith's own status. Face-up Barriers shimmer. With the optional v1.1 Monolith Barrier it also shows whether the Barrier is down.",
+      "public": true,
+      "art": [
+        "asset.ring-barrier"
+      ],
+      "state": [
+        "state.global.roles",
+        "state.white-haired-man.barrier-down"
+      ],
+      "v1": false,
+      "_notes": "v1 is false because this character ships after the mod's first version; the overlay ships with the character's first build."
+    }
+  ]
+}

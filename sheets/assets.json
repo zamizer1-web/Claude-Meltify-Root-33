@@ -1,0 +1,712 @@
+{
+  "rows": [
+    {
+      "id": "asset.portrait.gustave",
+      "kind": "texture",
+      "source": "e33-install",
+      "description": "Gustave's character portrait. Shown on character select, on the seat's board and in speech bubbles.",
+      "license": "Read from the player's own copy of Clair Obscur: Expedition 33 at runtime, never shipped.",
+      "sourcePath": "unknown",
+      "fallback": "The made-for-mod silhouette (asset.portrait-fallback) tinted in the character's colour, with the character's safe or finished name.",
+      "_unverified": {
+        "sourcePath": "find in Clair Obscur's files on the creator's PC"
+      },
+      "_notes": "Every Clair Obscur asset is located on the creator's PC (FModel/CUE4Parse over the game's paks) and its path written here."
+    },
+    {
+      "id": "asset.portrait.esquie",
+      "kind": "texture",
+      "source": "e33-install",
+      "description": "Esquie's portrait. Shown on character select, on the seat's board and in speech bubbles.",
+      "license": "Read from the player's own copy of Clair Obscur: Expedition 33 at runtime, never shipped.",
+      "sourcePath": "unknown",
+      "fallback": "The made-for-mod silhouette (asset.portrait-fallback) tinted in the character's colour, with the character's safe or finished name.",
+      "_unverified": {
+        "sourcePath": "find in Clair Obscur's files on the creator's PC"
+      }
+    },
+    {
+      "id": "asset.portrait.paintress",
+      "kind": "texture",
+      "source": "e33-install",
+      "description": "The Paintress's portrait, used in both spoiler modes. Shown on character select, on the seat's board and in speech bubbles.",
+      "license": "Read from the player's own copy of Clair Obscur: Expedition 33 at runtime, never shipped.",
+      "sourcePath": "unknown",
+      "fallback": "The made-for-mod silhouette (asset.portrait-fallback) tinted in the character's colour, with the character's safe or finished name.",
+      "_unverified": {
+        "sourcePath": "find in Clair Obscur's files on the creator's PC"
+      }
+    },
+    {
+      "id": "asset.portrait.sciel",
+      "kind": "texture",
+      "source": "e33-install",
+      "description": "Sciel's character portrait. Shown on character select, on the seat's board and in speech bubbles.",
+      "license": "Read from the player's own copy of Clair Obscur: Expedition 33 at runtime, never shipped.",
+      "sourcePath": "unknown",
+      "fallback": "The made-for-mod silhouette (asset.portrait-fallback) tinted in the character's colour, with the character's safe or finished name.",
+      "_unverified": {
+        "sourcePath": "find in Clair Obscur's files on the creator's PC"
+      }
+    },
+    {
+      "id": "asset.portrait.verso",
+      "kind": "texture",
+      "source": "e33-install",
+      "description": "Verso's character portrait. Shown on character select, on the seat's board and in speech bubbles.",
+      "license": "Read from the player's own copy of Clair Obscur: Expedition 33 at runtime, never shipped.",
+      "sourcePath": "unknown",
+      "fallback": "The made-for-mod silhouette (asset.portrait-fallback) tinted in the character's colour, with the character's safe or finished name.",
+      "_unverified": {
+        "sourcePath": "find in Clair Obscur's files on the creator's PC"
+      }
+    },
+    {
+      "id": "asset.portrait.maelle",
+      "kind": "texture",
+      "source": "e33-install",
+      "description": "Maelle's character portrait (Acts I-II, and Act III in safe mode). Shown on character select, on the seat's board and in speech bubbles.",
+      "license": "Read from the player's own copy of Clair Obscur: Expedition 33 at runtime, never shipped.",
+      "sourcePath": "unknown",
+      "fallback": "The made-for-mod silhouette (asset.portrait-fallback) tinted in the character's colour, with the character's safe or finished name.",
+      "_unverified": {
+        "sourcePath": "find in Clair Obscur's files on the creator's PC"
+      }
+    },
+    {
+      "id": "asset.portrait.lune",
+      "kind": "texture",
+      "source": "e33-install",
+      "description": "Lune's character portrait. Shown on character select, on the seat's board and in speech bubbles.",
+      "license": "Read from the player's own copy of Clair Obscur: Expedition 33 at runtime, never shipped.",
+      "sourcePath": "unknown",
+      "fallback": "The made-for-mod silhouette (asset.portrait-fallback) tinted in the character's colour, with the character's safe or finished name.",
+      "_unverified": {
+        "sourcePath": "find in Clair Obscur's files on the creator's PC"
+      }
+    },
+    {
+      "id": "asset.portrait.monoco",
+      "kind": "texture",
+      "source": "e33-install",
+      "description": "Monoco's character portrait; the Bestial Wheel overlay lays the current mood's mask over it. Shown on character select, on the seat's board and in speech bubbles.",
+      "license": "Read from the player's own copy of Clair Obscur: Expedition 33 at runtime, never shipped.",
+      "sourcePath": "unknown",
+      "fallback": "The made-for-mod silhouette (asset.portrait-fallback) tinted in the character's colour, with the character's safe or finished name.",
+      "_unverified": {
+        "sourcePath": "find in Clair Obscur's files on the creator's PC"
+      }
+    },
+    {
+      "id": "asset.portrait.curator",
+      "kind": "texture",
+      "source": "e33-install",
+      "description": "The faceless Curator as he appears at camp. Used in both modes until Act III; in finished mode asset.portrait.curator-revealed replaces it from Act III. Shown on character select, on the seat's board and in speech bubbles.",
+      "license": "Read from the player's own copy of Clair Obscur: Expedition 33 at runtime, never shipped.",
+      "sourcePath": "unknown",
+      "fallback": "The made-for-mod silhouette (asset.portrait-fallback) tinted in the character's colour, with the character's safe or finished name.",
+      "_unverified": {
+        "sourcePath": "find in Clair Obscur's files on the creator's PC"
+      }
+    },
+    {
+      "id": "asset.portrait.clea",
+      "kind": "texture",
+      "source": "e33-install",
+      "description": "Clea's portrait for finished mode (in safe mode her locked card shows the silhouette and '???'). Shown on character select, on the seat's board and in speech bubbles.",
+      "license": "Read from the player's own copy of Clair Obscur: Expedition 33 at runtime, never shipped.",
+      "sourcePath": "unknown",
+      "fallback": "The made-for-mod silhouette (asset.portrait-fallback) tinted in the character's colour, with the character's safe or finished name.",
+      "_unverified": {
+        "sourcePath": "find in Clair Obscur's files on the creator's PC"
+      }
+    },
+    {
+      "id": "asset.portrait.white-haired-man",
+      "kind": "texture",
+      "source": "e33-install",
+      "description": "The white-haired swordsman's portrait. Shown on character select, on the seat's board and in speech bubbles.",
+      "license": "Read from the player's own copy of Clair Obscur: Expedition 33 at runtime, never shipped.",
+      "sourcePath": "unknown",
+      "fallback": "The made-for-mod silhouette (asset.portrait-fallback) tinted in the character's colour, with the character's safe or finished name.",
+      "_unverified": {
+        "sourcePath": "find in Clair Obscur's files on the creator's PC"
+      }
+    },
+    {
+      "id": "asset.portrait.alicia",
+      "kind": "texture",
+      "source": "e33-install",
+      "description": "Maelle as Alicia, with scars and a brush, for finished mode from Act III (story.act3.alicia).",
+      "license": "Read from the player's own copy of Clair Obscur: Expedition 33 at runtime, never shipped.",
+      "sourcePath": "unknown",
+      "fallback": "Maelle's normal portrait stays, with the caption 'a memory returns'.",
+      "_unverified": {
+        "sourcePath": "find in Clair Obscur's files on the creator's PC"
+      }
+    },
+    {
+      "id": "asset.portrait.curator-revealed",
+      "kind": "texture",
+      "source": "e33-install",
+      "description": "The Curator's revealed face (Renoir) for finished mode from Act III (story.act3.cell-crack).",
+      "license": "Read from the player's own copy of Clair Obscur: Expedition 33 at runtime, never shipped.",
+      "sourcePath": "unknown",
+      "fallback": "The faceless Curator portrait stays.",
+      "_unverified": {
+        "sourcePath": "find in Clair Obscur's files on the creator's PC"
+      }
+    },
+    {
+      "id": "asset.portrait.clea-unleashed",
+      "kind": "texture",
+      "source": "e33-install",
+      "description": "Clea's 'Clea Unleashed' look, used as her portrait when a bot Clea plays on Hard (roster flavour).",
+      "license": "Read from the player's own copy of Clair Obscur: Expedition 33 at runtime, never shipped.",
+      "sourcePath": "unknown",
+      "fallback": "Her normal portrait (asset.portrait.clea).",
+      "_unverified": {
+        "sourcePath": "find in Clair Obscur's files on the creator's PC"
+      }
+    },
+    {
+      "id": "asset.paintress-at-work",
+      "kind": "texture",
+      "source": "e33-install",
+      "description": "The Paintress at work, drawn beside every Living Portrait easel so she appears in three places across the map.",
+      "license": "Read from the player's own copy of Clair Obscur: Expedition 33 at runtime, never shipped.",
+      "sourcePath": "unknown",
+      "fallback": "The easel frame (asset.portrait-frame) is drawn without a figure.",
+      "_unverified": {
+        "sourcePath": "find in Clair Obscur's files on the creator's PC"
+      }
+    },
+    {
+      "id": "asset.monoco-masks",
+      "kind": "texture",
+      "source": "e33-install",
+      "description": "Monoco's Bestial Wheel mask icons (Agile, Caster, Balanced, Heavy, Almighty), for the wheel and his portrait.",
+      "license": "Read from the player's own copy of Clair Obscur: Expedition 33 at runtime, never shipped.",
+      "sourcePath": "unknown",
+      "fallback": "Each mask's name written on a coloured disc.",
+      "_unverified": {
+        "sourcePath": "find in Clair Obscur's files on the creator's PC"
+      }
+    },
+    {
+      "id": "asset.sfx.overcharge",
+      "kind": "audio",
+      "source": "e33-install",
+      "description": "The lightning crack played when Gustave fires Overcharge.",
+      "license": "Read from the player's own copy of Clair Obscur: Expedition 33 at runtime, never shipped.",
+      "sourcePath": "unknown",
+      "fallback": "No sound; the arm gauge still flashes white.",
+      "_unverified": {
+        "sourcePath": "find in Clair Obscur's files on the creator's PC"
+      }
+    },
+    {
+      "id": "asset.stinger.verso-rank-up",
+      "kind": "audio",
+      "source": "e33-install",
+      "description": "A short rising piano phrase played when Verso's Perfection rank goes up.",
+      "license": "Read from the player's own copy of Clair Obscur: Expedition 33 at runtime, never shipped.",
+      "sourcePath": "unknown",
+      "fallback": "No sound; the rank letter still flares.",
+      "_unverified": {
+        "sourcePath": "find in Clair Obscur's files on the creator's PC"
+      }
+    },
+    {
+      "id": "asset.stinger.verso-hit",
+      "kind": "audio",
+      "source": "e33-install",
+      "description": "A short discordant chord played when a hit knocks Verso's rank down.",
+      "license": "Read from the player's own copy of Clair Obscur: Expedition 33 at runtime, never shipped.",
+      "sourcePath": "unknown",
+      "fallback": "No sound; the rank letter still shakes.",
+      "_unverified": {
+        "sourcePath": "find in Clair Obscur's files on the creator's PC"
+      }
+    },
+    {
+      "id": "asset.stinger.curator-reveal",
+      "kind": "audio",
+      "source": "e33-install",
+      "description": "A swell of the Curator's music for the finished-mode reveal at Act III.",
+      "license": "Read from the player's own copy of Clair Obscur: Expedition 33 at runtime, never shipped.",
+      "sourcePath": "unknown",
+      "fallback": "No sound; the crack still splits open.",
+      "_unverified": {
+        "sourcePath": "find in Clair Obscur's files on the creator's PC"
+      }
+    },
+    {
+      "id": "asset.sfx.gestral-cheer",
+      "kind": "audio",
+      "source": "e33-install",
+      "description": "A Gestral cheer played when a foot snaps onto Monoco's Bestial Wheel.",
+      "license": "Read from the player's own copy of Clair Obscur: Expedition 33 at runtime, never shipped.",
+      "sourcePath": "unknown",
+      "fallback": "No sound; the foot still snaps on.",
+      "_unverified": {
+        "sourcePath": "find in Clair Obscur's files on the creator's PC"
+      }
+    },
+    {
+      "id": "asset.root-logo",
+      "kind": "texture",
+      "source": "root-install",
+      "description": "Root's own title logo, composited under the rift art for the ROOT 33 title.",
+      "license": "Read from the player's own copy of Root at runtime, never shipped.",
+      "sourcePath": "unknown",
+      "fallback": "The rift art is drawn alone over Root's normal main menu, with 'ROOT 33' set in Root's UI font (or Unity's default font).",
+      "_unverified": {
+        "sourcePath": "find in Root's files on the creator's PC"
+      }
+    },
+    {
+      "id": "asset.root-suit-icons",
+      "kind": "texture",
+      "source": "root-install",
+      "description": "Root's fox, rabbit, mouse and bird suit icons, used on the Goal Tracker and the character trackers.",
+      "license": "Read from the player's own copy of Root at runtime, never shipped.",
+      "sourcePath": "unknown",
+      "fallback": "Coloured letters F, R, M and B.",
+      "_unverified": {
+        "sourcePath": "find in Root's files on the creator's PC"
+      }
+    },
+    {
+      "id": "asset.root-font",
+      "kind": "font",
+      "source": "root-install",
+      "description": "Root's own UI font, for every mod label, banner, tracker and speech bubble so the mod reads like part of the game.",
+      "license": "Read from the player's own copy of Root at runtime, never shipped.",
+      "sourcePath": "unknown",
+      "fallback": "Unity's built-in default font.",
+      "_unverified": {
+        "sourcePath": "find in Root's files on the creator's PC"
+      }
+    },
+    {
+      "id": "asset.title-rift",
+      "kind": "texture",
+      "source": "made-for-mod",
+      "description": "The '33' tearing out of a glowing rift, with petals drifting off (1600x900, transparent), composited onto Root's own logo for the ROOT 33 title.",
+      "license": "Made for this mod (MIT-compatible). Its numerals are rendered with the Cinzel typeface (SIL Open Font License 1.1, credited in art/README.md); the font file itself is not shipped.",
+      "sourcePath": "art/title-rift.png",
+      "fallback": "The title shows Root's own logo with '33' set in Root's UI font beside it.",
+      "_notes": "Made with tools/art/make_title_rift.py (seed 33)."
+    },
+    {
+      "id": "asset.portrait-fallback",
+      "kind": "texture",
+      "source": "made-for-mod",
+      "description": "A neutral head-and-shoulders silhouette, tinted per character, used whenever a Clair Obscur portrait cannot be read.",
+      "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
+      "sourcePath": "art/portraits/silhouette.png",
+      "fallback": "A plain disc in the character's colour with their initial.",
+      "_unverified": {
+        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
+      },
+      "_notes": "Made-for-mod art other than the title rift is planned but not drawn yet, so each sourcePath is marked unverified until the file exists; every fallback is drawable from code alone so the mod works before the art is made."
+    },
+    {
+      "id": "asset.prompt-frame",
+      "kind": "texture",
+      "source": "made-for-mod",
+      "description": "Panel frame for the first-launch spoiler prompt and the mod's settings panel.",
+      "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
+      "sourcePath": "art/ui/prompt-frame.png",
+      "fallback": "A plain dark panel with a thin gold border.",
+      "_unverified": {
+        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
+      }
+    },
+    {
+      "id": "asset.card-frame",
+      "kind": "texture",
+      "source": "made-for-mod",
+      "description": "Character-select card frame: portrait window, name plate, engine and DLC line, summary, and a lock badge.",
+      "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
+      "sourcePath": "art/ui/character-card.png",
+      "fallback": "A plain dark card with the character's colour as its border.",
+      "_unverified": {
+        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
+      }
+    },
+    {
+      "id": "asset.vignette-frame",
+      "kind": "texture",
+      "source": "made-for-mod",
+      "description": "Letterbox frame for the prologue, act vignettes and ending cards.",
+      "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
+      "sourcePath": "art/ui/vignette-frame.png",
+      "fallback": "Black bars top and bottom.",
+      "_unverified": {
+        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
+      }
+    },
+    {
+      "id": "asset.banner-frame",
+      "kind": "texture",
+      "source": "made-for-mod",
+      "description": "Painted-stroke banner for the countdown and act banners.",
+      "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
+      "sourcePath": "art/ui/banner-frame.png",
+      "fallback": "A plain dark strip across the top of the screen.",
+      "_unverified": {
+        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
+      }
+    },
+    {
+      "id": "asset.tracker-frame",
+      "kind": "texture",
+      "source": "made-for-mod",
+      "description": "Panel frame and step pips for the Goal Tracker and the per-character trackers.",
+      "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
+      "sourcePath": "art/ui/tracker-frame.png",
+      "fallback": "A plain dark panel with text rows.",
+      "_unverified": {
+        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
+      }
+    },
+    {
+      "id": "asset.bubble-frame",
+      "kind": "texture",
+      "source": "made-for-mod",
+      "description": "Speech bubble with a tail, in a hand-inked style.",
+      "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
+      "sourcePath": "art/ui/speech-bubble.png",
+      "fallback": "A white rounded rectangle with a dark border.",
+      "_unverified": {
+        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
+      }
+    },
+    {
+      "id": "asset.label-plate",
+      "kind": "texture",
+      "source": "made-for-mod",
+      "description": "Small name plate for Continent clearing names.",
+      "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
+      "sourcePath": "art/ui/label-plate.png",
+      "fallback": "Text with a dark outline, no plate.",
+      "_unverified": {
+        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
+      }
+    },
+    {
+      "id": "asset.monolith-plate",
+      "kind": "texture",
+      "source": "made-for-mod",
+      "description": "The painted number plate on the Monolith clearing, in brush strokes.",
+      "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
+      "sourcePath": "art/map/monolith-number.png",
+      "fallback": "The number in Root's UI font with a red outline.",
+      "_unverified": {
+        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
+      }
+    },
+    {
+      "id": "asset.sacred-river",
+      "kind": "texture",
+      "source": "made-for-mod",
+      "description": "A ribbon of chroma drawn along the river clearings (the Sacred River tag).",
+      "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
+      "sourcePath": "art/map/sacred-river.png",
+      "fallback": "The river clearings get a thin teal outline.",
+      "_unverified": {
+        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
+      }
+    },
+    {
+      "id": "asset.final-battlefield",
+      "kind": "texture",
+      "source": "made-for-mod",
+      "description": "A red-gold highlight ring for Lumière from Act III.",
+      "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
+      "sourcePath": "art/map/final-battlefield.png",
+      "fallback": "A plain red outline on Lumière.",
+      "_unverified": {
+        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
+      }
+    },
+    {
+      "id": "asset.petals",
+      "kind": "texture",
+      "source": "made-for-mod",
+      "description": "Red petal particles: the Paintress's easels, the Curator's win vignette and the prologue.",
+      "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
+      "sourcePath": "art/fx/petals.png",
+      "fallback": "No particles.",
+      "_unverified": {
+        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
+      }
+    },
+    {
+      "id": "asset.flag-token",
+      "kind": "texture",
+      "source": "made-for-mod",
+      "description": "An Expedition Flag painted with 33, in a lit and a faded state.",
+      "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
+      "sourcePath": "art/tokens/expedition-flag.png",
+      "fallback": "A small blue triangle marked 33.",
+      "_unverified": {
+        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
+      }
+    },
+    {
+      "id": "asset.route-dots",
+      "kind": "texture",
+      "source": "made-for-mod",
+      "description": "The dotted route joining Gustave's flags back to Lumière.",
+      "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
+      "sourcePath": "art/map/route-dots.png",
+      "fallback": "A plain dashed line.",
+      "_unverified": {
+        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
+      }
+    },
+    {
+      "id": "asset.arm-gauge",
+      "kind": "texture",
+      "source": "made-for-mod",
+      "description": "Gustave's Arm: three pips that glow from blue to white, plus the Overcharge toggle button.",
+      "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
+      "sourcePath": "art/gauges/gustaves-arm.png",
+      "fallback": "Three plain circles and a text button.",
+      "_unverified": {
+        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
+      }
+    },
+    {
+      "id": "asset.rock-tokens",
+      "kind": "texture",
+      "source": "made-for-mod",
+      "description": "Esquie's four rocks on one sheet (Florrie, Dorrie, Soarrie, Urrie), each with sparkle, hidden and guarded states.",
+      "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
+      "sourcePath": "art/tokens/rocks.png",
+      "fallback": "Four coloured discs marked F, D, S and U.",
+      "_unverified": {
+        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
+      }
+    },
+    {
+      "id": "asset.rock-ring",
+      "kind": "texture",
+      "source": "made-for-mod",
+      "description": "The four-slot rock ring on Esquie's board.",
+      "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
+      "sourcePath": "art/gauges/rock-ring.png",
+      "fallback": "Four empty circles in a row.",
+      "_unverified": {
+        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
+      }
+    },
+    {
+      "id": "asset.badge-lampmaster",
+      "kind": "texture",
+      "source": "made-for-mod",
+      "description": "An original lamp-headed guard silhouette badge for Florrie's guards.",
+      "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
+      "sourcePath": "art/tokens/badge-lampmaster.png",
+      "fallback": "A text badge reading 'Lampmaster'.",
+      "_unverified": {
+        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
+      }
+    },
+    {
+      "id": "asset.badge-francois",
+      "kind": "texture",
+      "source": "made-for-mod",
+      "description": "An original grumpy-turtle silhouette badge for Urrie's guards and the Act I decoy.",
+      "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
+      "sourcePath": "art/tokens/badge-francois.png",
+      "fallback": "A text badge reading 'François'.",
+      "_unverified": {
+        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
+      }
+    },
+    {
+      "id": "asset.portrait-frame",
+      "kind": "texture",
+      "source": "made-for-mod",
+      "description": "A gilded easel frame for Living Portraits.",
+      "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
+      "sourcePath": "art/tokens/portrait-frame.png",
+      "fallback": "A plain gold square outline.",
+      "_unverified": {
+        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
+      }
+    },
+    {
+      "id": "asset.portrait-veiled",
+      "kind": "texture",
+      "source": "made-for-mod",
+      "description": "A veiled portrait under cloth, for safe mode.",
+      "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
+      "sourcePath": "art/tokens/portrait-veiled.png",
+      "fallback": "A grey square with a question mark.",
+      "_unverified": {
+        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
+      }
+    },
+    {
+      "id": "asset.smeared-canvas",
+      "kind": "texture",
+      "source": "made-for-mod",
+      "description": "A smeared-canvas burst for the Paintress's Grief bubble.",
+      "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
+      "sourcePath": "art/fx/smeared-canvas.png",
+      "fallback": "The plain speech bubble.",
+      "_unverified": {
+        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
+      }
+    },
+    {
+      "id": "asset.sun-moon-gauge",
+      "kind": "texture",
+      "source": "made-for-mod",
+      "description": "Sciel's Sun (Sanctuaries) and Moon (Aquafarms) gauges, with Twilight charge pips.",
+      "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
+      "sourcePath": "art/gauges/sun-moon.png",
+      "fallback": "Two text counters.",
+      "_unverified": {
+        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
+      }
+    },
+    {
+      "id": "asset.dusk-tint",
+      "kind": "texture",
+      "source": "made-for-mod",
+      "description": "A soft dusk gradient laid over the board as Sciel's gauges fill.",
+      "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
+      "sourcePath": "art/fx/dusk-tint.png",
+      "fallback": "No tint.",
+      "_unverified": {
+        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
+      }
+    },
+    {
+      "id": "asset.rank-letters",
+      "kind": "texture",
+      "source": "made-for-mod",
+      "description": "Verso's big Perfection letters D, C, B, A and S.",
+      "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
+      "sourcePath": "art/gauges/rank-letters.png",
+      "fallback": "The letter in Root's UI font.",
+      "_unverified": {
+        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
+      }
+    },
+    {
+      "id": "asset.family-frames",
+      "kind": "texture",
+      "source": "made-for-mod",
+      "description": "Maelle's family row: a portrait frame per faction with relationship steps and sketch slots.",
+      "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
+      "sourcePath": "art/gauges/family-frames.png",
+      "fallback": "Faction names with their relationship as text.",
+      "_unverified": {
+        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
+      }
+    },
+    {
+      "id": "asset.stance-chips",
+      "kind": "texture",
+      "source": "made-for-mod",
+      "description": "Maelle's stance chips: Offensive, Defensive and Virtuose.",
+      "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
+      "sourcePath": "art/gauges/stance-chips.png",
+      "fallback": "The stance name as text.",
+      "_unverified": {
+        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
+      }
+    },
+    {
+      "id": "asset.journal-glow",
+      "kind": "texture",
+      "source": "made-for-mod",
+      "description": "A gold forest glow and a relic tag for Lune's Parents' Journal.",
+      "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
+      "sourcePath": "art/fx/journal-glow.png",
+      "fallback": "A gold outline around the forest.",
+      "_unverified": {
+        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
+      }
+    },
+    {
+      "id": "asset.thesis-tracker",
+      "kind": "texture",
+      "source": "made-for-mod",
+      "description": "Lune's thesis tracker: Journal, Route Chart and Chroma Sample slots plus a gold Parents' Journal slot.",
+      "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
+      "sourcePath": "art/gauges/thesis.png",
+      "fallback": "Text checkboxes.",
+      "_unverified": {
+        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
+      }
+    },
+    {
+      "id": "asset.stain-icons",
+      "kind": "texture",
+      "source": "made-for-mod",
+      "description": "Lune's Fire, Ice and Lightning Stain icons and the pre-battle toggle.",
+      "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
+      "sourcePath": "art/gauges/stains.png",
+      "fallback": "Text counters and a text button.",
+      "_unverified": {
+        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
+      }
+    },
+    {
+      "id": "asset.wheel-frame",
+      "kind": "texture",
+      "source": "made-for-mod",
+      "description": "Monoco's five-slot Bestial Wheel, with a faction badge under each slot.",
+      "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
+      "sourcePath": "art/gauges/bestial-wheel.png",
+      "fallback": "Five text slots in a row.",
+      "_unverified": {
+        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
+      }
+    },
+    {
+      "id": "asset.cell-crack",
+      "kind": "texture",
+      "source": "made-for-mod",
+      "description": "The hairline crack on the Monolith and its opened state at Act III.",
+      "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
+      "sourcePath": "art/tokens/cell-crack.png",
+      "fallback": "A thin dark line across the Monolith clearing.",
+      "_unverified": {
+        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
+      }
+    },
+    {
+      "id": "asset.nevron-mark",
+      "kind": "texture",
+      "source": "made-for-mod",
+      "description": "A small mark on each clearing that counts toward Clea's coverage.",
+      "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
+      "sourcePath": "art/tokens/nevron-mark.png",
+      "fallback": "A small magenta dot.",
+      "_unverified": {
+        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
+      }
+    },
+    {
+      "id": "asset.ring-barrier",
+      "kind": "texture",
+      "source": "made-for-mod",
+      "description": "The ring drawn around the Monolith, one segment per Ring clearing, with a shimmering Barrier state.",
+      "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
+      "sourcePath": "art/map/ring-barrier.png",
+      "fallback": "A plain circle outline with coloured segments.",
+      "_unverified": {
+        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
+      }
+    }
+  ]
+}

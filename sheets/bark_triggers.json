@@ -1,0 +1,246 @@
+{
+  "rows": [
+    {
+      "id": "trigger.game-start",
+      "description": "After setup and the prologue, before the first Birdsong: each seated character may say one opening line, the human's character first.",
+      "hook": "hook.setup-complete",
+      "cooldownTurns": 0,
+      "_notes": "cooldownTurns counts the speaking character's own turns: after a line from a trigger, that character does not speak from the same trigger again until that many of its turns have passed. 0 means no cooldown, used where the moment is rare by itself. Every line is filtered by its spoiler tier first: safe lines play in both modes, act2 lines once the mod's Act II has begun, finished lines only in finished mode."
+    },
+    {
+      "id": "trigger.turn-start",
+      "description": "At the start of the speaker's own Birdsong, after any countdown confirmation, when nothing more specific is due: a premise or character line.",
+      "hook": "hook.birdsong-start",
+      "cooldownTurns": 3
+    },
+    {
+      "id": "trigger.goal-move",
+      "description": "Bot seats only: after the Goal Director plans the turn, the bot names its next goal move or target (a new flag site, a rock, an easel, the Monolith...). This is how bots bark their plans so a human can see them coming.",
+      "hook": "hook.birdsong-start",
+      "cooldownTurns": 2
+    },
+    {
+      "id": "trigger.idle",
+      "description": "At the start of a round, one seated character who has not spoken for 4 of their own turns may say a premise line.",
+      "hook": "hook.round-start",
+      "cooldownTurns": 4
+    },
+    {
+      "id": "trigger.act2-start",
+      "description": "Act II, The Monolith, begins: each seated character may react once.",
+      "hook": "hook.act-change",
+      "cooldownTurns": 0
+    },
+    {
+      "id": "trigger.act3-start",
+      "description": "Act III, The Canvas, begins: each seated character may react once. Finished lines here play only in finished mode, and their safe siblings play instead in safe mode.",
+      "hook": "hook.act-change",
+      "cooldownTurns": 0
+    },
+    {
+      "id": "trigger.canvas-truth",
+      "description": "Act III only: at the start of a round, one seated character may say who has really been playing all along. The finished-tier 'mother has been playing too many board games' lines live here, so they fire only in finished mode and only during the mod's Act III. In safe mode each one's safe sibling plays instead; in finished mode a line that is the safe sibling of an eligible finished line is skipped.",
+      "hook": "hook.round-start",
+      "cooldownTurns": 3,
+      "_notes": "Putting every mother line on an Act III-only trigger is how the roster's 'finished mode, and only in the mod's Act III' rule is kept: the bark sheet has no act column."
+    },
+    {
+      "id": "trigger.countdown-announced",
+      "description": "The speaker's own countdown banner goes up at the end of their turn.",
+      "hook": "hook.evening-end",
+      "cooldownTurns": 0
+    },
+    {
+      "id": "trigger.countdown-stopped",
+      "description": "The speaker's banner comes down at the start of their Birdsong because the confirmation test failed.",
+      "hook": "hook.birdsong-start",
+      "cooldownTurns": 0
+    },
+    {
+      "id": "trigger.rival-countdown",
+      "description": "Another seat's countdown banner goes up, or the Goal Tracker shows another seat one step from a themed win: the speaker says they will block it (the spoiler layer, voiced).",
+      "hook": "hook.evening-end",
+      "cooldownTurns": 2
+    },
+    {
+      "id": "trigger.win",
+      "description": "The speaker won the game, by a themed win, 30 VP, dominance or a coalition.",
+      "hook": "hook.game-over",
+      "cooldownTurns": 0
+    },
+    {
+      "id": "trigger.loss",
+      "description": "Another seat won the game: one seated character who did not win may say a closing line.",
+      "hook": "hook.game-over",
+      "cooldownTurns": 0
+    },
+    {
+      "id": "trigger.attacked",
+      "description": "The speaker is the defender in a battle that has just been declared.",
+      "hook": "hook.battle-start",
+      "cooldownTurns": 2
+    },
+    {
+      "id": "trigger.battle-won",
+      "description": "The speaker started a battle that removed at least one enemy piece.",
+      "hook": "hook.battle-resolved",
+      "cooldownTurns": 2
+    },
+    {
+      "id": "trigger.flag-planted",
+      "description": "Gustave plants one or more new Expedition Flags at the end of his turn.",
+      "hook": "hook.evening-end",
+      "cooldownTurns": 1
+    },
+    {
+      "id": "trigger.arm-full",
+      "description": "Gustave's Arm reaches 3/3 after a battle he started.",
+      "hook": "hook.battle-resolved",
+      "cooldownTurns": 1
+    },
+    {
+      "id": "trigger.overcharge",
+      "description": "Gustave attacks with Overcharge armed.",
+      "hook": "hook.battle-start",
+      "cooldownTurns": 0
+    },
+    {
+      "id": "trigger.rock-claimed",
+      "description": "Esquie claims a rock after one of his actions (claims after Explore and Aid are actions too). The Soarrie hand-off from Verso has its own trigger.",
+      "hook": "hook.action-resolved",
+      "cooldownTurns": 0
+    },
+    {
+      "id": "trigger.decoy-found",
+      "description": "During Act I, Esquie enters Esquie's Nest while the François decoy is up.",
+      "hook": "hook.piece-moved",
+      "cooldownTurns": 0
+    },
+    {
+      "id": "trigger.guards-attacked",
+      "description": "Any seat starts a battle against a guard stack on one of Esquie's rocks while Esquie is seated: Esquie cheers the attacker on (the roster's 'Esquie's friends are here!' moment).",
+      "hook": "hook.battle-start",
+      "cooldownTurns": 1
+    },
+    {
+      "id": "trigger.soarrie-handoff",
+      "description": "Soarrie passes from Verso to Esquie at the end of Esquie's turn in Verso's clearing (Act II or later). Both may speak.",
+      "hook": "hook.evening-end",
+      "cooldownTurns": 0
+    },
+    {
+      "id": "trigger.easel-raised",
+      "description": "The Paintress places an easel (roost) outside the Monolith.",
+      "hook": "hook.piece-placed",
+      "cooldownTurns": 1
+    },
+    {
+      "id": "trigger.portrait-broken",
+      "description": "An easel of the Paintress that was a Living Portrait is removed.",
+      "hook": "hook.piece-removed",
+      "cooldownTurns": 1
+    },
+    {
+      "id": "trigger.grief",
+      "description": "The Paintress falls into Grief (Turmoil).",
+      "hook": "hook.turmoil",
+      "cooldownTurns": 0
+    },
+    {
+      "id": "trigger.sanctuary-count",
+      "description": "At the end of Sciel's turn, her Sanctuary count is higher than at the end of her last turn (she barks her count).",
+      "hook": "hook.evening-end",
+      "cooldownTurns": 1
+    },
+    {
+      "id": "trigger.aquafarm-raised",
+      "description": "Sciel places an Aquafarm (base), which happens through the Reaping (Revolt).",
+      "hook": "hook.piece-placed",
+      "cooldownTurns": 0
+    },
+    {
+      "id": "trigger.rank-up",
+      "description": "Verso's Perfection rank goes up after a battle, to any rank below S.",
+      "hook": "hook.battle-resolved",
+      "cooldownTurns": 0
+    },
+    {
+      "id": "trigger.rank-s",
+      "description": "Verso's Perfection rank reaches S.",
+      "hook": "hook.battle-resolved",
+      "cooldownTurns": 0
+    },
+    {
+      "id": "trigger.rank-down",
+      "description": "A battle knocks Verso's Perfection rank down.",
+      "hook": "hook.battle-resolved",
+      "cooldownTurns": 1
+    },
+    {
+      "id": "trigger.relationship-step",
+      "description": "Maelle's relationship with a faction moves one step closer to Allied.",
+      "hook": "hook.relationship-changed",
+      "cooldownTurns": 1
+    },
+    {
+      "id": "trigger.stance-change",
+      "description": "Maelle's stance chip changes (Offensive, Defensive or Virtuose) after one of her actions or after she is attacked.",
+      "hook": "hook.action-resolved",
+      "cooldownTurns": 2
+    },
+    {
+      "id": "trigger.relic-recovered",
+      "description": "Lune recovers a relic that is not the Parents' Journal.",
+      "hook": "hook.relic-recovered",
+      "cooldownTurns": 0
+    },
+    {
+      "id": "trigger.parents-journal",
+      "description": "Lune recovers the tagged Parents' Journal.",
+      "hook": "hook.relic-recovered",
+      "cooldownTurns": 0
+    },
+    {
+      "id": "trigger.foot-earned",
+      "description": "Monoco earns a foot for the Bestial Wheel, or re-earns one from a new faction.",
+      "hook": "hook.battle-resolved",
+      "cooldownTurns": 0
+    },
+    {
+      "id": "trigger.mask-change",
+      "description": "Monoco's chosen mood (mask) this Birdsong differs from his last one.",
+      "hook": "hook.birdsong-start",
+      "cooldownTurns": 2
+    },
+    {
+      "id": "trigger.rebirth",
+      "description": "Monoco's Warlord is removed (Sacred River Rebirth).",
+      "hook": "hook.warlord-removed",
+      "cooldownTurns": 0
+    },
+    {
+      "id": "trigger.quiet-helper",
+      "description": "Another player removes the Paintress's easel (roost) from the Monolith while the Curator is seated, and draws a card (Quiet Helper).",
+      "hook": "hook.piece-removed",
+      "cooldownTurns": 0
+    },
+    {
+      "id": "trigger.convert",
+      "description": "Clea converts a warrior of a faction she has not converted before (her 'perfect specimen' moment, once per faction).",
+      "hook": "hook.convert",
+      "cooldownTurns": 0
+    },
+    {
+      "id": "trigger.coverage-count",
+      "description": "At the end of Clea's turn, the number of clearings holding her (non-guard) Nevrons is higher than at the end of her last turn.",
+      "hook": "hook.evening-end",
+      "cooldownTurns": 1
+    },
+    {
+      "id": "trigger.monolith-approach",
+      "description": "While the White-Haired Man is seated, an enemy moves into a Ring clearing where he has pieces, or a Vagabond pawn moves into the Monolith.",
+      "hook": "hook.piece-moved",
+      "cooldownTurns": 2
+    }
+  ]
+}

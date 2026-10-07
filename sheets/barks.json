@@ -1,0 +1,1257 @@
+{
+  "rows": [
+    {
+      "id": "bark.gustave.01",
+      "character": "gustave",
+      "trigger": "trigger.game-start",
+      "tier": "safe",
+      "text": "Thirty-two, one year left, and now the whole world takes turns. Fine. I'll make mine count.",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "Roster sample bark."
+    },
+    {
+      "id": "bark.gustave.02",
+      "character": "gustave",
+      "trigger": "trigger.idle",
+      "tier": "safe",
+      "text": "I've measured this forest twice and it moved in between. Who paints a continent and then shuffles it?",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "Roster sample bark."
+    },
+    {
+      "id": "bark.gustave.03",
+      "character": "gustave",
+      "trigger": "trigger.flag-planted",
+      "tier": "safe",
+      "text": "Every flag's a note to the next crew: road's open, keep walking.",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "Roster sample bark. The motto is only alluded to, never quoted."
+    },
+    {
+      "id": "bark.gustave.04",
+      "character": "gustave",
+      "trigger": "trigger.flag-planted",
+      "tier": "safe",
+      "text": "Another flag. If the next crew finds a straight road, they can thank me. If it's crooked, blame the dice.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.gustave.05",
+      "character": "gustave",
+      "trigger": "trigger.turn-start",
+      "tier": "safe",
+      "text": "Whoever painted this world gave it rules, a turn order and a scoring track. Very tidy. I'd still like a word with them.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.gustave.06",
+      "character": "gustave",
+      "trigger": "trigger.arm-full",
+      "tier": "safe",
+      "text": "Three pips. The arm's humming like the workshop the night before a deadline.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.gustave.07",
+      "character": "gustave",
+      "trigger": "trigger.overcharge",
+      "tier": "safe",
+      "text": "Overcharging. Everybody stand clear of the engineer.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.gustave.08",
+      "character": "gustave",
+      "trigger": "trigger.goal-move",
+      "tier": "safe",
+      "text": "Next stop on the road is right there. I want a workshop standing in it by nightfall.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.gustave.09",
+      "character": "gustave",
+      "trigger": "trigger.countdown-announced",
+      "tier": "safe",
+      "text": "The road reaches the Monolith's doorstep. Break it before morning, or I'm knocking.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.gustave.10",
+      "character": "gustave",
+      "trigger": "trigger.countdown-stopped",
+      "tier": "safe",
+      "text": "Somebody pulled up my flag. Fine. Engineers rebuild.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.gustave.11",
+      "character": "gustave",
+      "trigger": "trigger.attacked",
+      "tier": "safe",
+      "text": "You picked a fight with an engineer. I'll be taking notes on your weak points.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.gustave.12",
+      "character": "gustave",
+      "trigger": "trigger.act2-start",
+      "tier": "safe",
+      "text": "Halfway across the year. The number's lower, the road's longer, and I packed spare bolts.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.gustave.13",
+      "character": "gustave",
+      "trigger": "trigger.win",
+      "tier": "safe",
+      "text": "Camp pitched at the Monolith's doorstep, flags all the way home. Tell Lumière to come and see.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.gustave.14",
+      "character": "gustave",
+      "trigger": "trigger.loss",
+      "tier": "safe",
+      "text": "Next expedition, then. Somebody write down where the road went.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.gustave.15",
+      "character": "gustave",
+      "trigger": "trigger.canvas-truth",
+      "tier": "safe",
+      "text": "Whoever painted this world has been at it for a very long game night. Somebody should check the clock.",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "Safe sibling of the finished line below."
+    },
+    {
+      "id": "bark.gustave.16",
+      "character": "gustave",
+      "trigger": "trigger.canvas-truth",
+      "tier": "finished",
+      "text": "Somebody's mother has been playing too many board games, and we're the pieces. I'd still like to see her rulebook.",
+      "safeSibling": "bark.gustave.15",
+      "original": true,
+      "_notes": "A finished-tier 'mother' line: finished mode only, and only in the mod's Act III (trigger.canvas-truth)."
+    },
+    {
+      "id": "bark.esquie.01",
+      "character": "esquie",
+      "trigger": "trigger.game-start",
+      "tier": "safe",
+      "text": "Wheee! Somebody painted squares on the whole world! I'm much too round for squares.",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "Roster sample bark."
+    },
+    {
+      "id": "bark.esquie.02",
+      "character": "esquie",
+      "trigger": "trigger.decoy-found",
+      "tier": "safe",
+      "text": "Hmm! This rock is much too grumpy to be Florrie. Florrie is never grumpy.",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "Roster sample bark."
+    },
+    {
+      "id": "bark.esquie.03",
+      "character": "esquie",
+      "trigger": "trigger.idle",
+      "tier": "safe",
+      "text": "Everyone takes turns now! I like turns. Turns are like waiting, but with a schedule.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.esquie.04",
+      "character": "esquie",
+      "trigger": "trigger.goal-move",
+      "tier": "safe",
+      "text": "Ooh, I think a rock is waiting over there. Hello, rock! I'm coming! Slowly!",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.esquie.05",
+      "character": "esquie",
+      "trigger": "trigger.rock-claimed",
+      "tier": "safe",
+      "text": "Found you! In you go, safe and snug in the Big Belly.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.esquie.06",
+      "character": "esquie",
+      "trigger": "trigger.rock-claimed",
+      "tier": "safe",
+      "text": "One more friend home! My ring is getting all sparkly.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.esquie.07",
+      "character": "esquie",
+      "trigger": "trigger.guards-attacked",
+      "tier": "safe",
+      "text": "My friends are here! Thank you, thank you! Please be gentle with the guards.",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "The roster's 'Esquie's friends are here!' bubble, put in the first person because the roster keeps Esquie speaking in the first person until his in-game speech pattern is checked."
+    },
+    {
+      "id": "bark.esquie.08",
+      "character": "esquie",
+      "trigger": "trigger.attacked",
+      "tier": "safe",
+      "text": "Oof! That tickles. Not the fun kind of tickle.",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "Never Mad: he is hurt, never angry."
+    },
+    {
+      "id": "bark.esquie.09",
+      "character": "esquie",
+      "trigger": "trigger.rival-countdown",
+      "tier": "safe",
+      "text": "Uh-oh, somebody's about to win! I'll go stand somewhere big and round and in the way.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.esquie.10",
+      "character": "esquie",
+      "trigger": "trigger.act2-start",
+      "tier": "act2",
+      "text": "Shh! Somewhere in the old city, a rock is snoring. I can hear it!",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "Act II tier: Dorrie hides in Old Lumière from Act II (story.act2.dorrie)."
+    },
+    {
+      "id": "bark.esquie.11",
+      "character": "esquie",
+      "trigger": "trigger.soarrie-handoff",
+      "tier": "act2",
+      "text": "Soarrie! You were with Mister Verso all along? You sneaky, floaty rock!",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "Act II tier, like story.act2.soarrie."
+    },
+    {
+      "id": "bark.esquie.12",
+      "character": "esquie",
+      "trigger": "trigger.win",
+      "tier": "safe",
+      "text": "All four rocks, all home! Everybody climb on and hold tight. We're going for a dive!",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.esquie.13",
+      "character": "esquie",
+      "trigger": "trigger.canvas-truth",
+      "tier": "safe",
+      "text": "Whoever painted this world sure loves a long game! That's okay. I'm the MOST patient.",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "Safe sibling of the finished line below."
+    },
+    {
+      "id": "bark.esquie.14",
+      "character": "esquie",
+      "trigger": "trigger.canvas-truth",
+      "tier": "finished",
+      "text": "Mister Verso says his mama has been playing too many board games. That's okay! I'm a VERY good piece.",
+      "safeSibling": "bark.esquie.13",
+      "original": true,
+      "_notes": "Roster sample bark. A finished-tier 'mother' line: finished mode only, and only in the mod's Act III (trigger.canvas-truth)."
+    },
+    {
+      "id": "bark.paintress.01",
+      "character": "paintress",
+      "trigger": "trigger.countdown-announced",
+      "tier": "safe",
+      "text": "Hold still, darling. You're in the foreground.",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "Roster sample bark. Her bot ends an announce turn with this line."
+    },
+    {
+      "id": "bark.paintress.02",
+      "character": "paintress",
+      "trigger": "trigger.easel-raised",
+      "tier": "safe",
+      "text": "Three easels, three faces I miss. Touch them and I'll paint you smaller.",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "Roster sample bark."
+    },
+    {
+      "id": "bark.paintress.03",
+      "character": "paintress",
+      "trigger": "trigger.game-start",
+      "tier": "safe",
+      "text": "Squares, turns, little wooden figures. If this is how the world must be painted now, I will paint it carefully.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.paintress.04",
+      "character": "paintress",
+      "trigger": "trigger.idle",
+      "tier": "safe",
+      "text": "The number on the Monolith follows your scores now. Play well, and watch it fall.",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "She paints the number; no line says she erases anyone."
+    },
+    {
+      "id": "bark.paintress.05",
+      "character": "paintress",
+      "trigger": "trigger.goal-move",
+      "tier": "safe",
+      "text": "That clearing needs a little more of me in it. An easel, I think.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.paintress.06",
+      "character": "paintress",
+      "trigger": "trigger.portrait-broken",
+      "tier": "safe",
+      "text": "You've smudged a portrait. I'll start another. I always do.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.paintress.07",
+      "character": "paintress",
+      "trigger": "trigger.grief",
+      "tier": "safe",
+      "text": "The colours won't hold. Give me a moment.",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "Grief is Turmoil: kept quiet and sad, never mocking."
+    },
+    {
+      "id": "bark.paintress.08",
+      "character": "paintress",
+      "trigger": "trigger.attacked",
+      "tier": "safe",
+      "text": "Mind the canvas. The paint is still wet.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.paintress.09",
+      "character": "paintress",
+      "trigger": "trigger.countdown-stopped",
+      "tier": "safe",
+      "text": "A ruined easel. I'll set up another and begin again.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.paintress.10",
+      "character": "paintress",
+      "trigger": "trigger.win",
+      "tier": "safe",
+      "text": "Finished. Hold still, everyone, and let it dry.",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "Kept from implying she painted the people themselves, which safe mode must not say."
+    },
+    {
+      "id": "bark.paintress.11",
+      "character": "paintress",
+      "trigger": "trigger.canvas-truth",
+      "tier": "safe",
+      "text": "One more round. The light is good, and the canvas isn't finished.",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "Safe sibling of the finished line below."
+    },
+    {
+      "id": "bark.paintress.12",
+      "character": "paintress",
+      "trigger": "trigger.canvas-truth",
+      "tier": "finished",
+      "text": "Your father says I've played too many rounds. One more. Just one more.",
+      "safeSibling": "bark.paintress.11",
+      "original": true,
+      "_notes": "Roster sample bark. A finished-tier 'mother' line: finished mode only, and only in the mod's Act III (trigger.canvas-truth)."
+    },
+    {
+      "id": "bark.sciel.01",
+      "character": "sciel",
+      "trigger": "trigger.idle",
+      "tier": "safe",
+      "text": "I foretold rain today. I did not foretell rabbits with opinions.",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "Roster sample bark."
+    },
+    {
+      "id": "bark.sciel.02",
+      "character": "sciel",
+      "trigger": "trigger.aquafarm-raised",
+      "tier": "safe",
+      "text": "The Aquafarm fed half of Lumière. This field can feed the other half.",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "Roster sample bark."
+    },
+    {
+      "id": "bark.sciel.03",
+      "character": "sciel",
+      "trigger": "trigger.turn-start",
+      "tier": "safe",
+      "text": "Whoever's painting this world has let game night run a little long.",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "Roster sample bark."
+    },
+    {
+      "id": "bark.sciel.04",
+      "character": "sciel",
+      "trigger": "trigger.game-start",
+      "tier": "safe",
+      "text": "New board, same job: keep the young ones out of harm's way.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.sciel.05",
+      "character": "sciel",
+      "trigger": "trigger.sanctuary-count",
+      "tier": "safe",
+      "text": "Another Lantern lit and nobody trampling the crops. Don't worry, I'm counting.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.sciel.06",
+      "character": "sciel",
+      "trigger": "trigger.goal-move",
+      "tier": "safe",
+      "text": "That clearing has been noisy. I think it needs a Lantern and a little peace.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.sciel.07",
+      "character": "sciel",
+      "trigger": "trigger.countdown-announced",
+      "tier": "safe",
+      "text": "Every Lantern's lit. If you want them out, you'll have to come and put them out yourselves.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.sciel.08",
+      "character": "sciel",
+      "trigger": "trigger.attacked",
+      "tier": "safe",
+      "text": "Those were seedlings. You can pay the farmer on your way out.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.sciel.09",
+      "character": "sciel",
+      "trigger": "trigger.countdown-stopped",
+      "tier": "safe",
+      "text": "One Lantern down. I'll light it again. That's what Lanterns are for.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.sciel.10",
+      "character": "sciel",
+      "trigger": "trigger.act2-start",
+      "tier": "safe",
+      "text": "Half the year gone. I'll plant what I can while there's still light.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.sciel.11",
+      "character": "sciel",
+      "trigger": "trigger.win",
+      "tier": "safe",
+      "text": "Twilight on the Aquafarm, a full harvest, and the children of Lumière watching from the shore. That's a good year.",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "Her grief is never played for laughs; Pierre is not mentioned in any line."
+    },
+    {
+      "id": "bark.verso.01",
+      "character": "verso",
+      "trigger": "trigger.idle",
+      "tier": "safe",
+      "text": "I can't die, I can't leave, and now I have to wait for my turn.",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "Roster sample bark."
+    },
+    {
+      "id": "bark.verso.02",
+      "character": "verso",
+      "trigger": "trigger.rank-s",
+      "tier": "safe",
+      "text": "Rank S. Please don't cheer. The moment I get proud, something hits me.",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "Roster sample bark."
+    },
+    {
+      "id": "bark.verso.03",
+      "character": "verso",
+      "trigger": "trigger.game-start",
+      "tier": "safe",
+      "text": "A whole world laid out on a board. I've seen stranger things. Not many.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.verso.04",
+      "character": "verso",
+      "trigger": "trigger.rank-up",
+      "tier": "safe",
+      "text": "Up a letter. Keep it quiet; luck hears everything.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.verso.05",
+      "character": "verso",
+      "trigger": "trigger.rank-down",
+      "tier": "safe",
+      "text": "And there goes the letter. Nobody saw that.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.verso.06",
+      "character": "verso",
+      "trigger": "trigger.goal-move",
+      "tier": "safe",
+      "text": "That one's alone and slow. A clean fight. I'll take it.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.verso.07",
+      "character": "verso",
+      "trigger": "trigger.countdown-announced",
+      "tier": "safe",
+      "text": "Standing in the Monolith at S. Anyone who wants a different ending has one turn to land a hit.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.verso.08",
+      "character": "verso",
+      "trigger": "trigger.attacked",
+      "tier": "safe",
+      "text": "Go ahead. I always get back up. It's the getting up that stings.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.verso.09",
+      "character": "verso",
+      "trigger": "trigger.soarrie-handoff",
+      "tier": "act2",
+      "text": "Here, old friend. It's been floating in my pocket all year. Fly safe.",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "Act II tier, like story.act2.soarrie."
+    },
+    {
+      "id": "bark.verso.10",
+      "character": "verso",
+      "trigger": "trigger.act3-start",
+      "tier": "act2",
+      "text": "The last act. I know how stories like this end. Mostly.",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "Act II tier: vague, plays in either mode once the game reaches Act III."
+    },
+    {
+      "id": "bark.verso.11",
+      "character": "verso",
+      "trigger": "trigger.win",
+      "tier": "safe",
+      "text": "Quiet in here. I could get used to quiet.",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "His ending-flavoured win vignette is finished-only; this line stays neutral."
+    },
+    {
+      "id": "bark.verso.12",
+      "character": "verso",
+      "trigger": "trigger.loss",
+      "tier": "safe",
+      "text": "Well played. I'll be here next time. I'm always here.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.verso.13",
+      "character": "verso",
+      "trigger": "trigger.canvas-truth",
+      "tier": "safe",
+      "text": "Whoever painted this world has been at the table a long time. At some point the pieces get to go home.",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "Safe sibling of the finished line below."
+    },
+    {
+      "id": "bark.verso.14",
+      "character": "verso",
+      "trigger": "trigger.canvas-truth",
+      "tier": "finished",
+      "text": "Mother's been at this table for decades. At some point you let the pieces go home.",
+      "safeSibling": "bark.verso.13",
+      "original": true,
+      "_notes": "Roster sample bark. A finished-tier 'mother' line: finished mode only, and only in the mod's Act III (trigger.canvas-truth)."
+    },
+    {
+      "id": "bark.maelle.01",
+      "character": "maelle",
+      "trigger": "trigger.game-start",
+      "tier": "safe",
+      "text": "Sixteen, and it turns out the whole world is somebody's board game. That explains a lot.",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "Roster sample bark."
+    },
+    {
+      "id": "bark.maelle.02",
+      "character": "maelle",
+      "trigger": "trigger.idle",
+      "tier": "safe",
+      "text": "Everyone keeps asking what suit I am. I'm sixteen! I don't know what suit I am!",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "Roster sample bark."
+    },
+    {
+      "id": "bark.maelle.03",
+      "character": "maelle",
+      "trigger": "trigger.relationship-step",
+      "tier": "safe",
+      "text": "That's one more person who'd save me a seat at dinner. I'm keeping a list.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.maelle.04",
+      "character": "maelle",
+      "trigger": "trigger.stance-change",
+      "tier": "safe",
+      "text": "Feet planted, blade up. Your move.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.maelle.05",
+      "character": "maelle",
+      "trigger": "trigger.goal-move",
+      "tier": "safe",
+      "text": "Back to Lumière. For once, I'd like to be home.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.maelle.06",
+      "character": "maelle",
+      "trigger": "trigger.countdown-announced",
+      "tier": "safe",
+      "text": "I'm home, my friends are on my side, and my blade is sharp. Come and move me if you dare.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.maelle.07",
+      "character": "maelle",
+      "trigger": "trigger.attacked",
+      "tier": "safe",
+      "text": "You'll have to get past the rapier first.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.maelle.08",
+      "character": "maelle",
+      "trigger": "trigger.act3-start",
+      "tier": "safe",
+      "text": "A memory just knocked. I'm not answering yet.",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "Safe sibling of the finished Act III line below; matches safe mode's 'a memory returns'."
+    },
+    {
+      "id": "bark.maelle.09",
+      "character": "maelle",
+      "trigger": "trigger.act3-start",
+      "tier": "finished",
+      "text": "The name was always under the paint. Alicia. Hello again.",
+      "safeSibling": "bark.maelle.08",
+      "original": true,
+      "_notes": "Finished mode only; plays with her Act III portrait change (story.act3.alicia)."
+    },
+    {
+      "id": "bark.maelle.10",
+      "character": "maelle",
+      "trigger": "trigger.win",
+      "tier": "safe",
+      "text": "Home, with my family around me. It took a whole board game, but here we are.",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "Her ending-flavoured win vignette is finished-only; this line stays neutral."
+    },
+    {
+      "id": "bark.maelle.11",
+      "character": "maelle",
+      "trigger": "trigger.canvas-truth",
+      "tier": "safe",
+      "text": "Whoever painted this world plays like they've never lost a game. I'd like a word. Or a rematch.",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "Safe sibling of the finished line below."
+    },
+    {
+      "id": "bark.maelle.12",
+      "character": "maelle",
+      "trigger": "trigger.canvas-truth",
+      "tier": "finished",
+      "text": "Wait. If she's my mother, who taught her to play like THIS?",
+      "safeSibling": "bark.maelle.11",
+      "original": true,
+      "_notes": "Roster sample bark. A finished-tier 'mother' line: finished mode only, and only in the mod's Act III (trigger.canvas-truth)."
+    },
+    {
+      "id": "bark.lune.01",
+      "character": "lune",
+      "trigger": "trigger.idle",
+      "tier": "safe",
+      "text": "My parents charted this ridge. It was not a ridge then. It was a lake. With otters.",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "Roster sample bark."
+    },
+    {
+      "id": "bark.lune.02",
+      "character": "lune",
+      "trigger": "trigger.game-start",
+      "tier": "safe",
+      "text": "Twelve clearings, three suits, perfectly balanced. Nature doesn't do that. Someone with a rulebook does.",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "Roster sample bark."
+    },
+    {
+      "id": "bark.lune.03",
+      "character": "lune",
+      "trigger": "trigger.turn-start",
+      "tier": "act2",
+      "text": "Filed under 'Paintress, motives of': grief, regret, and apparently a strategy game.",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "Roster sample bark."
+    },
+    {
+      "id": "bark.lune.04",
+      "character": "lune",
+      "trigger": "trigger.turn-start",
+      "tier": "safe",
+      "text": "Whoever painted this world wrote the rules down first. I would love to read the margins.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.lune.05",
+      "character": "lune",
+      "trigger": "trigger.relic-recovered",
+      "tier": "safe",
+      "text": "Recovered and catalogued. My parents would have argued with me about the date.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.lune.06",
+      "character": "lune",
+      "trigger": "trigger.parents-journal",
+      "tier": "safe",
+      "text": "Their handwriting. Give me a moment. ...Right. Back to work.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.lune.07",
+      "character": "lune",
+      "trigger": "trigger.goal-move",
+      "tier": "safe",
+      "text": "The gold forest by Sirène. Escort of two, minimum. I am not losing these notes to a raid.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.lune.08",
+      "character": "lune",
+      "trigger": "trigger.attacked",
+      "tier": "safe",
+      "text": "Mind the convoy. Those are primary sources.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.lune.09",
+      "character": "lune",
+      "trigger": "trigger.win",
+      "tier": "safe",
+      "text": "Chart complete. The Monolith is circled, annotated and, frankly, overdue.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.lune.10",
+      "character": "lune",
+      "trigger": "trigger.canvas-truth",
+      "tier": "safe",
+      "text": "Revised thesis: whoever painted this world is very, very fond of board games. Peer review pending.",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "Safe sibling of the finished line below."
+    },
+    {
+      "id": "bark.lune.11",
+      "character": "lune",
+      "trigger": "trigger.canvas-truth",
+      "tier": "finished",
+      "text": "Revised thesis: a grieving mother, a family quarrel, and far too many board games. Peer review pending.",
+      "safeSibling": "bark.lune.10",
+      "original": true,
+      "_notes": "A finished-tier 'mother' line: finished mode only, and only in the mod's Act III (trigger.canvas-truth)."
+    },
+    {
+      "id": "bark.monoco.01",
+      "character": "monoco",
+      "trigger": "trigger.goal-move",
+      "tier": "safe",
+      "text": "I would like your feet. Respectfully.",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "Roster sample bark. Monoco speaks in the first person until his in-game speech pattern is checked."
+    },
+    {
+      "id": "bark.monoco.02",
+      "character": "monoco",
+      "trigger": "trigger.mask-change",
+      "tier": "safe",
+      "text": "Mask changed! Today I am Heavy. Please mind the stairs.",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "Roster sample bark."
+    },
+    {
+      "id": "bark.monoco.03",
+      "character": "monoco",
+      "trigger": "trigger.game-start",
+      "tier": "safe",
+      "text": "Somebody painted us all into a board game? Wonderful. Which piece may I bite first?",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "Roster sample bark."
+    },
+    {
+      "id": "bark.monoco.04",
+      "character": "monoco",
+      "trigger": "trigger.foot-earned",
+      "tier": "safe",
+      "text": "A new foot for the wheel! Thank you, thank you. I will take very good care of it.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.monoco.05",
+      "character": "monoco",
+      "trigger": "trigger.rebirth",
+      "tier": "safe",
+      "text": "The river again. I remember... most of it. Splendid, let us begin again!",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.monoco.06",
+      "character": "monoco",
+      "trigger": "trigger.countdown-announced",
+      "tier": "safe",
+      "text": "Five feet, five masks, the whole wheel spinning! Come and duel me before I finish dancing.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.monoco.07",
+      "character": "monoco",
+      "trigger": "trigger.attacked",
+      "tier": "safe",
+      "text": "Oh! A challenger! Splendid, splendid.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.monoco.08",
+      "character": "monoco",
+      "trigger": "trigger.rival-countdown",
+      "tier": "safe",
+      "text": "Someone is about to win? Then someone owes me a duel first.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.monoco.09",
+      "character": "monoco",
+      "trigger": "trigger.win",
+      "tier": "safe",
+      "text": "The wheel is full. Now, a quiet walk by the river with a friend.",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "Noco is only ever 'a friend'."
+    },
+    {
+      "id": "bark.monoco.10",
+      "character": "monoco",
+      "trigger": "trigger.canvas-truth",
+      "tier": "safe",
+      "text": "Whoever painted this world loves games as much as I love duels. Good taste!",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "Safe sibling of the finished line below."
+    },
+    {
+      "id": "bark.monoco.11",
+      "character": "monoco",
+      "trigger": "trigger.canvas-truth",
+      "tier": "finished",
+      "text": "Esquie says somebody's mother has been playing too many board games. Too many? There is no such thing!",
+      "safeSibling": "bark.monoco.10",
+      "original": true,
+      "_notes": "A finished-tier 'mother' line: finished mode only, and only in the mod's Act III (trigger.canvas-truth)."
+    },
+    {
+      "id": "bark.curator.01",
+      "character": "curator",
+      "trigger": "trigger.act3-start",
+      "tier": "safe",
+      "text": "Every game ends eventually. I'm simply ending this one on purpose.",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "Roster sample bark. Plays as his win unlocks at Act III."
+    },
+    {
+      "id": "bark.curator.02",
+      "character": "curator",
+      "trigger": "trigger.idle",
+      "tier": "safe",
+      "text": "I'm not the villain of this game. I'm the one who wants it to end.",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "Roster sample bark."
+    },
+    {
+      "id": "bark.curator.03",
+      "character": "curator",
+      "trigger": "trigger.game-start",
+      "tier": "safe",
+      "text": "I'll be at the camp, sharpening things. Bring me your blades.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.curator.04",
+      "character": "curator",
+      "trigger": "trigger.quiet-helper",
+      "tier": "safe",
+      "text": "A small adjustment to your weapon. Don't thank me. Keep swinging.",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "The roster's 'the Curator upgraded your weapon' moment."
+    },
+    {
+      "id": "bark.curator.05",
+      "character": "curator",
+      "trigger": "trigger.goal-move",
+      "tier": "safe",
+      "text": "Patience. The pieces are nearly where they need to be.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.curator.06",
+      "character": "curator",
+      "trigger": "trigger.countdown-announced",
+      "tier": "safe",
+      "text": "Lumière is mine to close. One more turn, and the curtain falls.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.curator.07",
+      "character": "curator",
+      "trigger": "trigger.attacked",
+      "tier": "safe",
+      "text": "Break my camp and I lose a contact. Is that really worth your turn?",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.curator.08",
+      "character": "curator",
+      "trigger": "trigger.win",
+      "tier": "safe",
+      "text": "The curtain is down. Thank you all for playing.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.curator.09",
+      "character": "curator",
+      "trigger": "trigger.canvas-truth",
+      "tier": "safe",
+      "text": "Whoever painted this world should put the brush down. Some games should not last this long.",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "Safe sibling of the finished line below."
+    },
+    {
+      "id": "bark.curator.10",
+      "character": "curator",
+      "trigger": "trigger.canvas-truth",
+      "tier": "finished",
+      "text": "Aline. Put the brush down. The children are watching you play.",
+      "safeSibling": "bark.curator.09",
+      "original": true,
+      "_notes": "Roster sample bark. A finished-tier 'mother' line: finished mode only, and only in the mod's Act III (trigger.canvas-truth)."
+    },
+    {
+      "id": "bark.clea.01",
+      "character": "clea",
+      "trigger": "trigger.convert",
+      "tier": "safe",
+      "text": "Another Nevron. Perfect? No. Next.",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "Roster sample bark."
+    },
+    {
+      "id": "bark.clea.02",
+      "character": "clea",
+      "trigger": "trigger.idle",
+      "tier": "safe",
+      "text": "Some paint families. I paint teeth.",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "Roster sample bark."
+    },
+    {
+      "id": "bark.clea.03",
+      "character": "clea",
+      "trigger": "trigger.convert",
+      "tier": "safe",
+      "text": "Now that is a perfect specimen. Hold still while the paint sets.",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "Her 'perfect specimen' bark on the first Convert of each other faction."
+    },
+    {
+      "id": "bark.clea.04",
+      "character": "clea",
+      "trigger": "trigger.game-start",
+      "tier": "safe",
+      "text": "A board, a manor, and plenty of empty clearings. I can work with that.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.clea.05",
+      "character": "clea",
+      "trigger": "trigger.coverage-count",
+      "tier": "safe",
+      "text": "Another clearing with teeth in it. The tide is coming in.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.clea.06",
+      "character": "clea",
+      "trigger": "trigger.goal-move",
+      "tier": "safe",
+      "text": "That clearing has no Nevrons in it. Let's fix that.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.clea.07",
+      "character": "clea",
+      "trigger": "trigger.countdown-announced",
+      "tier": "safe",
+      "text": "Nevrons on every road and one at the Monolith's foot. By morning there won't be a colour left to save.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.clea.08",
+      "character": "clea",
+      "trigger": "trigger.attacked",
+      "tier": "safe",
+      "text": "Break as many as you like. I'll paint more.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.clea.09",
+      "character": "clea",
+      "trigger": "trigger.canvas-truth",
+      "tier": "safe",
+      "text": "Whoever painted this world won't stop playing. So I'll make the board unplayable.",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "Safe sibling of the finished line below."
+    },
+    {
+      "id": "bark.clea.10",
+      "character": "clea",
+      "trigger": "trigger.canvas-truth",
+      "tier": "finished",
+      "text": "She's been playing pretend in Verso's room for years. Somebody has to flip the board.",
+      "safeSibling": "bark.clea.09",
+      "original": true,
+      "_notes": "Roster sample bark. A finished-tier 'mother' line: finished mode only, and only in the mod's Act III (trigger.canvas-truth)."
+    },
+    {
+      "id": "bark.white-haired-man.01",
+      "character": "white-haired-man",
+      "trigger": "trigger.monolith-approach",
+      "tier": "safe",
+      "text": "Turn back. She is resting.",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "Roster sample bark."
+    },
+    {
+      "id": "bark.white-haired-man.02",
+      "character": "white-haired-man",
+      "trigger": "trigger.game-start",
+      "tier": "safe",
+      "text": "Expedition Thirty-Three. Next year, Thirty-Two. That's arithmetic, not cruelty.",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "Roster sample bark."
+    },
+    {
+      "id": "bark.white-haired-man.03",
+      "character": "white-haired-man",
+      "trigger": "trigger.battle-won",
+      "tier": "safe",
+      "text": "She keeps painting new players into the game. I keep taking them off the board.",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "Roster sample bark."
+    },
+    {
+      "id": "bark.white-haired-man.04",
+      "character": "white-haired-man",
+      "trigger": "trigger.idle",
+      "tier": "safe",
+      "text": "Whoever painted this world made it a game of turns. Fine. I have always been patient at doors.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.white-haired-man.05",
+      "character": "white-haired-man",
+      "trigger": "trigger.goal-move",
+      "tier": "safe",
+      "text": "The shore road needs a closer watch. I'll be there before you are.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.white-haired-man.06",
+      "character": "white-haired-man",
+      "trigger": "trigger.countdown-announced",
+      "tier": "safe",
+      "text": "Every road to the Monolith is closed. You have one turn to find a way through. You won't.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.white-haired-man.07",
+      "character": "white-haired-man",
+      "trigger": "trigger.attacked",
+      "tier": "safe",
+      "text": "Bold. Most expeditions turn back long before this.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.white-haired-man.08",
+      "character": "white-haired-man",
+      "trigger": "trigger.act2-start",
+      "tier": "safe",
+      "text": "The second act. My blade feels heavier. Not slower.",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "Unbeatable in Act I switches off at Act II."
+    },
+    {
+      "id": "bark.white-haired-man.09",
+      "character": "white-haired-man",
+      "trigger": "trigger.win",
+      "tier": "safe",
+      "text": "Nobody reached her. Nobody ever does.",
+      "safeSibling": null,
+      "original": true
+    },
+    {
+      "id": "bark.white-haired-man.10",
+      "character": "white-haired-man",
+      "trigger": "trigger.canvas-truth",
+      "tier": "safe",
+      "text": "Whoever painted this world never leaves a game unfinished. Neither do I.",
+      "safeSibling": null,
+      "original": true,
+      "_notes": "Safe sibling of the finished line below."
+    },
+    {
+      "id": "bark.white-haired-man.11",
+      "character": "white-haired-man",
+      "trigger": "trigger.canvas-truth",
+      "tier": "finished",
+      "text": "Your mother never could leave a game unfinished. I should know. I'm one of her pieces.",
+      "safeSibling": "bark.white-haired-man.10",
+      "original": true,
+      "_notes": "A finished-tier 'mother' line: finished mode only, and only in the mod's Act III (trigger.canvas-truth)."
+    }
+  ]
+}
