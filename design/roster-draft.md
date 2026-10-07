@@ -1,0 +1,460 @@
+# Root 33: character roster (draft)
+
+Draft from the design pass. Each Clair Obscur character rides on a Root faction (its pieces, actions and computer opponent) and adds its own way to win. Bots chase their own goals too. Nothing here is built yet.
+
+Story names are spoiler-tagged: **[safe]** lines show to everyone, **[finished]** lines only to players who say they've finished Clair Obscur.
+
+
+## First playable version (base game, no DLC)
+
+
+### Gustave
+
+**Plays like (Root):** Marquise de Cat (base game). The engine supplies pieces, actions and UI, and for a bot seat the standard Dire Wolf Marquise AI supplies the legal moves. Reskin: the keep is the Expedition Camp, forced into the Lumière corner. Sawmills are Chroma Extractors (wood is chroma), workshops are Lumière Workshops, recruiters are Rally Posts and cat warriors are Expeditioners. His faction board gains 'Gustave's Arm', a 3-pip Overcharge gauge.
+
+**How they win:** THE ROAD TO THE MONOLITH. Area win: Act II or later, 10+ VP. FLAGS: at the end of each of his turns, every clearing he rules that holds at least one of his buildings gets a permanent Expedition Flag. Lumière starts flagged. Flags never come off (they are his legacy and his route memory), but a flag only counts toward the win while he still rules that clearing. ARM: the gauge (0-3) gains 1 pip only when he STARTS a battle that removes at least one enemy piece. Using Overcharge empties it. THE ROAD: the Chain is the set of flagged clearings he currently rules that connect to Lumière by paths, Lumière included. At the end of his turn the table is warned if all four hold: (1) the Chain includes a Beachhead (a clearing next to the Monolith) that holds one of his buildings; (2) the Chain covers fox, rabbit and mouse; (3) the gauge is 3/3; (4) he has 10+ VP. He wins at the start of his next Birdsong if the same test still passes. Opponents stop it by flipping rule of any one Chain clearing or by clearing the Beachhead's buildings. Like the story, he stops at the Monolith's doorstep. 30 VP still wins.
+
+**On the board:** None. Overlays only: flag markers joined by a dotted route, the Gustave's Arm gauge, and a public Road tracker showing the current ruled Chain and the suits it covers.
+
+**Small rule changes:** OVERCHARGE (shared battle hook; in v1 a pre-battle toggle on his board, never a mid-battle prompt): when attacking at 3/3 he may arm it for +1 hit, and the gauge empties. It wins a fight but costs him the win condition until he refills it. SETUP: the keep is forced into Lumière, so normal Marquise setup leaves the Monolith (the diagonal corner) as the one clearing with no Expeditioners. STORY: the Act II 'Beach' vignette changes nothing on the board. In finished mode it plays as a what-if ('This time, the arm held.'). Optional FAITHFUL toggle (finished mode only): from Act II the seat is retitled 'Expedition 33', the survivors carrying his flag, with the same engine, flags, gauge and win.
+
+**When a bot plays them:** Layer 1: legal Marquise options from the engine. Layer 2, the Goal Director: (1) ROUTE, planned each Birdsong: the cheapest path from Lumière to a Beachhead whose clearings cover all three suits (searched over clearing plus suits-covered). Clearing cost: 0 if flagged and ruled; 1 if ruled with a free slot; 2 + enemy warriors if not ruled; +3 if enemy buildings fill its slots. (2) HOLD FIRST: if a flagged Route clearing has lost rule, recruit or march there to retake it before anything else. (3) BUILD: build in the next ruled, unflagged Route clearing (a sawmill if it keeps wood connected, otherwise the cheapest track); if there is none, make the normal VP build. The Beachhead gets a building as soon as he rules it. (4) CHARGE: while the gauge is under 3, take at least one winnable battle per turn that removes a piece, preferring enemy pieces on the Route, which both charges the arm and clears the road. (5) OVERCHARGE only to take the Beachhead or retake Lumière, and never in the turn he expects to announce unless that battle is required. (6) GOAL MODE at 8+ VP or Route cost 4 or less: spend bird cards on extra Route actions and skip Overwork. (7) ANNOUNCE TURN: spend leftover actions thickening the Chain clearing with the thinnest margin of rule, then the Beachhead; use Field Hospitals for losses there. (8) Spoiler layer against other themed wins. BEATABLE: the ruled Chain and the gauge are public, he barks each new flag and announces the push a turn early, and flipping rule of any one Chain clearing or razing the Beachhead building before his Birdsong stops him. Easy: goal mode at 12 VP, one Route build per turn, never Overcharges, and does not retake lost Chain clearings proactively. Hard: keeps a rule margin of 2 on every Chain clearing and re-routes around blockades.
+
+**Why it fits the story:** Gustave's goal is to reach and stop the Paintress before his own Gommage, protect Maelle and leave something behind for those who come after. His verified combat signature is Overcharge: his mechanical arm builds charge as he fights and releases a lightning strike. E33 counts up to 10 charges, which 3 pips abstract. Expedition Flags are E33's real checkpoints, so a flagged road is his legacy in Root form. He dies at the end of Act I before reaching the Monolith, so his road ends at its doorstep. Feasibility changes from the merged draft: flags alone no longer win (he must currently rule the Chain, like a supply line); the arm charges only from fights he picks; the Beachhead needs a building; the Chain must span three suits; and the Beach vignette no longer adds charge. Name fixes: the gauge is 'Gustave's Arm', after the official replica, instead of the unverified 'Lumina Converter', and Emma is 'his sister' because 'twin' is unverified.
+
+**Feel:** A builder racing his own clock. Expedition Flags are E33's real rest points, so a trail of flags painted with 33 creeps across the Continent toward the Monolith, and building tooltips read like pages from his journal. The arm on his board glows from blue to white as it charges, and Overcharge plays a lightning crack. Win vignette: the flag trail lit end to end, the camp pitched at the Monolith's doorstep, the painted number cracking. The motto is alluded to, never quoted.
+
+**Sample speech bubbles:**
+
+- [safe] Thirty-two, one year left, and now the whole world takes turns. Fine. I'll make mine count.
+- [safe] I've measured this forest twice and it moved in between. Who paints a continent and then shuffles it?
+- [safe] Every flag's a note to the next crew: road's open, keep walking.
+
+**DLC needed:** None (base game). In E33 mode every seat uses the standard Dire Wolf AI. The Clockwork bots (Mechanical Marquise 2.0 and the rest) are hidden because their simplified rules don't match these checks.  
+**Build difficulty:** medium
+
+
+### Esquie
+
+**Plays like (Root):** Vagabond, Tinker (base game). The standard Dire Wolf Vagabond AI is the legal-move source, along with the engine's item UI, Explore, Aid and Battle. Starting items: Boots, Torch, Bag (his Big Belly) and Hammer. He has no sword. Day Labor becomes 'Whee, found it!'. The rocks are mod-side overlay tokens the engine never sees. Guard stacks are real warriors of a 'Nevron host' seat, tracked by a mod counter.
+
+**How they win:** ESQUIE'S ROCKS COME HOME. Quest win, no VP gate: he wins at the end of any of his turns holding all four rocks. Story spawns pace it, so it cannot complete before Act II. FLORRIE (setup): at Stone Wave Cliffs, guarded by 2 warriors with a Lampmaster badge. During Act I a François decoy badge sits at the Nest. Visiting it gives no rock and points him to the Cliffs. DORRIE (start of Act II): hidden in the Old Lumière ruin. He claims it by Exploring that ruin, or just by entering if the ruin is already empty. If the White-Haired Man (Corvids) is seated, Dorrie cannot be claimed while Corvid warriors are in Old Lumière. SOARRIE (start of Act II): if Verso is seated, it starts on Verso's card and passes to Esquie when Esquie ends his turn in Verso's clearing (Verso scores 1 VP). If Verso is not seated, whichever faction rules the Monolith holds it. Esquie claims it by Aiding that faction once while in the Monolith, or simply by entering while no faction rules it. URRIE (start of Act III, or as soon as he holds the other three): at Esquie's Nest, guarded by 3 warriors with a François badge. CLAIM RULE: each guarded rock has a guard counter. It drops by one for every host warrior removed in that clearing in any battle, whoever fought it, and at 0 the rock is loose. After each of his actions he claims every loose rock in his clearing. Claimed rocks are never lost.
+
+**On the board:** Overlays: four rock tokens, Lampmaster and François badges, and the cosmetic François decoy badge at the Nest. SPAWNS: 2 guards with Florrie at setup and 3 with Urrie later, placed from the Nevron host's supply. Host priority: Clea if seated; otherwise the non-Marquise, non-Vagabond faction with the most warriors in supply (ties go to the lowest VP); otherwise the Marquise. If the host's supply runs short, fewer guards spawn, and guardsLeft equals the number actually placed. HOST RULES while a rock is guarded in a clearing: the host may not build, recruit or place pieces there, and its move generator (the human UI too) keeps at least guardsLeft warriors there. This is a count floor, so the host's other warriors may come and go. Guard warriors never count toward any themed win (Clea's coverage, the White-Haired Man's ring). FALLBACK, the v1 default if the week-1 spike shows the mod cannot place another seat's warriors: no spawns, and a rock can be claimed only when no faction other than Esquie has warriors in its clearing.
+
+**Small rule changes:** BELLY BOUNCE (automatic, no prompt): in a clearing with a guarded rock, his Bag counts as one undamaged sword for max hits. NEVER MAD: he may start a battle or Strike only against the host's warriors in a clearing with a guarded rock. FRIENDS NOT FOES (v1): removing guard warriors never moves the host toward Hostile. This is one prefix patch on the relationship change for battles in guarded-rock clearings. He starts in the forest next to the Nest. v1.1 ROCK POWERS: Florrie lets rivers count as paths for him. Dorrie removes the extra boot for entering a Hostile clearing. Soarrie lets him exhaust a torch once per turn to move to any clearing (the Harrier's Glide logic). Urrie plays the victory dive.
+
+**When a bot plays them:** Root's Vagabond options plus the Goal Director. (1) TARGET each Birdsong: the claimable rock with the lowest cost, where cost = path distance + 2 x guardsLeft - his max hits there (the Bag counts in rock clearings). Loose rocks come first, then Dorrie when a torch is ready. For Soarrie he walks into Verso or, without Verso, first collects a card of the Monolith's suit for the Aid. (2) GEAR: with 2+ damaged items he repairs in a forest first. If he could deal no hits, he crafts or Aids for a sword instead of attacking. (3) FRIENDS: if a Friendly or Allied faction that is NOT the host has warriors next to a guard stack, he Aids it there. That faction's Goal Director then gets a small 'help Esquie' bonus for battling the guards, applied only when it costs its own goal nothing. (4) HUNT: he enters and battles only with all items undamaged, and only when his expected hits this turn can finish or nearly finish the guards. One guard battle per turn (two on Hard). (5) ENDGAME with 3 rocks: straight for the last one. (6) If no rock is within 3 moves, he plays normal Vagabond VP (quests, Aid, ruins). (7) Spoiler layer against other themed wins. BEATABLE: the rock ring is public, he barks every new target, and he never takes a risky fight. When he holds 3 rocks, the host stacks extra warriors on the last rock (more defenders deal more hits to him) and the other bots attack his pawn to damage items. Easy: never asks friends for help and walks to the François decoy once in Act I. Hard: crafts a sword early and fights twice per turn.
+
+**Why it fits the story:** The user's 'nuts' are Esquie's four magic rocks: Florrie (swim), Dorrie (break coral), Soarrie (fly) and Urrie (dive). Nothing in E33 is called nuts. The user's spirit holds up in the lore, with corrected placements. Esquie blames François for Florrie and the party fights him at the Nest, but Florrie itself is recovered at Stone Wave Cliffs, Act I's last area, where the Lampmaster is fought. So Florrie spawns guarded at the Cliffs and François becomes a decoy joke. Dorrie turns up in Old Lumière in Act II, after the fight with painted Renoir there, so it is a ruin find blocked while Renoir's warriors hold the clearing. The draft's 'Sciel finds it' was dropped as unconfirmed. Verso already has Soarrie at the top of the Monolith and gives it to Esquie for the Paintress fight, so it comes from Verso or from whoever holds the Monolith. After Act II François refuses to trade Urrie and is beaten in a rematch, so Urrie spawns guarded at the Nest late. Clea hosts the guards when seated because as children Clea rode François while Verso rode Esquie. Never Mad and Friends Not Foes reflect his never-angry nature, and the rock powers are his real traversal unlocks.
+
+**Feel:** A cheerful treasure hunt. From turn 1, Florrie sparkles at the Cliffs under a lamp-headed guard, while a grumpy turtle badge sits at the Nest pretending to have it. A public four-slot rock ring on his board lights up as each rock comes home. His battles are drawn as Esquie sitting on the guards. Any faction that attacks a guard stack gets a 'Esquie's friends are here!' bubble. Win vignette: the whole table rides home on his back, ending in a dive. The rule label 'Never Mad' only nods to his rhyme. The rhyme itself and his known lines are never printed.
+
+**Sample speech bubbles:**
+
+- [safe] Wheee! Somebody painted squares on the whole world! I'm much too round for squares.
+- [safe] Hmm! This rock is much too grumpy to be Florrie. Florrie is never grumpy.
+- [finished, Act III only] Mister Verso says his mama has been playing too many board games. That's okay! I'm a VERY good piece.
+
+**DLC needed:** None (base-game Tinker). A table with Verso or Maelle as well needs The Riverfolk Expansion for a second Vagabond, and only then does Soarrie pass from Verso. Standard Dire Wolf AI; the Clockwork Vagabot is disabled in E33 mode.  
+**Build difficulty:** high
+
+
+### The Paintress (finished-mode name: Aline Dessendre)
+
+**Plays like (Root):** Eyrie Dynasties (base game). The standard Dire Wolf Eyrie AI is the legal-move source. Reskin: bird warriors are Painted Servants, roosts are Easels, the Decree is the Canvas Plan and Turmoil is Grief. The leaders are her moods: Builder = The Artist, Charismatic = The Mother (safe mode: The Muse), Commander = The Warden, Despot = The Matriarch. The Loyal Viziers are Brush and Palette. Her starting roost is forced into the Monolith, which normal setup already does when Gustave's keep is in Lumière.
+
+**How they win:** THE FAMILY PORTRAIT. Area win: Act II or later, 10+ VP. Portraits are not stored; they are worked out at each check. A LIVING PORTRAIT is any roost outside the Monolith, in a clearing she rules (Lords of the Forest ties count), with 2+ of her warriors. At the end of her turn the table is warned if all three hold: (1) she rules the Monolith and has a roost there; (2) she has Living Portraits in a fox, a rabbit and a mouse clearing; (3) she has 10+ VP. She wins at the start of her next Birdsong if the same test passes. Identity is cosmetic: at each check the three Living Portraits are labelled Verso, Clea and Renoir, one per suit. A portrait of a seated painted character reads 'as she remembers them'. Opponents stop her by breaking one easel, flipping rule in one Portrait clearing, thinning it below 2 warriors, or taking the Monolith.
+
+**On the board:** None. Overlays: framed portrait art on qualifying easels showing Aline at work, the Monolith Number on her home clearing, and a public 'Portraits 0/3' tracker by suit.
+
+**Small rule changes:** GRIEF = Turmoil with the same rules, plus a smeared-canvas bubble (finished mode: a real-world flashback). TEXT RULE: tooltips and barks say she paints the number, never that she erases anyone. STILL LIFE (v1.1): once per turn, when an enemy starts a battle in a Living Portrait clearing, she may move 1 warrior there from an adjacent clearing before the roll.
+
+**When a bot plays them:** Root's Eyrie options plus the Goal Director. The Director only reorders choices that a one-turn lookahead says she can resolve, so it never forces Grief. (1) SITE SCORE for each suit still lacking a Living Portrait, over clearings of that suit with a free slot: +3 if next to a clearing she rules, +2 if within 2 steps of the Monolith, -1 per enemy warrior, -3 if it holds a guarded rock (the host may not build there). (2) DECREE: when adding cards, prefer a Build card of the best missing suit and a Recruit card (a bird, or the suit of a Portrait with fewer than 2 warriors). The lookahead remembers that Build cards repeat every turn, so once two suits are done she prefers a bird Build card. She never adds a card the lookahead says may fail. (3) GARRISON: spare moves bring every Portrait up to 2 warriors (3 on Hard). She keeps 3+ warriors in the Monolith and recruits there first when an enemy stack is adjacent. (4) FINISH MODE at 8+ VP with 2 Living Portraits: add exactly the cards that build and stock the third, and battle only to retake rule. (5) REPAINT: a destroyed Portrait is rebuilt elsewhere, avoiding the same clearing for 2 turns. (6) She deprioritises attacking the White-Haired Man; the spoiler layer still applies to everyone. BEATABLE: the tracker is public; breaking one easel or flipping one Portrait clearing before her Birdsong stops the win; Grief resets her Decree; she ends an announce turn with a 'hold still' bark. Easy: announces the next portrait a turn early, and in finish mode adds one card too many, which often causes Grief.
+
+**Why it fits the story:** The user suggested she spawn '3 of herself in different areas', but the lore does not have Aline copying herself. Inside the Canvas she painted copies of three family members, Verso, Clea and Renoir, and stayed at the top of the Monolith. The real Alicia entered later and was repainted as a newborn, Maelle, so there is no painted Alicia to place; the draft's Alicia portrait and Maelle exclusion are removed. The spirit is kept: three of her creations spread across three regions while she holds the Monolith, and each easel shows her painting, so she still appears across the map. Eyrie's rigid Decree and Turmoil fit a grieving painter bound by her own plan. Feasibility fix: portraits are worked out at each check instead of being used up when a roost is placed, so she can never lock herself out. Lore fixes: the unverified 'head of the Painters' Council' title is not used (the Despot leader is The Matriarch), and no text says she does the erasing, since late-game lore credits that to the real Renoir and treats her number as a countdown.
+
+**Feel:** A rigid, grieving painter bound by her own plan. Red petals drift when an easel goes up, unveiling a painted figure somewhere on the Continent. Finished mode names them Verso, Clea and Renoir; safe mode shows veiled portraits. Aline is drawn at work at each easel, so you do see her in three places across the map. Win vignette: the camera tours the three portraits, the number on the Monolith freezes, and the titanic Paintress silhouette rises.
+
+**Sample speech bubbles:**
+
+- [safe] Hold still, darling. You're in the foreground.
+- [safe] Three easels, three faces I miss. Touch them and I'll paint you smaller.
+- [finished, Act III only] Your father says I've played too many rounds. One more. Just one more.
+
+**DLC needed:** None (base game). Standard Dire Wolf Eyrie AI; the Clockwork Electric Eyrie is disabled in E33 mode.  
+**Build difficulty:** medium
+
+
+### Sciel
+
+**Plays like (Root):** Woodland Alliance (base game), with the standard Dire Wolf Alliance AI. Sympathy tokens are Lanterns (sun-gold Foretell marks over little schoolhouses), bases are Aquafarms, officers are Teachers, warriors are Aquafarm volunteers and supporters are Foretold cards. Revolt is the Reaping. Outrage becomes 'you trampled the crops, pay the farmer'.
+
+**How they win:** TWILIGHT HARVEST. Area win: Act II or later, 10+ VP. A SANCTUARY is a clearing with her Lantern and no enemy pieces of any kind. At the end of her turn the table is warned if all three hold: (1) SUN: she has 5+ Sanctuaries spanning fox, rabbit and mouse; (2) MOON: at least 1 Aquafarm (base) is on the map; (3) she has 10+ VP. CONFIRMATION at the start of her next Birdsong: at least 5 clearings still have her Lantern and no enemy building or token, they still span all three suits, and at least 1 Aquafarm stands. Enemy warriors or pawns that only walked in (paying Outrage) do not void it. To stop her, you must battle a Lantern off the board or raze an Aquafarm.
+
+**On the board:** None. UI only: public Sun (Sanctuaries) and Moon (Aquafarms) gauges, and a dusk tint over the board as both fill.
+
+**Small rule changes:** TWILIGHT (shared battle hook, v1.1, automatic): placing a Lantern gives her a Sun charge, and removing an enemy warrior in a battle she starts gives a Moon charge. If she holds both at the start of her Evening, her first battle that Evening deals +1 hit, then both reset. NOTE: she cannot place Lanterns in Lumière while Gustave's keep stands there, because the keep blocks other factions' placement. She guards the children from the fields, not the city.
+
+**When a bot plays them:** Root's Alliance options (Revolt, Spread, Mobilize, Operations) plus the Goal Director, which re-weights where. (1) SPREAD: score each candidate as 3 - enemy pieces there - enemy warriors adjacent, +2 if its suit has no Sanctuary yet. Never spread into a clearing with 2+ enemy pieces or under Martial Law. (2) REVOLT: target a sympathetic clearing holding enemy buildings or tokens, in a suit with no Aquafarm, ideally one that becomes a Sanctuary at once (Revolt clears every enemy piece). Keep 2 matching supporters ready. (3) EVICT in Evening: battle lone enemy warriors or tokens on her Lanterns, preferring Twilight Evenings once v1.1 adds them. (4) Organize when Sun is short and a warrior is idle. Recruit at threatened Aquafarms. Keep one Teacher-led group beside her biggest Lantern cluster. (5) FINISH MODE at 4 Sanctuaries: hoard supporters and never pull warriors out of the cluster. (6) ANNOUNCE TURN: end with her own warriors on the most exposed Sanctuaries (they don't break a Sanctuary, and Guerrilla War makes attacks costly) and keep supporters for Outrage income. (7) Spoiler layer. BEATABLE: the gauges are public and she barks her count. Before the announce, any piece stepping into a Sanctuary breaks it (paying Outrage). After it, battling one Lantern off the board or razing her only Aquafarm stops her. Easy: evicts only with a 2:1 edge and sometimes revolts in a suit that already has an Aquafarm.
+
+**Why it fits the story:** Sciel wants to spare Lumière's youth, and she is a farmer and teacher who worked the Aquafarm. Her verified combat signature: applying Foretell gives a Sun charge, consuming it gives a Moon charge, and holding both triggers Twilight. Sun (safe places) and Moon (Aquafarms) make her a protector rather than a generic Alliance. Feasibility fix: the Birdsong confirmation counts Lanterns still standing without enemy buildings or tokens, so walking a warrior in no longer erases the win; you have to remove a Lantern or raze an Aquafarm, which is the Alliance's real counterplay. Tone fix: the draft's joke about Pierre was replaced with a warm line, since his death and her grief are serious parts of her story.
+
+**Feel:** A gentle protector. You light lanterns in quiet clearings and evict lone intruders, and progress is measured in safe places, not fights won. Revolt plays her scythe sweeping in a harvest. Win vignette: the Aquafarm at twilight, in full harvest, with Lumière's children watching from the shore. Optional finished-mode Act III exchange with Esquie, who once pulled her from the sea. It must be written gently and never played for laughs.
+
+**Sample speech bubbles:**
+
+- [safe] I foretold rain today. I did not foretell rabbits with opinions.
+- [safe] The Aquafarm fed half of Lumière. This field can feed the other half.
+- [safe] Whoever's painting this world has let game night run a little long.
+
+**DLC needed:** None (base game). Standard Dire Wolf Alliance AI; the Clockwork Automated Alliance is disabled in E33 mode.  
+**Build difficulty:** low
+
+
+### Verso
+
+**Plays like (Root):** Vagabond, Ranger (base game), with the standard Dire Wolf Vagabond AI. Hideout becomes 'Get Back Up' (he knits himself back together and repairs 3 items). The crossbow is his pistol. Root's Vagabond pawn can never be removed, which already matches his immortality.
+
+**How they win:** THE LAST NOTE. Area win: Act II or later, 10+ VP. PERFECTION RANK (public): D, C, B, A, S, starting at D. After each battle he is in: +1 if he removed at least one enemy piece and none of his items were damaged; -1 if 1-2 were damaged; -2 if 3 or more were (clamped to D-S). Strike and other non-battle removals don't change it. At the end of his turn the table is warned if all four hold: (1) he is rank S; (2) his pawn is in the Monolith; (3) the Monolith holds no other faction's warriors, buildings or pawns; (4) he has 10+ VP. He wins at the start of his next Birdsong if he is still in the Monolith and still rank S. Pieces that only walk in do not void it. To stop him, someone must battle him there and land a hit, and any damaged item drops him off S. Easy game difficulty only, for a human Verso: rank A with 2 undamaged swords counts as S. Bots always need S.
+
+**On the board:** None. A large public rank letter on his character card.
+
+**Small rule changes:** PERFECTION (shared battle hook, automatic): at rank A or S he deals +1 hit when attacking, once per battle. The rank balances itself, because any hit knocks it down. SOARRIE: if Esquie is seated (needs Riverfolk), Verso starts with Soarrie on his card. It passes to Esquie when Esquie ends a turn in Verso's clearing in Act II or later, and Verso scores 1 VP.
+
+**When a bot plays them:** Root's Vagabond options plus the Goal Director, which filters fights. (1) CLIMB (below rank A): start a battle only when the expected hits he takes are under 0.5, meaning a lone defending warrior or undefended buildings and tokens. He treats a defender holding 3+ cards as a possible Ambush and then needs 2+ undamaged swords. He prefers Hostile factions (Infamy VP) and the VP leader, and fills the rest of the turn with quests and ruins. (2) REPAIR: after any damage, Get Back Up or end in a forest before the next fight. (3) APPROACH at rank A in Act II or later: move next to the Monolith and keep farming lone warriors nearby. (4) ASSAULT: enter the Monolith at A or S only when its defenders can be cleared this turn (undamaged swords + the Perfection hit + the defenseless extra hit against buildings) with expected damage under 1. Clear the warriors, then the buildings, and end the turn there only at S with no other faction's pieces left. (5) BAIL: if the rank drops below A mid-assault, fall back to a forest and rebuild. (6) In Act II or later he walks into Esquie's clearing when it is close (the reunion is worth 1 VP). Spoiler layer applies. BEATABLE: the rank is public and he barks each rank-up. Any battle that lands a hit on him in the Monolith before his Birdsong drops him off S, and Ambush cards are the classic answer. Easy: ignores Ambush risk and waits for 4 undamaged swords before assaulting.
+
+**Why it fits the story:** Verso's verified combat signature is Perfection: a D-to-S grade that climbs with clean hits, dodges and parries and drops when he is hurt. He is immortal, knows he is painted, and wants to end the Canvas so that his mother leaves and the real Verso's soul fragment can rest. He reveals Soarrie at the top of the Monolith. A rank-S Verso standing alone in the Monolith is that ending in Root form, and the Ranger's self-repair is his immortality. Feasibility fix: the Birdsong confirmation now asks only that he still stands there at rank S, so the answer is landing a hit, which is exactly what breaks Perfection in E33. The old 'Monolith still empty' test was nearly unwinnable against a seated Paintress and spoiler bots. Lore fix: he leads Act II, not Act III, which is Maelle's.
+
+**Feel:** A precise duelist. You take only fights you can win cleanly and watch a big letter climb from D to S, while every bot that lands a hit knocks it back down. Each rank-up plays a rising piano phrase, and each hit plays a discordant chord. Get Back Up shows his painted body reassembling. Win vignette (finished mode): Verso alone in the Monolith while the brushstrokes of the board fade, nodding to his ending without quoting it. Safe mode: the letter flares S and the Monolith goes quiet.
+
+**Sample speech bubbles:**
+
+- [safe] I can't die, I can't leave, and now I have to wait for my turn.
+- [safe] Rank S. Please don't cheer. The moment I get proud, something hits me.
+- [finished, Act III only] Mother's been at this table for decades. At some point you let the pieces go home.
+
+**DLC needed:** None (base-game Ranger). A table with Esquie or Maelle as well needs The Riverfolk Expansion for a second Vagabond. Standard Dire Wolf AI; the Clockwork Vagabot is disabled in E33 mode.  
+**Build difficulty:** medium
+
+
+### Maelle (finished-mode name: Alicia Dessendre)
+
+**Plays like (Root):** Vagabond, Thief (base game), with the standard Dire Wolf Vagabond AI. Steal is reskinned as a fencer's 'Disarm', a feint that flicks a card from the opponent. With Exiles & Partisans & Vagabonds she may ride the Ronin instead, with Swift Strike as her riposte. The Vagabond relationship track (Indifferent, Amiable, Friendly, Allied, or Hostile) carries her story.
+
+**How they win:** A HOME IN THE CANVAS. Area win: Act II or later, 10+ VP. At the end of her turn the table is warned if all five hold: (1) she is Allied with at least 2 non-Vagabond factions; if only one is seated, Allied with it and 15+ VP instead of 10; (2) she is Hostile with none; (3) her pawn is in Lumière; (4) she has 3+ undamaged items (her Defensive stance holds); (5) she has 10+ VP. She wins at the start of her next Birdsong if it still holds. Opponents stop her by attacking her in Lumière and damaging items until fewer than 3 are undamaged. The outsider has found a family and holds her ground at home.
+
+**On the board:** None. UI only: a stance chip on her card, and a 'family' row showing each faction's relationship as a portrait frame.
+
+**Small rule changes:** STANCE CHIP (cosmetic): Offensive after she battles, Defensive after she Aids or is attacked, Virtuose after both in one turn. It changes her portrait and barks. ALICIA AWAKENS (Act III, cosmetic only): finished mode swaps her portrait to Alicia with scars and a brush and unlocks Act III barks; safe mode shows 'a memory returns'. No relationship or VP change. She can walk into Lumière even with Gustave's keep there, because the keep blocks placing pieces, not moving.
+
+**When a bot plays them:** Root's Vagabond options plus the Goal Director, which chooses who she helps. (1) FAMILY: pick the two non-Hostile factions closest to Allied. Ties go to the lower-VP faction, and she avoids the VP leader when there is another option. She re-picks only if a family member passes 22 VP. (2) AID each Daylight: move to a clearing where a family faction has pieces and whose suit matches a card in hand, and take their crafted items when offered (swords and boots first). (3) NO FIGHTS with non-Hostile factions unless one is within 5 VP of winning. She Disarms (Steals from) the VP leader to refill her hand and uses quests and ruins for VP. (4) GOAL MODE once the relationship conditions are met: path to Lumière, repair in a forest the turn before arriving, arrive with 3+ undamaged items, and stay. (5) In a 2-player game: one family faction, then push to 15 VP. (6) Spoiler layer. BEATABLE: the relationship track is public and she says who her family is. Attacking her in Lumière damages items and fails the check, and the goal takes many Aid cards. Easy: Aids once per turn and does not repair before arriving.
+
+**Why it fits the story:** Maelle's arc is about belonging. The orphan who never fit in Lumière joins the expedition to find a place, and in Act III she learns she is Alicia and chooses to keep the painted world and the people she loves. Root's Vagabond is the outsider whose relationships with every faction are its core loop. Her verified stance system becomes the stance chip and the Defensive requirement of 3 undamaged items. Lore fix: nothing in E33 makes her a thief, so Steal is reskinned as a fencer's Disarm, and the Ronin's Swift Strike is her riposte. Feasibility fixes: Alicia Awakens is now cosmetic, with no scripted relationship bump, and a 2-player game needs 15 VP because one Allied faction is easy.
+
+**Feel:** A fencer looking for family. Aid is drawn as Maelle sharing a keepsake and Disarm as a rapier feint, and each relationship step adds a sketch of that character to her family row. Win vignette (finished mode; safe mode shows a plainer version): Lumière lit up with every character she is Allied or Friendly with.
+
+**Sample speech bubbles:**
+
+- [safe] Sixteen, and it turns out the whole world is somebody's board game. That explains a lot.
+- [safe] Everyone keeps asking what suit I am. I'm sixteen! I don't know what suit I am!
+- [finished, Act III only] Wait. If she's my mother, who taught her to play like THIS?
+
+**DLC needed:** None (base-game Thief). Optional: Exiles & Partisans & Vagabonds for the Ronin. A second Vagabond at the table needs The Riverfolk Expansion. Standard Dire Wolf AI; the Clockwork Vagabot is disabled in E33 mode.  
+**Build difficulty:** low
+
+
+## Later (need Root DLC)
+
+
+### Lune
+
+**Plays like (Root):** Keepers in Iron (The Marauder Expansion), with the Dire Wolf Keepers AI if the digital game has one (unconfirmed), otherwise the mod's fallback planner. Badgers are her survey team. Relics are lost research: tablets are Expedition Journals, figures are Route Charts, jewelry is Chroma Samples. Waystations are Research Camps, the Retinue is the Charted Route, and Devout Knights are escorts guarding the research.
+
+**How they win:** HER PARENTS' WORK. Quest win: Act II or later. At the start of Act II the mod tags one relic as the Parents' Journal: the highest-value tablet still lying in a forest. It is moved into the forest beside the Sirène-tagged Axon if the engine allows, otherwise tagged where it lies. If no tablet is left in the forests, the tag goes on the highest-value relic of any type still in a forest. Its forest glows gold. She wins at the end of any of her turns once her recovered relics include a Journal (tablet), a Route Chart (figure) and a Chroma Sample (jewelry), with the Parents' Journal among them. If an enemy knocks the tagged relic loose (Prized Trophies), it goes face up into a forest and keeps its tag.
+
+**On the board:** No new piece types. A tag on one relic, a gold glow on its forest, and a 'thesis' progress tracker.
+
+**Small rule changes:** STAINS (shared battle hook; in v1 a pre-battle toggle on her board, not a mid-battle prompt): each relic she recovers gives a Stain of its element (Sample = Fire, Journal = Ice, Chart = Lightning). Before a battle she may arm one Stain for +1 hit. Otherwise standard Keepers rules.
+
+**When a bot plays them:** Root's Keepers options, or the fallback planner with the same priorities if the native AI is missing. (1) ACT I: normal Keepers play, but delve and recover missing relic types first. (2) ACT II GOALS: the Parents' Journal (the gold forest beside Sirène) plus any missing type; she works on whichever is closer. (3) RETINUE: add Move and Delve cards whose suits match the clearings on the way to the target forest, and never add a card she cannot resolve. (4) DELVE the Journal only with 3+ warriors next to its forest. (5) ESCORT carriers in groups of 2+ (Devout Knights ignore the first hit), avoid clearings where enemies outnumber the escort, and route to a tablet waystation, building or flipping a Research Camp to the tablet side on the shortest way home. (6) Ignore duplicate types unless she needs VP. (7) Spoiler layer. BEATABLE: the gold forest sits in the Monolith hot zone, carriers can be intercepted (the attacker scores Prized Trophies and the Journal drops face up, still tagged), and she announces the journal run a turn early. Easy: single-warrior carriers. Hard: two convoys at once.
+
+**Why it fits the story:** Lune is the scholar and pathfinder carrying her parents' unfinished research, and journals of past expeditions are real E33 collectibles. Her parents were on Expedition 46, and her relationship quest leads to the Sirène area where that expedition's trail ends, so the Journal lies beside the Sirène Axon. This is a lore fix: the draft used a generic spot next to the Monolith. Keepers in Iron is Root's 'recover lost things from the woods' faction, and Stains are her verified combat signature. Feasibility fixes: the Act II gate is now in the win text, the Journal is tagged only at the start of Act II, and the highest-value tablet is tagged instead of an exact value-3 one that may not exist.
+
+**Feel:** A careful expedition planner. Convoys carry journals of past expeditions out of the forests to Research Camps, and Stains glow on her focus. Recovering the Parents' Journal opens one page of their notes in an original-text bubble. Win vignette: her finished chart, with the Monolith circled and annotated.
+
+**Sample speech bubbles:**
+
+- [safe] My parents charted this ridge. It was not a ridge then. It was a lake. With otters.
+- [safe] Twelve clearings, three suits, perfectly balanced. Nature doesn't do that. Someone with a rulebook does.
+- [Act II+] Filed under 'Paintress, motives of': grief, regret, and apparently a strategy game.
+
+**DLC needed:** The Marauder Expansion (Keepers in Iron). Clockwork bots are disabled in E33 mode.  
+**Build difficulty:** medium
+
+
+### Monoco
+
+**Plays like (Root):** Lord of the Hundreds (The Marauder Expansion), with the Dire Wolf Hundreds AI if it exists in digital (unconfirmed), otherwise the fallback planner. The Warlord is Monoco, rats are Gestrals, strongholds are Gestral Arenas and mobs are rowdy young Gestrals. The Hoard is renamed the 'Gestral Stash' so that 'Bestial Wheel' only means the feet. Five of the eight Mood cards are renamed after his masks (Agile, Caster, Balanced, Heavy, Almighty) and three after Gestral moods; their effects are unchanged.
+
+**How they win:** THE BESTIAL WHEEL. Countdown win: Act II or later, 10+ VP. Monoco takes a foot only in a battle the Warlord himself is in, when Hundreds hits remove an enemy piece. AGILE: an enemy warrior removed in a clearing the Warlord moved into this turn. HEAVY: an enemy building removed. CASTER: an enemy token removed (sympathy, wood, keep, plot, tunnel and so on). BALANCED: a battle in which he removed at least one enemy piece and lost at least one of his own. ALMIGHTY (Act III only): a building of the current VP leader removed (when the leader is not Monoco), or one battle in which Hundreds remove 3+ of the leader's pieces. Each foot remembers the faction it came from. The five must come from at least 3 different factions, or from every opponent if fewer than 3 are seated; a later qualifying fight may re-earn a foot from a new faction. At the end of his turn the table is warned if he has all five feet under that rule and 10+ VP. He wins at the start of his next Birdsong if he still has all five and the Warlord is on the map. SACRED RIVER REBIRTH: whenever the Warlord is removed, he loses Almighty and his most recently earned other foot, so killing the Warlord during the countdown stops him.
+
+**On the board:** None. A five-slot Bestial Wheel on his board showing each foot's source faction; his portrait wears the current mood's mask.
+
+**Small rule changes:** SACRED RIVER REBIRTH as above: when Root anoints a new Warlord, it is Monoco reborn with some memories gone. Otherwise standard Hundreds rules; the moods are reskinned only.
+
+**When a bot plays them:** Root's Hundreds options (moods, stash, Oppress), or the fallback planner. (1) Each Daylight, list the Warlord battles he can reach (Advance by Prowess, Command moves to bring rats along). Score each: +10 if it fills a missing foot, +4 if it adds a new faction toward the 3-faction rule, plus his win chance (Warlord stack vs defenders), minus a heavy penalty if the defenders could deal hits equal to his stack. (2) TARGETS: Heavy or Caster, an enemy building or token guarded by 1 or fewer warriors. Agile, a lone warrior one Advance away. Balanced, an even fight he still wins. Almighty (Act III), the leader's least-guarded building, or a leader stack of 3+ pieces he can wipe out. (3) The turn before, Command-move rats into or next to the target. (4) Pick the mood (mask) that boosts the planned battle. (5) Build Arenas along the route so Oppress keeps scoring. (6) After 3 feet, keep 2+ Gestrals escorting the Warlord. (7) ANNOUNCE TURN: end with the Warlord in his strongest enemy-free clearing. (8) Spoiler layer. BEATABLE: the wheel and its source factions are public, he announces his next 'duel', and the Warlord is one exposed pawn whose removal during the countdown costs a foot and Almighty. Easy: the Warlord advances alone and only when he outnumbers the defenders by 2.
+
+**Why it fits the story:** Monoco's verified signature: he defeats specific marked Nevrons, takes their feet, and fights in their forms through the Bestial Wheel of masks Agile, Caster, Balanced, Heavy and Almighty, treating battle as thrill and meditation. The Sacred River, where dead Gestrals are reborn with most memories gone, frames losing feet when the Warlord falls, and his friend Noco is brought back there in his questline. Feasibility fixes: a 10 VP gate, feet from at least 3 factions, a harder Almighty and a Birdsong confirmation, so he is no longer the fastest unanswerable winner. Lore fixes: Noco is 'his friend' because 'protégé' is unverified, the unconfirmed rescue claim is dropped, and his barks are in the first person in a polite-brawler voice.
+
+**Feel:** A gleeful brawler with a shopping list. To him every opponent piece is a Nevron with feet. Each foot snaps onto the wheel with a Gestral cheer, and a rebirth plays a quick Sacred River fade. Win vignette: the wheel spinning on Almighty, then a quiet moment by the Sacred River with Noco.
+
+**Sample speech bubbles:**
+
+- [safe] I would like your feet. Respectfully.
+- [safe] Mask changed! Today I am Heavy. Please mind the stairs.
+- [safe] Somebody painted us all into a board game? Wonderful. Which piece may I bite first?
+
+**DLC needed:** The Marauder Expansion (Lord of the Hundreds). Clockwork bots are disabled in E33 mode.  
+**Build difficulty:** medium
+
+
+### The Curator (finished-mode name: Renoir Dessendre)
+
+**Plays like (Root):** Underground Duchy (The Underworld Expansion), with the Dire Wolf Duchy AI if it exists in digital (unconfirmed), otherwise the fallback planner. The Burrow is the Cell beneath the Monolith and tunnels are cracks in the Canvas. Citadels are Curator's Camps, markets are Chroma Catalyst stalls and ministers are his contacts. Price of Failure becomes 'his grip slips'.
+
+**How they win:** CURTAIN CALL (safe-mode description: 'end the painting from Lumière'). Area win: Act III only, 10+ VP. At the end of his turn the table is warned if all four hold: (1) Aline is out: no Paintress roost in the Monolith (automatically true if she is not seated); (2) he is out: a Duchy tunnel stands in the Monolith, which the Cell Crack becomes at Act III; (3) he rules Lumière, and if no keep stands there he also has a building there or 3+ warriors; (4) he has 10+ VP. He wins at the start of his next Birdsong if it still holds.
+
+**On the board:** No new piece types. CELL CRACK: at setup the mod puts a crack overlay in the Monolith. Until Act III it does nothing: it is not a tunnel, it does not connect to the Burrow, and it does not use one of his three tunnels. At the start of Act III it becomes a real tunnel from his supply (or a free extra one if all three are on the map). Fallback if the mod cannot place it: his first Act III action is a free Dig into the Monolith. His home corner is any free corner except Lumière and the Monolith. If the Monolith tunnel is later removed, he may Dig it again normally.
+
+**Small rule changes:** QUIET HELPER: whenever another player removes the Paintress's roost from the Monolith, that player draws 1 card ('the Curator upgraded your weapon'). FACELESS: his portrait is the faceless Curator; in finished mode it reveals Renoir at Act III. While Gustave's keep stands in Lumière he cannot Dig or build there and must march in.
+
+**When a bot plays them:** Root's Duchy options (sway, Parliament, building), or the fallback planner. (1) ACTS I-II, THE HELPER: the Cell Crack is inert. Build camps and stalls, sway ministers for VP, and stock the Burrow to 6+. Avoid big fights, and never attack the Paintress unless she is one step from her own win. (2) ACT III, THE REVEAL: once the Crack becomes a tunnel, if her roost still stands in the Monolith, emerge there from the Burrow with defenders + 2 warriors and take it down. (3) LUMIÈRE: dig next to Lumière (or into it if no keep stands there) and march or battle in with defenders + 2. Sway Battle and Move ministers first. If there is no keep, keep a card of Lumière's suit to build there, or hold 3+ warriors. (4) ANNOUNCE TURN: recruit into the Burrow and pour warriors into Lumière. (5) Spoiler layer. BEATABLE: the Act III gate; Price of Failure, since every camp or stall destroyed strips a minister permanently; digging next to Lumière is a visible tell, and he announces the push. Keeping Aline's roost alive or Lumière heavily garrisoned blocks him. Easy: never re-digs a lost tunnel and attacks Lumière only with defenders + 3.
+
+**Why it fits the story:** The real Renoir has been trapped beneath the Monolith since the Fracture caused by his clash with Aline, and acts through the faceless Curator form. He quietly upgrades the expedition's weapons so they can get Aline expelled. Then his power gommages Lumière, and he is fought there as the final boss. Sources say his power does the erasing. The Duchy's off-map Burrow is that prison, and the win is the exact sequence: Aline out, him out, Lumière taken. Quiet Helper is the weapon upgrades. Feasibility fix: the Cell Crack stays inert until Act III, so he has no turn-1 Burrow access to the Paintress's home and no early tunnel cost; and when Lumière holds no keep, a token rule there is not enough. Lore fix: 'trapped since the Fracture' replaces 'imprisoned by Aline'.
+
+**Feel:** A faceless figure working quietly from the camp. Catalyst stalls echo his weapon upgrades, and a hairline crack in the Monolith hints at the cell below. At Act III the crack splits open (finished mode: the mask falls and his music swells). Win vignette: red petals drifting over Lumière.
+
+**Sample speech bubbles:**
+
+- [safe] Every game ends eventually. I'm simply ending this one on purpose.
+- [safe] I'm not the villain of this game. I'm the one who wants it to end.
+- [finished, Act III only] Aline. Put the brush down. The children are watching you play.
+
+**DLC needed:** The Underworld Expansion (Underground Duchy). Clockwork bots are disabled in E33 mode.  
+**Build difficulty:** medium
+
+
+### Clea (safe-mode name: ???)
+
+**Plays like (Root):** Lizard Cult (The Riverfolk Expansion), with the Dire Wolf Lizard AI if it exists in digital (unconfirmed), otherwise the fallback planner. Warriors are Nevrons and gardens are Nevron Ateliers. Convert becomes 'Repaint as Nevron' and Sanctify becomes 'Repaint'. Lost Souls are Drained Chroma, acolytes are chroma vials, and the Outcast suit is Mother's Weak Colour (safe mode: the Weak Colour).
+
+**How they win:** NEVRON TIDE. Area win: Act II or later, 10+ VP. At the end of her turn the table is warned if all four hold: (1) her Nevrons (warriors) stand in 8+ different clearings, not counting any Esquie guard warriors she hosts; (2) one of those clearings is the Monolith, draining Aline's chroma at its source; (3) she has an atelier (garden) in the Flying Manor; (4) she has 10+ VP. She wins at the start of her next Birdsong if it still holds. Opponents stop her by removing her warriors from one counted clearing or from the Monolith, or by razing the Flying Manor atelier.
+
+**On the board:** No new piece types. SETUP: her home corner is the Flying Manor. NEVRON HOST: when she is seated, Esquie's rock guards come from her supply (see Esquie).
+
+**Small rule changes:** Guard warriors she hosts follow the Esquie host rules: the count floor, and no building, recruiting or placing in that clearing. This applies to a human Clea through the UI too. The first Convert of each other faction plays a 'perfect specimen' bark. Otherwise standard Lizard rules.
+
+**When a bot plays them:** Root's Lizard options (rituals, conspiracies), or the fallback planner. The Lizards have no normal Move, so coverage comes from placing and converting. (1) RECRUIT ritual: reveal cards whose suits match uncovered clearings and place each new warrior in an uncovered clearing (exact Recruit wording to be confirmed in the spike). (2) CONVERT in Outcast-suit clearings where she has no warrior yet, since each converted warrior is new coverage. Sanctify the VP leader's buildings when affordable. (3) MONOLITH: keep a bird card to recruit into the Monolith regardless of its suit. Use Crusade (2 acolytes) only when the Monolith or a neighbour is the Outcast suit. (4) HOME: always keep 1+ warrior and the atelier in the Flying Manor; rebuilding it comes first. (5) HAND: keep Outcast-suit cards for conspiracies, and Sacrifice bird cards for acolytes only when she holds 2+ birds. (6) GOAL MODE at 6+ covered clearings: re-cover any clearing that just lost its warrior before anything else. (7) Guard stacks are never moved and never counted. (8) Spoiler layer. BEATABLE: lone warriors fall to any battle, coverage shows on the public tracker, and conspiracies only work in the Outcast suit, which the other players shape with their discards. Easy: half the time places warriors where she already has some, and never Sanctifies.
+
+**Why it fits the story:** Sources say Clea painted the Nevrons to drain Aline's chroma so the Canvas could be erased. The real Clea captured Aline's gentle painted Clea in the Flying Manor and repainted her into the tool that keeps producing them. Nevrons across the Continent plus presence at the Monolith where Aline sits is that plan as board presence, and the Lizard Cult's Convert and Sanctify literally repaint enemy pieces. One seat covers both Cleas: the real one working through her captured copy. As children Clea rode François while Verso rode Esquie, so she is the natural owner of the guards on Esquie's rocks. Lore fix: the unverified 'Regent' title is removed. Feasibility fixes: her bot spreads through Recruit and Convert because the Lizards have no normal Move, and guard warriors never count toward her coverage.
+
+**Feel:** A puppeteer working from a floating manor. Converted pieces visibly melt into Nevron shapes, and Nevron sprites change with each region. The Flying Manor corner floats on its ring of rocks, and her Hard-difficulty portrait uses the Clea Unleashed look. Win vignette: a map thick with Nevrons and a thin crack of chroma draining out of the Monolith.
+
+**Sample speech bubbles:**
+
+- [safe] Another Nevron. Perfect? No. Next.
+- [safe] Some paint families. I paint teeth.
+- [finished, Act III only] She's been playing pretend in Verso's room for years. Somebody has to flip the board.
+
+**DLC needed:** The Riverfolk Expansion (Lizard Cult). Clockwork bots are disabled in E33 mode.  
+**Build difficulty:** low
+
+
+### The White-Haired Man (finished-mode name: painted Renoir)
+
+**Plays like (Root):** Corvid Conspiracy (The Underworld Expansion), with the Dire Wolf Corvid AI if it exists in digital (unconfirmed), otherwise the fallback planner. Warriors are 'Renoir's Nevrons' (design liberty). Plots: Bomb = Massacre, Snare = Barrier, Extortion = Seized Journals, Raid = Ambush on the Shore.
+
+**How they win:** NOBODY REACHES HER. Area win: Act II or later, 10+ VP. The Ring is the Monolith's path neighbours. At the end of his turn the table is warned if all three hold: (1) every Ring clearing either holds his face-up Snare (Barrier), or holds at least one of his pieces (warrior or plot, face up or down) and is ruled by no faction other than him or the Paintress, who is his charge, not his enemy; (2) the Monolith is ruled by no faction other than him or the Paintress and holds no Vagabond pawn; (3) he has 10+ VP. He wins at the start of his next Birdsong if the same test still passes. Opponents stop him by out-stacking him in one Ring clearing, stripping a plot with an Exposure guess, or walking a Vagabond into the Monolith.
+
+**On the board:** None. A Ring overlay around the Monolith showing which Ring clearings he holds.
+
+**Small rule changes:** UNBEATABLE IN ACT I: during Act I only, his warriors in Ring clearings ignore the first hit of each battle. It switches off at Act II. No themed win is possible in Act I, so this is flavour, not a shortcut. Exposure works as normal.
+
+**When a bot plays them:** Root's Corvid options, or the fallback planner. The Goal Director uses only what he knows: public board state plus his own hidden plots. (1) RING STATUS each turn: for each Ring clearing, his margin = his warriors - the rule count (warriors + buildings) of the strongest faction that is not the Paintress. (2) RECRUIT with cards of Ring suits (Corvid Recruit places a warrior in every clearing of that suit). (3) PLOTS: a Snare in the Ring clearing hardest to out-stack, flipped face up as the check nears so it holds that clearing regardless of numbers; a Bomb where 3+ enemy warriors gather in or beside the Ring; a Raid as a refill. (4) MOVE and BATTLE: fix the lowest-margin Ring clearing first and battle intruders there. (5) He never attacks the Paintress unless she is one step from her own win. (6) GOAL MODE at 8+ VP: never moves out of the Ring, and battles any Vagabond pawn in the Monolith when he has warriors there. (7) Spoiler layer. BEATABLE: Exposure guesses strip plots, a Vagabond walking into the Monolith stops the check, lone Corvid warriors fall easily, and the check waits for his Birdsong. Easy: leaves one Ring clearing to a single face-down plot. Hard: keeps a margin of 2 in every Ring clearing.
+
+**Why it fits the story:** Painted Renoir's goal is to protect the Paintress and stop expeditions reaching her, which is why earlier expeditions vanished. His signature moments are the landing massacre, being effectively unbeatable in Act I, and guarding the Monolith. Corvid plots (bombs as massacres, snares as a barrier) and thin, everywhere-at-once warriors fit an ambusher who rings the Monolith. Feasibility fix: the Ring is judged by rule, not emptiness, so one walk-in no longer breaks it. Lore fixes: sources show him doing the massacre himself, so 'Renoir's Nevrons' is stated design liberty and the unconfirmed 'Noirs' name is gone (the Raid plot is now 'Ambush on the Shore'); the barrier imagery is also design liberty; and the bark no longer treats 'Expedition 33' as a headcount. He stays separate from the Curator, whose goal is the opposite.
+
+**Feel:** A doorman with an army. Bomb plots play an ink-wipe massacre on the shore, Snares draw a shimmering barrier, and his portrait is the white-haired swordsman. Win vignette: the Monolith wrapped in his barrier, with every expedition stalled on the shore.
+
+**Sample speech bubbles:**
+
+- [safe] Turn back. She is resting.
+- [safe] Expedition Thirty-Three. Next year, Thirty-Two. That's arithmetic, not cruelty.
+- [safe] She keeps painting new players into the game. I keep taking them off the board.
+
+**DLC needed:** The Underworld Expansion (Corvid Conspiracy). Clockwork bots are disabled in E33 mode.  
+**Build difficulty:** medium
+
+
+## How a game goes (story framing)
+
+ONE GAME = ONE YEAR OF EXPEDITION 33.
+- Opening: the ROOT 33 title, with the 33 tearing out of a rift. On first launch the mod asks 'Spoiler-safe' or 'I've finished Clair Obscur: Expedition 33'. Then a skippable speech-bubble prologue: the Gommage and the send-off.
+- After that it is a normal Root game for 2-4 seats (the digital cap). Every seat is an E33 character: the human's pick plus bots. Any character can be played by the human or a bot, and a bot actively chases its own themed win.
+
+SPOILER TIERS: every name, bark, tooltip and vignette is tagged safe, Act II or finished.
+- Safe mode uses neutral names (The Paintress, The Curator, The White-Haired Man, Maelle, Verso, and '???' for Clea).
+- It never fires a 'mother' line; it uses 'whoever painted this world...' variants instead.
+- It skips the Beach vignette and the ending-flavoured win vignettes.
+- Finished mode unlocks true names and lines, but the true 'mother' lines still fire only during the mod's Act III.
+
+THE MONOLITH NUMBER is the story clock. The Monolith clearing shows 33 minus the top score, so it ticks down as anyone scores.
+
+ACTS: act events are vignettes, unlocks and spawns only. No act event changes VP, charge, rank or relationships.
+- Act I, 'The Landing', runs until anyone reaches 10 VP or round 4 ends. No themed wins can happen. Florrie and 2 guards spawn at Stone Wave Cliffs, and the François decoy sits at the Nest.
+- Act II, 'The Monolith', runs until anyone reaches 20 VP or round 8 ends.
+  - It opens with 'The Beach' (finished mode only: a what-if, or the Faithful retitle of Gustave's seat).
+  - Themed wins unlock, except the Curator's.
+  - Dorrie hides in Old Lumière.
+  - Soarrie appears on Verso's card, or with whoever rules the Monolith.
+  - The Parents' Journal is tagged beside Sirène.
+- Act III, 'The Canvas', runs to the end. It opens with 'The Fall at the Monolith':
+  - Maelle's portrait changes (finished mode: Alicia).
+  - The Curator's Cell Crack opens and his win unlocks (finished mode: his face is revealed).
+  - Urrie and 3 guards spawn at the Nest.
+  - Monoco's Almighty foot opens.
+  - Lumière becomes the final battlefield.
+
+TWO KINDS OF THEMED WIN:
+- COUNTDOWN wins: Gustave, the Paintress, Sciel, Verso, Maelle, Monoco, the Curator, Clea, the White-Haired Man.
+  - The owner needs 10+ VP.
+  - The win is announced with a public banner at the end of the owner's turn and takes effect at the start of their next Birdsong if the confirmation test still passes (dominance timing).
+  - Every confirmation test is built so the answer is a real Root action: win a battle, flip rule, remove a token or building, or damage items. Simply walking a piece in is not enough (the one deliberate exception is a Vagabond entering the Monolith against the White-Haired Man).
+- QUEST wins: Esquie and Lune. They take effect at the end of the owner's turn. Story spawns pace them, and they are contested through guarded or convoyed objects that can be fought over.
+- Root's 30 VP win, dominance cards and coalitions work as normal. Themed wins are switched off for a player holding an active dominance card or in a coalition. A coalition Vagabond wins if its partner wins in any way.
+
+ALL ROADS LEAD TO THE MONOLITH:
+- Gustave's road ends at its doorstep.
+- The Paintress holds it.
+- Verso clears it.
+- The White-Haired Man rings it.
+- Clea drains it.
+- The Curator cracks out of it.
+- Lune's journal lies beside it at Sirène.
+- Esquie may claim Soarrie from whoever rules it.
+Lumière, the opposite corner, is the second hotspot: Gustave's home, Maelle's stand and the Curator's finale.
+
+MAP: v1 reskins Autumn as the Continent, using role tags.
+- Corners: Lumière (Gustave's keep), the Monolith (diagonally opposite; the Paintress's first roost), Esquie's Nest, and the Flying Manor (Clea's home).
+- Stone Wave Cliffs is a clearing 1-2 steps from the Nest that is not a Monolith neighbour.
+- Old Lumière is the central ruin.
+- The Axons are the Monolith's path neighbours: Visages, Sirène, and The Reacher if there is a third.
+- The Sacred River is the river clearings.
+- On Winter, Lake and Mountain the same tags are assigned when the map loads, by rule (corners, distances, ruins, river), so every win works on any map. A purpose-built Continent map comes later.
+
+TABLE:
+- The human picks any character they own. Bots fill the other engines, and the mod tries to seat a lore rival: Gustave vs the Paintress, Verso vs Maelle, Esquie vs Clea, the Curator vs the Paintress, the White-Haired Man vs Gustave.
+- The base-game table is Gustave + the Paintress + Sciel + one of Esquie, Verso or Maelle.
+- The Riverfolk Expansion opens a second Vagabond seat.
+
+BOTS work in three layers. Every bot_plan is a priority list in the style of the Clockwork flowcharts.
+1. LEGAL MOVES come from the engine's legal-action API, the same one the human UI uses to highlight clickable clearings, cards and items. Root's native faction AI is kept for sub-decisions (hit allocation, Ambush, discards) and as the fallback whenever nothing goal-relevant is legal.
+2. The GOAL DIRECTOR runs the character's bot_plan. It chooses targets, sites and cards, and decides when to switch from VP play to goal mode. A week-1 decompile spike decides whether it re-ranks the native AI's candidates or, as the default plan, drives the engine directly as a mod-owned policy.
+3. The SPOILER layer reads the public Goal Tracker. When anyone, the human included, is one step from a themed win or has a banner up, bots attack or block the key clearing.
+Fairness:
+- All progress meters are public, like face-up dominance cards.
+- Bots use only public information plus their own hand and hidden pieces.
+- Bots bark their next goal move.
+- Difficulty (Easy, Normal, Hard) sets when goal mode starts, how well bots guard key pieces, and how hard they block.
+- Easy assists for humans, such as Verso qualifying at rank A, never apply to bots.
+- In E33 mode every seat uses the standard Dire Wolf AI, and Clockwork bots are hidden.
+
+STATE:
+- Wherever possible, state is read straight from the board: Portraits, Sanctuaries, the Ring, coverage and the ruled Chain.
+- Everything else (flags, arm charge, rank, feet, rocks, relic tag, act, countdowns) is saved with the game under its ID and re-checked against the board on load.
+
+ENDINGS AND CAMPAIGN:
+- Each themed win plays that character's ending card, written as original text. Ending-flavoured cards appear in finished mode only.
+- An optional campaign of 3 linked games: Act I (suggested lead Gustave), Act II (Verso), Act III (Maelle or the Curator).
+- Losing never ends the campaign, because the next expedition carries on: the player gets the last expedition's journal, worth +1 card.
+- Free Play has no restrictions.
+
+OPTIONAL, v1.1:
+- MONOLITH BARRIER: no battle may start in the Monolith until both Axon clearings have been ruled at the end of a turn by someone other than the White-Haired Man or the Paintress.
+- HIRELINGS & LANDMARKS THEMING:
+  - Landmarks: Lost City = Verso's Drafts, Tower = Endless Tower, Legendary Forge = the Curator's camp, Black Market = Noco's shop, Elder Treetop = the Esquie Head statue.
+  - Hirelings: Popular/Street Band = the Mimes, Highway Bandits = Petanks, Furious/Stoic Protector = Golgra, The Exile = Osquio prowling the forests, Forest Patrol = Expedition 33 survivors.
+- The Riverfolk Company engine stays free for a later Golgra or Gestral character.
+
+
+## Open notes and spoiler decisions
+
+FIXES APPLIED DIFFERENTLY OR NOT FULLY APPLIED
+- Gustave FAITHFUL toggle: the lore check suggested his seat passes to Verso at Act II. That is not possible, because Verso rides a different engine (Vagabond) and Root cannot swap a seat's faction mid-game. It is applied instead as a retitle to 'Expedition 33' (the survivors), keeping the same engine, flags and win.
+- Monoco: the feasibility check offered two fixes, (a) a 10 VP gate, a 3-faction rule and a harder Almighty, or (b) a countdown win. Both are applied, so killing the Warlord is a real answer, as with the other area wins. If playtests show him too weak, drop the 3-faction rule first.
+- Act vignettes: both the Beach (+1 charge) and Alicia Awakens (+1 relationship) took the 'make it cosmetic' option, so act events never give anyone a scripted edge. If you want the family-recognition step back, the safe version is +1 step with the Paintress, no VP, capped at Friendly.
+- Verso's Easy leniency (rank A + 2 undamaged swords) applies only to a human on Easy. Bots always need S, so an Easy bot is never better at winning than a Normal one.
+- Sciel: 'optionally require 6 Sanctuaries at the announce' is left at 5 as a tuning knob.
+- Lune: moving a relic token into the Sirène forest may not be possible through the engine. The fallback tags the highest-value tablet where it lies. Relic types and values may also be hidden from the mod while face down; check this in the spike.
+- Esquie: the François decoy is cosmetic (no guard warrior) to avoid a third spawn. Guard spawns depend on the spike proving the mod can place another seat's warriors outside its turn. If it can't, the no-spawn fallback becomes the v1 default.
+- Clea: the Lizard Recruit ritual ('place a warrior in any clearing of the revealed suit') is from memory, not verified. If it is narrower, lower her coverage target from 8 to 7.
+- Goal Director: this can't be verified without decompiling. Every bot_plan is a priority list, so it ports to a mod-owned policy if the native AI can't be re-weighted.
+
+LORE WORDING CHOSEN TO STAY TRUE (spot-check in game before final copy)
+- Florrie: the research fact sheet (François holds it) and the lore check (François fobs off a fake; Florrie is recovered at Stone Wave Cliffs) disagree. The design follows the lore check. If that is wrong, one config line moves Florrie's spawn to the Nest with a François badge and drops the decoy.
+- Dorrie is found in Old Lumière in Act II, after the fight with painted Renoir. Who finds it is not stated. For Soarrie, the only claim used is that Verso already has it at the Monolith.
+- Lune's parents were on Expedition 46, which never came back, and her relationship quest leads to the Sirène area. Confirm the exact spot.
+- Wording kept deliberately cautious:
+  - Emma is 'his sister', not 'twin'.
+  - The gauge is 'Gustave's Arm', not 'Lumina Converter'.
+  - Noco is Monoco's 'friend'.
+  - Clea has no 'Regent' title.
+  - The Paintress has no 'Painters' Council' title, and she paints the number rather than erasing anyone.
+  - The Curator is 'trapped beneath the Monolith since the Fracture'.
+- Monoco and Esquie speak in the first person until their in-game speech patterns are checked. Esquie's rhyme and his known lines are never printed.
+- 'Renoir's Nevrons' and the Barrier imagery for the White-Haired Man are design liberty.
+- All barks are original text shown in speech bubbles. There is no voice, and no imitation of any actor.
+
+SPOILER DECISIONS FOR THE CREATOR
+1. The gag you asked for ('their mother has been playing too many board games') is itself the Act III reveal. The current plan: safe variants everywhere ('whoever painted this world...'), with the true lines only in finished mode and only during the mod's Act III. Decide whether finished-mode players should hear them from turn 1.
+2. Character select: Clea's and the Curator's win conditions describe Act III events even with neutral names. The current plan locks Clea ('???') to finished mode and keeps the Curator selectable with a vague description ('end the painting from Lumière'). Decide whether to lock the Curator too.
+3. Gustave's death: by default, finished mode plays the Beach as a what-if ('This time, the arm held') and safe mode skips it. The Faithful toggle retitles his seat. Choose the default.
+4. Verso's and Maelle's win vignettes hint at the two endings, so they are finished mode only.
+5. The mod's store page, its description and the title-screen roster should use safe names.
+6. Sciel's backstory includes Pierre's death, the loss of their child and a suicide attempt. The optional Esquie/Sciel exchange should be written with great care, or skipped.
+7. Barks are tagged [safe], [Act II+] or [finished]. Every finished-tier line needs a safe sibling before release.
+
+V1 SCOPE
+- Six first-version rows, all base game: Gustave, Esquie, the Paintress, Sciel, Verso and Maelle. Without Riverfolk only one Vagabond (Esquie, Verso or Maelle) can be seated per game.
+- Suggested build order: Paintress, Sciel and Maelle (all board-read checks), then Gustave, then Esquie (the costliest row and the user's showcase), then Verso.
+- If scope must shrink, cut Verso first. Esquie and the Paintress stay.
+- Esquie ships in this order:
+  1. Rock state, guard counters, claims and the win.
+  2. Belly Bounce, Never Mad and Friends Not Foes.
+  3. In v1.1, the rock powers.
+
+WEEK-1 SPIKE (risks to confirm)
+- Whether the Steam build is Mono or IL2CPP, which decides the loader.
+- The engine's legal-action API and the AI decision entry points.
+- Placing another seat's warriors outside its turn (Esquie's guards) and placing a tunnel token (the Cell Crack).
+- That the keep blocks placement but not movement.
+- Whether relic type and value are readable while face down.
+- The Warlord anoint timing.
+- The Aid cost of each relationship step.
+- Duchy setup details.
+- Whether Root digital has native AI for the Keepers, Hundreds, Duchy, Lizards and Corvids.
+- Exact hireling and landmark rules (v1.1 theming only).
+
+TUNING (first pass; aim for an alt-win rate near dominance's)
+- 10 VP gate for countdown wins.
+- Act triggers at 10 / 20 VP or rounds 4 / 8.
+- Gustave: arm 3/3 and a 3-suit Chain.
+- Paintress: 2 warriors per Portrait.
+- Sciel: 5 Sanctuaries.
+- Verso: rank S.
+- Maelle: 2 Allied factions and 3 undamaged items (15 VP in 2-player).
+- Clea: 8 clearings.
+- Monoco: 5 feet from 3 factions.
+- Guard counts: 2 / 3.
+- Easy, Normal and Hard change bot behaviour, not the win thresholds (except the human-only Verso assist).
