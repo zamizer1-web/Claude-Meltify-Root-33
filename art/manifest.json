@@ -274,6 +274,244 @@
       "sprites": []
     },
     {
+      "asset": "asset.badge-francois",
+      "path": "art/tokens/badge-francois.png",
+      "size": [
+        256,
+        256
+      ],
+      "sprites": []
+    },
+    {
+      "asset": "asset.badge-lampmaster",
+      "path": "art/tokens/badge-lampmaster.png",
+      "size": [
+        256,
+        256
+      ],
+      "sprites": []
+    },
+    {
+      "asset": "asset.cell-crack",
+      "path": "art/tokens/cell-crack.png",
+      "size": [
+        512,
+        256
+      ],
+      "sprites": [
+        {
+          "name": "closed",
+          "box": [
+            0,
+            0,
+            256,
+            256
+          ]
+        },
+        {
+          "name": "open",
+          "box": [
+            256,
+            0,
+            512,
+            256
+          ]
+        }
+      ]
+    },
+    {
+      "asset": "asset.flag-token",
+      "path": "art/tokens/expedition-flag.png",
+      "size": [
+        512,
+        256
+      ],
+      "sprites": [
+        {
+          "name": "lit",
+          "box": [
+            0,
+            0,
+            256,
+            256
+          ]
+        },
+        {
+          "name": "faded",
+          "box": [
+            256,
+            0,
+            512,
+            256
+          ]
+        }
+      ]
+    },
+    {
+      "asset": "asset.nevron-mark",
+      "path": "art/tokens/nevron-mark.png",
+      "size": [
+        128,
+        128
+      ],
+      "sprites": []
+    },
+    {
+      "asset": "asset.portrait-frame",
+      "path": "art/tokens/portrait-frame.png",
+      "size": [
+        512,
+        720
+      ],
+      "sprites": [
+        {
+          "name": "frame",
+          "box": [
+            0,
+            0,
+            512,
+            720
+          ]
+        },
+        {
+          "name": "window",
+          "box": [
+            108,
+            88,
+            404,
+            480
+          ]
+        }
+      ]
+    },
+    {
+      "asset": "asset.portrait-veiled",
+      "path": "art/tokens/portrait-veiled.png",
+      "size": [
+        512,
+        720
+      ],
+      "sprites": []
+    },
+    {
+      "asset": "asset.rock-tokens",
+      "path": "art/tokens/rocks.png",
+      "size": [
+        640,
+        480
+      ],
+      "sprites": [
+        {
+          "name": "florrie-sparkle",
+          "box": [
+            0,
+            0,
+            160,
+            160
+          ]
+        },
+        {
+          "name": "florrie-hidden",
+          "box": [
+            0,
+            160,
+            160,
+            320
+          ]
+        },
+        {
+          "name": "florrie-guarded",
+          "box": [
+            0,
+            320,
+            160,
+            480
+          ]
+        },
+        {
+          "name": "dorrie-sparkle",
+          "box": [
+            160,
+            0,
+            320,
+            160
+          ]
+        },
+        {
+          "name": "dorrie-hidden",
+          "box": [
+            160,
+            160,
+            320,
+            320
+          ]
+        },
+        {
+          "name": "dorrie-guarded",
+          "box": [
+            160,
+            320,
+            320,
+            480
+          ]
+        },
+        {
+          "name": "soarrie-sparkle",
+          "box": [
+            320,
+            0,
+            480,
+            160
+          ]
+        },
+        {
+          "name": "soarrie-hidden",
+          "box": [
+            320,
+            160,
+            480,
+            320
+          ]
+        },
+        {
+          "name": "soarrie-guarded",
+          "box": [
+            320,
+            320,
+            480,
+            480
+          ]
+        },
+        {
+          "name": "urrie-sparkle",
+          "box": [
+            480,
+            0,
+            640,
+            160
+          ]
+        },
+        {
+          "name": "urrie-hidden",
+          "box": [
+            480,
+            160,
+            640,
+            320
+          ]
+        },
+        {
+          "name": "urrie-guarded",
+          "box": [
+            480,
+            320,
+            640,
+            480
+          ]
+        }
+      ]
+    },
+    {
       "asset": "asset.banner-frame",
       "path": "art/ui/banner-frame.png",
       "size": [
