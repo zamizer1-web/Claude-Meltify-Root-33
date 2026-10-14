@@ -638,8 +638,8 @@ def badge(kind):
         img = comp(img, paper_fill(size, field, rng, base=(240, 228, 204), amount=0.22))
         img = comp(img, clip(solid(size, DUSK, linear_light(size, 90).point(lambda v: int(max(0, v - 120) * 0.55))), field))
         lantern_c = P(0, -54)
-        warm = radial_light(size, lantern_c, 120 * F, power=1.4)
-        img = comp(img, clip(solid(size, (238, 166, 76), scale_l(warm, 0.7)), field))
+        warm = radial_light(size, lantern_c, 130 * F, power=1.2)
+        img = comp(img, clip(solid(size, (238, 166, 76), scale_l(warm, 0.9)), field))
         rays = Image.new("L", size, 0)
         rd = ImageDraw.Draw(rays)
         for k in range(10):
@@ -672,6 +672,9 @@ def badge(kind):
         img = comp(img, glow(glass, (240, 150, 60), 26 * F, 1.5), glow(glass, GOLD, 12 * F, 1.4), glow(glass, GOLD_CORE, 6 * F, 1.2))
         fig = ImageChops.multiply(fig, field)
         img = comp(img, solid(size, INK, fig))
+        # the lantern's halo spills over the hood and shoulders, so the head reads as a light at token size
+        halo = ImageChops.multiply(glow(glass, GOLD, 16 * F, 2.2).getchannel("A"), field)
+        img = comp(img, solid(size, (250, 206, 120), scale_l(halo, 0.75)))
         # lamplight catching the top edges of the shoulders and collar
         rim = ImageChops.multiply(ImageChops.subtract(fig, shift(fig, 0, 2.5 * F)), radial_light(size, lantern_c, 80 * F, power=0.8))
         img = comp(img, solid(size, GOLD, rim))
@@ -1043,12 +1046,15 @@ def crack_sprite(opened):
     n = len(M) - 1
     img = canvas(*size)
     if not opened:
-        widths = [(0.8 + 2.4 * math.sin(math.pi * (i + 0.5) / n) ** 0.8) * F for i in range(n)]
+        # thick enough to read at token size: a dark seam with a pale lip on its lower side and a faint dust halo
+        widths = [(1.6 + 4.6 * math.sin(math.pi * (i + 0.5) / n) ** 0.8) * F for i in range(n)]
         line = taper_mask(size, M, widths)
-        bl = union(*[taper_mask(size, [(x * F, y * F) for x, y in b], [(1.4 - 0.9 * k / len(b)) * F for k in range(len(b) - 1)]) for b in branches])
+        bl = union(*[taper_mask(size, [(x * F, y * F) for x, y in b], [(2.8 - 2.0 * k / len(b)) * F for k in range(len(b) - 1)]) for b in branches])
         allc = union(line, bl)
-        img = comp(img, solid(size, BONE, scale_l(shift(allc, 1.2 * F, 1.4 * F), 0.55)))
+        img = comp(img, solid(size, PAPER, scale_l(grow(allc, 5 * F).filter(ImageFilter.GaussianBlur(4 * F)), 0.35)))
+        img = comp(img, solid(size, BONE, scale_l(shift(grow(allc, 1.2 * F), 1.6 * F, 2.0 * F), 0.85)))
         img = comp(img, solid(size, INK, allc))
+        img = comp(img, solid(size, (70, 40, 54), scale_l(shrink(line, 1.4 * F), 0.8)))
         chips = Image.new("L", size, 0)
         for i in range(6):
             x, y = M[int(rng.uniform(0.3, 0.7) * n)]
