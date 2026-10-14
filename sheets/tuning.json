@@ -19,7 +19,7 @@
     {
       "id": "tune.act1-end-vp",
       "value": 10,
-      "description": "Act I ends at the end of the turn in which any seat reaches this many VP.",
+      "description": "Act I ends at the first turn end at which any seat has at least this many VP (state-based check at every turn end, after the themed-win checks; at most one act step per turn).",
       "usedBy": [
         "act1",
         "hook.turn-end",
@@ -29,7 +29,7 @@
     {
       "id": "tune.act1-end-round",
       "value": 4,
-      "description": "Act I ends when this round ends, if no seat reached tune.act1-end-vp first.",
+      "description": "Act I ends at the first turn end at which the last completed round is at least this number, if no seat reached tune.act1-end-vp first (same state-based check, at most one act step per turn).",
       "usedBy": [
         "act1",
         "hook.turn-end",
@@ -39,7 +39,7 @@
     {
       "id": "tune.act2-end-vp",
       "value": 20,
-      "description": "Act II ends at the end of the turn in which any seat reaches this many VP.",
+      "description": "Act II ends at the first turn end at which any seat has at least this many VP (state-based check at every turn end, after the themed-win checks; at most one act step per turn, so a turn that crosses both 10 and 20 VP reaches Act III at the following turn end).",
       "usedBy": [
         "act2",
         "hook.turn-end",
@@ -49,7 +49,7 @@
     {
       "id": "tune.act2-end-round",
       "value": 8,
-      "description": "Act II ends when this round ends, if no seat reached tune.act2-end-vp first.",
+      "description": "Act II ends at the first turn end at which the last completed round is at least this number, if no seat reached tune.act2-end-vp first (same state-based check, at most one act step per turn).",
       "usedBy": [
         "act2",
         "hook.turn-end",

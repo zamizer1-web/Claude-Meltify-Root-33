@@ -77,14 +77,16 @@
       "id": "ui.global.ending-card",
       "owner": "global",
       "kind": "screen",
-      "shows": "The winner's ending card when a themed win is declared: portrait, the win's title and an original-text ending over a short camera tour of the board (Gustave's flag trail lit end to end, the whole table riding home on Esquie, the Paintress's three portraits and a frozen Monolith Number, and so on). Ending-flavoured cards, such as Verso's and Maelle's, appear only in finished mode; safe mode shows a plain version.",
+      "shows": "The frame for the winner's ending card when a themed win is declared: portrait, the win's title and an original-text ending over a short camera tour of the board. Each character's vignette, with its safe and finished versions, is its own row: ui.gustave.ending, ui.esquie.ending, ui.paintress.ending, ui.sciel.ending, ui.verso.ending, ui.maelle.ending, ui.lune.ending, ui.monoco.ending, ui.curator.ending, ui.clea.ending and ui.white-haired-man.ending. Ending-flavoured vignettes (Verso's, Maelle's and the Curator's) appear only in finished mode, and safe mode shows their plain version; Clea's card is finished-only because she is never seated in safe mode.",
       "public": true,
       "art": [
         "asset.vignette-frame",
         "asset.petals",
         "asset.portrait-fallback"
       ],
-      "state": [],
+      "state": [
+        "state.global.spoiler-mode"
+      ],
       "v1": true
     },
     {
@@ -247,6 +249,25 @@
       "v1": true
     },
     {
+      "id": "ui.gustave.ending",
+      "owner": "gustave",
+      "kind": "screen",
+      "shows": "Gustave's ending card when The Road to the Monolith is declared: the flag trail lit end to end along his ruled Chain, the camp pitched at the Monolith's doorstep, and the painted Monolith Number cracking, under an original-text ending. The motto about those who come after is alluded to, never quoted. Safe and finished modes show the same card, since it holds no ending spoiler.",
+      "public": true,
+      "art": [
+        "asset.vignette-frame",
+        "asset.portrait.gustave",
+        "asset.flag-token",
+        "asset.route-dots",
+        "asset.monolith-plate"
+      ],
+      "state": [
+        "state.gustave.flags",
+        "state.global.spoiler-mode"
+      ],
+      "v1": true
+    },
+    {
       "id": "ui.esquie.rocks",
       "owner": "esquie",
       "kind": "token",
@@ -318,6 +339,24 @@
       "v1": true
     },
     {
+      "id": "ui.esquie.ending",
+      "owner": "esquie",
+      "kind": "screen",
+      "shows": "Esquie's ending card when his Rocks Come Home: the whole table rides home on his back, ending in a dive, under an original-text ending. His rhyme and known lines are never printed. Safe and finished modes show the same card, since it holds no ending spoiler.",
+      "public": true,
+      "art": [
+        "asset.vignette-frame",
+        "asset.portrait.esquie",
+        "asset.rock-ring",
+        "asset.rock-tokens"
+      ],
+      "state": [
+        "state.esquie.rocks",
+        "state.global.spoiler-mode"
+      ],
+      "v1": true
+    },
+    {
       "id": "ui.paintress.portraits",
       "owner": "paintress",
       "kind": "token",
@@ -364,6 +403,26 @@
       "_notes": "The roster's Grief bubble; added so hook.turmoil has something to draw. Rules are unchanged."
     },
     {
+      "id": "ui.paintress.ending",
+      "owner": "paintress",
+      "kind": "screen",
+      "shows": "The Paintress's ending card when The Family Portrait is declared: the camera tours her three Living Portraits, the Monolith Number freezes, and the titanic Paintress silhouette rises, under an original-text ending in which she paints the number and never erases anyone. Finished mode labels the portraits Verso, Clea and Renoir; safe mode shows them veiled, as on the board.",
+      "public": true,
+      "art": [
+        "asset.vignette-frame",
+        "asset.portrait.paintress",
+        "asset.portrait-frame",
+        "asset.portrait-veiled",
+        "asset.paintress-at-work",
+        "asset.monolith-plate",
+        "asset.petals"
+      ],
+      "state": [
+        "state.global.spoiler-mode"
+      ],
+      "v1": true
+    },
+    {
       "id": "ui.sciel.gauges",
       "owner": "sciel",
       "kind": "gauge",
@@ -382,6 +441,22 @@
       "_notes": "The gauges are v1; the Twilight charge pips light up only once v1.1's Twilight is on."
     },
     {
+      "id": "ui.sciel.ending",
+      "owner": "sciel",
+      "kind": "screen",
+      "shows": "Sciel's ending card when the Twilight Harvest is declared: the Aquafarm at twilight, in full harvest, with Lumière's children watching from the shore, under an original-text ending. Safe and finished modes show the same card, since it holds no ending spoiler.",
+      "public": true,
+      "art": [
+        "asset.vignette-frame",
+        "asset.portrait.sciel",
+        "asset.dusk-tint"
+      ],
+      "state": [
+        "state.global.spoiler-mode"
+      ],
+      "v1": true
+    },
+    {
       "id": "ui.verso.rank",
       "owner": "verso",
       "kind": "label",
@@ -394,6 +469,23 @@
       ],
       "state": [
         "state.verso.rank"
+      ],
+      "v1": true
+    },
+    {
+      "id": "ui.verso.ending",
+      "owner": "verso",
+      "kind": "screen",
+      "shows": "Verso's ending card when The Last Note is declared. Finished mode: Verso alone in the Monolith while the brushstrokes of the board fade, nodding to his ending without quoting it. Safe mode: a plain card on which the rank letter flares S and the Monolith goes quiet, because the finished vignette hints at one of the two endings.",
+      "public": true,
+      "art": [
+        "asset.vignette-frame",
+        "asset.portrait.verso",
+        "asset.rank-letters"
+      ],
+      "state": [
+        "state.verso.rank",
+        "state.global.spoiler-mode"
       ],
       "v1": true
     },
@@ -424,6 +516,23 @@
       ],
       "state": [
         "state.maelle.stance"
+      ],
+      "v1": true
+    },
+    {
+      "id": "ui.maelle.ending",
+      "owner": "maelle",
+      "kind": "screen",
+      "shows": "Maelle's ending card when A Home in the Canvas is declared. Finished mode: Lumière lit up with every character she is Allied or Friendly with. Safe mode: a plainer card, her portrait in Lumière beside her family row of relationship frames, with no other characters drawn in, because the finished vignette hints at one of the two endings.",
+      "public": true,
+      "art": [
+        "asset.vignette-frame",
+        "asset.portrait.maelle",
+        "asset.family-frames"
+      ],
+      "state": [
+        "state.maelle.family",
+        "state.global.spoiler-mode"
       ],
       "v1": true
     },
@@ -474,6 +583,24 @@
       "_notes": "v1 is false because this character ships after the mod's first version; the overlay ships with the character's first build. Added because Stains are a pre-battle toggle on her board (tweak.lune.stains, hook.ui-toggle), which needs somewhere to be drawn."
     },
     {
+      "id": "ui.lune.ending",
+      "owner": "lune",
+      "kind": "screen",
+      "shows": "Lune's ending card when Her Parents' Work is complete: her finished chart of the Continent, with the Monolith circled and annotated, under an original-text ending. Safe and finished modes show the same card, since it holds no ending spoiler.",
+      "public": true,
+      "art": [
+        "asset.vignette-frame",
+        "asset.portrait.lune",
+        "asset.thesis-tracker",
+        "asset.journal-glow"
+      ],
+      "state": [
+        "state.lune.tagged-relic",
+        "state.global.spoiler-mode"
+      ],
+      "v1": false
+    },
+    {
       "id": "ui.monoco.wheel",
       "owner": "monoco",
       "kind": "tracker",
@@ -489,6 +616,25 @@
       ],
       "v1": false,
       "_notes": "v1 is false because this character ships after the mod's first version; the overlay ships with the character's first build."
+    },
+    {
+      "id": "ui.monoco.ending",
+      "owner": "monoco",
+      "kind": "screen",
+      "shows": "Monoco's ending card when The Bestial Wheel is declared: the wheel spinning on Almighty, then a quiet moment with his friend Noco by the Sacred River, under an original-text ending. Safe and finished modes show the same card, since it holds no ending spoiler.",
+      "public": true,
+      "art": [
+        "asset.vignette-frame",
+        "asset.portrait.monoco",
+        "asset.wheel-frame",
+        "asset.monoco-masks",
+        "asset.sacred-river"
+      ],
+      "state": [
+        "state.monoco.feet",
+        "state.global.spoiler-mode"
+      ],
+      "v1": false
     },
     {
       "id": "ui.curator.cell-crack",
@@ -507,6 +653,23 @@
       "_notes": "v1 is false because this character ships after the mod's first version; the overlay ships with the character's first build."
     },
     {
+      "id": "ui.curator.ending",
+      "owner": "curator",
+      "kind": "screen",
+      "shows": "The Curator's ending card when Curtain Call is declared. Finished mode: red petals drifting over Lumière. Safe mode: a plain card with his faceless portrait, the title and an original-text ending, and no petals, because red petals over Lumière would tell a safe player that the Curator is behind the Gommage.",
+      "public": true,
+      "art": [
+        "asset.vignette-frame",
+        "asset.portrait.curator",
+        "asset.portrait.curator-revealed",
+        "asset.petals"
+      ],
+      "state": [
+        "state.global.spoiler-mode"
+      ],
+      "v1": false
+    },
+    {
       "id": "ui.clea.coverage",
       "owner": "clea",
       "kind": "tracker",
@@ -523,6 +686,22 @@
       "_notes": "v1 is false because this character ships after the mod's first version; the overlay ships with the character's first build. state.esquie.rocks is listed because hosted guards are subtracted from her count."
     },
     {
+      "id": "ui.clea.ending",
+      "owner": "clea",
+      "kind": "screen",
+      "shows": "Clea's ending card when the Nevron Tide is declared: a map thick with Nevrons and a thin crack of chroma draining out of the Monolith, under an original-text ending. Finished mode only: Clea is never seated in safe mode, so there is no safe card.",
+      "public": true,
+      "art": [
+        "asset.vignette-frame",
+        "asset.portrait.clea",
+        "asset.nevron-mark"
+      ],
+      "state": [
+        "state.global.spoiler-mode"
+      ],
+      "v1": false
+    },
+    {
       "id": "ui.white-haired-man.ring",
       "owner": "white-haired-man",
       "kind": "tracker",
@@ -537,6 +716,22 @@
       ],
       "v1": false,
       "_notes": "v1 is false because this character ships after the mod's first version; the overlay ships with the character's first build."
+    },
+    {
+      "id": "ui.white-haired-man.ending",
+      "owner": "white-haired-man",
+      "kind": "screen",
+      "shows": "The White-Haired Man's ending card when Nobody Reaches Her is declared: the Monolith wrapped in his barrier, with every expedition stalled on the shore, under an original-text ending. Safe and finished modes show the same card, since it holds no ending spoiler.",
+      "public": true,
+      "art": [
+        "asset.vignette-frame",
+        "asset.portrait.white-haired-man",
+        "asset.ring-barrier"
+      ],
+      "state": [
+        "state.global.spoiler-mode"
+      ],
+      "v1": false
     }
   ]
 }

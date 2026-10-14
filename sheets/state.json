@@ -11,8 +11,8 @@
         "hook.turn-end",
         "hook.load"
       ],
-      "onLoad": "Restored from the save. If the save has none, recomputed: act 2 once any seat has reached tune.act1-end-vp or the round is past tune.act1-end-round, act 3 likewise with tune.act2-end-vp and tune.act2-end-round. Never moved backwards.",
-      "_notes": "The act changes at hook.turn-end, after that turn's themed-win checks (hook.evening-end), at most once per turn, matching acts.json."
+      "onLoad": "Restored from the save. If the save has none, recomputed with the same state-based test as hook.turn-end: act 2 once any seat has reached tune.act1-end-vp or the last completed round is at least tune.act1-end-round, act 3 likewise with tune.act2-end-vp and tune.act2-end-round. Never moved backwards; a live game that is one step behind the recomputed act catches up at its next turn end.",
+      "_notes": "The act changes at hook.turn-end, after that turn's themed-win checks (hook.evening-end), at most one step per turn, matching acts.json. The check is state-based (thresholds already met count), so a turn that crosses two act limits still reaches the later act, one turn end later."
     },
     {
       "id": "state.global.round",

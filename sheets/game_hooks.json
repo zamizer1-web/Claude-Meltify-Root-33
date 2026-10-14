@@ -148,7 +148,7 @@
     },
     {
       "id": "hook.evening-end",
-      "when": "A seat's Evening has fully resolved (draw and discard done): the end of its turn. The roster's 'end of his Evening' and 'end of her turn' both mean this moment. Gustave plants his flags first, then the seat's themed-win test runs (countdown announce or quest win), then Esquie's Soarrie hand-off is checked.",
+      "when": "A seat's Evening has fully resolved (draw and discard done): the end of its turn. The roster's 'end of his Evening' and 'end of her turn' both mean this moment. Gustave plants his flags first, then Esquie's Soarrie hand-off and the early-Urrie check run, then the seat's themed-win test runs (countdown announce or quest win), so Esquie wins on the turn Soarrie is handed over if it is his fourth rock.",
       "provides": [
         "seat whose turn is ending"
       ],
@@ -162,7 +162,7 @@
     },
     {
       "id": "hook.turn-end",
-      "when": "The turn passes from one seat to the next, right after hook.evening-end. Per-turn toggles and logs reset (unused Overcharge, stance-turn flags, Still Life), the Monolith Barrier is re-checked, and the act clock moves to the next act if its VP or round limit was reached during this turn.",
+      "when": "The turn passes from one seat to the next, right after hook.evening-end. Per-turn toggles and logs reset (unused Overcharge, stance-turn flags, Still Life), the Monolith Barrier is re-checked, and the act clock runs after the themed-win checks: if act < 3 and (the highest Vp of any seat >= the current act's endsAtVp, or the last completed round >= its endsAfterRound), the act advances one step. The check is state-based, at most one step per turn; a threshold already met (for example one turn that crosses both 10 and 20 VP, or Act I ending at round 4 with a seat already on 20+) advances the next act at the following turn end.",
       "provides": [
         "seat whose turn just ended"
       ],

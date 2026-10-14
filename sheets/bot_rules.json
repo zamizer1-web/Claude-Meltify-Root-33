@@ -1289,11 +1289,12 @@
       "order": 1,
       "name": "Act I relics",
       "rule": "In Act I, normal Keepers play, but delve and recover relic types missing from her recovered relics first.",
-      "scoring": "Relics in forests whose type she has not recovered, nearest first (path distance from her nearest warriors to a clearing touching the relic's forest); ties: higher known value, then lower relic id.",
+      "scoring": "Relics in forests whose type she has not recovered, nearest first (path distance from her nearest warriors to a clearing touching the relic's forest); ties: higher value among face-up relics only (RelicFaceUp(r) == true; face-down relics count as unknown and rank below known values), then lower relic id.",
       "reads": [
         "read.recovered-relics",
         "read.relic-type",
         "read.relic-value",
+        "read.relic-face-up",
         "read.relics-in-forest",
         "read.relic-forest",
         "read.forest-clearings",

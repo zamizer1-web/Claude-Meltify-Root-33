@@ -398,7 +398,7 @@
     },
     {
       "id": "read.relic-value",
-      "description": "A relic's value (1-3), or null while it is face down and hidden from the mod (to confirm in the week-1 spike).",
+      "description": "A relic's value (1-3), or null while it is face down and hidden from the mod (to confirm in the week-1 spike). Bots may use it only for face-up relics (read.relic-face-up), since a face-down value is hidden from players.",
       "csSignature": "int? RelicValue(int relicId)",
       "engineSymbol": "unknown: Root's relic token value",
       "_unverified": {
