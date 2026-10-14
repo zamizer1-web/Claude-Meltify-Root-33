@@ -1992,12 +1992,13 @@
       ],
       "state": [
         "state.esquie.rocks",
-        "state.global.roles"
+        "state.global.roles",
+        "state.clea.covered"
       ],
       "tests": [
         "CleaBot_GoalModeRecoversLostClearingFirst"
       ],
-      "_notes": "'Just lost' needs the clearings she covered at the end of her last turn, which no state row holds yet. A bot-memory row (for example state.clea.covered, HashSet<ClearingId>, written at hook.evening-end) is requested from the rules writer. Until it exists, the step treats every uncovered clearing as lost."
+      "_notes": "'Just lost' reads state.clea.covered: the clearings she covered at the end of her last turn (guard warriors she hosts not counted). A clearing in that set that she no longer covers is lost."
     },
     {
       "id": "bot.clea.07-guards",

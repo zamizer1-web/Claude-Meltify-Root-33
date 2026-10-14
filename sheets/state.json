@@ -415,6 +415,19 @@
       "onLoad": "Restored, then checked against the board: 'tunnel' with no Duchy tunnel in the Monolith becomes 'gone'; 'inert' in Act III becomes 'dig-owed' if the opening never happened."
     },
     {
+      "id": "state.clea.covered",
+      "owner": "clea",
+      "csType": "HashSet<ClearingId>",
+      "range": "clearings holding 1+ of her warriors at the end of her last turn, not counting guard warriors she hosts on Esquie's rocks (the same count as win.clea); empty when Clea is not seated",
+      "initial": "empty",
+      "writtenBy": [
+        "hook.evening-end",
+        "hook.load"
+      ],
+      "onLoad": "Restored from the save; ids not on the current map are dropped. If the save has none, it is recomputed from the current board, so no clearing counts as just lost until her next turn ends.",
+      "_notes": "Bot memory for bot.clea.06-goal-mode (the roster's 're-cover any clearing that just lost its warrior') and the baseline for trigger.coverage-count. Written at hook.evening-end for Clea's seat only, after her themed-win test and the coverage bark have read the previous value. Kept for a human Clea too, because the bark uses it. Added in the cross-sheet fix pass at the bots writer's request."
+    },
+    {
       "id": "state.white-haired-man.barrier-down",
       "owner": "white-haired-man",
       "csType": "bool",

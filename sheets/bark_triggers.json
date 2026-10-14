@@ -234,7 +234,8 @@
       "id": "trigger.coverage-count",
       "description": "At the end of Clea's turn, the number of clearings holding her (non-guard) Nevrons is higher than at the end of her last turn.",
       "hook": "hook.evening-end",
-      "cooldownTurns": 1
+      "cooldownTurns": 1,
+      "_notes": "'At the end of her last turn' is |state.clea.covered|, read before hook.evening-end overwrites it."
     },
     {
       "id": "trigger.monolith-approach",

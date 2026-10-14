@@ -73,7 +73,7 @@
     {
       "id": "sys.win-conditions",
       "name": "Themed win conditions and countdown banners",
-      "description": "One themed win per character, on top of Root's 30 VP, dominance and coalitions, which work as normal. Countdown wins (Gustave, the Paintress, Sciel, Verso, Maelle, Monoco, the Curator, Clea, the White-Haired Man) need 10+ VP: the win is announced with a public banner at the end of the owner's turn and takes effect at the start of their next Birdsong if the confirm test still passes. Every confirm test is answered by a real Root action (win a battle, flip rule, remove a token or building, damage items). Quest wins (Esquie, Lune) take effect at the end of the owner's turn and are paced by story spawns. No themed win can happen in Act I, and the Curator's waits for Act III. Themed wins are off for a player holding an active dominance card or in a coalition; a coalition Vagabond wins if its partner wins in any way. Every progress meter is public on the Goal Tracker. Each themed win plays that character's ending card (original text; ending-flavoured cards only in finished mode). Easy assists, such as a human Verso qualifying at rank A, never apply to bots.",
+      "description": "One themed win per character, on top of Root's 30 VP, dominance and coalitions, which work as normal. Countdown wins (Gustave, the Paintress, Sciel, Verso, Maelle, Monoco, the Curator, Clea, the White-Haired Man) need 10+ VP: the win is announced with a public banner at the end of the owner's turn and takes effect at the start of their next Birdsong if the confirm test still passes. Every confirm test is answered by a real Root action (win a battle, flip rule, remove a token or building, damage items). Quest wins (Esquie, Lune) take effect at the end of the owner's turn and are paced by story spawns. No themed win can happen in Act I, and the Curator's waits for Act III. Themed wins are off for a player holding an active dominance card, and for a Vagabond in a coalition (Esquie, Verso, Maelle); the coalition partner keeps its themed win, and a coalition Vagabond wins if its partner wins in any way. Every progress meter is public on the Goal Tracker. Each themed win plays that character's ending card (original text; ending-flavoured cards only in finished mode). Easy assists, such as a human Verso qualifying at rank A, never apply to bots.",
       "sheets": [
         "win_conditions",
         "characters",
@@ -84,7 +84,8 @@
         "overlays"
       ],
       "v1": true,
-      "needsCreatorPc": true
+      "needsCreatorPc": true,
+      "_notes": "The roster's story_framing says themed wins are off 'in a coalition' and that 'a coalition Vagabond wins if its partner wins in any way'; only the Vagabonds' how_checked test for a coalition. Read together, the gate applies to the Vagabond who formed the coalition, not its partner, which matches offInCoalition in win_conditions."
     },
     {
       "id": "sys.acts",
