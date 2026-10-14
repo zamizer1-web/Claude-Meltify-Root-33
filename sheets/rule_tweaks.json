@@ -26,18 +26,21 @@
       "id": "tweak.gustave.keep-in-lumiere",
       "character": "gustave",
       "name": "Expedition Camp in Lumière",
-      "rule": "Setup: the Marquise keep (the Expedition Camp) goes in Lumière. The corner where Gustave places it becomes Lumière for the game, and the corner diagonally opposite becomes the Monolith, before any other faction sets up. Normal Marquise setup then leaves the Monolith as the one clearing with no Expeditioners.",
+      "rule": "Setup: the Marquise keep (the Expedition Camp) goes in Lumière. On Autumn, Lumière is fixed (the bottom-left corner by the lake, autumn.01), so the keep may only go there and the Monolith is the diagonally opposite top-right corner. On other maps the corner where Gustave places the keep becomes Lumière for the game, and the corner diagonally opposite becomes the Monolith, before any other faction sets up. Either way normal Marquise setup then leaves the Monolith as the one clearing with no Expeditioners.",
       "version": "v1",
       "hooks": [
         "hook.setup-home",
         "hook.piece-placed"
       ],
-      "actions": [],
+      "actions": [
+        "do.restrict-home"
+      ],
       "tests": [
         "GustaveSetup_KeepCornerBecomesLumiere",
-        "GustaveSetup_MonolithIsDiagonalAndHasNoExpeditioners"
+        "GustaveSetup_MonolithIsDiagonalAndHasNoExpeditioners",
+        "GustaveSetup_AutumnKeepRestrictedToLumiere"
       ],
-      "_notes": "Aligned with map_roles.json: Lumière is defined as the keep's corner, so 'forced into Lumière' always holds and the keep choice itself is never restricted."
+      "_notes": "Autumn keeps its real geography (Lumière by the lake, the Monolith under the mountains), as the roster's 'the keep is forced into the Lumière corner'. Other maps keep the free keep choice and name the roles after it."
     },
     {
       "id": "tweak.esquie.belly-bounce",

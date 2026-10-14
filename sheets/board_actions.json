@@ -146,7 +146,7 @@
     },
     {
       "id": "do.restrict-home",
-      "description": "Limit the clearings a seat may pick as its home during setup: the Paintress's first roost to the Monolith, Clea's home to the Flying Manor, the Curator's home to a free corner other than Lumière and the Monolith. (Gustave's keep is never restricted: the corner it goes in becomes Lumière.)",
+      "description": "Limit the clearings a seat may pick as its home during setup: the Paintress's first roost to the Monolith, Clea's home to the Flying Manor, the Curator's home to a free corner other than Lumière and the Monolith. On Autumn also Gustave's keep, to Lumière (autumn.01); on other maps his keep is free and the corner it goes in becomes Lumière.",
       "csSignature": "void RestrictHomeChoice(SeatId seat, IReadOnlyList<ClearingId> allowed)",
       "v1": true,
       "fallback": "Highlight the required clearing for a human and steer a bot there with do.submit-action. Roles never move, so a human who picks another corner is warned that the character's rules still point at the role clearing (Clea still needs her atelier in the Flying Manor).",

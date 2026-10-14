@@ -305,6 +305,34 @@ def main():
     names = [a.get("continentName") for a in autumn]
     for n in {n for n in names if names.count(n) > 1}:
         rep.add("RULE", "map_autumn", None, "continentName", f"'{n}' is used twice")
+    # The printed Autumn board: paths run both ways, 4 clearings per suit, 4 corners, 4 ruins, all connected,
+    # and each single-clearing story role is pinned to exactly one clearing.
+    if autumn:
+        aut = {a.get("id"): a for a in autumn}
+        for aid, a in aut.items():
+            for n in a.get("paths") or []:
+                if n == aid or aid not in (aut.get(n, {}).get("paths") or []):
+                    rep.add("RULE", "map_autumn", aid, "paths", f"path to '{n}' is not listed back from '{n}'")
+        for suit in ("fox", "rabbit", "mouse"):
+            n = sum(1 for a in autumn if a.get("suit") == suit)
+            if n != 4:
+                rep.add("RULE", "map_autumn", None, "suit", f"Autumn has 4 {suit} clearings; sheet has {n}")
+        for col, want in (("corner", 4), ("ruin", 4)):
+            n = sum(1 for a in autumn if a.get(col) is True)
+            if n != want:
+                rep.add("RULE", "map_autumn", None, col, f"Autumn has {want} {col}s; sheet has {n}")
+        start = next(iter(aut))
+        seen, stack = {start}, [start]
+        while stack:
+            for n in aut.get(stack.pop(), {}).get("paths") or []:
+                if n in aut and n not in seen:
+                    seen.add(n)
+                    stack.append(n)
+        if len(seen) != len(aut):
+            rep.add("RULE", "map_autumn", None, "paths", f"only {len(seen)} of {len(aut)} clearings are connected by paths")
+        pinned = [a.get("role") for a in autumn if a.get("role")]
+        for rl in {r for r in pinned if pinned.count(r) > 1}:
+            rep.add("RULE", "map_autumn", None, "role", f"role '{rl}' is pinned to more than one clearing")
     role_ids = set(by_id("map_roles"))
     for sid, s in by_id("spawns").items():
         p = s.get("placeAt", "")

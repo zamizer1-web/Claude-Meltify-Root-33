@@ -3,7 +3,7 @@
     {
       "id": "role.lumiere",
       "continentName": "Lumière",
-      "assignRule": "The corner clearing that holds Gustave's keep. The Marquise sets up first, so the role is fixed as soon as the keep is placed, before any other faction sets up. When Gustave is not seated, the corner is chosen by rule at map load: the corner with the lowest Root clearing number.",
+      "assignRule": "Autumn: fixed to autumn.01 (bottom-left corner, by the lake), from the real board in map_autumn.json. Other maps: The corner clearing that holds Gustave's keep. The Marquise sets up first, so the role is fixed as soon as the keep is placed, before any other faction sets up. When Gustave is not seated, the corner is chosen by rule at map load: the corner with the lowest Root clearing number.",
       "count": "1",
       "usedBy": [
         "gustave",
@@ -21,7 +21,7 @@
     {
       "id": "role.monolith",
       "continentName": "The Monolith",
-      "assignRule": "The corner Root itself treats as diagonally opposite Lumière (the one normal Marquise setup leaves without a warrior, and the one Bird dominance pairs with it). On a map where Root has no such pairing, the corner farthest from Lumière by path distance; ties go to the lowest Root clearing number. The Paintress's first roost is forced here.",
+      "assignRule": "Autumn: fixed to autumn.03 (top-right corner), from the real board in map_autumn.json. Other maps: The corner Root itself treats as diagonally opposite Lumière (the one normal Marquise setup leaves without a warrior, and the one Bird dominance pairs with it). On a map where Root has no such pairing, the corner farthest from Lumière by path distance; ties go to the lowest Root clearing number. The Paintress's first roost is forced here.",
       "count": "1",
       "usedBy": [
         "paintress",
@@ -40,7 +40,7 @@
     {
       "id": "role.esquies-nest",
       "continentName": "Esquie's Nest",
-      "assignRule": "One of the two corners left after Lumière and the Monolith. The Nest is the one that has a Stone Wave Cliffs candidate (a clearing 1-2 steps away by path that is not a corner, not a Monolith path neighbour and not Old Lumière); if both or neither have one, the one with the lower Root clearing number. The other corner is the Flying Manor.",
+      "assignRule": "Autumn: fixed to autumn.02 (bottom-right corner, by a pond), from the real board in map_autumn.json. Other maps: One of the two corners left after Lumière and the Monolith. The Nest is the one that has a Stone Wave Cliffs candidate (a clearing 1-2 steps away by path that is not a corner, not a Monolith path neighbour and not Old Lumière); if both or neither have one, the one with the lower Root clearing number. The other corner is the Flying Manor.",
       "count": "1",
       "usedBy": [
         "esquie"
@@ -54,7 +54,7 @@
     {
       "id": "role.flying-manor",
       "continentName": "Flying Manor",
-      "assignRule": "The last corner, once Lumière, the Monolith and Esquie's Nest are assigned. Clea's home corner is forced here.",
+      "assignRule": "Autumn: fixed to autumn.04 (top-left corner), from the real board in map_autumn.json. Other maps: The last corner, once Lumière, the Monolith and Esquie's Nest are assigned. Clea's home corner is forced here.",
       "count": "1",
       "usedBy": [
         "clea"
@@ -66,7 +66,7 @@
     {
       "id": "role.stone-wave-cliffs",
       "continentName": "Stone Wave Cliffs",
-      "assignRule": "A clearing 1-2 steps by path from Esquie's Nest that is not a corner, not a path neighbour of the Monolith and not Old Lumière. Nearest first (1 step before 2), then the lowest Root clearing number. If none qualifies, the nearest clearing to the Nest that is not a corner, not a Monolith neighbour and not Old Lumière.",
+      "assignRule": "Autumn: fixed to autumn.06 (bottom center, on the river), from the real board in map_autumn.json. Other maps: A clearing 1-2 steps by path from Esquie's Nest that is not a corner, not a path neighbour of the Monolith and not Old Lumière. Nearest first (1 step before 2), then the lowest Root clearing number. If none qualifies, the nearest clearing to the Nest that is not a corner, not a Monolith neighbour and not Old Lumière.",
       "count": "1",
       "usedBy": [
         "esquie"
@@ -81,7 +81,7 @@
     {
       "id": "role.old-lumiere",
       "continentName": "Old Lumière",
-      "assignRule": "The most central ruin clearing: among ruin clearings that are not corners and not Monolith path neighbours, the one with the smallest total path distance to every other clearing; ties go to the lowest Root clearing number. If no ruin qualifies, the most central clearing by the same measure that is not a corner or a Monolith neighbour.",
+      "assignRule": "Autumn: fixed to autumn.08 (center-left (the central fox clearing)), from the real board in map_autumn.json. Other maps: The most central ruin clearing: among ruin clearings that are not corners and not Monolith path neighbours, the one with the smallest total path distance to every other clearing; ties go to the lowest Root clearing number. If no ruin qualifies, the most central clearing by the same measure that is not a corner or a Monolith neighbour.",
       "count": "1",
       "usedBy": [
         "esquie"
@@ -95,7 +95,7 @@
     {
       "id": "role.visages",
       "continentName": "Visages",
-      "assignRule": "The Axons are the Monolith's path neighbours at map load, taken in order of Root clearing number: the first is Visages, the second Sirène, the third The Reacher. Rivers are not paths, and closed Mountain paths do not count. A fourth or later neighbour gets no Axon name but is still a Monolith neighbour for every rule that reads adjacency.",
+      "assignRule": "Autumn: fixed to autumn.09 (right middle), from the real board in map_autumn.json. Other maps: The Axons are the Monolith's path neighbours at map load, taken in order of Root clearing number: the first is Visages, the second Sirène, the third The Reacher. Rivers are not paths, and closed Mountain paths do not count. A fourth or later neighbour gets no Axon name but is still a Monolith neighbour for every rule that reads adjacency.",
       "count": "1",
       "usedBy": [
         "white-haired-man",
@@ -110,7 +110,7 @@
     {
       "id": "role.sirene",
       "continentName": "Sirène",
-      "assignRule": "The second Monolith path neighbour by Root clearing number (see Visages). Lune's Parents' Journal goes in the forest beside it. There is none on a map where the Monolith has only one open path neighbour; the Journal is then tagged where it lies.",
+      "assignRule": "Autumn: fixed to autumn.10 (upper center-left, on the river), from the real board in map_autumn.json. Other maps: The second Monolith path neighbour by Root clearing number (see Visages). Lune's Parents' Journal goes in the forest beside it. There is none on a map where the Monolith has only one open path neighbour; the Journal is then tagged where it lies.",
       "count": "0-1",
       "usedBy": [
         "lune",
@@ -124,7 +124,7 @@
     {
       "id": "role.the-reacher",
       "continentName": "The Reacher",
-      "assignRule": "The third Monolith path neighbour by Root clearing number, when there is one (see Visages).",
+      "assignRule": "Autumn: fixed to autumn.11 (top center), from the real board in map_autumn.json. Other maps: The third Monolith path neighbour by Root clearing number, when there is one (see Visages).",
       "count": "0-1",
       "usedBy": [
         "white-haired-man",
@@ -137,7 +137,7 @@
     {
       "id": "role.sacred-river",
       "continentName": "Sacred River",
-      "assignRule": "Every clearing a river touches; on Lake, every clearing on the lake shore. It is a tag drawn as a river of chroma, not a place name: these clearings keep their own names and may also hold another role.",
+      "assignRule": "Autumn: autumn.01, autumn.06, autumn.07, autumn.10, autumn.11 (the river clearings in map_autumn.json). Other maps: Every clearing a river touches; on Lake, every clearing on the lake shore. It is a tag drawn as a river of chroma, not a place name: these clearings keep their own names and may also hold another role.",
       "count": "all river clearings (0 on a map with no river)",
       "usedBy": [
         "monoco",

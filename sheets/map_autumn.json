@@ -3,195 +3,264 @@
     {
       "id": "autumn.01",
       "continentName": "Lumière",
-      "role": null,
+      "role": "role.lumiere",
       "flavor": "A broken island city of crooked towers, where every expedition is waved off under the number painted across the sea.",
-      "engineClearingId": "1",
-      "suit": "fox",
+      "position": "bottom-left corner, by the lake",
+      "slots": 1,
+      "paths": [
+        "autumn.05",
+        "autumn.08",
+        "autumn.12"
+      ],
+      "river": true,
+      "engineClearingId": "unknown",
+      "suit": "rabbit",
       "corner": true,
       "ruin": false,
       "_unverified": {
-        "engineClearingId": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
-        "suit": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
-        "corner": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
-        "ruin": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research"
+        "engineClearingId": "Root's own number for this clearing: read it from Root's Autumn map data on the creator's PC (match by position)"
       },
+      "_source": "Board facts from design/autumn-map-verified.json (printed board art, cross-checked with Learning to Play).",
       "_notes": "'role' is empty on every Autumn row because roles are assigned by rule when the map loads (see map_roles). These names are the default layout, written for the guessed layout below (Lumière and the Monolith in opposite corners, the Axons beside the Monolith, Old Lumière a central ruin). When a role lands on another clearing, that clearing and the one named after the role here swap names for that game. engineClearingId, suit, corner and ruin are guesses on every row, with 4 fox, 4 rabbit and 4 mouse clearings, 4 corners and 4 ruins."
     },
     {
       "id": "autumn.02",
       "continentName": "Esquie's Nest",
-      "role": null,
+      "role": "role.esquies-nest",
       "flavor": "A cosy hollow of round stones and enormous footprints, with a grumpy turtle living next door.",
-      "engineClearingId": "2",
-      "suit": "mouse",
+      "position": "bottom-right corner, by a pond",
+      "slots": 1,
+      "paths": [
+        "autumn.06",
+        "autumn.07",
+        "autumn.09"
+      ],
+      "river": false,
+      "engineClearingId": "unknown",
+      "suit": "rabbit",
       "corner": true,
       "ruin": false,
       "_unverified": {
-        "engineClearingId": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
-        "suit": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
-        "corner": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
-        "ruin": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research"
-      }
+        "engineClearingId": "Root's own number for this clearing: read it from Root's Autumn map data on the creator's PC (match by position)"
+      },
+      "_source": "Board facts from design/autumn-map-verified.json (printed board art, cross-checked with Learning to Play)."
     },
     {
       "id": "autumn.03",
       "continentName": "The Monolith",
-      "role": null,
+      "role": "role.monolith",
       "flavor": "A stone spire at the edge of the world where the number is painted, one stroke shorter every year.",
-      "engineClearingId": "3",
-      "suit": "rabbit",
+      "position": "top-right corner",
+      "slots": 2,
+      "paths": [
+        "autumn.09",
+        "autumn.10",
+        "autumn.11"
+      ],
+      "river": false,
+      "engineClearingId": "unknown",
+      "suit": "mouse",
       "corner": true,
       "ruin": false,
       "_unverified": {
-        "engineClearingId": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
-        "suit": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
-        "corner": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
-        "ruin": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research"
-      }
+        "engineClearingId": "Root's own number for this clearing: read it from Root's Autumn map data on the creator's PC (match by position)"
+      },
+      "_source": "Board facts from design/autumn-map-verified.json (printed board art, cross-checked with Learning to Play)."
     },
     {
       "id": "autumn.04",
       "continentName": "Flying Manor",
-      "role": null,
+      "role": "role.flying-manor",
       "flavor": "A manor adrift in a ring of floating rocks; its windows are always lit and nobody answers the door.",
-      "engineClearingId": "4",
-      "suit": "rabbit",
+      "position": "top-left corner",
+      "slots": 1,
+      "paths": [
+        "autumn.10",
+        "autumn.11",
+        "autumn.12"
+      ],
+      "river": false,
+      "engineClearingId": "unknown",
+      "suit": "fox",
       "corner": true,
       "ruin": false,
       "_unverified": {
-        "engineClearingId": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
-        "suit": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
-        "corner": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
-        "ruin": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research"
-      }
+        "engineClearingId": "Root's own number for this clearing: read it from Root's Autumn map data on the creator's PC (match by position)"
+      },
+      "_source": "Board facts from design/autumn-map-verified.json (printed board art, cross-checked with Learning to Play)."
     },
     {
       "id": "autumn.05",
       "continentName": "Spring Meadows",
-      "role": null,
       "flavor": "Soft green hills just past the landing beach, where the expedition first learned the Continent bites back.",
-      "engineClearingId": "5",
-      "suit": "rabbit",
+      "position": "bottom center-left",
+      "slots": 2,
+      "paths": [
+        "autumn.01",
+        "autumn.06"
+      ],
+      "river": false,
+      "engineClearingId": "unknown",
+      "suit": "fox",
       "corner": false,
       "ruin": false,
       "_unverified": {
-        "engineClearingId": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
-        "suit": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
-        "corner": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
-        "ruin": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research"
-      }
+        "engineClearingId": "Root's own number for this clearing: read it from Root's Autumn map data on the creator's PC (match by position)"
+      },
+      "_source": "Board facts from design/autumn-map-verified.json (printed board art, cross-checked with Learning to Play)."
     },
     {
       "id": "autumn.06",
       "continentName": "Stone Wave Cliffs",
-      "role": null,
+      "role": "role.stone-wave-cliffs",
       "flavor": "Waves of rock frozen mid-crash, patrolled by a lamp that should not be able to walk.",
-      "engineClearingId": "6",
-      "suit": "fox",
+      "position": "bottom center, on the river",
+      "slots": 2,
+      "paths": [
+        "autumn.02",
+        "autumn.05",
+        "autumn.08"
+      ],
+      "river": true,
+      "engineClearingId": "unknown",
+      "suit": "mouse",
       "corner": false,
       "ruin": false,
       "_unverified": {
-        "engineClearingId": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
-        "suit": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
-        "corner": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
-        "ruin": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research"
-      }
+        "engineClearingId": "Root's own number for this clearing: read it from Root's Autumn map data on the creator's PC (match by position)"
+      },
+      "_source": "Board facts from design/autumn-map-verified.json (printed board art, cross-checked with Learning to Play)."
     },
     {
       "id": "autumn.07",
       "continentName": "Gestral Village",
-      "role": null,
       "flavor": "Wooden arenas and cheerful brawlers who settle every argument with a friendly duel.",
-      "engineClearingId": "7",
+      "position": "center, on the river",
+      "slots": 3,
+      "paths": [
+        "autumn.02",
+        "autumn.08",
+        "autumn.09"
+      ],
+      "river": true,
+      "engineClearingId": "unknown",
       "suit": "mouse",
       "corner": false,
-      "ruin": true,
+      "ruin": false,
       "_unverified": {
-        "engineClearingId": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
-        "suit": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
-        "corner": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
-        "ruin": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research"
-      }
+        "engineClearingId": "Root's own number for this clearing: read it from Root's Autumn map data on the creator's PC (match by position)"
+      },
+      "_source": "Board facts from design/autumn-map-verified.json (printed board art, cross-checked with Learning to Play)."
     },
     {
       "id": "autumn.08",
       "continentName": "Old Lumière",
-      "role": null,
+      "role": "role.old-lumiere",
       "flavor": "The drowned old city, its rooftops poking out of still green water like gravestones.",
-      "engineClearingId": "8",
-      "suit": "mouse",
+      "position": "center-left (the central fox clearing)",
+      "slots": 2,
+      "paths": [
+        "autumn.01",
+        "autumn.06",
+        "autumn.07",
+        "autumn.10",
+        "autumn.12"
+      ],
+      "river": false,
+      "engineClearingId": "unknown",
+      "suit": "fox",
       "corner": false,
       "ruin": true,
       "_unverified": {
-        "engineClearingId": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
-        "suit": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
-        "corner": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
-        "ruin": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research"
-      }
+        "engineClearingId": "Root's own number for this clearing: read it from Root's Autumn map data on the creator's PC (match by position)"
+      },
+      "_source": "Board facts from design/autumn-map-verified.json (printed board art, cross-checked with Learning to Play)."
     },
     {
       "id": "autumn.09",
       "continentName": "Visages",
-      "role": null,
+      "role": "role.visages",
       "flavor": "A valley of carved stone faces, each one wearing a different mood.",
-      "engineClearingId": "9",
+      "position": "right middle",
+      "slots": 2,
+      "paths": [
+        "autumn.02",
+        "autumn.03",
+        "autumn.07"
+      ],
+      "river": false,
+      "engineClearingId": "unknown",
       "suit": "fox",
       "corner": false,
-      "ruin": false,
+      "ruin": true,
       "_unverified": {
-        "engineClearingId": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
-        "suit": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
-        "corner": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
-        "ruin": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research"
-      }
+        "engineClearingId": "Root's own number for this clearing: read it from Root's Autumn map data on the creator's PC (match by position)"
+      },
+      "_source": "Board facts from design/autumn-map-verified.json (printed board art, cross-checked with Learning to Play)."
     },
     {
       "id": "autumn.10",
       "continentName": "Sirène",
-      "role": null,
+      "role": "role.sirene",
       "flavor": "Silk-draped dunes and a slow, lovely song that pulls travellers off the path.",
-      "engineClearingId": "10",
-      "suit": "mouse",
-      "corner": false,
-      "ruin": false,
-      "_unverified": {
-        "engineClearingId": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
-        "suit": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
-        "corner": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
-        "ruin": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research"
-      }
-    },
-    {
-      "id": "autumn.11",
-      "continentName": "The Reacher",
-      "role": null,
-      "flavor": "A long cold shoreline where something enormous keeps stretching toward the sky.",
-      "engineClearingId": "11",
-      "suit": "fox",
-      "corner": false,
-      "ruin": true,
-      "_unverified": {
-        "engineClearingId": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
-        "suit": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
-        "corner": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
-        "ruin": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research"
-      }
-    },
-    {
-      "id": "autumn.12",
-      "continentName": "Forgotten Battlefield",
-      "role": null,
-      "flavor": "Rusted blades and torn banners from an expedition nobody remembers sailing.",
-      "engineClearingId": "12",
+      "position": "upper center-left, on the river",
+      "slots": 2,
+      "paths": [
+        "autumn.03",
+        "autumn.04",
+        "autumn.08"
+      ],
+      "river": true,
+      "engineClearingId": "unknown",
       "suit": "rabbit",
       "corner": false,
       "ruin": true,
       "_unverified": {
-        "engineClearingId": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
-        "suit": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
-        "corner": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research",
-        "ruin": "best guess; confirm in Root's code (its Autumn map data) on the creator's PC - the real Autumn layout was not available to research"
-      }
+        "engineClearingId": "Root's own number for this clearing: read it from Root's Autumn map data on the creator's PC (match by position)"
+      },
+      "_source": "Board facts from design/autumn-map-verified.json (printed board art, cross-checked with Learning to Play)."
+    },
+    {
+      "id": "autumn.11",
+      "continentName": "The Reacher",
+      "role": "role.the-reacher",
+      "flavor": "A long cold shoreline where something enormous keeps stretching toward the sky.",
+      "position": "top center",
+      "slots": 2,
+      "paths": [
+        "autumn.03",
+        "autumn.04"
+      ],
+      "river": true,
+      "engineClearingId": "unknown",
+      "suit": "rabbit",
+      "corner": false,
+      "ruin": false,
+      "_unverified": {
+        "engineClearingId": "Root's own number for this clearing: read it from Root's Autumn map data on the creator's PC (match by position)"
+      },
+      "_source": "Board facts from design/autumn-map-verified.json (printed board art, cross-checked with Learning to Play)."
+    },
+    {
+      "id": "autumn.12",
+      "continentName": "Forgotten Battlefield",
+      "flavor": "Rusted blades and torn banners from an expedition nobody remembers sailing.",
+      "position": "left middle",
+      "slots": 2,
+      "paths": [
+        "autumn.01",
+        "autumn.04",
+        "autumn.08"
+      ],
+      "river": false,
+      "engineClearingId": "unknown",
+      "suit": "mouse",
+      "corner": false,
+      "ruin": true,
+      "_unverified": {
+        "engineClearingId": "Root's own number for this clearing: read it from Root's Autumn map data on the creator's PC (match by position)"
+      },
+      "_source": "Board facts from design/autumn-map-verified.json (printed board art, cross-checked with Learning to Play)."
     }
   ]
 }

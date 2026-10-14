@@ -83,7 +83,7 @@
       "owner": "global",
       "csType": "Dictionary<RoleId,IReadOnlyList<ClearingId>>",
       "range": "each map role id to its clearings (one for most roles; none for Sirène or The Reacher when the Monolith lacks that many path neighbours; all river clearings for the Sacred River)",
-      "initial": "empty; filled at map load, or when Gustave's keep is placed if he is seated",
+      "initial": "on Autumn: the fixed roles in map_autumn.json; on other maps: empty, filled at map load, or when Gustave's keep is placed if he is seated",
       "writtenBy": [
         "hook.map-loaded",
         "hook.piece-placed",
