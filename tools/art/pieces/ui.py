@@ -130,6 +130,37 @@ def smooth(mask, r):
     return aa(mask.filter(ImageFilter.GaussianBlur(r)).point(lambda v: 255 if v > 127 else 0))
 
 
+def grow1(mask, step):
+    """Grow a binary mask by one pixel. Alternating square and cross steps keeps the growth round (octagonal),
+    where repeated square MaxFilters would push diagonal edges out further than straight ones."""
+    if step % 2 == 0:
+        return mask.filter(ImageFilter.MaxFilter(3))
+    out = mask
+    for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+        out = ImageChops.lighter(out, shifted(mask, dx, dy))
+    return out
+
+
+def outside_distance(mask, kmax):
+    """Roughly how far each pixel lies outside a mask, in px x 16 (capped at kmax px); 0 inside."""
+    cur = mask.point(lambda v: 255 if v > 127 else 0)
+    dist = Image.new("L", mask.size, 0)
+    for k in range(kmax):
+        dist = ImageChops.add(dist, cur.point(lambda v: 0 if v else 16))
+        cur = grow1(cur, k)
+    return dist.filter(ImageFilter.GaussianBlur(0.9))
+
+
+def swelling_line(mask, width16, kmax=12, inside=2):
+    """An ink outline whose outer edge sits `width16` (px x 16, an L map) beyond the mask's edge, so the line swells
+    and thins smoothly like a brush pen. It also covers `inside` px within the edge, so no pale seam shows."""
+    dist = outside_distance(mask, kmax)
+    diff = ImageChops.subtract(width16, dist, 1.0, 128)  # 128 + width - distance
+    line = diff.point(lambda v: max(0, min(255, (v - 120) * 16)))
+    core = aa(mask.point(lambda v: 255 if v > 127 else 0).filter(ImageFilter.MinFilter(inside * 2 + 1)), 0.6)
+    return ImageChops.subtract(line, core)
+
+
 def stroke_mask(size, pts, width, seed, bristles=5, taper=True):
     return brush_stroke(size, pts, width, (255, 255, 255), seed=seed, bristles=bristles, taper=taper).getchannel("A")
 
@@ -317,7 +348,7 @@ def portrait_fallback(seed):
     img = canvas(*size)
     base = grain_fill(size, (240, 237, 232), seed + 1, 0.035).convert("RGBA")
     # Light from the upper left: a matte shadow side on the right, a cast shadow under the jaw, and a soft rim.
-    side = Image.linear_gradient("L").rotate(90).resize(size).point(lambda v: int(max(0, 255 - v - 120) * 1.1))
+    side = Image.linear_gradient("L").rotate(90).resize(size).point(lambda v: int(max(0, v - 120) * 1.1))  # 0 left, 255 right
     jaw = Image.new("L", size, 0)
     ImageDraw.Draw(jaw).polygon([(x + 4, y + 16) for x, y in head if y > cy + 40], fill=255)
     jaw = jaw.filter(ImageFilter.GaussianBlur(5))
@@ -349,15 +380,16 @@ def portrait_fallback(seed):
     base = comp(base, solid(size, (150, 146, 144), scale_mask(aa(collar, 0.8), 0.6)))
     base.putalpha(m)
     img = comp(img, base)
-    # Ink edge with brush pressure: 5 px everywhere, swelling to 9 px in places and on the shadow side.
-    # The swell steps 5 -> 7 -> 9 px over a wider and a narrower pressure zone, so it tapers instead of bulging.
-    pn = soft_noise(size, seed + 4, (30, 30), 5)
-    wide = pn.point(lambda v: max(0, min(255, (v - 125) * 12)))
-    narrow = pn.point(lambda v: max(0, min(255, (v - 160) * 12)))
-    weight = ImageChops.subtract(shifted(m, 3, 2), m)
-    ring = ImageChops.lighter(band(m, 5, 1), ImageChops.multiply(band(m, 7), wide))
-    ring = ImageChops.lighter(ImageChops.lighter(ring, ImageChops.multiply(band(m, 9), narrow)), weight)
-    img = comp(img, solid(size, INK, aa(ring, 0.6)))
+    # Ink edge drawn like a brush pen: its width follows a smooth map, about 3 px on the lit upper left and up to
+    # about 8 px on the shadow side, with slow swells where the pen pressed harder. Width changes continuously, so
+    # the line thickens and thins along its length instead of growing lumps.
+    pn = soft_noise(size, seed + 4, (44, 44), 9)
+    lean = Image.linear_gradient("L").rotate(90).resize(size)  # 0 at the left, 255 at the right
+    drop = Image.linear_gradient("L").resize(size)  # 0 at the top, 255 at the bottom
+    w16 = ImageChops.add(pn.point(lambda v: int(16 * (2.6 + 2.4 * (v / 255) ** 1.6))),
+                         ImageChops.add(lean.point(lambda v: int(16 * 2.4 * (v / 255) ** 1.3)),
+                                        drop.point(lambda v: int(16 * 0.8 * v / 255)))).filter(ImageFilter.GaussianBlur(3))
+    img = comp(img, solid(size, INK, swelling_line(m, w16, kmax=12, inside=2)))
     return img.crop((0, 0, S, S))
 
 
@@ -475,40 +507,55 @@ def character_card(seed):
 
 
 def letterbox_bar(W, BH, edge_y, seed):
-    """One letterbox bar (top orientation): solid ink down to edge_y, then a dry-brushed edge and a gold rule."""
+    """One letterbox bar (top orientation): solid ink, then a dry-brushed edge and a gold rule inside the solid part.
+
+    The edge is a band where the brush runs out of ink: bristle tracks that follow the edge's line and break off at
+    different depths, so it reads as one loaded horizontal sweep. How deep the dry band reaches varies along the bar,
+    so the edge is ragged in places and nearly clean in others."""
     rng = random.Random(seed)
     size = (W, BH)
-    ph1, ph2 = rng.uniform(0, 6.28), rng.uniform(0, 6.28)
+    ph = [rng.uniform(0, 6.28) for _ in range(4)]
 
     def wave(x):  # the hand-painted line of the bar's edge
-        return edge_y + 8 * math.sin(x / 260 + ph1) + 3 * math.sin(x / 83 + ph2)
-    m = Image.new("L", size, 0)
+        return edge_y + 8 * math.sin(x / 260 + ph[0]) + 3 * math.sin(x / 83 + ph[1])
+
+    def reach(x):  # how far the dry bristles carry past the loaded edge
+        return 28 + 13 * math.sin(x / 190 + ph[2]) + 6 * math.sin(x / 61 + ph[3])
+    # Bristle tracks: long, thin noise streaks, plus shorter breaks along each track. They are sampled relative to the
+    # edge's line, so the tracks bend with it.
+    pad = 24
+    tracks = soft_noise((W, BH + 2 * pad), seed + 5, (120, 2), 0.7).load()
+    breaks = soft_noise((W, BH + 2 * pad), seed + 6, (22, 2), 0.6).load()
+    m = bytearray(W * BH)
+    for x in range(W):
+        wv, rc = wave(x), max(6.0, reach(x))
+        top, span = wv - 4, rc + 4
+        shift = wv - edge_y
+        fi = math.floor(shift)
+        fr = shift - fi  # sample between rows, so the tracks bend smoothly instead of stepping a pixel at a time
+        for y in range(BH):
+            if y <= top:
+                a = 255
+            else:
+                g = 1 - (y - top) / span
+                if g <= 0:
+                    continue
+                r = min(BH + 2 * pad - 2, max(0, y - fi + pad - 1))
+                t0 = 0.7 * tracks[x, r + 1] + 0.3 * breaks[x, r + 1]
+                t1 = 0.7 * tracks[x, r] + 0.3 * breaks[x, r]
+                s = (t0 + (t1 - t0) * fr) / 255
+                a = int(max(0, min(255, ((g ** 0.75 - s) * 10 + 0.5) * 255)))
+            m[y * W + x] = a
+    m = Image.frombytes("L", size, bytes(m))
+    # A few loose hairs dragged past the dry band.
     d = ImageDraw.Draw(m)
-    d.polygon([(0, 0), (W, 0)] + [(x, wave(x) - 6) for x in range(W, -1, -12)], fill=255)
-    # Loaded strokes along the edge: long, tapered, overlapping, a few overshooting into the picture.
-    for _ in range(150):
-        ln = rng.uniform(180, 640)
-        x = rng.uniform(-300, W)
-        off = rng.choice((rng.uniform(-6, 4), rng.uniform(-6, 4), rng.uniform(4, 22)))
-        w = rng.uniform(8, 16) if off < 4 else rng.uniform(5, 12)
-        tilt = rng.uniform(-2.5, 2.5)
-        pts = [(x + ln * t / 14, wave(x + ln * t / 14) + off + tilt * t / 14) for t in range(15)]
-        if off >= 4 and rng.random() < 0.6:  # dry stroke: breaks into dashes
-            k = 0
-            while k < 14:
-                run = rng.randint(2, 5)
-                taper_poly(d, pts[k:k + run + 1], w * rng.uniform(0.6, 1.0), power=0.4)
-                k += run + rng.randint(1, 2)
-        else:
-            taper_poly(d, pts, w, power=0.45)
-    # Fine bristle hairlines trailing below the edge.
-    for _ in range(70):
-        ln = rng.uniform(80, 360)
-        x = rng.uniform(-100, W)
-        off = rng.uniform(8, 26)
-        pts = [(x + ln * t / 10, wave(x + ln * t / 10) + off + rng.uniform(-0.4, 0.4)) for t in range(11)]
-        taper_poly(d, pts, rng.uniform(1.5, 3.2), power=0.3)
-    m = aa(m, 0.6)
+    for _ in range(14):
+        ln = rng.uniform(50, 160)
+        x = rng.uniform(-60, W)
+        k, drift = rng.uniform(0.6, 0.95), rng.uniform(-2, 4)
+        pts = [(x + ln * t / 16, wave(x + ln * t / 16) + max(6.0, reach(x + ln * t / 16)) * k + drift * t / 16) for t in range(17)]
+        taper_poly(d, pts, rng.uniform(1.4, 2.4), power=0.4)
+    m = aa(m, 0.45)
     body = mottle(size, INK, (40, 34, 52), seed + 2, cell=90, amount=0.4, streak_cell=(90, 2)).convert("RGBA")
     body.putalpha(m)
     img = comp(canvas(W, BH), glow(shifted(m, 0, 5), (0, 0, 0), 8, 0.45), body)
