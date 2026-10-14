@@ -1,0 +1,13 @@
+{
+  "pieces": [
+    {
+      "asset": "asset.title-rift",
+      "path": "art/title-rift.png",
+      "size": [
+        1600,
+        900
+      ],
+      "sprites": []
+    }
+  ]
+}

@@ -82,14 +82,8 @@ def petal(size, color, rng):
     return tile
 
 
-def main():
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--font", required=True)
-    ap.add_argument("--out", default="art/title-rift.png")
-    ap.add_argument("--preview", default="")
-    ap.add_argument("--seed", type=int, default=33)
-    args = ap.parse_args()
-    rng = random.Random(args.seed)
+def render(font_path, out_path, preview="", seed=33):
+    rng = random.Random(seed)
 
     canvas = Image.new("RGBA", (W, H), (0, 0, 0, 0))
 
@@ -156,7 +150,7 @@ def main():
     canvas = Image.alpha_composite(canvas, petal_layer(70, front=False))
 
     # 2. The numerals: bone white with an ink outline, lit gold where they cross the rift.
-    font = ImageFont.truetype(args.font, 560)
+    font = ImageFont.truetype(font_path, 560)
     text = "33"
     bbox = font.getbbox(text, stroke_width=14)
     tx = (W - (bbox[2] - bbox[0])) // 2 - bbox[0]
@@ -232,15 +226,25 @@ def main():
     front.putalpha(ImageChops.subtract(front.getchannel("A"), keep_off))
     canvas = Image.alpha_composite(canvas, front)
 
-    out = Path(args.out)
+    out = Path(out_path)
     out.parent.mkdir(parents=True, exist_ok=True)
     canvas.save(out, optimize=True)
     print(f"wrote {out} ({W}x{H})")
 
-    if args.preview:
+    if preview:
         bg = Image.new("RGBA", (W, H), (14, 12, 18, 255))
-        Image.alpha_composite(bg, canvas).convert("RGB").save(args.preview, quality=92)
-        print(f"wrote preview {args.preview}")
+        Image.alpha_composite(bg, canvas).convert("RGB").save(preview, quality=92)
+        print(f"wrote preview {preview}")
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--font", required=True)
+    ap.add_argument("--out", default="art/title-rift.png")
+    ap.add_argument("--preview", default="")
+    ap.add_argument("--seed", type=int, default=33)
+    args = ap.parse_args()
+    render(args.font, args.out, args.preview, args.seed)
 
 
 if __name__ == "__main__":
