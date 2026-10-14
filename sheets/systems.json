@@ -32,7 +32,7 @@
     {
       "id": "sys.table-seating",
       "name": "Character select and table seating",
-      "description": "The human picks any character whose engine's DLC they own, and bots fill the other seats: 2-4 seats in all (Root digital's cap is 4). The mod tries to seat a lore rival of the human's pick: Gustave vs the Paintress, Verso vs Maelle, Esquie vs Clea, the Curator vs the Paintress, the White-Haired Man vs Gustave. Without The Riverfolk Expansion only one Vagabond character (Esquie, Verso or Maelle) can be seated; Riverfolk opens a second Vagabond seat. The base-game table is Gustave + the Paintress + Sciel + one of Esquie, Verso or Maelle. Setup forces homes: Gustave's keep in Lumière, the Paintress's first roost in the Monolith, Clea in the Flying Manor, the Curator in a free corner other than Lumière and the Monolith, and Esquie in the forest next to the Nest. In this E33 mode every seat uses the standard Dire Wolf AI and the Clockwork bots are hidden. Safe mode shows Clea as a locked '???'.",
+      "description": "The human picks any character whose engine's DLC they own, and bots fill the other seats: 2-4 seats in all (Root digital's cap is 4). The mod tries to seat a lore rival of the human's pick: Gustave vs the Paintress, Verso vs Maelle, Esquie vs Clea, the Curator vs the Paintress, the White-Haired Man vs Gustave. Root digital supports games with two Vagabonds without any DLC (since update 1.27.0), so up to two of Esquie, Verso and Maelle can share a table; in a two-Vagabond game each ruin holds 2 items and the two Vagabonds share one hand of quests. A base-game table is any 2-4 of Gustave, the Paintress, Sciel, Esquie, Verso and Maelle with at most two Vagabond characters. Setup forces homes: Gustave's keep in Lumière, the Paintress's first roost in the Monolith, Clea in the Flying Manor, the Curator in a free corner other than Lumière and the Monolith, and Esquie in the forest next to the Nest. In this E33 mode every seat uses the standard Dire Wolf AI and the Clockwork bots are hidden. Safe mode shows Clea as a locked '???'. E33 mode stays offline: solo against bots, or pass-and-play on one device. It is never offered online, because online opponents would not run the mod and Root hands a timed-out online seat to its Hard AI.",
       "sheets": [
         "characters",
         "engines",
@@ -41,12 +41,14 @@
         "options"
       ],
       "v1": true,
-      "needsCreatorPc": true
+      "needsCreatorPc": true,
+      "_notes": "Corrected after research: Root digital has supported games with two Vagabonds without any DLC since update 1.27.0, so the earlier assumption that a second Vagabond needs The Riverfolk Expansion is gone. A base-game table can therefore seat two of Esquie, Verso and Maelle. Rows updated for the same reason: sys.dlc-detection, dlc base and riverfolk, engines vagabond-tinker, vagabond-ranger and vagabond-thief, tweak.verso.soarrie-handoff, spawn.soarrie, spawn.dorrie (two items per ruin), and the Verso, Esquie and Maelle notes in characters. The 2-4 seat cap is confirmed (store page, Dire Wolf support, player reports). Offline-only is stated here because research found nothing that would carry the mod to online opponents (hook.save drops async online turns for the same reason).",
+      "_source": "https://news.direwolfdigital.com/root-update-1-27-0-the-riverfolk-expansion/ ; https://news.direwolfdigital.com/whats-new-in-the-riverfolk-expansion/ ; https://store.steampowered.com/app/965580/Root/ ; https://steamcommunity.com/app/965580/discussions/0/5118863332773630395/"
     },
     {
       "id": "sys.continent-map",
       "name": "Continent map and role assignment",
-      "description": "v1 reskins Root's Autumn map as the Continent: each of its 12 clearings gets a Continent name and a flavour line. The story places the rules refer to (Lumière, the Monolith, Esquie's Nest, the Flying Manor, Stone Wave Cliffs, Old Lumière, the Axons Visages, Sirène and The Reacher, and the Sacred River) are map roles, assigned to clearings by rule once the map and Gustave's keep are known and before any other faction sets up, so every win works on Autumn, Winter, Lake and Mountain. Roles never move during a game. A role's clearing always shows the role's name: on Autumn, when a role lands on a clearing other than the one map_autumn names after it, the two clearings swap names for that game, so all 12 names stay unique. On the other maps only role clearings are renamed. The Sacred River is drawn over the river clearings, which keep their own names. A purpose-built Continent map comes later.",
+      "description": "v1 reskins Root's Autumn map as the Continent: each of its 12 clearings gets a Continent name and a flavour line. The story places the rules refer to (Lumière, the Monolith, Esquie's Nest, the Flying Manor, Stone Wave Cliffs, Old Lumière, the Axons Visages and Sirène, The Reacher, and the Sacred River) are map roles, assigned to clearings by rule once the map and Gustave's keep are known and before any other faction sets up, so every win works on Autumn, Winter, Lake and Mountain. Roles never move during a game. A role's clearing always shows the role's name: on Autumn, when a role lands on a clearing other than the one map_autumn names after it, the two clearings swap names for that game, so all 12 names stay unique. On the other maps only role clearings are renamed. The Sacred River is drawn over the river clearings, which keep their own names. A purpose-built Continent map comes later.",
       "sheets": [
         "map_roles",
         "map_autumn",
@@ -55,12 +57,13 @@
       ],
       "v1": true,
       "needsCreatorPc": true,
-      "_notes": "The name swap is this sheet's choice: the roster assigns roles by rule and also gives Autumn fixed names, and swapping is the simplest way to keep both."
+      "_notes": "The name swap is this sheet's choice: the roster assigns roles by rule and also gives Autumn fixed names, and swapping is the simplest way to keep both. Lore fix: The Reacher is a place name, never an Axon; in Clair Obscur the Axons are Visages and Sirène.",
+      "_source": "https://expedition33.wiki.fextralife.com/Walkthrough ; https://expedition33.wiki.fextralife.com/The_Reacher"
     },
     {
       "id": "sys.faction-reskins",
       "name": "Faction reskins",
-      "description": "Each character renames its engine's pieces, tracks, actions, leaders and cards (Gustave's keep becomes the Expedition Camp, the Paintress's roosts become Easels, Sciel's sympathy becomes Lanterns, and so on), each with a safe name, a finished name and a journal-style tooltip, bound to Root's own localisation keys or types. A reskin never changes a rule; only names, art and tooltips change.",
+      "description": "Each character renames its engine's pieces, tracks, actions, leaders and cards (Gustave's keep becomes the Expedition Camp, the Paintress's roosts become Easels, Sciel's sympathy becomes Lanterns, and so on), each with a safe name, a finished name and a journal-style tooltip, swapped at runtime where Root looks its strings up (by Root's own localisation keys or types); Root's localisation files are not edited, because editing them does not change the text in game. A reskin never changes a rule; only names, art and tooltips change.",
       "sheets": [
         "reskins",
         "characters",
@@ -68,7 +71,9 @@
         "assets"
       ],
       "v1": true,
-      "needsCreatorPc": true
+      "needsCreatorPc": true,
+      "_notes": "Corrected after research: a modder edited the localisation files in Root_Data/StreamingAssets and the in-game text did not change, so reskins patch Root's string lookups at runtime instead.",
+      "_source": "https://steamcommunity.com/app/965580/discussions/0/802342156092132314/"
     },
     {
       "id": "sys.win-conditions",
@@ -145,7 +150,9 @@
         "engines"
       ],
       "v1": true,
-      "needsCreatorPc": true
+      "needsCreatorPc": true,
+      "_notes": "Native digital AI is confirmed by Dire Wolf patch notes for Marquise, Eyrie, Alliance, Vagabond, Riverfolk, Duchy, Corvids, Hundreds and Keepers. Only the Lizard Cult (Clea) is unconfirmed, so the fallback planner may be needed for Clea alone. Root's own AI applies counterplay against the leading player most often at higher difficulty, which overlaps the spoiler layer; check for double-blocking on Hard. An AI that takes over a timed-out online player plays at Hard.",
+      "_source": "https://news.direwolfdigital.com/root-patch-4-14-2023/ ; https://api.steampowered.com/ISteamNews/GetNewsForApp/v2/?appid=965580&count=300&maxlength=0&format=json"
     },
     {
       "id": "sys.speech-bubbles",
@@ -198,7 +205,7 @@
     {
       "id": "sys.dlc-detection",
       "name": "DLC detection",
-      "description": "The mod checks which Root content packs the player owns, by each pack's Steam app id, and offers only those: a character whose engine needs a missing DLC is hidden from character select and never seated as a bot, the second Vagabond seat needs The Riverfolk Expansion, the Lake and Mountain maps need The Underworld Expansion, Maelle's optional Ronin needs Exiles & Partisans & Vagabonds, and hireling and landmark theming needs Hirelings & Landmarks.",
+      "description": "The mod checks which Root content packs the player owns and offers only those: a character whose engine needs a missing DLC is hidden from character select and never seated as a bot, the Lake and Mountain maps need The Underworld Expansion, Maelle's optional Ronin needs Exiles & Partisans & Vagabonds, and hireling and landmark theming needs Hirelings & Landmarks (the Ferry and Tower landmarks also need The Underworld Expansion). A second Vagabond seat needs no DLC. Root DLC is tied to the player's Dire Wolf account and unlocks on every platform, so a pack bought on mobile or Switch may not show as a Steam DLC: read Root's own entitlement list first and use the Steam app ids only as a fallback.",
       "sheets": [
         "dlc",
         "engines",
@@ -206,7 +213,8 @@
       ],
       "v1": true,
       "needsCreatorPc": true,
-      "_notes": "Research could not confirm whether Root lets a non-owner face a DLC faction's AI offline, so the simplest safe rule is used: a character's DLC must be owned for it to be seated at all, by the human or a bot."
+      "_notes": "Research could not confirm whether Root lets a non-owner face a DLC faction's AI offline, so the simplest safe rule is used: a character's DLC must be owned for it to be seated at all, by the human or a bot. Dire Wolf (Riverfolk launch): picking a new faction yourself requires the expansion, but players with only the base game can still meet those factions online. No source covers offline AI seats, so the 'must own it to seat it' rule stays until the PC check. Corrected after research: a second Vagabond seat needs no DLC (Root 1.27.0), and ownership is read from Root's own entitlements first because DLC belongs to the Dire Wolf account and unlocks on Steam, mobile and Switch alike; the Steam app ids in the dlc sheet are only the fallback. All six app ids are now confirmed from the store pages.",
+      "_source": "https://news.direwolfdigital.com/root-update-1-27-0-the-riverfolk-expansion/ ; https://news.direwolfdigital.com/root-the-underworld-expansion-now-available/ ; https://news.direwolfdigital.com/landmarks-in-root-digital/ ; https://news.direwolfdigital.com/whats-new-in-the-riverfolk-expansion/"
     },
     {
       "id": "sys.settings",
@@ -241,7 +249,8 @@
       ],
       "v1": false,
       "needsCreatorPc": true,
-      "_notes": "No rows exist for these names yet: reskins rows must belong to a character, so v1.1 needs a home for theming that belongs to no character. The Riverfolk Company engine stays free for a later Golgra or Gestral character."
+      "_notes": "No rows exist for these names yet: reskins rows must belong to a character, so v1.1 needs a home for theming that belongs to no character. The Riverfolk Company engine stays free for a later Golgra or Gestral character. Digital rules (Dire Wolf): exactly three hirelings join a game, all promoted at 2 players and one demoted for each player beyond the second; they unlock when any player reaches 4, 8 and 12 VP, and the first to reach each takes control for rounds set by a control die (the leader counts only gold pips), then hands it to a player of their choice. A faction's hireling never appears with that faction, so Forest Patrol (the Expedition 33 survivors) can appear only when Gustave's Marquise is not seated. Hirelings and landmarks are switched on through Advanced Setup, which only players owning 6 or more factions can create (Faction Draft can be disabled), so E33 setup (forced homes) must be checked under AdSet. Up to two landmarks per game; the Ferry and Tower count only for Underworld owners. The Ferry has no Continent theme yet, and 8 of the 13 hirelings have none.",
+      "_source": "https://news.direwolfdigital.com/root-digital-meet-the-hirelings/ ; https://expedition33.wiki.fextralife.com/Thank_You_Update ; https://news.direwolfdigital.com/an-introduction-to-hirelings/ ; https://news.direwolfdigital.com/landmarks-in-root-digital/ ; https://news.direwolfdigital.com/enter-the-underworld-of-root/ ; https://news.direwolfdigital.com/root-patch-1-32-3-the-marauder-expansion-patch/"
     }
   ]
 }

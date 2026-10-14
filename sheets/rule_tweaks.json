@@ -20,7 +20,8 @@
         "Overcharge_UnavailableBelowFullArm",
         "Overcharge_DisarmsUnusedAtTurnEnd"
       ],
-      "_notes": "Switching off an unused armed toggle at the end of his turn is the simplest option; the roster does not say."
+      "_notes": "Switching off an unused armed toggle at the end of his turn is the simplest option; the roster does not say.",
+      "_source": "https://expedition33.wiki.fextralife.com/Emma ; https://expedition33.wiki.fextralife.com/Gustave ; https://expedition33.wiki.fextralife.com/Overcharge"
     },
     {
       "id": "tweak.gustave.keep-in-lumiere",
@@ -194,7 +195,8 @@
       ],
       "tests": [
         "RockPowers_FlorrieLetsRiversCountAsPaths"
-      ]
+      ],
+      "_source": "https://expedition33.wiki.fextralife.com/Esquie"
     },
     {
       "id": "tweak.esquie.dorrie-coral",
@@ -212,7 +214,8 @@
       ],
       "tests": [
         "RockPowers_DorrieWaivesHostileBoot"
-      ]
+      ],
+      "_source": "https://expedition33.wiki.fextralife.com/Esquie"
     },
     {
       "id": "tweak.esquie.soarrie-glide",
@@ -232,7 +235,8 @@
       "tests": [
         "RockPowers_SoarrieGlideOncePerTurn"
       ],
-      "_notes": "Urrie's power in the roster is the victory dive, which is win-vignette presentation rather than a rule, so it has no row here."
+      "_notes": "Urrie's power in the roster is the victory dive, which is win-vignette presentation rather than a rule, so it has no row here.",
+      "_source": "https://expedition33.wiki.fextralife.com/Esquie"
     },
     {
       "id": "tweak.paintress.roost-in-monolith",
@@ -291,7 +295,8 @@
         "Twilight_ChargesResetAfterBoostedBattle",
         "Twilight_NoHitWithOnlyOneCharge"
       ],
-      "_notes": "Charges are held (yes or no), not counted. If she holds both but does not battle that Evening, the charges are kept for a later Evening; the roster resets them only after the boosted battle."
+      "_notes": "Charges are held (yes or no), not counted. If she holds both but does not battle that Evening, the charges are kept for a later Evening; the roster resets them only after the boosted battle.",
+      "_source": "https://expedition33.wiki.fextralife.com/Sciel ; https://expedition33.wiki.fextralife.com/Lune"
     },
     {
       "id": "tweak.verso.perfection",
@@ -309,13 +314,14 @@
         "Perfection_AddsHitAtRankAOrS",
         "Perfection_NoHitBelowRankA",
         "Perfection_NoHitWhenDefending"
-      ]
+      ],
+      "_source": "https://expedition33.wiki.fextralife.com/Verso"
     },
     {
       "id": "tweak.verso.soarrie-handoff",
       "character": "verso",
       "name": "Soarrie hand-off",
-      "rule": "If Esquie is seated (needs The Riverfolk Expansion), Soarrie appears on Verso's card at the start of Act II. It passes to Esquie when Esquie ends a turn in Verso's clearing in Act II or later, and Verso scores tune.verso-soarrie-vp VP.",
+      "rule": "If Esquie is seated (a two-Vagabond game, which Root digital supports without any DLC), Soarrie appears on Verso's card at the start of Act II. It passes to Esquie when Esquie ends a turn in Verso's clearing in Act II or later, and Verso scores tune.verso-soarrie-vp VP.",
       "version": "v1",
       "hooks": [
         "hook.act-change",
@@ -330,7 +336,8 @@
         "SoarrieHandoff_VersoScoresOneVp",
         "SoarrieHandoff_NotWhenVersoInForest"
       ],
-      "_notes": "Both pawns must be in the same clearing (not the same forest), as the roster says 'Verso's clearing'."
+      "_notes": "Both pawns must be in the same clearing (not the same forest), as the roster says 'Verso's clearing'. Corrected after research: Root digital has supported games with two Vagabonds without any DLC since update 1.27.0, so the earlier assumption that a second Vagabond needs The Riverfolk Expansion is gone. The Esquie and Verso hand-off therefore works on a base-game table.",
+      "_source": "https://news.direwolfdigital.com/root-update-1-27-0-the-riverfolk-expansion/"
     },
     {
       "id": "tweak.maelle.stance-chip",
@@ -352,7 +359,8 @@
         "StanceChip_DefensiveAfterAidOrAttacked",
         "StanceChip_VirtuoseAfterBattleAndAidSameTurn"
       ],
-      "_notes": "The chip keeps its last stance between turns; only the 'did both this turn' record resets at the end of her turn."
+      "_notes": "The chip keeps its last stance between turns; only the 'did both this turn' record resets at the end of her turn.",
+      "_source": "https://expedition33.wiki.fextralife.com/Maelle"
     },
     {
       "id": "tweak.lune.stains",
@@ -374,7 +382,8 @@
         "Stains_ArmedStainAddsHitAndIsSpent",
         "Stains_CannotArmWithoutStain"
       ],
-      "_notes": "v1 here means it ships with Lune's first build (Lune is a later character). Stains are spent when used and have no cap, and an armed Stain applies to her next battle whether she attacks or defends; the roster leaves these open."
+      "_notes": "v1 here means it ships with Lune's first build (Lune is a later character). Stains are spent when used and have no cap, and an armed Stain applies to her next battle whether she attacks or defends; the roster leaves these open.",
+      "_source": "https://expedition33.wiki.fextralife.com/Sciel ; https://expedition33.wiki.fextralife.com/Lune"
     },
     {
       "id": "tweak.monoco.sacred-river-rebirth",

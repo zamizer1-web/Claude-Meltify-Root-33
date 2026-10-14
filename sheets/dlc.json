@@ -3,54 +3,47 @@
     {
       "id": "base",
       "name": "Root (base game)",
-      "contents": "The Marquise de Cat, Eyrie Dynasties and Woodland Alliance, and the Vagabond as Thief, Tinker or Ranger; the Autumn map and the free Winter map; the standard 54-card deck with dominance and ambush cards; coalitions; the built-in Dire Wolf AI for every base faction. It holds everything the six first-version characters need: Gustave, Esquie, the Paintress, Sciel, Verso and Maelle.",
+      "contents": "The Marquise de Cat, Eyrie Dynasties and Woodland Alliance, and the Vagabond as Thief, Tinker or Ranger, with games of two Vagabonds supported since update 1.27.0; the Autumn map and the free Winter map; the standard 54-card deck with dominance and ambush cards; coalitions; the built-in Dire Wolf AI for every base faction. It holds everything the six first-version characters need: Gustave, Esquie, the Paintress, Sciel, Verso and Maelle.",
       "steamAppId": "965580",
-      "_notes": "The Clockwork Expansion has no row: E33 mode hides the Clockwork bots, so the mod never depends on it."
+      "_notes": "The Clockwork Expansion (Steam app 1462460, 'a customizable alternative to the game's AI') has no row: E33 mode hides the Clockwork bots, so the mod never depends on it. The Steam DLC list has nothing newer than Hirelings & Landmarks as of October 2026, so this sheet covers every paid content pack. steamAppId is the fallback ownership check only: Root DLC is owned per Dire Wolf account and unlocks on every platform, so the mod reads Root's own entitlement list first (sys.dlc-detection). Target build: Root 2.1.x. Patch 2.1.2 (Dec 12 2025) is the latest, and there has been no Root Steam news since Jan 26 2026. The 1.x-to-2.0 move broke saving and resuming in-progress games (fixed in 2.0.3), and a fan translation mod broke after the Oct 2024 update, so the plugin should check Root's version at startup and its save data should record it.",
+      "_source": "https://store.steampowered.com/app/965580/Root/ ; https://store.steampowered.com/dlc/965580/ ; https://news.direwolfdigital.com/root-update-1-27-0-the-riverfolk-expansion/ ; https://steamcommunity.com/app/965580/discussions/0/3113645013842437020/ ; https://api.steampowered.com/ISteamNews/GetNewsForApp/v2/?appid=965580&count=40&maxlength=0&format=json ; https://steamcommunity.com/app/965580/discussions/0/603036300513310448/"
     },
     {
       "id": "riverfolk",
       "name": "The Riverfolk Expansion",
-      "contents": "The Riverfolk Company and the Lizard Cult; the Vagrant, Scoundrel and Arbiter Vagabonds; a second Vagabond seat; 6 challenges and AI improvements (digital release April 28 2021). Root 33 uses it for Clea (Lizard Cult) and for the second Vagabond seat that a table with two of Esquie, Verso and Maelle needs. The Riverfolk Company stays free for a later Golgra or Gestral character.",
-      "steamAppId": "unknown",
-      "_unverified": {
-        "steamAppId": "not found in research; confirm in Root's code on the creator's PC (or on the DLC's Steam store page)"
-      }
+      "contents": "The Riverfolk Company and the Lizard Cult; the Vagrant, Scoundrel and Arbiter Vagabonds; new challenges, tutorials and AI improvements (digital release April 28 2021). The same update (1.27.0) added two-Vagabond games for everyone, with no Riverfolk purchase required. Root 33 uses it for Clea (Lizard Cult). The Riverfolk Company stays free for a later Golgra or Gestral character.",
+      "steamAppId": "1586100",
+      "_source": "https://store.steampowered.com/app/1586100/ ; https://news.direwolfdigital.com/root-update-1-27-0-the-riverfolk-expansion/ ; https://store.steampowered.com/dlc/965580/",
+      "_notes": "Corrected after research: Root digital has supported games with two Vagabonds without any DLC since update 1.27.0, so the earlier assumption that a second Vagabond needs The Riverfolk Expansion is gone. The '6 challenges' count was dropped: the store page only says 'new challenges and tutorials'."
     },
     {
       "id": "underworld",
       "name": "The Underworld Expansion",
       "contents": "The Underground Duchy and the Corvid Conspiracy; the Lake and Mountain maps; Advanced Setup; challenges (digital release March 30 2023). Root 33 uses it for the Curator (Duchy) and the White-Haired Man (Corvids); Lake and Mountain work too, because map roles are assigned by rule.",
-      "steamAppId": "unknown",
-      "_unverified": {
-        "steamAppId": "not found in research; confirm in Root's code on the creator's PC (or on the DLC's Steam store page)"
-      }
+      "steamAppId": "2253060",
+      "_source": "https://store.steampowered.com/app/2253060/ ; https://store.steampowered.com/dlc/965580/"
     },
     {
       "id": "marauder",
       "name": "The Marauder Expansion",
       "contents": "Lord of the Hundreds and Keepers in Iron, with tutorials, challenges and achievements (digital release January 14 2025; hirelings came later in their own DLC). Root 33 uses it for Monoco (Hundreds) and Lune (Keepers).",
-      "steamAppId": "unknown",
-      "_unverified": {
-        "steamAppId": "not found in research; confirm in Root's code on the creator's PC (or on the DLC's Steam store page)"
-      }
+      "steamAppId": "3346620",
+      "_source": "https://store.steampowered.com/app/3346620/ ; https://store.steampowered.com/dlc/965580/"
     },
     {
       "id": "exiles-partisans",
       "name": "Exiles & Partisans & Vagabonds",
       "contents": "The Exiles and Partisans deck and the Adventurer, Ronin and Harrier Vagabonds (digital release May 3 2022). Root 33 uses it only as an option: Maelle may ride the Ronin instead of the Thief, with Swift Strike as her riposte.",
-      "steamAppId": "unknown",
-      "_unverified": {
-        "steamAppId": "not found in research; confirm in Root's code on the creator's PC (or on the DLC's Steam store page)"
-      }
+      "steamAppId": "1935900",
+      "_source": "https://store.steampowered.com/app/1935900/ ; https://store.steampowered.com/dlc/965580/"
     },
     {
       "id": "hirelings-landmarks",
       "name": "Hirelings & Landmarks",
-      "contents": "13 hireling pairs (each with a promoted and a demoted form; three join a game) and the landmarks Black Market, Lost City, Legendary Forge, Elder Treetop, Ferry and Tower, plus rules-fidelity and AI updates (digital release October 20 2025). Root 33 uses it only for the v1.1 theming of hirelings and landmarks.",
+      "contents": "13 hireling pairs (10 faction hirelings and 3 neutral, each with a promoted and a demoted form; exactly three join a game, one of them demoted for each player beyond the second) and the landmarks Black Market, Lost City, Legendary Forge and Elder Treetop, plus the Ferry and Tower as landmarks on any map for owners of The Underworld Expansion; up to two landmarks per game. Both are switched on through Advanced Setup. Digital release October 20 2025, alongside the 2.0 update's rules-fidelity and AI changes. Root 33 uses it only for the v1.1 theming of hirelings and landmarks.",
       "steamAppId": "3874110",
-      "_unverified": {
-        "steamAppId": "from a search snippet in research; confirm in Root's code on the creator's PC (or on the DLC's Steam store page)"
-      }
+      "_source": "https://store.steampowered.com/app/3874110/ ; https://news.direwolfdigital.com/landmarks-in-root-digital/ ; https://news.direwolfdigital.com/an-introduction-to-hirelings/ ; https://store.steampowered.com/dlc/965580/",
+      "_notes": "Corrected after research: the store lists four landmarks; the Ferry and Tower count as landmarks only for owners of The Underworld Expansion, and a game holds at most two landmarks."
     }
   ]
 }

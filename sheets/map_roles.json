@@ -16,7 +16,8 @@
         "MapRoles_SingleClearingRolesNeverShareAClearing",
         "MapRoles_AssignsEveryRoleOnAnyTwelveClearingMap"
       ],
-      "_notes": "Assignment order for every role: Lumière, the Monolith, the Axons (Visages, Sirène, The Reacher), Old Lumière, Esquie's Nest and the Flying Manor, Stone Wave Cliffs, then the Sacred River tag. Roles are fixed for the whole game. 'Path distance' everywhere counts steps along paths; rivers are not paths. The roster's 'a chosen corner' is read as chosen by rule (lowest Root clearing number) so bot-only games and tests repeat; a setup-screen pick could replace it later."
+      "_notes": "Assignment order for every role: Lumière, the Monolith, the Axons (Visages and Sirène), The Reacher, Old Lumière, Esquie's Nest and the Flying Manor, Stone Wave Cliffs, then the Sacred River tag. Roles are fixed for the whole game. 'Path distance' everywhere counts steps along paths; rivers are not paths. The roster's 'a chosen corner' is read as chosen by rule (lowest Root clearing number) so bot-only games and tests repeat; a setup-screen pick could replace it later.",
+      "_source": "https://expedition33.wiki.fextralife.com/Walkthrough ; https://expedition33.wiki.fextralife.com/The_Reacher"
     },
     {
       "id": "role.monolith",
@@ -90,12 +91,12 @@
         "MapRoles_OldLumiereIsTheMostCentralRuin",
         "MapRoles_OldLumiereFallsBackToMostCentralClearing"
       ],
-      "_notes": "'Central' is measured as the smallest total path distance, and Monolith neighbours are excluded so Old Lumière never takes an Axon's name. In the no-ruin fallback there is no ruin to Explore, so Dorrie is claimed by entering, as with an emptied ruin."
+      "_notes": "'Central' is measured as the smallest total path distance, and Monolith neighbours are excluded so Old Lumière never takes the name of an Axon or of The Reacher. In the no-ruin fallback there is no ruin to Explore, so Dorrie is claimed by entering, as with an emptied ruin."
     },
     {
       "id": "role.visages",
       "continentName": "Visages",
-      "assignRule": "Autumn: fixed to autumn.09 (right middle), from the real board in map_autumn.json. Other maps: The Axons are the Monolith's path neighbours at map load, taken in order of Root clearing number: the first is Visages, the second Sirène, the third The Reacher. Rivers are not paths, and closed Mountain paths do not count. A fourth or later neighbour gets no Axon name but is still a Monolith neighbour for every rule that reads adjacency.",
+      "assignRule": "Autumn: fixed to autumn.09 (right middle), from the real board in map_autumn.json. Other maps: the Monolith's path neighbours at map load, taken in order of Root clearing number: the first is Visages and the second Sirène (the two Axons, as in Clair Obscur), the third The Reacher. Rivers are not paths, and closed Mountain paths do not count. A fourth or later neighbour gets no name but is still a Monolith neighbour for every rule that reads adjacency.",
       "count": "1",
       "usedBy": [
         "white-haired-man",
@@ -105,7 +106,8 @@
         "MapRoles_AxonsFollowMonolithNeighboursInClearingOrder",
         "MapRoles_ClosedMountainPathsDoNotMakeAxons"
       ],
-      "_notes": "The White-Haired Man's Ring and Gustave's Beachhead read Monolith adjacency directly; the Axon names label the same clearings on the Ring overlay. The optional v1.1 Monolith Barrier reads Visages and Sirène."
+      "_notes": "The White-Haired Man's Ring and Gustave's Beachhead read Monolith adjacency directly; the Visages, Sirène and The Reacher names label the same clearings on the Ring overlay. The optional v1.1 Monolith Barrier reads Visages and Sirène. Lore fix after research: the Axons are Visages and Sirène; The Reacher is a place name only, never called an Axon.",
+      "_source": "https://expedition33.wiki.fextralife.com/Walkthrough ; https://expedition33.wiki.fextralife.com/The_Reacher"
     },
     {
       "id": "role.sirene",
@@ -132,7 +134,9 @@
       ],
       "tests": [
         "MapRoles_ReacherOnlyWithAThirdMonolithNeighbour"
-      ]
+      ],
+      "_notes": "A place name only, never called an Axon (the Axons are Visages and Sirène). In Clair Obscur it is Maelle's flight-only personal-quest area, where she fights Alicia.",
+      "_source": "https://expedition33.wiki.fextralife.com/Walkthrough ; https://expedition33.wiki.fextralife.com/The_Reacher"
     },
     {
       "id": "role.sacred-river",

@@ -23,7 +23,8 @@
         "FlorrieSpawn_ShortSupplySetsGuardsLeftToPlaced",
         "FlorrieSpawn_NoSpawnFallbackClaimsWhenClearingFree"
       ],
-      "_notes": "Host ties beyond 'lowest VP' go to the lowest seat number (the roster stops at lowest VP). Host warriors removed outside a battle (Strike, Bomb, Revolt) also lower GuardsLeft, so the counter can never exceed the host's warriors actually there; the roster names only battles and leaves other removals open, and Never Mad explicitly allows Esquie to Strike guards."
+      "_notes": "Host ties beyond 'lowest VP' go to the lowest seat number (the roster stops at lowest VP). Host warriors removed outside a battle (Strike, Bomb, Revolt) also lower GuardsLeft, so the counter can never exceed the host's warriors actually there; the roster names only battles and leaves other removals open, and Never Mad explicitly allows Esquie to Strike guards. Confirmed by research: Florrie is recovered at Stone Wave Cliffs after the Lampmaster fight at the end of Act I, so the roster's fallback of moving Florrie to the Nest is not needed.",
+      "_source": "https://expedition33.wiki.fextralife.com/Stone_Wave_Cliffs ; https://expedition33.wiki.fextralife.com/Esquie's+Nest"
     },
     {
       "id": "spawn.dorrie",
@@ -31,7 +32,7 @@
       "appearsInAct": "act2",
       "placeAt": "role.old-lumiere",
       "guards": 0,
-      "claimRule": "Hidden in the Old Lumière ruin from the start of Act II (loose at once if that ruin was already emptied, or if Old Lumière has no ruin on this map). Esquie claims it by Exploring that ruin, or by ending any action there while Dorrie is loose. If the White-Haired Man (Corvids) is seated, it cannot be claimed while Corvid warriors are in Old Lumière; an Explore made then empties the ruin and leaves Dorrie loose. Never lost once claimed. Any other Vagabond's Explore of Old Lumière from Act II leaves Dorrie loose there (the ruin is now empty).",
+      "claimRule": "Hidden in the Old Lumière ruin from the start of Act II (loose at once if that ruin was already emptied, or if Old Lumière has no ruin on this map). Esquie claims it by Exploring that ruin, or by ending any action there while Dorrie is loose. If the White-Haired Man (Corvids) is seated, it cannot be claimed while Corvid warriors are in Old Lumière; an Explore made then leaves Dorrie loose. Never lost once claimed. From Act II, once another Vagabond's Explore leaves Old Lumière's ruin empty, Dorrie is loose there; in a two-Vagabond game each ruin starts with 2 items, so the other Vagabond's first Explore there does not empty it.",
       "state": "state.esquie.rocks",
       "overlay": "ui.esquie.rocks",
       "actions": [
@@ -43,9 +44,11 @@
         "DorrieSpawn_ClaimedByExploringOldLumiere",
         "DorrieSpawn_LooseWhenRuinAlreadyEmpty",
         "DorrieSpawn_BlockedWhileCorvidWarriorsPresent",
-        "DorrieSpawn_LooseAfterAnotherVagabondExplores"
+        "DorrieSpawn_LooseAfterAnotherVagabondExplores",
+        "DorrieSpawn_StaysHiddenWhileTwoVagabondRuinHoldsAnItem"
       ],
-      "_notes": "An Explore while Corvid warriors are present leaving Dorrie loose (instead of lost or held) is the simplest reading of 'cannot be claimed while Corvid warriors are in Old Lumière'."
+      "_notes": "An Explore while Corvid warriors are present leaving Dorrie loose (instead of lost or held) is the simplest reading of 'cannot be claimed while Corvid warriors are in Old Lumière'. Corrected after research: Root digital has supported games with two Vagabonds without any DLC since update 1.27.0, so the earlier assumption that a second Vagabond needs The Riverfolk Expansion is gone. In a digital two-Vagabond game each ruin holds 2 items, so another Vagabond's first Explore of Old Lumière no longer empties it; the read.has-ruin fallback already handles this.",
+      "_source": "https://news.direwolfdigital.com/whats-new-in-the-riverfolk-expansion/ ; https://expedition33.wiki.fextralife.com/Esquie ; https://expedition33.wiki.fextralife.com/Renoir"
     },
     {
       "id": "spawn.soarrie",
@@ -53,7 +56,7 @@
       "appearsInAct": "act2",
       "placeAt": "rule: on Verso's card if Verso is seated; otherwise held by whichever faction rules role.monolith",
       "guards": 0,
-      "claimRule": "With Verso seated (needs The Riverfolk Expansion): Soarrie passes to Esquie when Esquie ends his turn in Verso's clearing, and Verso scores tune.verso-soarrie-vp VP. Without Verso: the Monolith's current ruler holds it; Esquie claims it by Aiding that faction once while in the Monolith, or by ending any action in the Monolith while no faction rules it. Never lost once claimed.",
+      "claimRule": "With Verso seated (a two-Vagabond game; no DLC needed): Soarrie passes to Esquie when Esquie ends his turn in Verso's clearing, and Verso scores tune.verso-soarrie-vp VP. Without Verso: the Monolith's current ruler holds it; Esquie claims it by Aiding that faction once while in the Monolith, or by ending any action in the Monolith while no faction rules it. Never lost once claimed.",
       "state": "state.esquie.rocks",
       "overlay": "ui.esquie.rocks",
       "actions": [
@@ -67,7 +70,9 @@
         "SoarrieSpawn_HeldByMonolithRulerWithoutVerso",
         "SoarrieSpawn_ClaimedByAidingRulerInMonolith",
         "SoarrieSpawn_ClaimedFreeWhenMonolithUnruled"
-      ]
+      ],
+      "_notes": "Corrected after research: Root digital has supported games with two Vagabonds without any DLC since update 1.27.0, so the earlier assumption that a second Vagabond needs The Riverfolk Expansion is gone. Verso giving Esquie Soarrie at the top of the Monolith, at the end of Act II, is confirmed.",
+      "_source": "https://news.direwolfdigital.com/root-update-1-27-0-the-riverfolk-expansion/ ; https://expedition33.wiki.fextralife.com/Esquie"
     },
     {
       "id": "spawn.urrie",
@@ -90,7 +95,8 @@
         "UrrieSpawn_AppearsAtActThreeWithThreeGuards",
         "UrrieSpawn_AppearsEarlyWhenOtherThreeHeld",
         "UrrieSpawn_NoSpawnFallbackClaimsWhenNestFree"
-      ]
+      ],
+      "_source": "https://expedition33.wiki.fextralife.com/Esquie ; https://expedition33.wiki.fextralife.com/Thank_You_Update"
     },
     {
       "id": "spawn.francois-decoy",
@@ -110,7 +116,8 @@
       "tests": [
         "FrancoisDecoy_EnteringNestGivesNoRockAndRemovesDecoy",
         "FrancoisDecoy_GoneAtActTwo"
-      ]
+      ],
+      "_source": "https://expedition33.wiki.fextralife.com/Esquie's+Nest ; https://expedition33.wiki.fextralife.com/Francois"
     },
     {
       "id": "spawn.parents-journal",

@@ -297,7 +297,8 @@
         "VersoWin_EasyAssistOnlyForHuman",
         "VersoWin_ConfirmIgnoresWalkIns"
       ],
-      "_notes": "Rank update (state.verso.rank) at hook.battle-resolved when he is attacker or defender: damaged = DamagedItemsAfter - DamagedItemsBefore for his seat; if damaged == 0 and the removed list holds a piece of another seat, +tune.verso-rank-up; if 1 <= damaged < tune.verso-heavy-damage, -tune.verso-rank-down-small; if damaged >= tune.verso-heavy-damage, -tune.verso-rank-down-large; clamp 0..tune.verso-rank-s. A Vagabond cannot hold an active dominance card, so the coalition gate covers dominance."
+      "_notes": "Rank update (state.verso.rank) at hook.battle-resolved when he is attacker or defender: damaged = DamagedItemsAfter - DamagedItemsBefore for his seat; if damaged == 0 and the removed list holds a piece of another seat, +tune.verso-rank-up; if 1 <= damaged < tune.verso-heavy-damage, -tune.verso-rank-down-small; if damaged >= tune.verso-heavy-damage, -tune.verso-rank-down-large; clamp 0..tune.verso-rank-s. A Vagabond cannot hold an active dominance card, so the coalition gate covers dominance.",
+      "_source": "https://expedition33.wiki.fextralife.com/Verso"
     },
     {
       "id": "win.maelle",

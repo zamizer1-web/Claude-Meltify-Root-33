@@ -185,13 +185,14 @@
       "id": "asset.monoco-masks",
       "kind": "texture",
       "source": "e33-install",
-      "description": "Monoco's Bestial Wheel mask icons (Agile, Caster, Balanced, Heavy, Almighty), for the wheel and his portrait.",
+      "description": "Monoco's Bestial Wheel mask icons (Agile, Caster, Balanced, Heavy, Almighty), for the wheel and his portrait. In Clair Obscur the Bestial Wheel runs clockwise Caster, Agile, Balanced, Heavy, Almighty, with every mask except Almighty appearing twice (9 positions). The mod's five-slot wheel is an abstraction; draw the masks in that clockwise order.",
       "license": "Read from the player's own copy of Clair Obscur: Expedition 33 at runtime, never shipped.",
       "sourcePath": "unknown",
       "fallback": "Each mask's name written on a coloured disc.",
       "_unverified": {
         "sourcePath": "find in Clair Obscur's files on the creator's PC"
-      }
+      },
+      "_source": "https://expedition33.wiki.fextralife.com/Monoco"
     },
     {
       "id": "asset.sfx.overcharge",
@@ -664,13 +665,14 @@
       "id": "asset.wheel-frame",
       "kind": "texture",
       "source": "made-for-mod",
-      "description": "Monoco's five-slot Bestial Wheel, with a faction badge under each slot.",
+      "description": "Monoco's five-slot Bestial Wheel, with a faction badge under each slot. In Clair Obscur the Bestial Wheel runs clockwise Caster, Agile, Balanced, Heavy, Almighty, with every mask except Almighty appearing twice (9 positions). The mod's five-slot wheel is an abstraction; draw the masks in that clockwise order.",
       "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
       "sourcePath": "art/gauges/bestial-wheel.png",
       "fallback": "Five text slots in a row.",
       "_unverified": {
         "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
-      }
+      },
+      "_source": "https://expedition33.wiki.fextralife.com/Monoco"
     },
     {
       "id": "asset.cell-crack",

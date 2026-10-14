@@ -27,7 +27,9 @@
       "_unverified": {
         "engineSymbol": "confirm in Root's code on the creator's PC",
         "patchKind": "confirm in Root's code on the creator's PC"
-      }
+      },
+      "_notes": "Owned engines come from Root's own entitlement list (DLC belongs to the Dire Wolf account and unlocks on every platform), with the Steam DLC app ids as the fallback (sys.dlc-detection). Two Vagabond characters may be seated without any DLC.",
+      "_source": "https://news.direwolfdigital.com/root-update-1-27-0-the-riverfolk-expansion/ ; https://news.direwolfdigital.com/root-the-underworld-expansion-now-available/ ; https://news.direwolfdigital.com/landmarks-in-root-digital/"
     },
     {
       "id": "hook.seat-assigned",
@@ -63,7 +65,7 @@
     },
     {
       "id": "hook.map-loaded",
-      "when": "The map for a new game is built, before any setup piece is placed. When Gustave is not seated, the core assigns every map role by rule here (Lumière, the Monolith, the Axons, Old Lumière, Esquie's Nest, the Flying Manor, Stone Wave Cliffs, the Sacred River); when he is, it waits until his keep is placed (hook.piece-placed).",
+      "when": "The map for a new game is built, before any setup piece is placed. When Gustave is not seated, the core assigns every map role by rule here (Lumière, the Monolith, the Axons Visages and Sirène, The Reacher, Old Lumière, Esquie's Nest, the Flying Manor, Stone Wave Cliffs, the Sacred River); when he is, it waits until his keep is placed (hook.piece-placed).",
       "provides": [
         "map name",
         "clearings with suits, paths, rivers, corners, ruins and slots (read through board_reads)"
@@ -515,7 +517,7 @@
     },
     {
       "id": "hook.save",
-      "when": "Root writes a save (autosave, manual save, or an async online turn). The core returns its state as text, stored beside the save under the game's ID.",
+      "when": "Root writes a save (autosave or manual save). The core returns its state as text, stored beside the save under the game's ID.",
       "provides": [
         "the game's ID (to key the mod's file)"
       ],
@@ -525,7 +527,9 @@
       "_unverified": {
         "engineSymbol": "confirm in Root's code on the creator's PC",
         "patchKind": "confirm in Root's code on the creator's PC"
-      }
+      },
+      "_notes": "E33 mode is offline only (solo or pass-and-play, see sys.table-seating), so async online turns never carry Root 33 state. Research: the 1.x-to-2.0 update broke resuming saved games until 2.0.3, so the stored state also records Root's version (dlc base notes).",
+      "_source": "https://api.steampowered.com/ISteamNews/GetNewsForApp/v2/?appid=965580&count=40&maxlength=0&format=json ; https://steamcommunity.com/app/965580/discussions/0/603036300513310448/"
     },
     {
       "id": "hook.load",

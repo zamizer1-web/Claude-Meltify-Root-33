@@ -7,7 +7,8 @@
       "engineSymbol": "unknown: Root's player/faction list in turn order",
       "_unverified": {
         "engineSymbol": "confirm in Root's code on the creator's PC"
-      }
+      },
+      "_source": "https://store.steampowered.com/app/965580/Root/ ; https://steamcommunity.com/app/965580/discussions/0/5118863332773630395/"
     },
     {
       "id": "read.seat-engine",
@@ -133,7 +134,8 @@
       "engineSymbol": "unknown: Root's clearing suit and landmark data",
       "_unverified": {
         "engineSymbol": "confirm in Root's code on the creator's PC"
-      }
+      },
+      "_source": "https://news.direwolfdigital.com/landmarks-in-root-digital/"
     },
     {
       "id": "read.path-neighbours",

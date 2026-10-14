@@ -20,8 +20,8 @@
       "_unverified": {
         "engineClearingId": "Root's own number for this clearing: read it from Root's Autumn map data on the creator's PC (match by position)"
       },
-      "_source": "Board facts from design/autumn-map-verified.json (printed board art, cross-checked with Learning to Play).",
-      "_notes": "'role' is empty on every Autumn row because roles are assigned by rule when the map loads (see map_roles). These names are the default layout, written for the guessed layout below (Lumière and the Monolith in opposite corners, the Axons beside the Monolith, Old Lumière a central ruin). When a role lands on another clearing, that clearing and the one named after the role here swap names for that game. engineClearingId, suit, corner and ruin are guesses on every row, with 4 fox, 4 rabbit and 4 mouse clearings, 4 corners and 4 ruins."
+      "_source": "Board facts from design/autumn-map-verified.json (printed board art, cross-checked with Learning to Play). ; https://news.direwolfdigital.com/landmarks-in-root-digital/",
+      "_notes": "Every Autumn row pins its story role (map_roles assigns roles by rule only on the other maps). Suit, slots, corner, ruin, paths and river on every row come from the verified printed board in design/autumn-map-verified.json: 4 fox, 4 rabbit and 4 mouse clearings, 4 corners (Lumière, Esquie's Nest, the Monolith, the Flying Manor) and 4 ruins. Only engineClearingId is still unknown: read it from Root's Autumn map data on the creator's PC, and check there that the digital board matches the printed one (research shows only that the digital Autumn suits never change). The Monolith's neighbours are the Axons Visages and Sirène, and The Reacher, which is a place name, not an Axon. With landmarks on, Elder Treetop sits in a corner clearing, adds a building slot and scores +1 VP for removing an enemy building there; Lost City makes its clearing all three suits; Ferry and Tower can be placed on Autumn too. All four Autumn corners are Root 33 homes (Lumière, Esquie's Nest, the Monolith, the Flying Manor), so read slots and suits live from Root's board, or keep landmarks off in E33 mode."
     },
     {
       "id": "autumn.02",
@@ -43,7 +43,8 @@
       "_unverified": {
         "engineClearingId": "Root's own number for this clearing: read it from Root's Autumn map data on the creator's PC (match by position)"
       },
-      "_source": "Board facts from design/autumn-map-verified.json (printed board art, cross-checked with Learning to Play)."
+      "_source": "Board facts from design/autumn-map-verified.json (printed board art, cross-checked with Learning to Play). ; https://expedition33.wiki.fextralife.com/Game_Progress_Route ; https://expedition33.wiki.fextralife.com/Walkthrough ; https://news.direwolfdigital.com/landmarks-in-root-digital/",
+      "_notes": "With landmarks on, Elder Treetop sits in a corner clearing, adds a building slot and scores +1 VP for removing an enemy building there; Lost City makes its clearing all three suits; Ferry and Tower can be placed on Autumn too. All four Autumn corners are Root 33 homes (Lumière, Esquie's Nest, the Monolith, the Flying Manor), so read slots and suits live from Root's board, or keep landmarks off in E33 mode."
     },
     {
       "id": "autumn.03",
@@ -65,7 +66,8 @@
       "_unverified": {
         "engineClearingId": "Root's own number for this clearing: read it from Root's Autumn map data on the creator's PC (match by position)"
       },
-      "_source": "Board facts from design/autumn-map-verified.json (printed board art, cross-checked with Learning to Play)."
+      "_source": "Board facts from design/autumn-map-verified.json (printed board art, cross-checked with Learning to Play). ; https://news.direwolfdigital.com/landmarks-in-root-digital/",
+      "_notes": "With landmarks on, Elder Treetop sits in a corner clearing, adds a building slot and scores +1 VP for removing an enemy building there; Lost City makes its clearing all three suits; Ferry and Tower can be placed on Autumn too. All four Autumn corners are Root 33 homes (Lumière, Esquie's Nest, the Monolith, the Flying Manor), so read slots and suits live from Root's board, or keep landmarks off in E33 mode."
     },
     {
       "id": "autumn.04",
@@ -87,7 +89,8 @@
       "_unverified": {
         "engineClearingId": "Root's own number for this clearing: read it from Root's Autumn map data on the creator's PC (match by position)"
       },
-      "_source": "Board facts from design/autumn-map-verified.json (printed board art, cross-checked with Learning to Play)."
+      "_source": "Board facts from design/autumn-map-verified.json (printed board art, cross-checked with Learning to Play). ; https://news.direwolfdigital.com/landmarks-in-root-digital/",
+      "_notes": "With landmarks on, Elder Treetop sits in a corner clearing, adds a building slot and scores +1 VP for removing an enemy building there; Lost City makes its clearing all three suits; Ferry and Tower can be placed on Autumn too. All four Autumn corners are Root 33 homes (Lumière, Esquie's Nest, the Monolith, the Flying Manor), so read slots and suits live from Root's board, or keep landmarks off in E33 mode."
     },
     {
       "id": "autumn.05",
@@ -107,7 +110,7 @@
       "_unverified": {
         "engineClearingId": "Root's own number for this clearing: read it from Root's Autumn map data on the creator's PC (match by position)"
       },
-      "_source": "Board facts from design/autumn-map-verified.json (printed board art, cross-checked with Learning to Play)."
+      "_source": "Board facts from design/autumn-map-verified.json (printed board art, cross-checked with Learning to Play). ; https://expedition33.wiki.fextralife.com/Game_Progress_Route ; https://expedition33.wiki.fextralife.com/Walkthrough"
     },
     {
       "id": "autumn.06",
@@ -129,7 +132,7 @@
       "_unverified": {
         "engineClearingId": "Root's own number for this clearing: read it from Root's Autumn map data on the creator's PC (match by position)"
       },
-      "_source": "Board facts from design/autumn-map-verified.json (printed board art, cross-checked with Learning to Play)."
+      "_source": "Board facts from design/autumn-map-verified.json (printed board art, cross-checked with Learning to Play). ; https://expedition33.wiki.fextralife.com/Game_Progress_Route ; https://expedition33.wiki.fextralife.com/Walkthrough"
     },
     {
       "id": "autumn.07",
@@ -150,7 +153,7 @@
       "_unverified": {
         "engineClearingId": "Root's own number for this clearing: read it from Root's Autumn map data on the creator's PC (match by position)"
       },
-      "_source": "Board facts from design/autumn-map-verified.json (printed board art, cross-checked with Learning to Play)."
+      "_source": "Board facts from design/autumn-map-verified.json (printed board art, cross-checked with Learning to Play). ; https://expedition33.wiki.fextralife.com/Game_Progress_Route ; https://expedition33.wiki.fextralife.com/Walkthrough"
     },
     {
       "id": "autumn.08",
@@ -174,7 +177,7 @@
       "_unverified": {
         "engineClearingId": "Root's own number for this clearing: read it from Root's Autumn map data on the creator's PC (match by position)"
       },
-      "_source": "Board facts from design/autumn-map-verified.json (printed board art, cross-checked with Learning to Play)."
+      "_source": "Board facts from design/autumn-map-verified.json (printed board art, cross-checked with Learning to Play). ; https://expedition33.wiki.fextralife.com/Game_Progress_Route ; https://expedition33.wiki.fextralife.com/Walkthrough"
     },
     {
       "id": "autumn.09",
@@ -196,7 +199,7 @@
       "_unverified": {
         "engineClearingId": "Root's own number for this clearing: read it from Root's Autumn map data on the creator's PC (match by position)"
       },
-      "_source": "Board facts from design/autumn-map-verified.json (printed board art, cross-checked with Learning to Play)."
+      "_source": "Board facts from design/autumn-map-verified.json (printed board art, cross-checked with Learning to Play). ; https://expedition33.wiki.fextralife.com/Game_Progress_Route ; https://expedition33.wiki.fextralife.com/Walkthrough"
     },
     {
       "id": "autumn.10",
@@ -218,7 +221,7 @@
       "_unverified": {
         "engineClearingId": "Root's own number for this clearing: read it from Root's Autumn map data on the creator's PC (match by position)"
       },
-      "_source": "Board facts from design/autumn-map-verified.json (printed board art, cross-checked with Learning to Play)."
+      "_source": "Board facts from design/autumn-map-verified.json (printed board art, cross-checked with Learning to Play). ; https://expedition33.wiki.fextralife.com/Game_Progress_Route ; https://expedition33.wiki.fextralife.com/Walkthrough"
     },
     {
       "id": "autumn.11",
@@ -239,7 +242,7 @@
       "_unverified": {
         "engineClearingId": "Root's own number for this clearing: read it from Root's Autumn map data on the creator's PC (match by position)"
       },
-      "_source": "Board facts from design/autumn-map-verified.json (printed board art, cross-checked with Learning to Play)."
+      "_source": "Board facts from design/autumn-map-verified.json (printed board art, cross-checked with Learning to Play). ; https://expedition33.wiki.fextralife.com/Game_Progress_Route ; https://expedition33.wiki.fextralife.com/Walkthrough"
     },
     {
       "id": "autumn.12",
@@ -260,7 +263,7 @@
       "_unverified": {
         "engineClearingId": "Root's own number for this clearing: read it from Root's Autumn map data on the creator's PC (match by position)"
       },
-      "_source": "Board facts from design/autumn-map-verified.json (printed board art, cross-checked with Learning to Play)."
+      "_source": "Board facts from design/autumn-map-verified.json (printed board art, cross-checked with Learning to Play). ; https://expedition33.wiki.fextralife.com/Game_Progress_Route ; https://expedition33.wiki.fextralife.com/Walkthrough"
     }
   ]
 }

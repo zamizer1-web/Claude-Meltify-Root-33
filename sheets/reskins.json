@@ -9,9 +9,10 @@
       "tooltip": "Journal, day one: camp pitched in Lumière, with the first Expedition Flag planted beside it. Only Expeditioners may put anything down here.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       },
-      "_notes": "Tooltips show in both spoiler modes, so every reskin tooltip is written spoiler-safe; where a rule is mentioned, the tooltip says it is Root's own rule rather than restating details the research could not verify. engineSymbol is 'unknown' on every reskin until Root's localisation keys are found."
+      "_notes": "Tooltips show in both spoiler modes, so every reskin tooltip is written spoiler-safe; where a rule is mentioned, the tooltip says it is Root's own rule rather than restating details the research could not verify. engineSymbol is 'unknown' on every reskin until Root's string lookup keys are found on the creator's PC. A modder (Mar 2026) edited the localisation files in Root_Data/StreamingAssets with UABEA, and in-game text did not change; no other files with game text were found. Reskin text should be swapped where Root looks strings up at runtime, not by editing those files.",
+      "_source": "https://steamcommunity.com/app/965580/discussions/0/802342156092132314/"
     },
     {
       "id": "reskin.gustave.sawmill",
@@ -22,7 +23,7 @@
       "tooltip": "Journal: the extractor hums all night and leaves a little chroma by morning. Every building is paid for in chroma.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -34,7 +35,7 @@
       "tooltip": "Journal: raw chroma, bottled and stacked. It only travels along clearings we hold. Same rules as Root's wood.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -46,7 +47,7 @@
       "tooltip": "Journal: a bench, a vice and never enough hours. We craft here.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -58,7 +59,7 @@
       "tooltip": "Journal: a pole, a flag and a bell. Ring it and volunteers turn up.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -70,7 +71,7 @@
       "tooltip": "Journal: Expedition 33, and everyone brave enough to march with it. Count heads every evening.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -82,7 +83,7 @@
       "tooltip": "A very large, very round friend who carries everyone. Starts with Boots, Torch, Bag (his Big Belly) and Hammer, and no sword.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       },
       "_notes": "The Tinker's character name becomes the character, as the roster's 'Esquie rides the Tinker' implies; this is a rename only."
     },
@@ -95,7 +96,7 @@
       "tooltip": "Room for every rock he finds, and a snack. In a clearing with a guarded rock it also counts as one undamaged sword (Belly Bounce). Otherwise a Bag by Root's rules.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -107,7 +108,7 @@
       "tooltip": "He rummages through the discard pile and comes up with a card that matches his clearing. Same rule as the Tinker's Day Labor.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -119,7 +120,7 @@
       "tooltip": "Figures she painted to keep the brushes moving and the Monolith guarded.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -131,7 +132,7 @@
       "tooltip": "An easel set up somewhere on the Continent. Outside the Monolith, in a clearing she rules with two of her Servants beside it, it becomes a Living Portrait.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -143,7 +144,7 @@
       "tooltip": "Every stroke planned in advance and painted left to right. If one stroke cannot be made, the whole plan smears into Grief. Same rules as the Decree.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -155,7 +156,7 @@
       "tooltip": "Same rules as Turmoil: she loses VP for each bird in the plan, the plan is cleared and her mood changes.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -167,7 +168,7 @@
       "tooltip": "The mood that cares only for the work. Same ability as the Builder.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -179,7 +180,7 @@
       "tooltip": "The mood that draws everyone to her side. Same ability as the Charismatic.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       },
       "_notes": "Safe and finished names are the roster's ('The Muse' / 'The Mother')."
     },
@@ -192,7 +193,7 @@
       "tooltip": "The mood that guards what is hers. Same ability as the Commander.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -204,7 +205,7 @@
       "tooltip": "The mood that will not be argued with. Same ability as the Despot.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -216,7 +217,7 @@
       "tooltip": "Two tools that never leave the Canvas Plan, even in Grief. Same rules as the Loyal Viziers.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -228,7 +229,7 @@
       "tooltip": "A sun-gold mark over a little schoolhouse. A Lantern whose clearing holds no enemy pieces of any kind is a Sanctuary.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -240,7 +241,7 @@
       "tooltip": "Fields on the water that feed a city. Same rules as a base: losing one costs the matching Foretold cards and half her Teachers.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -252,7 +253,7 @@
       "tooltip": "Each Teacher leads one evening task: move, battle, recruit, or light a new Lantern. Same rules as an officer.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -264,7 +265,7 @@
       "tooltip": "Farmhands who will put down the hoe and pick up something sharper when the fields are threatened.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -276,7 +277,7 @@
       "tooltip": "Cards set aside for what is coming. Spend them to light Lanterns or bring in the harvest. Same rules as supporters.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -288,7 +289,7 @@
       "tooltip": "Same rules as Revolt: every enemy piece in the Lantern clearing is swept away like a harvest, and an Aquafarm rises.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -300,7 +301,7 @@
       "tooltip": "You trampled the crops, pay the farmer. Same rules as Outrage.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       },
       "_notes": "The roster gives the rename as the sentence 'you trampled the crops, pay the farmer'; the short name is taken from it and the full sentence is the tooltip."
     },
@@ -313,7 +314,7 @@
       "tooltip": "A stranger who cannot die and fights as if he were grading himself. Starts with Boots, Torch, Crossbow (his pistol) and Sword.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -325,7 +326,7 @@
       "tooltip": "He pulls himself back together and repairs 3 items. Same rule as the Ranger's Hideout.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -337,7 +338,7 @@
       "tooltip": "A crossbow by Root's rules, a pistol by his.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -349,7 +350,7 @@
       "tooltip": "The youngest member of Expedition 33, looking for somewhere to belong. A fencer, not a thief.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       },
       "_notes": "One row covers both cards she may ride, since only one is in play. finishedName follows the character's finished name."
     },
@@ -362,7 +363,7 @@
       "tooltip": "A rapier feint that flicks a card out of an opponent's hand. Same rule as Steal.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -374,7 +375,7 @@
       "tooltip": "Only when she rides the Ronin (Exiles & Partisans & Vagabonds). Same rule as Swift Strike.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       },
       "_notes": "Only used with Exiles & Partisans & Vagabonds, when she rides the Ronin."
     },
@@ -387,7 +388,7 @@
       "tooltip": "Her surveyors: they map the forests, carry what they find and guard it on the way home.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -399,7 +400,7 @@
       "tooltip": "Notes from an expedition that never came back. Same rules as a tablet relic.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -411,7 +412,7 @@
       "tooltip": "A chart of a route someone walked before. Same rules as a figure relic.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -423,7 +424,7 @@
       "tooltip": "A sealed vial of the Continent's colour. Same rules as a jewelry relic.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -435,7 +436,7 @@
       "tooltip": "Where recovered research is catalogued. Each side files one kind of find. Same rules as a waystation.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -447,7 +448,7 @@
       "tooltip": "Her plan for the expedition, followed column by column. Same rules as the Retinue.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -459,7 +460,7 @@
       "tooltip": "Surveyors guarding a find shrug off the first hit, and each one walking can carry a find. Same rules as Devout Knights.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -471,7 +472,7 @@
       "tooltip": "The Gestral himself, out for a good duel. Whoever is anointed after a fall is Monoco reborn at the Sacred River, with some memories gone.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -483,7 +484,7 @@
       "tooltip": "Cheerful brawlers who follow Monoco from duel to duel.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -495,7 +496,7 @@
       "tooltip": "Wooden arenas where every argument ends in a friendly duel. Same rules as a stronghold.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -507,7 +508,7 @@
       "tooltip": "Youngsters who got carried away. Same rules as a mob.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -519,7 +520,7 @@
       "tooltip": "Everything the Gestrals have picked up along the way. Same rules as the Hoard; the Bestial Wheel is separate and only holds feet.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -531,7 +532,7 @@
       "tooltip": "A mood worn as a mask. Same effect as Root's mood card.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       },
       "_notes": "The roster renames five of the eight Mood cards after his masks and three after Gestral moods, but does not say which card is which. Root's mood list and effects could not be checked here, so the pairing is chosen on the creator's PC, matching each mask to the mood whose effect fits it best. Effects never change."
     },
@@ -544,7 +545,7 @@
       "tooltip": "A mood worn as a mask. Same effect as Root's mood card.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -556,7 +557,7 @@
       "tooltip": "A mood worn as a mask. Same effect as Root's mood card.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -568,7 +569,7 @@
       "tooltip": "A mood worn as a mask. Same effect as Root's mood card.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -580,7 +581,7 @@
       "tooltip": "A mood worn as a mask. Same effect as Root's mood card. (The Almighty foot on the Bestial Wheel is separate and opens in Act III.)",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -592,7 +593,7 @@
       "tooltip": "A Gestral's passing mood. The card reads 'Gestral Mood' above Root's own mood name, with the same effect.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       },
       "_notes": "The roster leaves the three Gestral mood names open; the simplest choice is one heading, 'Gestral Mood', above Root's own mood name."
     },
@@ -605,7 +606,7 @@
       "tooltip": "Somewhere below, where his warriors wait. Only he can go there. Same rules as the Burrow.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       },
       "_notes": "The roster's name is 'the Cell beneath the Monolith'. Safe mode says 'Down Below', because 'The Cell' together with the Monolith crack opening into his tunnel at Act III would tell a safe player he is imprisoned beneath the Monolith (an Act III spoiler). Finished mode says 'The Cell'. The tooltip stays vague in both modes."
     },
@@ -618,7 +619,7 @@
       "tooltip": "A crack his warriors slip through. Same rules as a tunnel.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -630,7 +631,7 @@
       "tooltip": "A quiet camp where weapons come back sharper. Same rules as a citadel.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -642,7 +643,7 @@
       "tooltip": "A stall that trades in the catalysts he uses for upgrades. Same rules as a market.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -654,7 +655,7 @@
       "tooltip": "People who owe him a favour. Same rules as ministers.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -666,7 +667,7 @@
       "tooltip": "When one of his camps or stalls falls, a contact walks away for good. Same rules as Price of Failure.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -678,7 +679,7 @@
       "tooltip": "Painted creatures that keep coming. Same rules as Lizard warriors.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -690,7 +691,7 @@
       "tooltip": "A workshop that turns out Nevrons. Same rules as a garden.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -702,7 +703,7 @@
       "tooltip": "An enemy warrior is painted over into one of hers. Same rules as Convert.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -714,7 +715,7 @@
       "tooltip": "An enemy building is painted over into an Atelier. Same rules as Sanctify.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -726,7 +727,7 @@
       "tooltip": "Colour that other players threw away. Same rules as the Lost Souls pile.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -738,7 +739,7 @@
       "tooltip": "Stored colour, spent on repainting. Same rules as acolytes.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -750,7 +751,7 @@
       "tooltip": "The colour that is easiest to paint over right now. Same rules as the Outcast suit.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       },
       "_notes": "Safe and finished names are the roster's ('the Weak Colour' / 'Mother's Weak Colour')."
     },
@@ -763,7 +764,7 @@
       "tooltip": "Dark shapes that wait where expeditions land. Same rules as Corvid warriors.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       },
       "_notes": "'Renoir's Nevrons' (the roster's name, itself design liberty) would reveal his name, which safe mode hides behind 'The White-Haired Man', so the safe name uses his safe title."
     },
@@ -776,7 +777,7 @@
       "tooltip": "Same rules as a Bomb plot: when flipped, every enemy piece in the clearing is removed.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -788,7 +789,7 @@
       "tooltip": "A shimmering wall across the road. Same rules as a Snare plot.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -800,7 +801,7 @@
       "tooltip": "Expedition notes taken off the shore. Same rules as an Extortion plot.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     },
     {
@@ -812,7 +813,7 @@
       "tooltip": "Same rules as a Raid plot: removed, it sends his warriors into the clearings around it.",
       "engineSymbol": "unknown",
       "_unverified": {
-        "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
+        "engineSymbol": "Root's string lookup key or type for this is unknown (the StreamingAssets localisation files are not the live text source, so the reskin patches the lookup at runtime); find it in Root's code on the creator's PC"
       }
     }
   ]
