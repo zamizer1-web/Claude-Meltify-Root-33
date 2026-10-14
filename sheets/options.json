@@ -42,6 +42,17 @@
       "default": "off",
       "description": "Off is Free Play, with no restrictions. On: a campaign of three linked games, Act I (suggested lead Gustave), Act II (Verso) and Act III (Maelle or the Curator). Losing never ends the campaign, because the next expedition carries on: the player gets the last expedition's journal, worth +1 card in the next game.",
       "_notes": "'+1 card' is read as one extra card in the player's opening hand."
+    },
+    {
+      "id": "opt.monolith-barrier",
+      "name": "Monolith Barrier (v1.1)",
+      "values": [
+        "off",
+        "on"
+      ],
+      "default": "off",
+      "description": "Optional v1.1 table rule. On: no battle may start in the Monolith until Visages and Sirène have both been ruled at the end of the same turn by seats other than the White-Haired Man and the Paintress; once that happens the Barrier is down for the rest of the game. Off: Monolith battles follow normal Root rules.",
+      "_notes": "The roster lists the Monolith Barrier under OPTIONAL, v1.1 with no seat condition, so the toggle applies whether or not the White-Haired Man is seated (tweak.white-haired-man.monolith-barrier)."
     }
   ]
 }

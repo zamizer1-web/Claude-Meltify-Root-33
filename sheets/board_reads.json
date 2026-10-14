@@ -389,8 +389,8 @@
     },
     {
       "id": "read.relic-type",
-      "description": "A relic's type: 'tablet', 'figure' or 'jewelry'.",
-      "csSignature": "string RelicType(int relicId)",
+      "description": "A relic's type: 'tablet', 'figure' or 'jewelry', or null while face down if the engine hides it (week-1 spike).",
+      "csSignature": "string? RelicType(int relicId)",
       "engineSymbol": "unknown: Root's relic token type",
       "_unverified": {
         "engineSymbol": "confirm in Root's code on the creator's PC"
@@ -520,6 +520,15 @@
       "engineSymbol": "unknown: Root's Hundreds mood card",
       "_unverified": {
         "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "read.hundreds-hoard",
+      "description": "The level of one Hoard (Gestral Stash) track of the Hundreds: 'command' (how many Command actions, which move rats along) or 'prowess' (how far the Warlord can Advance). The Monoco bot uses it to list the Warlord battles he can reach.",
+      "csSignature": "int HoardTrack(SeatId hundreds, string track)",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's Hundreds Hoard track levels; confirm in Root's code on the creator's PC"
       }
     }
   ]

@@ -225,7 +225,7 @@
       "rootThing": "Alliance sympathy token",
       "safeName": "Lantern",
       "finishedName": "Lantern",
-      "tooltip": "A sun-gold mark over a little schoolhouse. A Lantern with no enemy pieces of any kind around it is a Sanctuary.",
+      "tooltip": "A sun-gold mark over a little schoolhouse. A Lantern whose clearing holds no enemy pieces of any kind is a Sanctuary.",
       "engineSymbol": "unknown",
       "_unverified": {
         "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
@@ -600,14 +600,14 @@
       "id": "reskin.curator.burrow",
       "character": "curator",
       "rootThing": "Duchy Burrow",
-      "safeName": "The Cell",
+      "safeName": "Down Below",
       "finishedName": "The Cell",
       "tooltip": "Somewhere below, where his warriors wait. Only he can go there. Same rules as the Burrow.",
       "engineSymbol": "unknown",
       "_unverified": {
         "engineSymbol": "Root's localisation key or type for this is unknown; confirm in Root's code on the creator's PC"
       },
-      "_notes": "The roster's name is 'the Cell beneath the Monolith'. It gives no separate safe name, and its flavour lets safe mode hint at the cell below, so both modes say 'The Cell'; the tooltip stays vague."
+      "_notes": "The roster's name is 'the Cell beneath the Monolith'. Safe mode says 'Down Below', because 'The Cell' together with the Monolith crack opening into his tunnel at Act III would tell a safe player he is imprisoned beneath the Monolith (an Act III spoiler). Finished mode says 'The Cell'. The tooltip stays vague in both modes."
     },
     {
       "id": "reskin.curator.tunnel",

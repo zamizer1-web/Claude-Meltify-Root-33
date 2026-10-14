@@ -271,7 +271,7 @@
       "text": "Whoever painted this world sure loves a long game! That's okay. I'm the MOST patient.",
       "safeSibling": null,
       "original": true,
-      "_notes": "Safe sibling of the finished line below."
+      "_notes": "Safe sibling of the finished line below. The optional finished-mode Act III Esquie/Sciel exchange is deliberately not written; it waits on spoiler decision 6 and must never be played for laughs or mention the sea rescue directly."
     },
     {
       "id": "bark.esquie.14",
@@ -499,7 +499,7 @@
       "text": "Twilight on the Aquafarm, a full harvest, and the children of Lumière watching from the shore. That's a good year.",
       "safeSibling": null,
       "original": true,
-      "_notes": "Her grief is never played for laughs; Pierre is not mentioned in any line."
+      "_notes": "Her grief is never played for laughs; Pierre is not mentioned in any line. The optional finished-mode Act III Esquie/Sciel exchange is deliberately not written; it waits on spoiler decision 6 and must never be played for laughs or mention the sea rescue directly."
     },
     {
       "id": "bark.verso.01",
@@ -1056,12 +1056,12 @@
     {
       "id": "bark.clea.01",
       "character": "clea",
-      "trigger": "trigger.convert",
+      "trigger": "trigger.coverage-count",
       "tier": "safe",
       "text": "Another Nevron. Perfect? No. Next.",
       "safeSibling": null,
       "original": true,
-      "_notes": "Roster sample bark."
+      "_notes": "Roster sample bark. On trigger.coverage-count, not trigger.convert, so it never plays at the first-Convert 'perfect specimen' moment; bark.clea.03 is the only trigger.convert line."
     },
     {
       "id": "bark.clea.02",

@@ -31,7 +31,7 @@
       "appearsInAct": "act2",
       "placeAt": "role.old-lumiere",
       "guards": 0,
-      "claimRule": "Hidden in the Old Lumière ruin from the start of Act II (loose at once if that ruin was already emptied, or if Old Lumière has no ruin on this map). Esquie claims it by Exploring that ruin, or by ending any action there while Dorrie is loose. If the White-Haired Man (Corvids) is seated, it cannot be claimed while Corvid warriors are in Old Lumière; an Explore made then empties the ruin and leaves Dorrie loose. Never lost once claimed.",
+      "claimRule": "Hidden in the Old Lumière ruin from the start of Act II (loose at once if that ruin was already emptied, or if Old Lumière has no ruin on this map). Esquie claims it by Exploring that ruin, or by ending any action there while Dorrie is loose. If the White-Haired Man (Corvids) is seated, it cannot be claimed while Corvid warriors are in Old Lumière; an Explore made then empties the ruin and leaves Dorrie loose. Never lost once claimed. Any other Vagabond's Explore of Old Lumière from Act II leaves Dorrie loose there (the ruin is now empty).",
       "state": "state.esquie.rocks",
       "overlay": "ui.esquie.rocks",
       "actions": [
@@ -42,7 +42,8 @@
       "tests": [
         "DorrieSpawn_ClaimedByExploringOldLumiere",
         "DorrieSpawn_LooseWhenRuinAlreadyEmpty",
-        "DorrieSpawn_BlockedWhileCorvidWarriorsPresent"
+        "DorrieSpawn_BlockedWhileCorvidWarriorsPresent",
+        "DorrieSpawn_LooseAfterAnotherVagabondExplores"
       ],
       "_notes": "An Explore while Corvid warriors are present leaving Dorrie loose (instead of lost or held) is the simplest reading of 'cannot be claimed while Corvid warriors are in Old Lumière'."
     },
@@ -126,7 +127,7 @@
         "do.show-overlay",
         "do.hide-overlay"
       ],
-      "fallback": "If relics cannot be moved, tag the chosen relic where it lies. If relic values are hidden while face down, choose the forest tablet nearest to Sirène by path distance from the clearings around its forest (ties: lowest forest number).",
+      "fallback": "If relics cannot be moved, tag the chosen relic where it lies. If relic values are hidden while face down, choose the forest tablet nearest to Sirène by path distance from the clearings around its forest (ties: lowest forest number). If types are hidden too, tag the forest relic nearest Sirène (same distance rule and ties).",
       "tests": [
         "ParentsJournal_TagsHighestValueForestTablet",
         "ParentsJournal_FallsBackToHighestValueAnyType",
@@ -145,10 +146,11 @@
       "overlay": "ui.curator.cell-crack",
       "actions": [
         "do.place-tunnel",
+        "do.grant-free-dig",
         "do.show-overlay",
         "do.hide-overlay"
       ],
-      "fallback": "If the mod cannot place a tunnel, his first Act III action is a free Dig into the Monolith (state 'dig-owed').",
+      "fallback": "If the mod cannot place a tunnel, his first Act III action is a free Dig into the Monolith (state 'dig-owed', do.grant-free-dig). If a free Dig cannot be granted either, he Digs into the Monolith normally, paying the card.",
       "tests": [
         "CellCrack_InertBeforeActThree",
         "CellCrack_BecomesTunnelAtActThree",

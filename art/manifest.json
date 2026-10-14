@@ -1,11 +1,413 @@
 {
   "pieces": [
     {
+      "asset": "asset.dusk-tint",
+      "path": "art/fx/dusk-tint.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sprites": []
+    },
+    {
+      "asset": "asset.journal-glow",
+      "path": "art/fx/journal-glow.png",
+      "size": [
+        640,
+        512
+      ],
+      "sprites": [
+        {
+          "name": "forest-glow",
+          "box": [
+            0,
+            0,
+            512,
+            512
+          ]
+        },
+        {
+          "name": "relic-tag",
+          "box": [
+            512,
+            0,
+            640,
+            192
+          ]
+        }
+      ]
+    },
+    {
+      "asset": "asset.petals",
+      "path": "art/fx/petals.png",
+      "size": [
+        512,
+        128
+      ],
+      "sprites": [
+        {
+          "name": "crimson-1",
+          "box": [
+            0,
+            0,
+            64,
+            128
+          ]
+        },
+        {
+          "name": "crimson-2",
+          "box": [
+            64,
+            0,
+            128,
+            128
+          ]
+        },
+        {
+          "name": "crimson-3",
+          "box": [
+            128,
+            0,
+            192,
+            128
+          ]
+        },
+        {
+          "name": "bone-1",
+          "box": [
+            192,
+            0,
+            256,
+            128
+          ]
+        },
+        {
+          "name": "crimson-4",
+          "box": [
+            256,
+            0,
+            320,
+            128
+          ]
+        },
+        {
+          "name": "crimson-5",
+          "box": [
+            320,
+            0,
+            384,
+            128
+          ]
+        },
+        {
+          "name": "bone-2",
+          "box": [
+            384,
+            0,
+            448,
+            128
+          ]
+        },
+        {
+          "name": "crimson-6",
+          "box": [
+            448,
+            0,
+            512,
+            128
+          ]
+        }
+      ]
+    },
+    {
+      "asset": "asset.smeared-canvas",
+      "path": "art/fx/smeared-canvas.png",
+      "size": [
+        512,
+        512
+      ],
+      "sprites": []
+    },
+    {
+      "asset": "asset.final-battlefield",
+      "path": "art/map/final-battlefield.png",
+      "size": [
+        512,
+        512
+      ],
+      "sprites": []
+    },
+    {
+      "asset": "asset.monolith-plate",
+      "path": "art/map/monolith-number.png",
+      "size": [
+        512,
+        512
+      ],
+      "sprites": []
+    },
+    {
+      "asset": "asset.ring-barrier",
+      "path": "art/map/ring-barrier.png",
+      "size": [
+        768,
+        768
+      ],
+      "sprites": [
+        {
+          "name": "segment-1-held",
+          "box": [
+            0,
+            0,
+            256,
+            256
+          ]
+        },
+        {
+          "name": "segment-2-held",
+          "box": [
+            256,
+            0,
+            512,
+            256
+          ]
+        },
+        {
+          "name": "segment-3-held",
+          "box": [
+            512,
+            0,
+            768,
+            256
+          ]
+        },
+        {
+          "name": "segment-1-not-held",
+          "box": [
+            0,
+            256,
+            256,
+            512
+          ]
+        },
+        {
+          "name": "segment-2-not-held",
+          "box": [
+            256,
+            256,
+            512,
+            512
+          ]
+        },
+        {
+          "name": "segment-3-not-held",
+          "box": [
+            512,
+            256,
+            768,
+            512
+          ]
+        },
+        {
+          "name": "ring-base",
+          "box": [
+            0,
+            512,
+            256,
+            768
+          ]
+        },
+        {
+          "name": "barrier-1",
+          "box": [
+            256,
+            512,
+            512,
+            768
+          ]
+        },
+        {
+          "name": "barrier-2",
+          "box": [
+            512,
+            512,
+            768,
+            768
+          ]
+        }
+      ]
+    },
+    {
+      "asset": "asset.route-dots",
+      "path": "art/map/route-dots.png",
+      "size": [
+        256,
+        32
+      ],
+      "sprites": []
+    },
+    {
+      "asset": "asset.sacred-river",
+      "path": "art/map/sacred-river.png",
+      "size": [
+        1024,
+        128
+      ],
+      "sprites": []
+    },
+    {
+      "asset": "asset.portrait-fallback",
+      "path": "art/portraits/silhouette.png",
+      "size": [
+        512,
+        512
+      ],
+      "sprites": []
+    },
+    {
       "asset": "asset.title-rift",
       "path": "art/title-rift.png",
       "size": [
         1600,
         900
+      ],
+      "sprites": []
+    },
+    {
+      "asset": "asset.banner-frame",
+      "path": "art/ui/banner-frame.png",
+      "size": [
+        1400,
+        260
+      ],
+      "sprites": []
+    },
+    {
+      "asset": "asset.card-frame",
+      "path": "art/ui/character-card.png",
+      "size": [
+        820,
+        900
+      ],
+      "sprites": [
+        {
+          "name": "card",
+          "box": [
+            0,
+            0,
+            600,
+            900
+          ]
+        },
+        {
+          "name": "lock-badge",
+          "box": [
+            620,
+            0,
+            820,
+            200
+          ]
+        }
+      ]
+    },
+    {
+      "asset": "asset.label-plate",
+      "path": "art/ui/label-plate.png",
+      "size": [
+        420,
+        110
+      ],
+      "sprites": []
+    },
+    {
+      "asset": "asset.prompt-frame",
+      "path": "art/ui/prompt-frame.png",
+      "size": [
+        1200,
+        700
+      ],
+      "sprites": []
+    },
+    {
+      "asset": "asset.bubble-frame",
+      "path": "art/ui/speech-bubble.png",
+      "size": [
+        1040,
+        330
+      ],
+      "sprites": [
+        {
+          "name": "tail-left",
+          "box": [
+            0,
+            0,
+            520,
+            330
+          ]
+        },
+        {
+          "name": "tail-right",
+          "box": [
+            520,
+            0,
+            1040,
+            330
+          ]
+        }
+      ]
+    },
+    {
+      "asset": "asset.tracker-frame",
+      "path": "art/ui/tracker-frame.png",
+      "size": [
+        752,
+        440
+      ],
+      "sprites": [
+        {
+          "name": "panel",
+          "box": [
+            0,
+            0,
+            640,
+            440
+          ]
+        },
+        {
+          "name": "pip-empty",
+          "box": [
+            656,
+            20,
+            752,
+            116
+          ]
+        },
+        {
+          "name": "pip-lit",
+          "box": [
+            656,
+            136,
+            752,
+            232
+          ]
+        },
+        {
+          "name": "pip-blazing",
+          "box": [
+            656,
+            252,
+            752,
+            348
+          ]
+        }
+      ]
+    },
+    {
+      "asset": "asset.vignette-frame",
+      "path": "art/ui/vignette-frame.png",
+      "size": [
+        1920,
+        1080
       ],
       "sprites": []
     }

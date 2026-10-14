@@ -21,7 +21,7 @@
         "engines the player owns (base game plus DLC)",
         "maximum seat count"
       ],
-      "csHandler": "void OnCharacterSelectShown(IReadOnlyList<EngineId> ownedEngines)",
+      "csHandler": "void OnCharacterSelectShown(IReadOnlyList<EngineId> ownedEngines, int maxSeats)",
       "engineSymbol": "unknown: Root's faction-selection screen setup",
       "patchKind": "postfix",
       "_unverified": {
@@ -162,7 +162,7 @@
     },
     {
       "id": "hook.turn-end",
-      "when": "The turn passes from one seat to the next, right after hook.evening-end. Per-turn toggles and logs reset (unused Overcharge, stance-turn flags, Still Life), the Monolith Barrier is re-checked, and the act clock runs after the themed-win checks: if act < 3 and (the highest Vp of any seat >= the current act's endsAtVp, or the last completed round >= its endsAfterRound), the act advances one step. The check is state-based, at most one step per turn; a threshold already met (for example one turn that crosses both 10 and 20 VP, or Act I ending at round 4 with a seat already on 20+) advances the next act at the following turn end.",
+      "when": "The turn passes from one seat to the next, right after hook.evening-end. Per-turn toggles and logs reset (unused Overcharge, stance-turn flags, Still Life), the Monolith Barrier is re-checked, and the act clock runs after the themed-win checks: if act < 3 and (the highest Vp of any seat >= the current act's endsAtVp (tune.act1-end-vp / tune.act2-end-vp), or the last completed round >= its endsAfterRound (tune.act1-end-round / tune.act2-end-round)), the act advances one step. The check is state-based, at most one step per turn; a threshold already met (for example one turn that crosses both 10 and 20 VP, or Act I ending at round 4 with a seat already on 20+) advances the next act at the following turn end.",
       "provides": [
         "seat whose turn just ended"
       ],

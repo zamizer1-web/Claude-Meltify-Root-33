@@ -115,13 +115,16 @@
       "id": "tweak.esquie.guard-floor",
       "character": "esquie",
       "name": "Guards hold their post",
-      "rule": "While a rock is guarded in a clearing, the host's move generator (Root's AI and the human UI too) keeps at least GuardsLeft of its warriors there. It is a count floor: the host's other warriors come and go. The floor lifts when the rock becomes loose. Applies to any host, a human Clea included.",
+      "rule": "While a rock is guarded in a clearing, the host's move generator (Root's AI and the human UI too) keeps at least GuardsLeft of its warriors there. It is a count floor: the host's other warriors come and go. The floor lifts when the rock becomes loose. Applies to any host, a human Clea included. With tune.esquie-guard-spawns at 0 (the no-spawn fallback) no rock is ever guarded, so this floor never applies.",
       "version": "v1",
       "hooks": [
         "hook.setup-complete",
         "hook.act-change",
         "hook.battle-resolved",
         "hook.piece-removed",
+        "hook.action-resolved",
+        "hook.aid-resolved",
+        "hook.evening-end",
         "hook.load"
       ],
       "actions": [
@@ -137,13 +140,16 @@
       "id": "tweak.esquie.guard-no-placement",
       "character": "esquie",
       "name": "No building at a guarded rock",
-      "rule": "While a rock is guarded in a clearing, the host may not build, recruit or place pieces there (AI and human UI alike). The block lifts when the rock becomes loose.",
+      "rule": "While a rock is guarded in a clearing, the host may not build, recruit or place pieces there (AI and human UI alike). The block lifts when the rock becomes loose. With tune.esquie-guard-spawns at 0 (the no-spawn fallback) no rock is ever guarded, so this block never applies.",
       "version": "v1",
       "hooks": [
         "hook.setup-complete",
         "hook.act-change",
         "hook.battle-resolved",
         "hook.piece-removed",
+        "hook.action-resolved",
+        "hook.aid-resolved",
+        "hook.evening-end",
         "hook.load"
       ],
       "actions": [
@@ -158,7 +164,7 @@
       "id": "tweak.esquie.guards-never-count",
       "character": "esquie",
       "name": "Guards are not the host's",
-      "rule": "Guard warriors never count toward any themed win (Clea's coverage, the White-Haired Man's Ring). Wherever a themed-win test counts a seat's warriors in a clearing, it first subtracts GuardsLeft of the guarded rocks that seat hosts there.",
+      "rule": "Guard warriors never count toward the host's own themed win. Wherever a themed-win test counts the host's own warriors toward the host's win (Clea's coverage, the White-Haired Man's Ring, the Paintress's Portraits), it first subtracts GuardsLeft of the guarded rocks it hosts there. Other seats' tests still see guards as enemy warriors (for example in Sciel's Sanctuaries or Verso's Monolith test).",
       "version": "v1",
       "hooks": [
         "hook.evening-end",
@@ -168,7 +174,8 @@
       "tests": [
         "GuardRules_HostedGuardsExcludedFromCleaCoverage",
         "GuardRules_HostedGuardsExcludedFromRingPresence",
-        "GuardRules_HostedGuardsExcludedFromPortraitWarriors"
+        "GuardRules_HostedGuardsExcludedFromPortraitWarriors",
+        "GuardRules_OtherSeatsStillSeeGuardsAsEnemyWarriors"
       ],
       "_notes": "Root's own rule (read.ruler) still counts guards, because it is Root's computation; only the mod's direct warrior counts subtract them. The Paintress's 2-warrior Portrait count is included as 'any themed win'."
     },
@@ -422,7 +429,7 @@
       "tests": [
         "CuratorSetup_HomeCornerExcludesLumiereAndMonolith"
       ],
-      "_notes": "v1 here means it ships with the Curator's first build."
+      "_notes": "v1 here means it ships with the Curator's first build. Week-1 spike: Duchy setup details (home corner, Burrow, starting pieces) in Root digital; this rule depends on them."
     },
     {
       "id": "tweak.clea.home-flying-manor",
@@ -483,7 +490,7 @@
       "id": "tweak.white-haired-man.monolith-barrier",
       "character": "white-haired-man",
       "name": "Monolith Barrier",
-      "rule": "Optional: no battle may start in the Monolith until Visages and Sirène have both been ruled, at the end of the same turn, by seats other than the White-Haired Man and the Paintress. Once that happens the Barrier is down for the rest of the game.",
+      "rule": "Only while opt.monolith-barrier is on (default off): no battle may start in the Monolith until Visages and Sirène have both been ruled, at the end of the same turn, by seats other than the White-Haired Man and the Paintress. Once that happens the Barrier is down for the rest of the game.",
       "version": "v1.1",
       "hooks": [
         "hook.battle-legal",
@@ -492,9 +499,10 @@
       "actions": [],
       "tests": [
         "MonolithBarrier_BlocksMonolithBattleUntilAxonsRuled",
-        "MonolithBarrier_StaysDownOnceBroken"
+        "MonolithBarrier_StaysDownOnceBroken",
+        "MonolithBarrier_OffUnlessOptionOn"
       ],
-      "_notes": "The roster lists this as an optional v1.1 table rule with no owner. It is filed under the White-Haired Man (the Barrier is his imagery) and is active only while he is seated. 'Both Axon clearings' is read as Visages and Sirène, ruled at the end of the same turn."
+      "_notes": "The roster lists this as an optional v1.1 table rule with no owner and no seat condition. It is filed under the White-Haired Man (the Barrier is his imagery), but it is switched by opt.monolith-barrier and applies whether or not he is seated. 'Both Axon clearings' is read as Visages and Sirène, ruled at the end of the same turn."
     }
   ]
 }

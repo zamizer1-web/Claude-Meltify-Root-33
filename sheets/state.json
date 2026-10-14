@@ -52,7 +52,7 @@
         "hook.load"
       ],
       "onLoad": "Restored from the save: a game keeps the spoiler mode it started with, and a change to opt.spoiler-mode applies from the next game. Finished-mode 'mother' lines still wait for Act III.",
-      "_notes": "The first-launch answer lives in the player's mod profile (opt.spoiler-mode); this row is the copy a game reads, taken once at game start as the settings system says."
+      "_notes": "The first-launch answer lives in the player's mod profile (opt.spoiler-mode); this row is the copy a game reads, taken once at game start as the settings system says. Readers: the bark and overlay tier filter (barks.tier, the safe/finished versions in overlays such as ui.global.ending-card and the ui.<character>.ending rows), character names (safeName / finishedName) and story_events.tier."
     },
     {
       "id": "state.global.difficulty",
@@ -102,7 +102,8 @@
         "hook.game-start",
         "hook.load"
       ],
-      "onLoad": "True only if the save carries mod state for this game's ID; a save without it loads as plain Root."
+      "onLoad": "True only if the save carries mod state for this game's ID; a save without it loads as plain Root.",
+      "_notes": "Readers: every hook's E33 gate. The core acts on Root's events only while it is true; a plain Root game is left alone."
     },
     {
       "id": "state.global.campaign-game",
@@ -128,6 +129,35 @@
       ],
       "onLoad": "Kept in the player's profile; spent at hook.setup-complete of the next campaign game.",
       "_notes": "The roster says the journal is 'worth +1 card'; read, as opt.campaign does, as one extra card in the human's opening hand."
+    },
+    {
+      "id": "state.global.pending-vp",
+      "owner": "global",
+      "csType": "Dictionary<SeatId,int>",
+      "range": "seat -> VP queued by do.score-vp's fallback (0 or more); only used when Root cannot add VP outside that seat's turn",
+      "initial": "empty",
+      "writtenBy": [
+        "hook.evening-end",
+        "hook.birdsong-start",
+        "hook.load"
+      ],
+      "onLoad": "Restored from the save; each entry is paid at that seat's next Birdsong (hook.birdsong-start) and then removed.",
+      "_notes": "Queued at hook.evening-end (Verso's Soarrie VP when Esquie ends his turn in Verso's clearing) and spent at hook.birdsong-start."
+    },
+    {
+      "id": "state.global.pending-draws",
+      "owner": "global",
+      "csType": "Dictionary<SeatId,int>",
+      "range": "seat -> cards queued by do.draw-cards' fallback (0 or more); only used when Root cannot make a seat draw outside its turn",
+      "initial": "empty",
+      "writtenBy": [
+        "hook.piece-removed",
+        "hook.setup-complete",
+        "hook.evening-start",
+        "hook.load"
+      ],
+      "onLoad": "Restored from the save; each entry is added to that seat's next Evening draw (hook.evening-start) and then removed.",
+      "_notes": "Queued at hook.piece-removed (the Curator's Quiet Helper) and hook.setup-complete (the campaign journal's +1 card), and spent at hook.evening-start."
     },
     {
       "id": "state.gustave.flags",
@@ -167,16 +197,17 @@
         "hook.turn-end",
         "hook.load"
       ],
-      "onLoad": "Always false after loading (a save never falls inside a battle); the arm keeps its charge."
+      "onLoad": "Restored from the save (undo and rollback snapshots can fall between arming and the battle); dropped if state.gustave.arm < tune.gustave-arm-max."
     },
     {
       "id": "state.gustave.route",
       "owner": "gustave",
       "csType": "IReadOnlyList<ClearingId>",
-      "range": "the bot's planned Route from Lumière to a Beachhead, in path order; empty for a human Gustave",
+      "range": "the bot's planned Route from Lumière to a Beachhead, in path order; empty for a human Gustave (Hard: rewritten after any action that raises a Route clearing's cost)",
       "initial": "empty",
       "writtenBy": [
         "hook.birdsong-start",
+        "hook.action-resolved",
         "hook.load"
       ],
       "onLoad": "Not trusted after loading: recomputed at his next Birdsong."

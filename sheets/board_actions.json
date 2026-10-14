@@ -5,7 +5,7 @@
       "description": "Place warriors of any seat from that seat's supply into a clearing, outside that seat's turn. Used for Esquie's guards (Florrie's 2, Urrie's 3, from the Nevron host). Returns how many were actually placed when the supply runs short.",
       "csSignature": "int PlaceWarriors(SeatId seat, ClearingId c, int count)",
       "v1": true,
-      "fallback": "Esquie's no-spawn fallback becomes the v1 default: no guards spawn, and Florrie and Urrie can be claimed only when no faction other than Esquie has warriors in their clearing.",
+      "fallback": "Esquie's no-spawn fallback becomes the v1 default (tune.esquie-guard-spawns = 0): no guards spawn, and Florrie and Urrie can be claimed only when no faction other than Esquie has warriors in their clearing.",
       "engineSymbol": "unknown: Root's warrior placement from supply (as used by recruit/setup)",
       "_unverified": {
         "engineSymbol": "confirm in Root's code on the creator's PC"
@@ -27,10 +27,21 @@
       "description": "Place a Duchy tunnel token in a clearing from the Duchy's supply, or as a free extra token when all three are on the map (the Cell Crack opening at Act III).",
       "csSignature": "bool PlaceTunnel(SeatId duchy, ClearingId c, bool extraPiece)",
       "v1": false,
-      "fallback": "The Curator's first Act III action is a free Dig into the Monolith; the crack overlay stays until he digs there.",
+      "fallback": "The Curator's first Act III action is a free Dig into the Monolith (do.grant-free-dig); the crack overlay stays until he digs there.",
       "engineSymbol": "unknown: Root's Duchy tunnel placement (Dig)",
       "_unverified": {
         "engineSymbol": "confirm in Root's code on the creator's PC"
+      }
+    },
+    {
+      "id": "do.grant-free-dig",
+      "description": "Grant the Duchy one free Dig into a given clearing as its first Act III action, without paying a card (the Cell Crack fallback when a tunnel cannot be placed directly).",
+      "csSignature": "bool GrantFreeDig(SeatId duchy, ClearingId c)",
+      "v1": false,
+      "fallback": "He Digs into the Monolith normally, paying the card, as the roster allows after a lost tunnel; the crack overlay stays until he does.",
+      "engineSymbol": "unknown",
+      "_unverified": {
+        "engineSymbol": "Root's Duchy Dig action and its card cost; confirm in Root's code on the creator's PC"
       }
     },
     {
@@ -71,7 +82,7 @@
       "description": "Add VP to a seat outside the usual scoring (Verso's 1 VP when Soarrie passes to Esquie).",
       "csSignature": "void ScoreVp(SeatId seat, int vp)",
       "v1": true,
-      "fallback": "If VP cannot be added outside the seat's own turn, queue it and add it at the start of that seat's next Birdsong.",
+      "fallback": "If VP cannot be added outside the seat's own turn, queue it in state.global.pending-vp and add it at the start of that seat's next Birdsong.",
       "engineSymbol": "unknown: Root's score track increment",
       "_unverified": {
         "engineSymbol": "confirm in Root's code on the creator's PC"
@@ -82,7 +93,7 @@
       "description": "Make a seat draw cards from the deck outside its normal draw (the Curator's Quiet Helper; the campaign's last-expedition journal worth +1 card).",
       "csSignature": "void DrawCards(SeatId seat, int count)",
       "v1": true,
-      "fallback": "If a draw cannot happen outside the seat's own turn, add the cards to that seat's next Evening draw.",
+      "fallback": "If a draw cannot happen outside the seat's own turn, queue it in state.global.pending-draws and add the cards to that seat's next Evening draw.",
       "engineSymbol": "unknown: Root's deck draw for a player",
       "_unverified": {
         "engineSymbol": "confirm in Root's code on the creator's PC"
@@ -116,7 +127,7 @@
       "description": "Make a seat's warriors in the battle's clearing ignore the first hit they take, like the Keepers' Devout Knights (the White-Haired Man's Unbeatable in Act I).",
       "csSignature": "void IgnoreFirstHit(SeatId seat)",
       "v1": false,
-      "fallback": "After the battle, return one removed warrior of that seat to the clearing from its supply (do.place-warriors), which nets out the first hit.",
+      "fallback": "After the battle, return one removed warrior of that seat to the clearing from its supply (do.place-warriors), which nets out the first hit. If do.place-warriors is also unavailable, Unbeatable in Act I is left out; it is flavour only, since no themed win is possible in Act I.",
       "engineSymbol": "unknown: Root's Devout Knights hit-ignore logic",
       "_unverified": {
         "engineSymbol": "confirm in Root's code on the creator's PC"

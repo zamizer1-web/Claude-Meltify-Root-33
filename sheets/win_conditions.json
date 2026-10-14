@@ -10,7 +10,7 @@
       "playerText": "From Act II with 10+ VP. At the end of each of his turns, every clearing he rules that holds one of his buildings gets a permanent Expedition Flag (Lumière starts flagged), but a flag only counts while he still rules that clearing. Gustave's Arm (0-3) gains a charge only when he starts a battle that removes an enemy piece; using Overcharge empties it. His Chain is the flagged clearings he rules that connect to Lumière by paths. The table is warned at the end of his turn if the Chain reaches a Beachhead (a clearing next to the Monolith) holding one of his buildings, covers fox, rabbit and mouse, his Arm is 3/3 and he has 10+ VP. He wins at the start of his next Birdsong if all of that still holds. 30 VP still wins.",
       "announceTest": "At hook.evening-end for the seat playing Gustave (Marquise). First the flags: every clearing c with Ruler(c) == seat and Buildings(seat, c) >= tune.gustave-flag-buildings is added to state.gustave.flags. Then the test: act >= 2, Vp(seat) >= tune.countdown-vp, ActiveDominance(seat) == null, and state.gustave.arm == tune.gustave-arm-max. Chain = breadth-first search from Lumière (state.global.roles[role.lumiere]) along PathNeighbours only (rivers are not paths), visiting only clearings that are in state.gustave.flags and have Ruler(c) == seat; if Lumière itself fails that, the Chain is empty. Pass when (1) some Chain clearing b is in PathNeighbours(Monolith) and has Buildings(seat, b) >= tune.gustave-beachhead-buildings, and (2) the union of SuitsOf(c) over the Chain holds tune.gustave-chain-suits distinct suits among fox, rabbit and mouse (a Lost City gives all three). A pass adds the seat to state.global.countdowns and shows the public banner.",
       "confirmTest": "At hook.birdsong-start for his seat, before any Birdsong step, if the seat is in state.global.countdowns: rerun the same test on the current board and state (act, VP, no active dominance, Arm full, a ruled flagged Chain from Lumière reaching a Beachhead with his building, three suits). No new flags are planted. Pass: do.declare-winner. Fail: remove the seat from state.global.countdowns and clear the banner.",
-      "counterplay": "Flip rule of any one Chain clearing (including Lumière), or remove the Beachhead's Marquise buildings, before his next Birdsong. Draining the Arm also works: if he spends Overcharge it must refill to 3 first.",
+      "counterplay": "Flip rule of any one Chain clearing (including Lumière), or remove the Beachhead's Marquise buildings, before his next Birdsong. Only his own Overcharge empties the Arm, and it must refill to 3 before he can announce again.",
       "offWithDominance": true,
       "offInCoalition": false,
       "params": {
@@ -26,7 +26,8 @@
         "state.gustave.overcharge-armed",
         "state.global.countdowns",
         "state.global.act",
-        "state.global.roles"
+        "state.global.roles",
+        "state.global.seat-characters"
       ],
       "hooks": [
         "hook.setup-complete",
@@ -150,7 +151,8 @@
         "state.global.countdowns",
         "state.global.act",
         "state.global.roles",
-        "state.esquie.rocks"
+        "state.esquie.rocks",
+        "state.global.seat-characters"
       ],
       "hooks": [
         "hook.evening-end",
@@ -201,7 +203,8 @@
       },
       "state": [
         "state.global.countdowns",
-        "state.global.act"
+        "state.global.act",
+        "state.global.seat-characters"
       ],
       "hooks": [
         "hook.evening-end",
@@ -263,7 +266,8 @@
         "state.global.countdowns",
         "state.global.act",
         "state.global.difficulty",
-        "state.global.roles"
+        "state.global.roles",
+        "state.global.seat-characters"
       ],
       "hooks": [
         "hook.battle-resolved",
@@ -317,7 +321,8 @@
       "state": [
         "state.global.countdowns",
         "state.global.act",
-        "state.global.roles"
+        "state.global.roles",
+        "state.global.seat-characters"
       ],
       "hooks": [
         "hook.evening-end",
@@ -346,7 +351,7 @@
         "MaelleWin_SingleFactionNeedsFifteenVp",
         "MaelleWin_BlockedByAnyHostile"
       ],
-      "_notes": "'If only one is seated' is applied to the count of non-Vagabond seats (a 2-player game, or a 3-player table with two Vagabonds). A Vagabond cannot hold an active dominance card, so the coalition gate covers dominance. Counterplay lists only the roster's answer (damage her items in Lumière). It does not rely on a faction turning Hostile when she removes its warriors while defending; if the week-1 spike confirms Root does that, 'a faction whose warriors she removes in battle turns Hostile, which also breaks her test' may be added back."
+      "_notes": "'If only one is seated' is applied to the count of non-Vagabond seats (a 2-player game, or a 3-player table with two Vagabonds). A Vagabond cannot hold an active dominance card, so the coalition gate covers dominance. Counterplay lists only the roster's answer (damage her items in Lumière). It does not rely on a faction turning Hostile when she removes its warriors while defending; if the week-1 spike confirms Root does that, 'a faction whose warriors she removes in battle turns Hostile, which also breaks her test' may be added back. Week-1 spike: confirm Root digital's keep blocks other factions' placement but not movement; this row depends on it. (her pawn stands in Lumière while Gustave's keep is there)."
     },
     {
       "id": "win.lune",
@@ -367,7 +372,8 @@
       "state": [
         "state.lune.tagged-relic",
         "state.global.act",
-        "state.global.roles"
+        "state.global.roles",
+        "state.global.seat-characters"
       ],
       "hooks": [
         "hook.act-change",
@@ -384,7 +390,9 @@
         "read.relic-forest",
         "read.forests-around",
         "read.forest-clearings",
-        "read.active-dominance"
+        "read.active-dominance",
+        "read.path-neighbours",
+        "read.relic-face-up"
       ],
       "overlays": [
         "ui.lune.journal-glow",
@@ -423,7 +431,8 @@
       "state": [
         "state.monoco.feet",
         "state.global.countdowns",
-        "state.global.act"
+        "state.global.act",
+        "state.global.seat-characters"
       ],
       "hooks": [
         "hook.battle-resolved",
@@ -450,7 +459,7 @@
         "MonocoWin_AlmightyOnlyInActThree",
         "MonocoWin_FewerOpponentsNeedEveryOpponent"
       ],
-      "_notes": "Feet (state.monoco.feet) at hook.battle-resolved when the Warlord is attacker or defender and Hundreds hits removed enemy pieces: for each removed enemy piece, Agile if a warrior and AttackerMovedInThisTurn (Warlord attacking), Heavy if a building, Caster if a token; Balanced if the battle removed an enemy piece and at least one Hundreds piece; Almighty if act >= tune.monoco-almighty-act, VpLeaderAtStart is not his seat, and either a building of that leader was removed or >= tune.monoco-almighty-pieces of the leader's pieces were removed. A foot already earned is re-earned from a new faction only if that raises the count of distinct factions. 'Hundreds hits remove' is read from the battle's removed list (pieces of other seats removed in a battle the Warlord is in). offInCoalition is false: this non-Vagabond seat can only ever be a coalition partner, the roster's how_checked gates it on dominance only, and a coalition Vagabond wins when its partner wins in any way."
+      "_notes": "Feet (state.monoco.feet) at hook.battle-resolved when the Warlord is in the battle (the Hundreds seat is r.Attacker or r.Defender and (PawnClearing(seat) == r.Clearing, or r.Removed holds a Pawn owned by that seat)) and Hundreds hits removed enemy pieces: for each removed enemy piece, Agile if a warrior and AttackerMovedInThisTurn (Warlord attacking), Heavy if a building, Caster if a token; Balanced if the battle removed an enemy piece and at least one Hundreds piece; Almighty if act >= tune.monoco-almighty-act, VpLeaderAtStart is not his seat (if VpLeaderAtStart is null because of a tie, any seat tied for the top score at battle start, other than Monoco, counts as the leader), and either a building of that leader was removed or >= tune.monoco-almighty-pieces of the leader's pieces were removed. A foot already earned is re-earned from a new faction only if that raises the count of distinct factions. 'Hundreds hits remove' is read from the battle's removed list (pieces of other seats removed in a battle the Warlord is in). offInCoalition is false: this non-Vagabond seat can only ever be a coalition partner, the roster's how_checked gates it on dominance only, and a coalition Vagabond wins when its partner wins in any way. Warlord on the map at Birdsong depends on Root's anoint timing (week-1 spike); Rebirth's foot loss stops the confirm either way."
     },
     {
       "id": "win.curator",
@@ -506,7 +515,7 @@
         "CuratorWin_BlockedBeforeActThree",
         "CuratorWin_NoKeepNeedsBuildingOrThreeWarriors"
       ],
-      "_notes": "The roster gives no counterplay line for the Curator; it is written from his test and his bot plan's BEATABLE note. offInCoalition is false: this non-Vagabond seat can only ever be a coalition partner, the roster's how_checked gates it on dominance only, and a coalition Vagabond wins when its partner wins in any way."
+      "_notes": "The roster gives no counterplay line for the Curator; it is written from his test and his bot plan's BEATABLE note. offInCoalition is false: this non-Vagabond seat can only ever be a coalition partner, the roster's how_checked gates it on dominance only, and a coalition Vagabond wins when its partner wins in any way. Week-1 spike: confirm Root digital's keep blocks other factions' placement but not movement; this row depends on it."
     },
     {
       "id": "win.clea",
@@ -530,7 +539,8 @@
         "state.esquie.rocks",
         "state.global.countdowns",
         "state.global.act",
-        "state.global.roles"
+        "state.global.roles",
+        "state.global.seat-characters"
       ],
       "hooks": [
         "hook.evening-end",

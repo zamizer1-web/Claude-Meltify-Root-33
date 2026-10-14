@@ -5,3 +5,5 @@ TestResults/
 .vs/
 *.user
 pc-report.json
+__pycache__/
+*.pyc

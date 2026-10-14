@@ -17,7 +17,7 @@
         "Acts_NoThemedWinCanHappenInAct1",
         "Acts_ActAdvancesAtEndOfTurnAfterWinChecks"
       ],
-      "_notes": "The roster leaves the exact moment open. Chosen: the act check runs at the end of every turn, after that turn's themed-win checks; the next act's events fire before the next Birdsong, and the act advances at most one step per turn. The check is state-based: a threshold already met (VP or rounds) advances the act at the next turn end, so a turn crossing two act limits reaches Act III one turn end later. 'Round N ends' means the last seat in turn order has finished its turn in round N, counting rounds from the start of the game. Act I's events fire at setup."
+      "_notes": "The roster leaves the exact moment open. Chosen: the act check runs at the end of every turn, after that turn's themed-win checks; the next act's events fire before the next Birdsong, and the act advances at most one step per turn. The check is state-based: a threshold already met (VP or rounds) advances the act at the next turn end, so a turn crossing two act limits reaches Act III one turn end later. 'Round N ends' means the last seat in turn order has finished its turn in round N, counting rounds from the start of the game. Act I's events fire at setup. endsAtVp and endsAfterRound must equal tune.act1-end-vp and tune.act1-end-round, which are the values the core reads (hook.turn-end)."
     },
     {
       "id": "act2",
@@ -38,7 +38,8 @@
         "Acts_Act2UnlocksThemedWinsExceptTheCurator",
         "Acts_ActEventsFireOnlyForSeatedOwners",
         "Acts_TurnCrossingTwoLimitsReachesActThreeNextTurnEnd"
-      ]
+      ],
+      "_notes": "endsAtVp and endsAfterRound must equal tune.act2-end-vp and tune.act2-end-round, which are the values the core reads (hook.turn-end)."
     },
     {
       "id": "act3",

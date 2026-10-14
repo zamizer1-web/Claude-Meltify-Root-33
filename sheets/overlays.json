@@ -357,6 +357,18 @@
       "v1": true
     },
     {
+      "id": "ui.esquie.fx",
+      "owner": "esquie",
+      "kind": "token",
+      "public": true,
+      "v1": true,
+      "state": [],
+      "shows": "Esquie's battles drawn as him sitting on the guards (asset.fx.esquie-sit). Same in safe and finished mode.",
+      "art": [
+        "asset.fx.esquie-sit"
+      ]
+    },
+    {
       "id": "ui.paintress.portraits",
       "owner": "paintress",
       "kind": "token",
@@ -457,6 +469,18 @@
       "v1": true
     },
     {
+      "id": "ui.sciel.fx",
+      "owner": "sciel",
+      "kind": "token",
+      "public": true,
+      "v1": true,
+      "state": [],
+      "shows": "Her Reaping (Revolt) plays a scythe sweeping in a harvest across the revolting clearing (asset.fx.sciel-reaping). Same in safe and finished mode.",
+      "art": [
+        "asset.fx.sciel-reaping"
+      ]
+    },
+    {
       "id": "ui.verso.rank",
       "owner": "verso",
       "kind": "label",
@@ -488,6 +512,20 @@
         "state.global.spoiler-mode"
       ],
       "v1": true
+    },
+    {
+      "id": "ui.verso.fx",
+      "owner": "verso",
+      "kind": "token",
+      "public": true,
+      "v1": true,
+      "state": [
+        "state.global.spoiler-mode"
+      ],
+      "shows": "Get Back Up (Hideout) on his pawn: safe mode shows light knitting him back together; finished mode shows his painted body reassembling (asset.fx.verso-get-back-up).",
+      "art": [
+        "asset.fx.verso-get-back-up"
+      ]
     },
     {
       "id": "ui.maelle.family",
@@ -535,6 +573,19 @@
         "state.global.spoiler-mode"
       ],
       "v1": true
+    },
+    {
+      "id": "ui.maelle.fx",
+      "owner": "maelle",
+      "kind": "token",
+      "public": true,
+      "v1": true,
+      "state": [],
+      "shows": "Aid drawn as Maelle sharing a keepsake (asset.fx.maelle-keepsake) and Disarm (Steal) as a rapier feint (asset.fx.maelle-disarm). Same in safe and finished mode.",
+      "art": [
+        "asset.fx.maelle-keepsake",
+        "asset.fx.maelle-disarm"
+      ]
     },
     {
       "id": "ui.lune.journal-glow",
@@ -599,6 +650,21 @@
         "state.global.spoiler-mode"
       ],
       "v1": false
+    },
+    {
+      "id": "ui.lune.journal-page",
+      "owner": "lune",
+      "kind": "bubble",
+      "public": true,
+      "v1": false,
+      "state": [
+        "state.lune.tagged-relic"
+      ],
+      "shows": "When Lune recovers the tagged Parents' Journal (trigger.parents-journal), one page of her parents' notes opens in an original-text bubble before her reaction, bark.lune.06. Example safe text: 'Expedition 46. The route is charted as far as this forest, and the Monolith is closer than it looks. Whoever finds this: keep going, and keep better notes than we did.'",
+      "art": [
+        "asset.bubble-frame",
+        "asset.journal-glow"
+      ]
     },
     {
       "id": "ui.monoco.wheel",
@@ -702,6 +768,22 @@
       "v1": false
     },
     {
+      "id": "ui.clea.fx",
+      "owner": "clea",
+      "kind": "token",
+      "public": true,
+      "v1": false,
+      "state": [
+        "state.global.roles"
+      ],
+      "shows": "Converted pieces melt into Nevron shapes (asset.fx.clea-melt), her Nevron sprites change with each region (asset.nevron-region-sprites), and the Flying Manor corner floats on its ring of rocks (asset.fx.flying-manor-float). Finished mode only, since Clea is never seated in safe mode.",
+      "art": [
+        "asset.fx.clea-melt",
+        "asset.nevron-region-sprites",
+        "asset.fx.flying-manor-float"
+      ]
+    },
+    {
       "id": "ui.white-haired-man.ring",
       "owner": "white-haired-man",
       "kind": "tracker",
@@ -732,6 +814,18 @@
         "state.global.spoiler-mode"
       ],
       "v1": false
+    },
+    {
+      "id": "ui.white-haired-man.fx",
+      "owner": "white-haired-man",
+      "kind": "token",
+      "public": true,
+      "v1": false,
+      "state": [],
+      "shows": "His Massacre (Bomb) plots play an ink-wipe massacre on the shore (asset.fx.whm-ink-wipe). Same in safe and finished mode.",
+      "art": [
+        "asset.fx.whm-ink-wipe"
+      ]
     }
   ]
 }

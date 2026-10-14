@@ -707,6 +707,114 @@
       "_unverified": {
         "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
       }
+    },
+    {
+      "id": "asset.fx.verso-get-back-up",
+      "kind": "texture",
+      "source": "made-for-mod",
+      "description": "Verso's Get Back Up (Ranger Hideout). Safe mode: light knitting him back together. Finished mode: his painted body reassembling. The safe version never says 'painted', which would give away the Act II/III spoiler.",
+      "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
+      "sourcePath": "art/fx/verso-get-back-up.png",
+      "fallback": "No animation.",
+      "_unverified": {
+        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
+      }
+    },
+    {
+      "id": "asset.fx.esquie-sit",
+      "kind": "texture",
+      "source": "made-for-mod",
+      "description": "Esquie's battles drawn as him sitting on the guards.",
+      "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
+      "sourcePath": "art/fx/esquie-sit.png",
+      "fallback": "No animation.",
+      "_unverified": {
+        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
+      }
+    },
+    {
+      "id": "asset.fx.sciel-reaping",
+      "kind": "texture",
+      "source": "made-for-mod",
+      "description": "Sciel's Reaping (Alliance Revolt): her scythe sweeping in a harvest.",
+      "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
+      "sourcePath": "art/fx/sciel-reaping.png",
+      "fallback": "No animation.",
+      "_unverified": {
+        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
+      }
+    },
+    {
+      "id": "asset.fx.maelle-keepsake",
+      "kind": "texture",
+      "source": "made-for-mod",
+      "description": "Maelle's Aid drawn as her sharing a keepsake.",
+      "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
+      "sourcePath": "art/fx/maelle-keepsake.png",
+      "fallback": "No animation.",
+      "_unverified": {
+        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
+      }
+    },
+    {
+      "id": "asset.fx.maelle-disarm",
+      "kind": "texture",
+      "source": "made-for-mod",
+      "description": "Maelle's Disarm (Thief Steal) drawn as a rapier feint that flicks a card away.",
+      "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
+      "sourcePath": "art/fx/maelle-disarm.png",
+      "fallback": "No animation.",
+      "_unverified": {
+        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
+      }
+    },
+    {
+      "id": "asset.fx.whm-ink-wipe",
+      "kind": "texture",
+      "source": "made-for-mod",
+      "description": "The White-Haired Man's Massacre (Corvid Bomb): an ink-wipe massacre on the shore.",
+      "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
+      "sourcePath": "art/fx/whm-ink-wipe.png",
+      "fallback": "No animation.",
+      "_unverified": {
+        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
+      }
+    },
+    {
+      "id": "asset.fx.clea-melt",
+      "kind": "texture",
+      "source": "made-for-mod",
+      "description": "Clea's converted pieces visibly melting into Nevron shapes.",
+      "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
+      "sourcePath": "art/fx/clea-melt.png",
+      "fallback": "No animation.",
+      "_unverified": {
+        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
+      }
+    },
+    {
+      "id": "asset.fx.flying-manor-float",
+      "kind": "texture",
+      "source": "made-for-mod",
+      "description": "The Flying Manor corner floating on its ring of rocks.",
+      "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
+      "sourcePath": "art/fx/flying-manor-float.png",
+      "fallback": "No animation.",
+      "_unverified": {
+        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
+      }
+    },
+    {
+      "id": "asset.nevron-region-sprites",
+      "kind": "texture",
+      "source": "made-for-mod",
+      "description": "Nevron warrior sprites for Clea that change with each region of the Continent.",
+      "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
+      "sourcePath": "art/tokens/nevron-region-sprites.png",
+      "fallback": "The standard Lizard warrior.",
+      "_unverified": {
+        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
+      }
     }
   ]
 }

@@ -13,7 +13,18 @@
         "win.paintress",
         "win.sciel",
         "win.verso",
-        "win.white-haired-man"
+        "win.white-haired-man",
+        "bot.gustave",
+        "bot.esquie",
+        "bot.paintress",
+        "bot.sciel",
+        "bot.verso",
+        "bot.maelle",
+        "bot.lune",
+        "bot.monoco",
+        "bot.curator",
+        "bot.clea",
+        "bot.white-haired-man"
       ]
     },
     {
@@ -61,7 +72,8 @@
       "value": 33,
       "description": "The Monolith Number shown on the Monolith clearing is this minus the top score, so it ticks down as anyone scores.",
       "usedBy": [
-        "hook.vp-changed"
+        "hook.vp-changed",
+        "ui.global.monolith-number"
       ]
     },
     {
@@ -90,7 +102,8 @@
       "usedBy": [
         "state.gustave.arm",
         "tweak.gustave.overcharge",
-        "win.gustave"
+        "win.gustave",
+        "bot.gustave"
       ]
     },
     {
@@ -217,14 +230,16 @@
         "tweak.esquie.guard-floor",
         "tweak.esquie.guard-no-placement",
         "win.esquie"
-      ]
+      ],
+      "_notes": "Week-1 spike: placing another seat's warriors outside its turn; set to 0 if it fails (the roster makes the no-spawn fallback the v1 default then)."
     },
     {
       "id": "tune.esquie-belly-bounce-swords",
       "value": 1,
       "description": "Undamaged swords his Bag counts as for max hits in a clearing with a guarded rock.",
       "usedBy": [
-        "tweak.esquie.belly-bounce"
+        "tweak.esquie.belly-bounce",
+        "bot.esquie"
       ]
     },
     {
@@ -281,7 +296,17 @@
       "description": "Her warriors a roost clearing needs to be a Living Portrait.",
       "usedBy": [
         "bot.paintress",
-        "win.paintress"
+        "win.paintress",
+        "bot.gustave",
+        "bot.esquie",
+        "bot.sciel",
+        "bot.verso",
+        "bot.maelle",
+        "bot.lune",
+        "bot.monoco",
+        "bot.curator",
+        "bot.clea",
+        "bot.white-haired-man"
       ]
     },
     {
@@ -477,7 +502,8 @@
       "value": 1,
       "description": "Extra hits Perfection gives once per battle when attacking.",
       "usedBy": [
-        "tweak.verso.perfection"
+        "tweak.verso.perfection",
+        "bot.verso"
       ]
     },
     {
@@ -538,7 +564,8 @@
       "description": "VP Verso scores when Soarrie passes to Esquie.",
       "usedBy": [
         "spawn.soarrie",
-        "tweak.verso.soarrie-handoff"
+        "tweak.verso.soarrie-handoff",
+        "bot.verso"
       ]
     },
     {
@@ -596,7 +623,17 @@
       "description": "Undamaged items (exhausted ones count) Maelle needs in Lumière.",
       "usedBy": [
         "bot.maelle",
-        "win.maelle"
+        "win.maelle",
+        "bot.gustave",
+        "bot.esquie",
+        "bot.paintress",
+        "bot.sciel",
+        "bot.verso",
+        "bot.lune",
+        "bot.monoco",
+        "bot.curator",
+        "bot.clea",
+        "bot.white-haired-man"
       ]
     },
     {
@@ -680,7 +717,8 @@
       "description": "Act from which the Almighty foot can be earned.",
       "usedBy": [
         "state.monoco.feet",
-        "win.monoco"
+        "win.monoco",
+        "bot.monoco"
       ]
     },
     {
@@ -688,7 +726,8 @@
       "value": 3,
       "description": "Pieces of the VP leader removed in one battle that earn Almighty (instead of a leader building).",
       "usedBy": [
-        "win.monoco"
+        "win.monoco",
+        "bot.monoco"
       ]
     },
     {
@@ -753,7 +792,17 @@
       "description": "Warriors the Curator needs in Lumière when no keep stands there and he has no building there.",
       "usedBy": [
         "bot.curator",
-        "win.curator"
+        "win.curator",
+        "bot.gustave",
+        "bot.esquie",
+        "bot.paintress",
+        "bot.sciel",
+        "bot.verso",
+        "bot.maelle",
+        "bot.lune",
+        "bot.monoco",
+        "bot.clea",
+        "bot.white-haired-man"
       ]
     },
     {
@@ -793,7 +842,6 @@
       "value": 8,
       "description": "Different clearings her (non-guard) warriors must stand in. Lower to 7 if the Lizard Recruit ritual proves narrower.",
       "usedBy": [
-        "bot.clea",
         "win.clea"
       ]
     },
