@@ -251,6 +251,20 @@
       "needsCreatorPc": true,
       "_notes": "No rows exist for these names yet: reskins rows must belong to a character, so v1.1 needs a home for theming that belongs to no character. The Riverfolk Company engine stays free for a later Golgra or Gestral character. Digital rules (Dire Wolf): exactly three hirelings join a game, all promoted at 2 players and one demoted for each player beyond the second; they unlock when any player reaches 4, 8 and 12 VP, and the first to reach each takes control for rounds set by a control die (the leader counts only gold pips), then hands it to a player of their choice. A faction's hireling never appears with that faction, so Forest Patrol (the Expedition 33 survivors) can appear only when Gustave's Marquise is not seated. Hirelings and landmarks are switched on through Advanced Setup, which only players owning 6 or more factions can create (Faction Draft can be disabled), so E33 setup (forced homes) must be checked under AdSet. Up to two landmarks per game; the Ferry and Tower count only for Underworld owners. The Ferry has no Continent theme yet, and 8 of the 13 hirelings have none.",
       "_source": "https://news.direwolfdigital.com/root-digital-meet-the-hirelings/ ; https://expedition33.wiki.fextralife.com/Thank_You_Update ; https://news.direwolfdigital.com/an-introduction-to-hirelings/ ; https://news.direwolfdigital.com/landmarks-in-root-digital/ ; https://news.direwolfdigital.com/enter-the-underworld-of-root/ ; https://news.direwolfdigital.com/root-patch-1-32-3-the-marauder-expansion-patch/"
+    },
+    {
+      "id": "sys.music-mix",
+      "name": "Mixed soundtrack (Root x Clair Obscur)",
+      "description": "Creator's idea, kept for later: blend the two games' music at runtime, e.g. Root's woodland themes layered or cross-faded with Clair Obscur motifs, shifting with the act (Landing, Monolith, Canvas) or with whose turn it is. Both soundtracks are read from the player's own installs while the mod runs (Root's Unity audio and Clair Obscur's audio inside its UE5 pak/IoStore files), never shipped with the mod. Open questions for the creator's PC: where each game keeps its music, whether a decoder for Clair Obscur's audio can be bundled under its license, and how Root's music player can be swapped or layered at runtime.",
+      "sheets": [
+        "assets",
+        "options",
+        "game_hooks",
+        "acts"
+      ],
+      "v1": false,
+      "needsCreatorPc": true,
+      "_notes": "Requested by the creator as a note, not a first-version feature."
     }
   ]
 }
