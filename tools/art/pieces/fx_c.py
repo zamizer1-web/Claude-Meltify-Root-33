@@ -335,7 +335,7 @@ def finish(g, parts, halo=True, shadow=True):
 # ------------------------------------------------------------------------------------------------ regional Nevrons
 
 def v_nevron(g, rng):
-    """The plain Nevron, as on the coverage mark: five spines, tendril arms, three drippy feet."""
+    """The plain Nevron: five spines, tendril arms, three drippy feet."""
     body = g.disc(64, 64, 27, rng, wobble=0.08, sy=0.94)
     sp = g.spines(64, 64, 23, [(-160, 7), (-130, 11), (-100, 15), (-70, 12), (-40, 8)])
     sil = union(body, sp, g.arms(64, 64), g.feet(64, 84, 108))
@@ -667,18 +667,19 @@ def region_sheet():
 
 # --------------------------------------------------------------------------------------------------------- melt
 
-PAWN = [(0, 44), (3, 47), (10, 47), (14, 42), (18, 36), (34, 31), (54, 25), (72, 19), (80, 18), (82, 25), (88, 25),
-        (91, 15), (95, 14)]
-HEAD_C, HEAD_R, PAWN_TOP = 111, 22, 133
+# A generic rounded critter piece (no faction marks): a pear body on a flat base, a round head and two small round
+# ears. Right-hand profile as (half-width, height) from the base up to the crown; the left side mirrors it.
+HEAD_C, HEAD_R = 86, 24
+PAWN = ([(30, 0), (34, 2), (36.5, 7), (38.5, 17), (39, 29), (37.5, 41), (34, 51), (28.5, 59), (23, 65)]
+        + [(HEAD_R * math.sin(math.radians(a)), HEAD_C + HEAD_R * math.cos(math.radians(a))) for a in range(140, 38, -12)]
+        + [(16.5, 109), (18, 115), (16.5, 120), (12.5, 121.5), (9.5, 118.5), (8, 112)]
+        + [(HEAD_R * math.sin(math.radians(a)), HEAD_C + HEAD_R * math.cos(math.radians(a))) for a in (18, 9, 0)])
+PAWN_TOP = 121.5
 
 
 def pawn_outline(m, lean, ph, F, gx=128, gy=200):
     """The pawn's outline (256-space profile), sagging and spreading as it melts by m in 0..1."""
-    right = [(hw, h) for h, hw in PAWN]
-    a0 = math.pi - math.asin(14 / HEAD_R)
-    for i in range(1, 15):
-        a = a0 * (1 - i / 14)
-        right.append((HEAD_R * math.sin(a), HEAD_C + HEAD_R * math.cos(a)))
+    right = list(PAWN)
     left = [(-x, h) for x, h in reversed(right)]
     out = []
     for side, pts in ((1, right), (-1, left)):
@@ -783,12 +784,12 @@ def melt_frame(stage, rng):
         if stage == 0:
             cap = inter(sil, Image.new("L", size, 0))
             capm = Image.new("L", size, 0)
-            ImageDraw.Draw(capm).ellipse(((gx - 13) * F, (gy - 136) * F, (gx + 11) * F, (gy - 124) * F), fill=255)
+            ImageDraw.Draw(capm).ellipse(((gx - 20) * F, (gy - 124) * F, (gx + 19) * F, (gy - 104) * F), fill=255)
             cap = inter(grow(capm, F), grow(sil, F))
             ink = union(ink, cap)
-            run = taper_mask(size, [((gx + 6) * F, (gy - 126) * F), ((gx + 9) * F, (gy - 117) * F), ((gx + 10) * F, (gy - 112) * F)],
+            run = taper_mask(size, [((gx + 6) * F, (gy - 108) * F), ((gx + 9) * F, (gy - 99) * F), ((gx + 10) * F, (gy - 94) * F)],
                              [5 * F, 3.6 * F])
-            ImageDraw.Draw(run).ellipse(((gx + 7) * F, (gy - 115) * F, (gx + 13) * F, (gy - 108) * F), fill=255)
+            ImageDraw.Draw(run).ellipse(((gx + 7) * F, (gy - 97) * F, (gx + 13) * F, (gy - 90) * F), fill=255)
             ink = union(ink, inter(run, grow(sil, F)))
         ink = union(ink, drips)
         whole = union(sil, ink, pool)
@@ -804,17 +805,17 @@ def melt_frame(stage, rng):
         spec = Image.new("L", size, 0)
         sd = ImageDraw.Draw(spec)
         if stage == 0:
-            drop_c = (gx - 2, gy - 158)
+            drop_c = (gx - 2, gy - 142)
             dm = Image.new("L", size, 0)
             ImageDraw.Draw(dm).polygon([((drop_c[0] + 4.5 * math.sin(a)) * F, (drop_c[1] - 6 * math.cos(a) * (1.9 if math.cos(a) > 0 else 1)) * F)
                                         for a in [i / 30 * 2 * math.pi for i in range(30)]], fill=255)
             img = comp(img, glow(dm, VIOLET, 4 * F, 1.0), solid(size, INK, grow(dm, F)), ink_fill(size, dm, rng, (drop_c[0] * F, (drop_c[1]) * F), 6 * F, 0.8))
             for k in range(3):
-                sd.line([((gx - 6 + k * 5) * F, (gy - 176 + k * 2) * F), ((gx - 6 + k * 5) * F, (gy - 168 + k * 2) * F)], fill=120, width=F)
+                sd.line([((gx - 6 + k * 5) * F, (gy - 160 + k * 2) * F), ((gx - 6 + k * 5) * F, (gy - 152 + k * 2) * F)], fill=120, width=F)
             img = comp(img, solid(size, VIOLET_LIGHT, spec))
             spec = Image.new("L", size, 0)
             sd = ImageDraw.Draw(spec)
-            for x, y, r in ((-30, -150, 2.2), (26, -144, 1.8), (-22, -120, 1.4)):
+            for x, y, r in ((-30, -134, 2.2), (28, -130, 1.8), (-32, -104, 1.4)):
                 sd.ellipse(((gx + x - r) * F, (gy + y - r) * F, (gx + x + r) * F, (gy + y + r) * F), fill=200)
             img = comp(img, solid(size, VIOLET_LIGHT, spec))
         else:
@@ -871,9 +872,8 @@ def melt_frame(stage, rng):
             parts = v_nevron(g, random.Random(SEED + 61))
             parts["aura"] = [glow(parts["sil"], VIOLET, 9 * F, 1.1)]
             parts["sheen"], parts["sheen_a"] = VIOLET, 0.7
-            img = comp(img, finish(g, parts, halo=False, shadow=False))
-            edge = minus(grow(parts["sil"], 2 * F), union(parts["sil"], pool))
-            img = comp(img, solid(size, INK, scale_l(edge, 0.9)))
+            # The same bone outline and thin ink rim as nevron-region-sprites' 'nevron', so the hand-off is seamless.
+            img = comp(img, finish(g, parts, halo=True, shadow=False))
             sparks = Image.new("L", size, 0)
             sd = ImageDraw.Draw(sparks)
             for x, y, rr in ((-70, -60, 2.2), (72, -76, 1.8), (-58, -130, 1.6), (64, -132, 2.0)):

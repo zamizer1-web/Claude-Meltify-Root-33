@@ -585,7 +585,7 @@ def banner_frame(seed):
     size = (W, H)
     rng = random.Random(seed)
 
-    L0, R0 = 60, W - 60
+    L0, R0 = 80, W - 190  # the dry tail and its dashes stop at least 48 px short of the right edge
 
     def cy(x):  # the stroke's centre line, with a gentle flick up at the right end
         flick = -10 * max(0.0, (x - (R0 - 240)) / 240) ** 2
@@ -601,12 +601,13 @@ def banner_frame(seed):
         edge = abs(f) ** 2
         # Left: a loaded, rounded start. Right: the brush runs dry and splits into bristles.
         xs = L0 + 58 * (1 - math.sqrt(max(0.0, 1 - f * f))) + rng.uniform(0, 7)
-        xe = R0 - edge * rng.uniform(20, 150) - rng.expovariate(1 / 22)
+        xe = R0 - edge * rng.uniform(20, 150) - min(60.0, rng.expovariate(1 / 22))
         xs_i, xe_i = int(xs), int(xe)
         pts = [(x, cy(x) + f * half(x) + rng.uniform(-0.4, 0.4)) for x in range(xs_i, xe_i, 20)] + [(xe, cy(xe) + f * half(xe))]
         d.line(pts, fill=255, width=int(rng.uniform(3, 6)), joint="curve")
         if rng.random() < 0.35:  # a dry dash carried past the end
             gap, ln = rng.uniform(8, 26), rng.uniform(24, 90)
+            ln = max(6.0, min(ln, W - 48 - (xe + gap)))
             dash = [(xe + gap + ln * t / 6, cy(xe + gap + ln * t / 6) + f * half(xe)) for t in range(7)]
             taper_poly(d, dash, rng.uniform(2, 4.5), power=0.35)
     m = aa(m, 1.0).point(lambda v: min(255, int(v * 1.4)))
@@ -626,13 +627,13 @@ def banner_frame(seed):
     img = comp(img, body)
     # Gold edges along the top and bottom of the stroke.
     for k, sgn in enumerate((-1, 1)):
-        pts = [(x, cy(x) + sgn * (half(x) - 7) + rng.uniform(-0.4, 0.4)) for x in range(124, W - 219, 10)]
+        pts = [(x, cy(x) + sgn * (half(x) - 7) + rng.uniform(-0.4, 0.4)) for x in range(144, W - 349, 10)]
         e = Image.new("L", size, 0)
         taper_poly(ImageDraw.Draw(e), pts, 6.5, power=0.22)
         e = aa(e, 0.6)
         img = comp(img, solid(size, INK, scale_mask(shifted(e, 0, 2).filter(ImageFilter.GaussianBlur(1.2)), 0.7)))
         img = comp(img, leaf(size, e, seed + 5 + k, bands=3))
-        pts2 = [(x, cy(x) + sgn * (half(x) - 20)) for x in range(190, W - 279, 10)]
+        pts2 = [(x, cy(x) + sgn * (half(x) - 20)) for x in range(210, W - 409, 10)]
         e2 = Image.new("L", size, 0)
         taper_poly(ImageDraw.Draw(e2), pts2, 2, power=0.12)
         img = comp(img, solid(size, GOLD, scale_mask(aa(e2, 0.4), 0.55)))
@@ -642,7 +643,7 @@ def banner_frame(seed):
         x = R0 - 30 + prng.uniform(0, 80) + i * 6
         y = prng.uniform(52, H - 52)
         pt = petal_tile(prng.uniform(12, 21), CRIMSON if i != 3 else BONE, prng)
-        if x + pt.width / 2 < W - 2:
+        if x + pt.width / 2 < W - 44:
             img.alpha_composite(pt, (int(x - pt.width / 2), int(y - pt.height / 2)))
     return img
 

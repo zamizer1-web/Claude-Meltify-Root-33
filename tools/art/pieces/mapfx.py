@@ -821,14 +821,24 @@ def journal_glow(rng):
     return sheet, sprites
 
 
+RING_SEGMENTS = (2, 3, 4, 5, 6)
+
+
 def ring_barrier(rng):
-    """3x3 sheet of 256px cells, all centred on the Monolith so they stack: per-segment held / not held, the base
-    track, and two shimmer frames of the Barrier."""
+    """The White-Haired Man's Ring around the Monolith, for any number of Ring clearings.
+
+    Every 256 px cell is centred on the Monolith, so cells stack, and every arc sits at 12 o'clock, so the code rotates
+    one arc cell to each Ring clearing's bearing (and a divider-tick to each boundary between arcs). Rows
+    segment-2 .. segment-6 hold the arc for 2, 3, 4, 5 or 6 Ring clearings (180, 120, 90, 72 or 60 degrees; a lone Ring
+    clearing uses the segment-2 arc): held, not-held, and barrier-1 / barrier-2, the shimmer for a face-up Barrier on
+    that one clearing. Then the plain ring-base track, the divider-tick, the whole-ring Monolith Barrier (v1.1)
+    barrier-1 / barrier-2 and barrier-down (the shell cracked and dimmed). Last, two 128 px cells with 96 px centre
+    medallions for the Monolith's own status: monolith-held and monolith-not-held."""
     CELL, F = 256, 2
     S = CELL * F
     size, C = (S, S), (S // 2, S // 2)
     R = 88 * F
-    spans = [(-90 + 120 * i - 52, -90 + 120 * i + 52) for i in range(3)]
+    GAP = 7
     light = conic_light(size, C, lambda deg: 128 + 127 * math.cos(math.radians(deg - 230)))
     # Everything fades out before the cell edge, so stacked cells never show a square.
     keep = Image.new("L", size, 0)
@@ -836,23 +846,30 @@ def ring_barrier(rng):
         r = (127 - k * 0.4) * F
         ImageDraw.Draw(keep).ellipse((C[0] - r, C[1] - r, C[0] + r, C[1] + r), fill=min(255, (k + 1) * 11))
 
-    def mid(i, r):
-        a = math.radians(-90 + 120 * i)
+    def polar(deg, r):
+        a = math.radians(deg)
         return (C[0] + math.cos(a) * r, C[1] + math.sin(a) * r)
 
-    def base():
-        img = canvas(*size)
-        track = ring_mask(size, C, R - 5 * F, R + 5 * F)
-        img = comp(img, glow(track, (0, 0, 0), 4 * F, 0.5), solid(size, INK, scale_l(track, 0.75)))
-        img = comp(img, solid(size, GOLD_DEEP, scale_l(outline_of(ring_mask(size, C, 0, R + 5 * F), F), 0.8)))
-        img = comp(img, solid(size, GOLD_DEEP, scale_l(inner_edge(ring_mask(size, C, 0, R - 5 * F), F), 0.8)))
-        for k in range(3):
-            a = math.radians(-30 + 120 * k)
-            img = comp(img, gem(size, C[0] + math.cos(a) * R, C[1] + math.sin(a) * R, a, 9 * F, glow_r=3 * F))
-        return img
+    def sector(half):
+        """Opaque within `half` degrees of 12 o'clock, fading out over 6 degrees at each end."""
+        def fn(deg):
+            d = abs(((deg - 270 + 180) % 360) - 180)
+            return 255 * min(1.0, max(0.0, (half - d) / 6.0))
+        return conic_light(size, C, fn, step=1)
 
-    def held(i):
-        a0, a1 = spans[i]
+    def track():
+        img = canvas(*size)
+        t = ring_mask(size, C, R - 5 * F, R + 5 * F)
+        img = comp(img, glow(t, (0, 0, 0), 4 * F, 0.5), solid(size, INK, scale_l(t, 0.75)))
+        img = comp(img, solid(size, GOLD_DEEP, scale_l(outline_of(ring_mask(size, C, 0, R + 5 * F), F), 0.8)))
+        return comp(img, solid(size, GOLD_DEEP, scale_l(inner_edge(ring_mask(size, C, 0, R - 5 * F), F), 0.8)))
+
+    def tick():
+        return gem(size, C[0], C[1] - R, -math.pi / 2, 9 * F, glow_r=3 * F)
+
+    def held(half):
+        a0, a1 = -90 - half, -90 + half
+        span = a1 - a0
         img = canvas(*size)
         band = canvas(*size)
         band = comp(band, painted_arc(size, C, R, a0, a1, 30 * F, CRIMSON_DEEP, rng, passes=2, bristles=10))
@@ -860,16 +877,17 @@ def ring_barrier(rng):
         img = comp(img, glow(band.getchannel("A"), GOLD, 7 * F, 0.9), glow(band.getchannel("A"), (0, 0, 0), 3 * F, 0.6))
         img = comp(img, solid(size, INK, scale_l(outline_of(band.getchannel("A").point(lambda v: 255 if v > 90 else 0), 2 * F), 0.9)))
         img = comp(img, band)
-        img = comp(img, clip(bristle_grain(size, C, R - 13 * F, R + 13 * F, rng, [CRIMSON_DEEP, (214, 60, 72)], 26),
+        img = comp(img, clip(bristle_grain(size, C, R - 13 * F, R + 13 * F, rng, [CRIMSON_DEEP, (214, 60, 72)], max(8, int(26 * span / 104))),
                              band.getchannel("A")))
         gold = painted_arc(size, C, R, a0 + 3, a1 - 3, 12 * F, GOLD, rng, passes=2, bristles=7)
         img = comp(img, gold_paint(size, gold.getchannel("A"), rng, light=light, bands=1.0))
-        img = comp(img, painted_arc(size, C, R - 2 * F, a0 + 12, a0 + 40, 3 * F, (250, 224, 166), rng, alpha=170, passes=1, bristles=3))
-        img = comp(img, pip(size, mid(i, R), 13 * F, 2, GOLD))
-        return img
+        h0 = a0 + span * 0.1
+        img = comp(img, painted_arc(size, C, R - 2 * F, h0, h0 + min(28, span * 0.32), 3 * F, (250, 224, 166), rng, alpha=170,
+                                    passes=1, bristles=3))
+        return comp(img, pip(size, polar(-90, R), 13 * F, 2, GOLD))
 
-    def open_(i):
-        a0, a1 = spans[i]
+    def open_(half):
+        a0, a1 = -90 - half, -90 + half
         img = canvas(*size)
         band = painted_arc(size, C, R, a0 + 2, a1 - 2, 22 * F, INK, rng, alpha=235, passes=2, bristles=9)
         img = comp(img, band)
@@ -878,20 +896,24 @@ def ring_barrier(rng):
         dd = ImageDraw.Draw(dash)
         a = a0 + 8
         while a < a1 - 8:
-            if abs(a - (a0 + a1) / 2) > 11:
+            if abs(a + 2 - (a0 + a1) / 2) > 13:
                 dd.line(arc_pts(C, R, a, a + 4, n=4), fill=190, width=int(2.4 * F))
             a += 9
         img = comp(img, solid(size, BONE, dash.filter(ImageFilter.GaussianBlur(0.5 * F))))
         img = comp(img, solid(size, GOLD_DEEP, scale_l(outline_of(band.getchannel("A").point(lambda v: 255 if v > 90 else 0), F), 0.55)))
-        img = comp(img, pip(size, mid(i, R), 11 * F, 0, GOLD))
-        return img
+        return comp(img, pip(size, polar(-90, R), 11 * F, 0, GOLD))
 
-    def barrier(phase):
+    def barrier(phase, half=None):
+        """The Barrier's shimmer: the whole ring (half=None), or one arc at 12 o'clock for one Ring clearing."""
         img = canvas(*size)
         hw = 16 * F
-        shell = ring_mask(size, C, R - hw, R + hw)
+        sec = sector(half) if half is not None else None
+
+        def cut(m):
+            return ImageChops.multiply(m, sec) if sec is not None else m
+        shell = cut(ring_mask(size, C, R - hw, R + hw))
         img = comp(img, glow(shell, TEAL, 9 * F, 0.9), solid(size, TEAL_DEEP, scale_l(shell.filter(ImageFilter.GaussianBlur(3 * F)), 0.55)))
-        img = comp(img, solid(size, LIGHT_TEAL, scale_l(ring_mask(size, C, R - 10 * F, R + 10 * F).filter(ImageFilter.GaussianBlur(5 * F)), 0.4)))
+        img = comp(img, solid(size, LIGHT_TEAL, scale_l(cut(ring_mask(size, C, R - 10 * F, R + 10 * F)).filter(ImageFilter.GaussianBlur(5 * F)), 0.4)))
         # A woven lattice of light: two sets of slanted threads; their brightness ripples around the ring, and the two
         # frames ripple out of phase so alternating them shimmers.
         rng_b = random.Random(SEED + 77)
@@ -910,30 +932,152 @@ def ring_barrier(rng):
         img = comp(img, glow(lattice, LIGHT_TEAL, 2 * F, 1.0), solid(size, BONE, scale_l(lattice, 0.9)))
         # Bright crests travelling the edges.
         crest = canvas(*size)
-        for k in range(3):
-            for edge_r, off in ((R + hw - 2 * F, 0), (R - hw + 2 * F, 60)):
-                a0 = -90 + 120 * k + off + phase * 60 + rng_b.uniform(-6, 6)
-                crest = comp(crest, painted_arc(size, C, edge_r, a0, a0 + 44, 4 * F, GOLD_CORE, rng_b, alpha=235, passes=1, bristles=3))
+        if half is None:
+            for k in range(3):
+                for edge_r, off in ((R + hw - 2 * F, 0), (R - hw + 2 * F, 60)):
+                    a0 = -90 + 120 * k + off + phase * 60 + rng_b.uniform(-6, 6)
+                    crest = comp(crest, painted_arc(size, C, edge_r, a0, a0 + 44, 4 * F, GOLD_CORE, rng_b, alpha=235, passes=1, bristles=3))
+        else:
+            ln = min(40.0, half * 0.7)
+            room = max(1.0, 2 * half - ln - 8)
+            for edge_r, off in ((R + hw - 2 * F, 0.0), (R - hw + 2 * F, 0.5)):
+                a0 = -90 - half + 4 + ((off + phase * 0.5) % 1.0) * room
+                crest = comp(crest, painted_arc(size, C, edge_r, a0, a0 + ln, 4 * F, GOLD_CORE, rng_b, alpha=235, passes=1, bristles=3))
+        crest = clip(crest, sec) if sec is not None else crest
         img = comp(img, glow(crest.getchannel("A"), GOLD, 3 * F, 1.1), crest)
-        img = comp(img, solid(size, BONE, scale_l(outline_of(ring_mask(size, C, 0, R + hw), F), 0.7)),
-                   solid(size, BONE, scale_l(inner_edge(ring_mask(size, C, 0, R - hw), F), 0.7)))
+        img = comp(img, solid(size, BONE, scale_l(cut(outline_of(ring_mask(size, C, 0, R + hw), F)), 0.7)),
+                   solid(size, BONE, scale_l(cut(inner_edge(ring_mask(size, C, 0, R - hw), F)), 0.7)))
         sp = Image.new("L", size, 0)
-        for k in range(7):
-            a = math.radians(rng_b.uniform(0, 360) + phase * 25)
+        count = 7 if half is None else max(2, round(7 * half / 180) + 1)
+        for k in range(count):
+            if half is None:
+                deg = rng_b.uniform(0, 360) + phase * 25
+            else:
+                deg = -90 + (((rng_b.random() + phase * 0.37) % 1.0) * 2 - 1) * half * 0.8
             rr = R + rng_b.uniform(-18, 18) * F
-            sp = ImageChops.lighter(sp, star(size, (C[0] + math.cos(a) * rr, C[1] + math.sin(a) * rr), rng_b.uniform(5, 8) * F, GOLD_CORE, 255))
+            sp = ImageChops.lighter(sp, star(size, polar(deg, rr), rng_b.uniform(5, 8) * F, GOLD_CORE, 255))
         img = comp(img, glow(sp, GOLD, 3 * F, 1.2), solid(size, GOLD_CORE, sp))
         return img
 
-    cells = [("segment-1-held", held(0)), ("segment-2-held", held(1)), ("segment-3-held", held(2)),
-             ("segment-1-not-held", open_(0)), ("segment-2-not-held", open_(1)), ("segment-3-not-held", open_(2)),
-             ("ring-base", base()), ("barrier-1", barrier(0)), ("barrier-2", barrier(1))]
-    sheet = canvas(CELL * 3, CELL * 3)
+    def barrier_down():
+        """The Monolith Barrier broken: the teal shell dimmed, split at four jagged breaks and crazed with cracks."""
+        img = canvas(*size)
+        hw = 16 * F
+        brk = random.Random(SEED + 78)
+        start = brk.uniform(0, 90)
+        gaps = [(start + k * 90 + brk.uniform(-18, 18), brk.uniform(9, 15)) for k in range(4)]
+        breaks = Image.new("L", size, 0)
+        bd = ImageDraw.Draw(breaks)
+        for g0, gw in gaps:
+            side_a, side_b = [], []
+            for s in range(7):
+                rr = R - hw - 4 * F + (2 * hw + 8 * F) * s / 6
+                side_a.append(polar(g0 - gw / 2 + brk.uniform(-3.5, 3.5), rr))
+                side_b.append(polar(g0 + gw / 2 + brk.uniform(-3.5, 3.5), rr))
+            bd.polygon(side_a + side_b[::-1], fill=255)
+        whole = ImageChops.invert(breaks)
+        shell = ImageChops.multiply(ring_mask(size, C, R - hw, R + hw), whole)
+        img = comp(img, glow(shell, TEAL_DEEP, 6 * F, 0.55))
+        img = comp(img, solid(size, TEAL_DEEP, scale_l(shell.filter(ImageFilter.GaussianBlur(2 * F)), 0.5)))
+        # The lattice, unlit: thin grey-teal threads with no ripple.
+        lattice = Image.new("L", size, 0)
+        ld = ImageDraw.Draw(lattice)
+        for sgn in (1, -1):
+            for k in range(36):
+                a = k * 10 + (5 if sgn < 0 else 0)
+                ld.line([arc_pts(C, R - hw * 0.85, a, a, n=1)[0], arc_pts(C, R + hw * 0.85, a + sgn * 11, a + sgn * 11, n=1)[0]],
+                        fill=brk.randint(50, 100), width=int(1.4 * F))
+        lattice = ImageChops.multiply(lattice.filter(ImageFilter.GaussianBlur(0.6 * F)), shell)
+        img = comp(img, solid(size, (132, 164, 166), lattice))
+        img = comp(img, solid(size, (150, 172, 172), scale_l(ImageChops.multiply(outline_of(ring_mask(size, C, 0, R + hw), F), whole), 0.45)),
+                   solid(size, (150, 172, 172), scale_l(ImageChops.multiply(inner_edge(ring_mask(size, C, 0, R - hw), F), whole), 0.45)))
+        # Cracks: zigzags across the band from each break, and a few hairlines between them.
+        cracks, seams = Image.new("L", size, 0), Image.new("L", size, 0)
+        cd, sd = ImageDraw.Draw(cracks), ImageDraw.Draw(seams)
+        starts = []
+        for g0, gw in gaps:
+            starts += [(g0 - gw / 2, -1), (g0 + gw / 2, 1)]
+        for k in range(5):
+            starts.append((brk.uniform(0, 360), brk.choice([-1, 1])))
+        for a, dirn in starts:
+            pts = []
+            r_from, r_to = (R - hw, R + hw) if brk.random() < 0.5 else (R + hw, R - hw)
+            for s in range(6):
+                pts.append(polar(a + dirn * s * brk.uniform(1.0, 3.2) + brk.uniform(-1.5, 1.5), r_from + (r_to - r_from) * s / 5))
+            cd.line(pts, fill=220, width=int(1.5 * F), joint="curve")
+            sd.line([(x + 1.2 * F, y + 1.2 * F) for x, y in pts], fill=110, width=max(1, int(0.8 * F)))
+        img = comp(img, solid(size, LIGHT_TEAL, scale_l(ImageChops.multiply(seams, shell), 0.6)))
+        img = comp(img, solid(size, INK, ImageChops.multiply(cracks.filter(ImageFilter.GaussianBlur(0.4 * F)), grow(shell, F))))
+        # Shards shed at each break, drifting outward.
+        shards = Image.new("L", size, 0)
+        hd = ImageDraw.Draw(shards)
+        for g0, gw in gaps:
+            for _ in range(3):
+                deg = g0 + brk.uniform(-gw, gw)
+                c = polar(deg, R + brk.uniform(hw + 4 * F, hw + 16 * F))
+                s = brk.uniform(2.5, 5) * F
+                rot = brk.uniform(0, 6.28)
+                hd.polygon([(c[0] + math.cos(rot + t) * s * f, c[1] + math.sin(rot + t) * s * f)
+                            for t, f in ((0, 1.0), (2.2, 0.7), (4.0, 0.9))], fill=brk.randint(140, 200))
+        img = comp(img, solid(size, INK, scale_l(grow(shards.point(lambda v: 255 if v else 0), F), 0.55)),
+                   solid(size, TEAL_DEEP, shards))
+        return fade(img, 0.85)
+
+    def medallion(is_held):
+        MS = 128 * F
+        msize, MC = (MS, MS), (MS // 2, MS // 2)
+        mr = 46 * F
+        mrng = random.Random(SEED + (81 if is_held else 82))
+        disc = rough_disc(msize, MC, mr, mrng, wobble=0.02)
+        inner = rough_disc(msize, MC, mr - 7 * F, mrng, wobble=0.02)
+        img = canvas(*msize)
+        if is_held:
+            img = comp(img, glow(disc, GOLD, 5 * F, 0.8), glow(disc, (0, 0, 0), 3 * F, 0.6))
+            img = comp(img, solid(msize, INK, ring_out(disc, 2 * F)), solid(msize, CRIMSON_DEEP, disc))
+            img = comp(img, solid(msize, CRIMSON, inner))
+            img = comp(img, clip(bristle_grain(msize, MC, 12 * F, mr - 9 * F, mrng, [CRIMSON_DEEP, (214, 60, 72)], 22), inner))
+            mlight = conic_light(msize, MC, lambda deg: 128 + 127 * math.cos(math.radians(deg - 230)))
+            img = comp(img, gold_paint(msize, ring_in(disc, 4 * F), mrng, light=mlight, bands=1.0))
+            img = comp(img, solid(msize, INK, scale_l(ring_out(inner, F), 0.7)))
+            gold = painted_arc(msize, MC, mr - 15 * F, -200, 110, 3 * F, GOLD, mrng, alpha=210, passes=1, bristles=3)
+            img = comp(img, gold_paint(msize, gold.getchannel("A"), mrng, light=mlight, bands=1.0))
+            img = comp(img, pip(msize, MC, 17 * F, 2, GOLD))
+        else:
+            img = comp(img, glow(disc, (0, 0, 0), 4 * F, 0.5))
+            img = comp(img, solid(msize, INK, disc))
+            img = comp(img, clip(solid(msize, INK_SOFT, scale_l(inner, 0.9)), inner))
+            dash = Image.new("L", msize, 0)
+            dd = ImageDraw.Draw(dash)
+            for k in range(24):
+                a = k * 15
+                dd.line(arc_pts(MC, mr - 15 * F, a, a + 7, n=4), fill=190, width=int(2.2 * F))
+            img = comp(img, solid(msize, BONE, dash.filter(ImageFilter.GaussianBlur(0.5 * F))))
+            img = comp(img, solid(msize, GOLD_DEEP, scale_l(outline_of(disc.point(lambda v: 255 if v > 90 else 0), F), 0.6)))
+            img = comp(img, pip(msize, MC, 15 * F, 0, GOLD))
+        return downsample(clip(img, edge_keep(msize, 54 * F, 60 * F)), F)
+
+    cells = []
+    for n in RING_SEGMENTS:
+        half = 180 / n - GAP
+        cells += [(f"segment-{n}-held", held(half)), (f"segment-{n}-not-held", open_(half)),
+                  (f"segment-{n}-barrier-1", barrier(0, half)), (f"segment-{n}-barrier-2", barrier(1, half))]
+    cells += [("ring-base", track()), ("divider-tick", tick()), ("barrier-1", barrier(0)), ("barrier-2", barrier(1)),
+              ("barrier-down", barrier_down())]
+    cols = 4
+    rows = -(-len(cells) // cols)
+    sheet = canvas(CELL * cols, CELL * rows)
     sprites = []
     for idx, (name, img) in enumerate(cells):
-        x0, y0 = (idx % 3) * CELL, (idx // 3) * CELL
+        x0, y0 = (idx % cols) * CELL, (idx // cols) * CELL
         sheet.alpha_composite(downsample(clip(img, keep), F), (x0, y0))
         sprites.append({"name": name, "box": [x0, y0, x0 + CELL, y0 + CELL]})
+    # The medallions share the last row, in 128 px cells.
+    slot = len(cells)
+    mx, my = (slot % cols) * CELL, (slot // cols) * CELL + CELL // 4
+    for k, (name, is_held) in enumerate((("monolith-held", True), ("monolith-not-held", False))):
+        x0 = mx + k * (CELL // 2)
+        sheet.alpha_composite(medallion(is_held), (x0, my))
+        sprites.append({"name": name, "box": [x0, my, x0 + CELL // 2, my + CELL // 2]})
     return sheet, sprites
 
 

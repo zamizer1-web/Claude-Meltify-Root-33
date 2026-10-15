@@ -886,10 +886,12 @@ def ring_sheet(rng):
 GAUGE = (416, 136)
 MEDAL = (62, 64)
 SUN_STEPS = [(146 + 54 * i, 56) for i in range(5)]
-SUIT_SOCKETS = [("fox", 218, 98), ("rabbit", 254, 98), ("mouse", 290, 98)]
+SUN_GAUGE = (416, 168)  # taller than the Moon's, for a row of 40 px suit sockets under the steps
+SUN_MEDAL = (62, 80)
+SUIT_SOCKETS = [("fox", 200, 118), ("rabbit", 254, 118), ("mouse", 308, 118)]
 MOON_STEPS = [(166 + 96 * i, 64) for i in range(3)]
 STEP_CELL = (56, 72)
-SUIT_CELL = 32
+SUIT_CELL = 48
 TWI = (192, 96)
 TWI_SOCKETS = [("sun", 58, 48), ("moon", 134, 48)]
 CHARGE_CELL = 72
@@ -1029,11 +1031,46 @@ def step_empty(kind, rng):
     return downsample(step_socket(size, (W * F / 2, H * F / 2), kind, rng))
 
 
-def suit_socket(size, c, rng):
-    m = circle(size, c, 7.5 * F)
-    bez = grow(m, 2 * F)
+def suit_glyph(size, c, suit, u):
+    """An original, plain suit glyph (unit u, inside a disc of radius about 16.5u), so suits read by shape as well as
+    colour: fox = a head with tall pointed ears and a pointed chin, rabbit = a round head with two long upright ears,
+    mouse = a narrow head with a pointed snout, wide-set ears and whiskers."""
+    x, y = c
+    m = Image.new("L", size, 0)
+    d = ImageDraw.Draw(m)
+
+    def ell(cx, cy, rx, ry, rot=0.0):
+        a = math.radians(rot)
+        return [(x + (cx + math.cos(t) * rx * math.cos(a) - math.sin(t) * ry * math.sin(a)) * u,
+                 y + (cy + math.cos(t) * rx * math.sin(a) + math.sin(t) * ry * math.cos(a)) * u)
+                for t in [k / 36 * 2 * math.pi for k in range(36)]]
+    if suit == "fox":
+        d.polygon([(x + px * u, y + py * u) for px, py in
+                   ((-11, -12), (-4.5, -5.5), (4.5, -5.5), (11, -12), (10.5, -1), (0, 11.5), (-10.5, -1))], fill=255)
+    elif suit == "rabbit":
+        d.polygon(ell(0, 5, 7.5, 6.5), fill=255)
+        d.polygon(ell(-3.8, -6, 2.8, 7.8, -12), fill=255)
+        d.polygon(ell(3.8, -6, 2.8, 7.8, 12), fill=255)
+    else:
+        # A narrow head tapering to a pointed snout, ears set wide and low, and whiskers.
+        d.polygon(ell(0, -1.5, 7.2, 5.6), fill=255)
+        d.polygon([(x + px * u, y + py * u) for px, py in ((-7, -0.5), (7, -0.5), (3.2, 7), (0, 12), (-3.2, 7))], fill=255)
+        d.polygon(ell(-8.6, -5.5, 4.4, 3.8, -25), fill=255)
+        d.polygon(ell(8.6, -5.5, 4.4, 3.8, 25), fill=255)
+        for sgn in (-1, 1):
+            for wy in (4.5, 8.0):
+                d.line([(x + sgn * 2.5 * u, y + 6.5 * u), (x + sgn * 11.5 * u, y + wy * u)], fill=255, width=max(1, int(0.8 * u)))
+    return m.filter(ImageFilter.GaussianBlur(0.4 * u))
+
+
+def suit_socket(size, c, rng, suit=None):
+    m = circle(size, c, 16.5 * F)
+    bez = grow(m, 2.5 * F)
     out = comp(canvas(*size), gold_paint(size, bez, rng, angle=-35, bands=1.0))
-    out = comp(out, paint(size, radial_light(size, (c[0] + 2 * F, c[1] + 3 * F), 10 * F), [(0, (8, 7, 12)), (1, (44, 40, 54))], m))
+    out = comp(out, paint(size, radial_light(size, (c[0] + 3 * F, c[1] + 4 * F), 20 * F), [(0, (8, 7, 12)), (1, (44, 40, 54))], m))
+    if suit:
+        # The empty socket shows its suit faintly, so a missing suit is clear without colour.
+        out = comp(out, solid(size, BONE, scale_l(suit_glyph(size, c, suit, F), 0.22)))
     return comp(out, solid(size, INK, ring_out(bez, 1.0 * F)))
 
 
@@ -1042,28 +1079,32 @@ def suit_gem(suit, rng):
     size = (S * F, S * F)
     c = (S * F / 2, S * F / 2)
     rgb = SUIT[suit]
-    m = circle(size, c, 7.5 * F)
-    bez = grow(m, 2 * F)
-    img = comp(canvas(*size), glow(bez, rgb, 3.5 * F, 1.3))
+    m = circle(size, c, 16.5 * F)
+    bez = grow(m, 2.5 * F)
+    img = comp(canvas(*size), glow(bez, rgb, 2.2 * F, 1.2))
     img = comp(img, gold_paint(size, bez, rng, angle=-35, bands=1.0))
-    img = comp(img, paint(size, radial_light(size, (c[0] - 2 * F, c[1] - 2.5 * F), 11 * F, power=0.8),
+    img = comp(img, paint(size, radial_light(size, (c[0] - 4 * F, c[1] - 5 * F), 22 * F, power=0.8),
                           [(0, lerp_rgb(rgb, INK, 0.45)), (0.55, rgb), (1, lerp_rgb(rgb, BONE, 0.6))], m))
     hi = Image.new("L", size, 0)
-    ImageDraw.Draw(hi).ellipse((c[0] - 5 * F, c[1] - 5.5 * F, c[0] - 1 * F, c[1] - 2 * F), fill=220)
+    r = 13.5 * F
+    ImageDraw.Draw(hi).arc((c[0] - r, c[1] - r, c[0] + r, c[1] + r), 195, 250, fill=210, width=int(1.8 * F))
     img = comp(img, solid(size, WHITE, hi.filter(ImageFilter.GaussianBlur(0.6 * F))))
+    glyph = suit_glyph(size, c, suit, F)
+    img = comp(img, solid(size, BONE, scale_l(ring_out(glyph, 1.0 * F), 0.6)), solid(size, INK, scale_l(glyph, 0.92)))
     img = comp(img, solid(size, INK, ring_out(bez, 1.0 * F)))
-    img.putalpha(ImageChops.multiply(img.getchannel("A"), edge_fade(size, 2 * F)))
+    keep = circle(size, c, 22.5 * F).filter(ImageFilter.GaussianBlur(0.8 * F))
+    img.putalpha(ImageChops.multiply(img.getchannel("A"), keep))
     return downsample(img)
 
 
 def sun_frame(rng):
-    W, H = GAUGE
+    W, H = SUN_GAUGE
     size = (W * F, H * F)
 
     def P(x, y):
         return (x * F, y * F)
 
-    img = gauge_panel(size, (36 * F, 14 * F, 404 * F, 114 * F), rng, "gold", wash=(96, 30, 34))
+    img = gauge_panel(size, (36 * F, 14 * F, 404 * F, 146 * F), rng, "gold", wash=(96, 30, 34))
     for sx, sy in SUN_STEPS:
         img = comp(img, step_socket(size, P(sx, sy), "sun", rng))
     # Short gold ticks between the steps, like rays joining them.
@@ -1072,12 +1113,12 @@ def sun_frame(rng):
         tick = taper_mask(size, [P(xm, 46), P(xm, 56), P(xm, 66)], 1.0 * F, 2.6 * F)
         img = comp(img, solid(size, GOLD, scale_l(tick, 0.55)))
     # Suit sockets, joined by a short rule.
-    rule = line_mask(size, [P(196, 98), P(312, 98)], 1.4 * F)
+    rule = line_mask(size, [P(170, 118), P(338, 118)], 1.4 * F)
     img = comp(img, solid(size, GOLD_DEEP, scale_l(rule, 0.8)))
-    for _, x, y in SUIT_SOCKETS:
-        img = comp(img, suit_socket(size, P(x, y), rng))
-    med, disc = medallion(size, P(*MEDAL), rng, "gold")
-    img = comp(img, med, sun_emblem(size, P(*MEDAL), 40 * F, rng))
+    for suit, x, y in SUIT_SOCKETS:
+        img = comp(img, suit_socket(size, P(x, y), rng, suit))
+    med, disc = medallion(size, P(*SUN_MEDAL), rng, "gold")
+    img = comp(img, med, sun_emblem(size, P(*SUN_MEDAL), 40 * F, rng))
     img = comp(img, ink_edge(size, disc, 2.4 * F, heavy=1.2 * F))
     return downsample(soften_edges(img, 3 * F))
 
@@ -1233,7 +1274,8 @@ def twilight_armed(rng):
 
 
 def sun_moon_sheet(rng):
-    W, H = 512, 468
+    W, H = 512, 496
+    MOON_Y, TWI_Y, CHARGE_Y = SUN_GAUGE[1] + 4, SUN_GAUGE[1] + 4 + GAUGE[1] + 4, SUN_GAUGE[1] + 4 + GAUGE[1] + 4 + 108
     sheet = canvas(W, H)
     sprites = []
 
@@ -1249,21 +1291,21 @@ def sun_moon_sheet(rng):
         anchor(f"sun-slot-{i + 1}", 0, 0, x, y, *STEP_CELL)
     for suit, x, y in SUIT_SOCKETS:
         anchor(f"suit-slot-{suit}", 0, 0, x, y, SUIT_CELL, SUIT_CELL)
-    put("moon-frame", moon_frame(rng), 0, 140)
+    put("moon-frame", moon_frame(rng), 0, MOON_Y)
     for i, (x, y) in enumerate(MOON_STEPS):
-        anchor(f"moon-slot-{i + 1}", 0, 140, x, y, *STEP_CELL)
+        anchor(f"moon-slot-{i + 1}", 0, MOON_Y, x, y, *STEP_CELL)
     put("sun-step-empty", step_empty("sun", rng), 424, 0)
     put("sun-step-lit", step_lit("sun", rng), 424, 76)
     put("moon-step-empty", step_empty("moon", rng), 424, 152)
     put("moon-step-lit", step_lit("moon", rng), 424, 228)
     for i, suit in enumerate(("fox", "rabbit", "mouse")):
-        put(f"suit-{suit}", suit_gem(suit, rng), 480, 4 + i * 36)
-    put("twilight-frame", twilight_frame(rng), 0, 284)
+        put(f"suit-{suit}", suit_gem(suit, rng), 432, TWI_Y + i * (SUIT_CELL + 4))
+    put("twilight-frame", twilight_frame(rng), 0, TWI_Y)
     for kind, x, y in TWI_SOCKETS:
-        anchor(f"charge-slot-{kind}", 0, 284, x, y, CHARGE_CELL, CHARGE_CELL)
-    put("twilight-armed", twilight_armed(rng), 200, 284)
+        anchor(f"charge-slot-{kind}", 0, TWI_Y, x, y, CHARGE_CELL, CHARGE_CELL)
+    put("twilight-armed", twilight_armed(rng), 200, TWI_Y)
     for i, (kind, lit) in enumerate((("sun", False), ("sun", True), ("moon", False), ("moon", True))):
-        put(f"charge-{kind}-{'lit' if lit else 'off'}", charge_pip(kind, lit, rng), i * (CHARGE_CELL + 6), 392)
+        put(f"charge-{kind}-{'lit' if lit else 'off'}", charge_pip(kind, lit, rng), i * (CHARGE_CELL + 6), CHARGE_Y)
     return sheet, sprites
 
 

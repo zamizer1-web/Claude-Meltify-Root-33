@@ -22,7 +22,7 @@ from PIL import Image, ImageChops, ImageDraw, ImageFilter, ImageOps
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from style import (BONE, CRIMSON, CRIMSON_DEEP, DUSK, GOLD, GOLD_CORE, GOLD_DEEP, INK, INK_SOFT, PAPER,  # noqa: E402
-                   TEAL, TEAL_DEEP, brush_stroke, canvas, curve, glow, inner_edge, outline_of, solid)
+                   NIGHT, TEAL, TEAL_DEEP, brush_stroke, canvas, curve, glow, inner_edge, outline_of, solid)
 
 SEED = 3360
 LIGHT_TEAL = (176, 226, 222)
@@ -531,6 +531,12 @@ def get_back_up_safe(i, F=2):
         rr = rng.uniform(1.2, 2.6) * F
         md.ellipse((x - rr, y - rr, x + rr, y + rr), fill=rng.randint(140, 255))
     img = comp(img, glow(motes, GOLD, 2 * F, 1.2), solid(size, GOLD_CORE, motes))
+    # A soft dark backing under the light (the ghost, its seams, the loose threads and motes), so the cream and gold
+    # threads still read on a light parchment board. It shows most in the early frames, where there is no ink body yet.
+    lights = ImageChops.lighter(ImageChops.lighter(ghost, grow(threads.point(lambda v: 255 if v > 40 else 0), 2 * F)),
+                                ImageChops.lighter(grow(motes, 2 * F), grow(seams, F)))
+    backing = solid(size, NIGHT, scale_l(lights.filter(ImageFilter.GaussianBlur(4 * F)), 0.42))
+    img = comp(backing, img)
     return downsample(clip(img, edge_fade(size, 14 * F)), F)
 
 

@@ -1309,7 +1309,7 @@
       "path": "art/gauges/sun-moon.png",
       "size": [
         512,
-        468
+        496
       ],
       "sprites": [
         {
@@ -1318,7 +1318,7 @@
             0,
             0,
             416,
-            136
+            168
           ]
         },
         {
@@ -1369,64 +1369,64 @@
         {
           "name": "suit-slot-fox",
           "box": [
-            202,
-            82,
-            234,
-            114
+            176,
+            94,
+            224,
+            142
           ]
         },
         {
           "name": "suit-slot-rabbit",
           "box": [
-            238,
-            82,
-            270,
-            114
+            230,
+            94,
+            278,
+            142
           ]
         },
         {
           "name": "suit-slot-mouse",
           "box": [
-            274,
-            82,
-            306,
-            114
+            284,
+            94,
+            332,
+            142
           ]
         },
         {
           "name": "moon-frame",
           "box": [
             0,
-            140,
+            172,
             416,
-            276
+            308
           ]
         },
         {
           "name": "moon-slot-1",
           "box": [
             138,
-            168,
+            200,
             194,
-            240
+            272
           ]
         },
         {
           "name": "moon-slot-2",
           "box": [
             234,
-            168,
+            200,
             290,
-            240
+            272
           ]
         },
         {
           "name": "moon-slot-3",
           "box": [
             330,
-            168,
+            200,
             386,
-            240
+            272
           ]
         },
         {
@@ -1468,100 +1468,100 @@
         {
           "name": "suit-fox",
           "box": [
+            432,
+            312,
             480,
-            4,
-            512,
-            36
+            360
           ]
         },
         {
           "name": "suit-rabbit",
           "box": [
+            432,
+            364,
             480,
-            40,
-            512,
-            72
+            412
           ]
         },
         {
           "name": "suit-mouse",
           "box": [
+            432,
+            416,
             480,
-            76,
-            512,
-            108
+            464
           ]
         },
         {
           "name": "twilight-frame",
           "box": [
             0,
-            284,
+            312,
             192,
-            380
+            408
           ]
         },
         {
           "name": "charge-slot-sun",
           "box": [
             22,
-            296,
+            324,
             94,
-            368
+            396
           ]
         },
         {
           "name": "charge-slot-moon",
           "box": [
             98,
-            296,
+            324,
             170,
-            368
+            396
           ]
         },
         {
           "name": "twilight-armed",
           "box": [
             200,
-            284,
+            312,
             392,
-            380
+            408
           ]
         },
         {
           "name": "charge-sun-off",
           "box": [
             0,
-            392,
+            420,
             72,
-            464
+            492
           ]
         },
         {
           "name": "charge-sun-lit",
           "box": [
             78,
-            392,
+            420,
             150,
-            464
+            492
           ]
         },
         {
           "name": "charge-moon-off",
           "box": [
             156,
-            392,
+            420,
             228,
-            464
+            492
           ]
         },
         {
           "name": "charge-moon-lit",
           "box": [
             234,
-            392,
+            420,
             306,
-            464
+            492
           ]
         }
       ]
@@ -1715,57 +1715,66 @@
       "asset": "asset.ring-barrier",
       "path": "art/map/ring-barrier.png",
       "size": [
-        768,
-        768
+        1024,
+        1792
       ],
       "sprites": [
         {
-          "name": "segment-1-held",
-          "box": [
-            0,
-            0,
-            256,
-            256
-          ]
-        },
-        {
           "name": "segment-2-held",
           "box": [
-            256,
             0,
-            512,
+            0,
+            256,
             256
-          ]
-        },
-        {
-          "name": "segment-3-held",
-          "box": [
-            512,
-            0,
-            768,
-            256
-          ]
-        },
-        {
-          "name": "segment-1-not-held",
-          "box": [
-            0,
-            256,
-            256,
-            512
           ]
         },
         {
           "name": "segment-2-not-held",
           "box": [
             256,
+            0,
+            512,
+            256
+          ]
+        },
+        {
+          "name": "segment-2-barrier-1",
+          "box": [
+            512,
+            0,
+            768,
+            256
+          ]
+        },
+        {
+          "name": "segment-2-barrier-2",
+          "box": [
+            768,
+            0,
+            1024,
+            256
+          ]
+        },
+        {
+          "name": "segment-3-held",
+          "box": [
+            0,
+            256,
+            256,
+            512
+          ]
+        },
+        {
+          "name": "segment-3-not-held",
+          "box": [
+            256,
             256,
             512,
             512
           ]
         },
         {
-          "name": "segment-3-not-held",
+          "name": "segment-3-barrier-1",
           "box": [
             512,
             256,
@@ -1774,7 +1783,16 @@
           ]
         },
         {
-          "name": "ring-base",
+          "name": "segment-3-barrier-2",
+          "box": [
+            768,
+            256,
+            1024,
+            512
+          ]
+        },
+        {
+          "name": "segment-4-held",
           "box": [
             0,
             512,
@@ -1783,7 +1801,7 @@
           ]
         },
         {
-          "name": "barrier-1",
+          "name": "segment-4-not-held",
           "box": [
             256,
             512,
@@ -1792,12 +1810,156 @@
           ]
         },
         {
-          "name": "barrier-2",
+          "name": "segment-4-barrier-1",
           "box": [
             512,
             512,
             768,
             768
+          ]
+        },
+        {
+          "name": "segment-4-barrier-2",
+          "box": [
+            768,
+            512,
+            1024,
+            768
+          ]
+        },
+        {
+          "name": "segment-5-held",
+          "box": [
+            0,
+            768,
+            256,
+            1024
+          ]
+        },
+        {
+          "name": "segment-5-not-held",
+          "box": [
+            256,
+            768,
+            512,
+            1024
+          ]
+        },
+        {
+          "name": "segment-5-barrier-1",
+          "box": [
+            512,
+            768,
+            768,
+            1024
+          ]
+        },
+        {
+          "name": "segment-5-barrier-2",
+          "box": [
+            768,
+            768,
+            1024,
+            1024
+          ]
+        },
+        {
+          "name": "segment-6-held",
+          "box": [
+            0,
+            1024,
+            256,
+            1280
+          ]
+        },
+        {
+          "name": "segment-6-not-held",
+          "box": [
+            256,
+            1024,
+            512,
+            1280
+          ]
+        },
+        {
+          "name": "segment-6-barrier-1",
+          "box": [
+            512,
+            1024,
+            768,
+            1280
+          ]
+        },
+        {
+          "name": "segment-6-barrier-2",
+          "box": [
+            768,
+            1024,
+            1024,
+            1280
+          ]
+        },
+        {
+          "name": "ring-base",
+          "box": [
+            0,
+            1280,
+            256,
+            1536
+          ]
+        },
+        {
+          "name": "divider-tick",
+          "box": [
+            256,
+            1280,
+            512,
+            1536
+          ]
+        },
+        {
+          "name": "barrier-1",
+          "box": [
+            512,
+            1280,
+            768,
+            1536
+          ]
+        },
+        {
+          "name": "barrier-2",
+          "box": [
+            768,
+            1280,
+            1024,
+            1536
+          ]
+        },
+        {
+          "name": "barrier-down",
+          "box": [
+            0,
+            1536,
+            256,
+            1792
+          ]
+        },
+        {
+          "name": "monolith-held",
+          "box": [
+            256,
+            1600,
+            384,
+            1728
+          ]
+        },
+        {
+          "name": "monolith-not-held",
+          "box": [
+            384,
+            1600,
+            512,
+            1728
           ]
         }
       ]
@@ -1916,8 +2078,8 @@
       "asset": "asset.nevron-mark",
       "path": "art/tokens/nevron-mark.png",
       "size": [
-        128,
-        128
+        64,
+        64
       ],
       "sprites": []
     },

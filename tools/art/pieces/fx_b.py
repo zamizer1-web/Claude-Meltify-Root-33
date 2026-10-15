@@ -238,9 +238,32 @@ def edge_fade(size, border):
     d = ImageDraw.Draw(m)
     steps = 16
     for k in range(steps + 1):
-        inset = border * (1 - k / steps)
+        inset = border * k / steps
         d.rectangle((inset, inset, w - 1 - inset, h - 1 - inset), fill=int(255 * k / steps))
     return m
+
+
+def radial_keep(size, c, inner, outer):
+    """Opaque inside radius `inner` around c, fading smoothly to clear at `outer`."""
+    m = Image.new("L", size, 0)
+    d = ImageDraw.Draw(m)
+    steps = 32
+    for k in range(steps + 1):
+        r = outer - (outer - inner) * k / steps
+        t = k / steps
+        d.ellipse((c[0] - r, c[1] - r, c[0] + r, c[1] + r), fill=int(255 * t * t * (3 - 2 * t)))
+    return m.filter(ImageFilter.GaussianBlur(1))
+
+
+def sleeve_fade(size, fade_px):
+    """Clear at the left and bottom edges, opaque `fade_px` inside them: lets an arm reaching in from the lower left
+    dissolve instead of being cut by the cell edge."""
+    w, h = size
+    col = Image.new("L", (w, 1), 0)
+    col.putdata([int(255 * min(1.0, max(0.0, (x - 2 * F) / fade_px)) ** 1.5) for x in range(w)])
+    row = Image.new("L", (1, h), 0)
+    row.putdata([int(255 * min(1.0, max(0.0, (h - 1 - y - 2 * F) / fade_px)) ** 1.5) for y in range(h)])
+    return ImageChops.multiply(col.resize(size), row.resize(size))
 
 
 def petal_tile(length, rgb, shade, rng, rot, ss=F):
@@ -400,7 +423,7 @@ def hand_layer(size, dx, dy, rng, light=1.0):
     top = ImageChops.subtract(m, shift(m, 0, 4 * F))
     out = comp(out, solid(size, GOLD, scale_l(top.filter(ImageFilter.GaussianBlur(1.2 * F)), 0.85 * light)))
     out = comp(out, solid(size, INK, scale_l(ring_out(m, F), 0.9)))
-    return out
+    return clip(out, sleeve_fade(size, 40 * F))
 
 
 def motes(size, rng, c, r0, r1, count, a0=0, a1=360, up=0.0, sizes=(1.5, 4.0), alpha=(140, 255)):
@@ -520,15 +543,16 @@ def keepsake_icon(rng):
     S = 128
     size = (S * F, S * F)
     C = (S * F / 2, S * F / 2 + 8 * F)
-    img = comp(canvas(*size), bloom(size, C, 52 * F, 0.85))
+    img = comp(canvas(*size), bloom(size, C, 40 * F, 0.85))
     lk, bail = locket(size, C, 30 * F, random.Random(7), 0.0)
     tail = [(bail[0] + 12 * F, bail[1] - 6 * F), (bail[0] + 24 * F, bail[1] + 6 * F), (bail[0] + 34 * F, bail[1] + 2 * F)]
     img = comp(img, ribbon(size, bail, tail, 6 * F, rng))
     tail2 = [(bail[0] - 12 * F, bail[1] - 4 * F), (bail[0] - 26 * F, bail[1] + 10 * F), (bail[0] - 32 * F, bail[1] + 22 * F)]
     img = comp(img, ribbon(size, bail, tail2, 6 * F, rng))
     img = comp(img, lk)
-    img = comp(img, motes(size, rng, C, 36 * F, 54 * F, 7, sizes=(1.4, 3.0)))
-    img = clip(img, edge_fade(size, 6 * F))
+    img = comp(img, motes(size, rng, C, 36 * F, 48 * F, 7, sizes=(1.4, 3.0)))
+    # Round falloff centred on the box: fully clear 6 px inside every edge, so no pale square shows on the board.
+    img = clip(img, radial_keep(size, (S * F / 2, S * F / 2), 50 * F, 58 * F))
     return downsample(img, F)
 
 
@@ -747,7 +771,7 @@ class Swipe:
         u = S / 384 * F
         self.u = u
         n = 200
-        raw = curve((18 * u, 262 * u), (176 * u, 312 * u), (370 * u, 78 * u), n)
+        raw = curve((30 * u, 258 * u), (184 * u, 312 * u), (334 * u, 96 * u), n)
         self.path = []
         for i, (x, y) in enumerate(raw):
             j0, j1 = max(0, i - 1), min(n, i + 1)
@@ -799,7 +823,9 @@ class Swipe:
         self.rng = rng
 
     def width(self, t):
-        rise = 0.5 + 0.5 * min(1.0, t / 0.12) ** 0.7
+        # A tapered head: the brush touches down on its tip and swells to full width.
+        k = min(1.0, t / 0.16)
+        rise = 0.05 + 0.95 * (k * k * (3 - 2 * k)) ** 0.6
         return self.W * rise * (1 - 0.32 * t ** 1.6)
 
     def body_width(self, t):
@@ -849,10 +875,6 @@ class Swipe:
             upper.append((x - nx * w * self.wob(0, t), y - ny * w * self.wob(0, t)))
             lower.append((x + nx * w * self.wob(1, t), y + ny * w * self.wob(1, t)))
         m = poly_mask(self.size, upper + lower[::-1])
-        # The brush landed hard: a blunt rounded start.
-        x, y, nx, ny, tx, ty = self.path[2]
-        m = union(m, rough_disc(self.size, (x + tx * 6 * self.u, y + ty * 6 * self.u), self.body_width(0.01) * 0.5, self.rng,
-                                wobble=0.06, sy=1.0))
         if progress < self.body_end:
             # The loaded brush head at the front.
             x, y, nx, ny, tx, ty = self.point(progress)
@@ -873,6 +895,9 @@ class Swipe:
             fwd = (max(0.0, progress - t) * 26 + 4) * self.u
             x, y = x + nx * side * r + tx * fwd, y + ny * side * r + ty * fwd
             sz = s * self.u
+            lim = 14 * self.u  # drops flung past this margin are left out, so none is cut by the cell edge
+            if not (lim + sz * 4.5 < x < self.size[0] - lim - sz * 4.5 and lim + sz * 4.5 < y < self.size[1] - lim - sz * 4.5):
+                continue
             m = Image.new("L", self.size, 0)
             d = ImageDraw.Draw(m)
             d.ellipse((x - sz, y - sz, x + sz, y + sz), fill=255)
@@ -947,11 +972,11 @@ def ink_wipe_frame(stage, sw):
         # Speed marks behind the brush.
         lines = canvas(*size)
         for k in range(5):
-            t0 = rng.uniform(0.06, 0.22)
+            t0 = rng.uniform(0.16, 0.26)
             x, y, nx, ny, tx, ty = sw.point(t0)
             off = rng.choice([-1, 1]) * rng.uniform(0.62, 0.85) * sw.W
             a = (x + nx * off, y + ny * off)
-            b = (a[0] - tx * rng.uniform(30, 56) * u, a[1] - ty * rng.uniform(30, 56) * u)
+            b = (a[0] - tx * rng.uniform(22, 36) * u, a[1] - ty * rng.uniform(22, 36) * u)
             lines = comp(lines, brush_stroke(size, [b, ((a[0] + b[0]) / 2, (a[1] + b[1]) / 2), a], 3 * F, INK, 140,
                                              seed=rng.randrange(1 << 30), bristles=3))
         img = comp(lines, img)
@@ -997,7 +1022,7 @@ def ink_wipe_frame(stage, sw):
             img = comp(img, ripples(size, (cx * u, cy * u), rng, rings=3, r0=rr, alpha=230))
             paste_center(img, petal_tile(prng.uniform(15, 18), rgb, shade, prng, prng.uniform(60, 120)), (cx * u, cy * u - 2 * u))
         img = comp(img, sw.petals_layer(1.0, drift=0.6, alpha=0.95))
-    img = clip(img, edge_fade(size, 10 * F))
+    img = clip(img, edge_fade(size, 12 * F))
     return downsample(img, F)
 
 

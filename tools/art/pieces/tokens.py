@@ -1124,51 +1124,44 @@ def crack_sprite(opened):
 # ------------------------------------------------------------------------------------------------------- Nevron mark
 
 def nevron_mark():
-    """An invented little ink creature: a spined blob with one magenta eye, two tendril arms and three drippy feet."""
-    S, F = 128, 4
+    """The Nevron coverage mark: a flat corner badge, never a piece. A spiked ink roundel holding the magenta eye on a
+    bone face, with no body, arms or feet, so it cannot be counted as one more Nevron warrior. 64 px."""
+    S, F = 64, 8
     size = (S * F, S * F)
     rng = random.Random(SEED + 800)
 
     def P(x, y):
         return (x * F, y * F)
 
-    body = rough_disc(size, P(62, 66), 29 * F, rng, wobble=0.08, sy=0.94)
-    spines = Image.new("L", size, 0)
-    for k, (deg, ln) in enumerate([(-162, 7), (-132, 10), (-100, 14), (-68, 11), (-38, 8)]):
-        a = math.radians(deg)
-        base_r = 25
-        b0 = P(62 + math.cos(a - 0.2) * base_r, 66 + math.sin(a - 0.2) * base_r * 0.94)
-        b1 = P(62 + math.cos(a + 0.2) * base_r, 66 + math.sin(a + 0.2) * base_r * 0.94)
-        tip = P(62 + math.cos(a + 0.12) * (base_r + 4 + ln), 66 + math.sin(a + 0.12) * (base_r + 4 + ln) * 0.94)
-        ImageDraw.Draw(spines).polygon([b0, tip, b1], fill=255)
-    arms = union(taper_mask(size, curve(P(38, 72), P(24, 70), P(18, 86), 12), [(7 - 4.4 * k / 12) * F for k in range(12)]),
-                 taper_mask(size, curve(P(86, 72), P(102, 68), P(108, 84), 12), [(7 - 4.4 * k / 12) * F for k in range(12)]))
-    feet = union(taper_mask(size, [P(48, 86), P(45, 98), P(43, 106)], [8 * F, 6 * F]),
-                 taper_mask(size, [P(62, 90), P(62, 102), P(63, 110)], [8 * F, 6 * F]),
-                 taper_mask(size, [P(76, 86), P(80, 98), P(82, 106)], [8 * F, 6 * F]))
-    toes = Image.new("L", size, 0)
-    for x, y, rx, ry in ((42.5, 107, 4.5, 3), (63, 111, 4.5, 3), (82.5, 107, 4.5, 3), (17.5, 88, 3.2, 3.6), (108.5, 86, 3.2, 3.6)):
-        ImageDraw.Draw(toes).ellipse((*P(x - rx, y - ry), *P(x + rx, y + ry)), fill=255)
-    drops = Image.new("L", size, 0)
-    for x, y, r in ((24, 38, 3.2), (16, 52, 2.0), (106, 104, 2.6), (102, 40, 2.2)):
-        ImageDraw.Draw(drops).ellipse((*P(x - r, y - r), *P(x + r, y + r)), fill=255)
-    sil = union(body, spines, arms, feet, toes, drops)
+    c = P(32, 32)
+    ring = rough_disc(size, c, 21 * F, rng, wobble=0.03)
+    spikes = Image.new("L", size, 0)
+    sd = ImageDraw.Draw(spikes)
+    for k in range(12):
+        a = math.radians(k * 30 + 15 + rng.uniform(-4, 4))
+        ln = 26 if k % 2 == 0 else 24
+        sd.polygon([P(32 + math.cos(a - 0.17) * 19.5, 32 + math.sin(a - 0.17) * 19.5), P(32 + math.cos(a) * ln, 32 + math.sin(a) * ln),
+                    P(32 + math.cos(a + 0.17) * 19.5, 32 + math.sin(a + 0.17) * 19.5)], fill=255)
+    sil = union(ring, spikes)
+    face = ring_mask(size, c, 0, 15 * F)
     img = canvas(*size)
-    img = comp(img, solid(size, INK, scale_l(shift(sil, 1.5 * F, 2.5 * F).filter(ImageFilter.GaussianBlur(3 * F)), 0.5)))
-    img = comp(img, solid(size, BONE, ImageChops.subtract(grow(sil, 2.6 * F), sil)))
-    img = comp(img, solid(size, INK, ImageChops.subtract(grow(sil, 3.6 * F), grow(sil, 2.6 * F)).point(lambda v: v * 3 // 5)))
+    img = comp(img, solid(size, INK, scale_l(shift(sil, 1 * F, 1.5 * F).filter(ImageFilter.GaussianBlur(1.5 * F)), 0.5)))
+    img = comp(img, solid(size, BONE, ImageChops.subtract(grow(sil, 1.6 * F), sil)))
+    img = comp(img, solid(size, INK, ImageChops.subtract(grow(sil, 2.4 * F), grow(sil, 1.6 * F)).point(lambda v: v * 3 // 5)))
     img = comp(img, solid(size, INK, sil))
-    img = comp(img, clip(solid(size, (92, 70, 104), scale_l(radial_light(size, P(52, 54), 30 * F), 0.55)), body))
+    img = comp(img, clip(solid(size, (92, 70, 104), scale_l(radial_light(size, P(24, 22), 22 * F), 0.5)), ring))
+    img = comp(img, solid(size, MAGENTA, scale_l(ring_mask(size, c, 15 * F, 16.8 * F), 0.9)))
+    img = comp(img, paper_fill(size, face, rng, base=BONE, amount=0.2))
     # the eye
-    eye = poly_mask(size, curve(P(47, 64), P(62, 48), P(77, 64), 16) + curve(P(77, 64), P(62, 76), P(47, 64), 16))
-    img = comp(img, clip(glow(eye, MAGENTA, 5 * F, 1.2), sil))
+    eye = poly_mask(size, curve(P(21, 32), P(32, 20.5), P(43, 32), 16) + curve(P(43, 32), P(32, 41), P(21, 32), 16))
+    img = comp(img, clip(glow(eye, MAGENTA, 2.5 * F, 1.0), face))
     img = comp(img, solid(size, BONE, eye))
-    iris = ImageChops.multiply(ring_mask(size, P(63, 63), 0, 6.5 * F), eye)
+    iris = ImageChops.multiply(ring_mask(size, P(32.5, 31.5), 0, 5.2 * F), eye)
     img = comp(img, solid(size, MAGENTA, iris))
     pupil = Image.new("L", size, 0)
-    ImageDraw.Draw(pupil).ellipse((*P(61.6, 57.5), *P(64.4, 68.5)), fill=255)
-    img = comp(img, solid(size, INK, pupil), solid(size, (255, 250, 246), ring_mask(size, P(60.4, 60.6), 0, 1.5 * F)))
-    img = comp(img, solid(size, INK, ImageChops.subtract(grow(eye, 1.2 * F), eye)))
+    ImageDraw.Draw(pupil).ellipse((*P(31.4, 27.2), *P(33.6, 35.8)), fill=255)
+    img = comp(img, solid(size, INK, pupil), solid(size, (255, 250, 246), ring_mask(size, P(30.2, 29.4), 0, 1.2 * F)))
+    img = comp(img, solid(size, INK, ImageChops.subtract(grow(eye, 1.0 * F), eye)))
     return downsample(img, F)
 
 
