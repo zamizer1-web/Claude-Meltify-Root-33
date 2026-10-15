@@ -11,7 +11,7 @@ namespace Root33.Core.Characters.Verso
     {
         public override string CharacterId => CharacterIds.Verso;
         public override IWinCondition Win { get; } = new VersoWin();
-        // bot.verso (VersoBot) is not written yet: Root's own AI plays the seat until it is.
+        public override IBotDirector Bot { get; } = new VersoBot();
 
         public override void OnBattleStarting(SeatId attacker, SeatId defender, ClearingId c) => VersoTweaks.Perfection(Ctx, Seat, attacker);
 

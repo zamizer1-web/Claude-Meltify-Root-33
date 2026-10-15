@@ -69,6 +69,7 @@ namespace Root33.Core.Engine
             ActClock = NewActClock();
             Options = new GameOptions();
             TurnOrder = new SeatId[0];
+            Barks = new BarkDirector(this);
         }
 
         public IBoardView Board { get; }
@@ -76,6 +77,9 @@ namespace Root33.Core.Engine
         public Capabilities Capabilities { get; }
         public ModState State { get; internal set; }
         public Countdown Countdown { get; }
+        /// <summary>The speech-bubble director (sys.speech-bubbles): modules say their own triggers through it
+        /// (<c>Ctx.Barks.Say(seat, Ids.BarkTriggers.FlagPlanted)</c>) so tier, act and cooldown rules apply.</summary>
+        public BarkDirector Barks { get; }
         public ActClock ActClock { get; internal set; }
         public GameOptions Options { get; internal set; }
         public IReadOnlyList<SeatId> TurnOrder { get; internal set; }

@@ -184,8 +184,11 @@ namespace Root33.Core.Characters.Esquie
             CheckEarlyUrrie(ctx, me);
         }
 
+        /// <summary>tweak.esquie.florrie-swim / dorrie-coral / soarrie-glide (v1.1): do.grant-ability, left out when the plugin
+        /// cannot grant abilities (the rocks still count for the win).</summary>
         private static void GrantPower(GameContext ctx, SeatId me, int i)
         {
+            if (!ctx.SupportsAction(Ids.BoardActions.GrantAbility)) return;
             if (i == Florrie) ctx.Actions.GrantAbility(me, AbilityRiversAsPaths);
             else if (i == Dorrie) ctx.Actions.GrantAbility(me, AbilityNoHostileBoot);
             else if (i == Soarrie) ctx.Actions.GrantAbility(me, AbilityGlide);

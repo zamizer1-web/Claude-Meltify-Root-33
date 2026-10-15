@@ -151,6 +151,26 @@ namespace Root33.Core.Engine
             _pendingSeats.Clear();
             BindModules();
             Each(m => m.OnGameStart());
+            ApplySeatTitles();
+        }
+
+        /// <summary>do.set-seat-title for every seated character: its spoiler-tiered name, or Faithful Gustave's retitle.</summary>
+        private void ApplySeatTitles()
+        {
+            foreach (var kv in State.GlobalSeatCharacters.OrderBy(kv => kv.Key.Value))
+            {
+                var title = SpoilerText.SeatTitle(Context, kv.Key);
+                if (title != null) Actions.SetSeatTitle(kv.Key, title);
+            }
+        }
+
+        /// <summary>Seats playing a character, in turn order.</summary>
+        private List<SeatId> SeatedInTurnOrder()
+        {
+            var order = Context.TurnOrder.Count > 0 ? Context.TurnOrder : Board.Seats();
+            var list = order.Where(s => Context.CharacterOf(s) != null).ToList();
+            foreach (var s in State.GlobalSeatCharacters.Keys.OrderBy(s => s.Value)) if (!list.Contains(s)) list.Add(s);
+            return list;
         }
 
         private void ResetGame()
@@ -162,6 +182,7 @@ namespace Root33.Core.Engine
             Context.DeclaredWins.Clear();
             Context.StoryLog.Clear();
             Context.Warnings.Clear();
+            Context.Barks.Reset();
             _modules.Clear();
             _roundStarted = false;
             _actEventsFiredUpTo = 0;
@@ -208,9 +229,14 @@ namespace Root33.Core.Engine
                 State.GlobalCampaignJournal = false;
                 ProfileCampaignJournal = false;
             }
+            Actions.ShowOverlay(Ids.Overlays.GlobalActBanner, null, null, null);
             FireActEvents(1);
             _actEventsFiredUpTo = 1;
             Each(m => m.OnSetupComplete());
+            if (Context.GameOver) return;
+            // trigger.game-start: each seated character may say one opening line, the human's character first.
+            var seated = SeatedInTurnOrder();
+            Context.Barks.SayEach(seated.Where(s => !Board.IsBot(s)).Concat(seated.Where(s => Board.IsBot(s))), Ids.BarkTriggers.GameStart);
         }
 
         // ------------------------------------------------------------ turn flow
@@ -222,14 +248,20 @@ namespace Root33.Core.Engine
             State.GlobalRound = Math.Max(1, r);
             _roundStarted = true;
             Each(m => m.OnRoundStart(State.GlobalRound));
+            if (Context.GameOver) return;
+            // trigger.canvas-truth (Act III only), else trigger.idle: one seated character may speak.
+            if (Context.Barks.SayOne(SeatedInTurnOrder(), Ids.BarkTriggers.CanvasTruth) == null)
+                Context.Barks.SayOne(SeatedInTurnOrder(), Ids.BarkTriggers.Idle);
         }
 
         public void OnBirdsongStart(SeatId seat)
         {
             if (!Active) return;
             var module = ModuleOf(seat);
-            WinRules.StartOfBirdsong(Context, seat, module?.Win);
+            var mark = Context.Barks.Mark;
+            var outcome = WinRules.StartOfBirdsong(Context, seat, module?.Win);
             if (Context.GameOver) return;
+            if (outcome == CountdownOutcome.Cleared) Context.Barks.Say(seat, Ids.BarkTriggers.CountdownStopped);
             if (State.GlobalPendingVp.TryGetValue(seat, out var vp))
             {
                 State.GlobalPendingVp.Remove(seat);
@@ -237,7 +269,11 @@ namespace Root33.Core.Engine
             }
             Each(m => m.OnBirdsongStart(seat));
             if (Context.GameOver) return;
+            // trigger.goal-move belongs to each bot: only its director knows whether it has a goal move to name, so its
+            // module says it from OnBirdsongStart (Ctx.Barks.Say(seat, Ids.BarkTriggers.GoalMove)).
             if (module?.Bot != null && Board.IsBot(seat)) module.Bot.PlanTurn(new BotView(Context, seat), State);
+            // trigger.turn-start: only when nothing more specific was said in this Birdsong.
+            if (!Context.Barks.SpokeSince(seat, mark)) Context.Barks.Say(seat, Ids.BarkTriggers.TurnStart);
         }
 
         public void OnEveningStart(SeatId seat)
@@ -254,14 +290,22 @@ namespace Root33.Core.Engine
         public void OnEveningEnd(SeatId seat)
         {
             if (!Active) return;
+            var bannerBefore = State.GlobalCountdowns.Contains(seat);
             Each(m => m.OnEveningEnd(seat));
             if (Context.GameOver) return;
             WinRules.EndOfTurn(Context, seat, ModuleOf(seat)?.Win);
+            if (Context.GameOver) return;
+            if (!bannerBefore && State.GlobalCountdowns.Contains(seat)) Context.Barks.Say(seat, Ids.BarkTriggers.CountdownAnnounced);
+            // trigger.rival-countdown: the spoiler layer, voiced by each bot it would send against this seat.
+            foreach (var s in SeatedInTurnOrder())
+                if (s != seat && Board.IsBot(s) && SpoilerLayer.Threatens(new BotView(Context, s), seat))
+                    Context.Barks.Say(s, Ids.BarkTriggers.RivalCountdown);
         }
 
         public void OnTurnEnd(SeatId seat)
         {
             if (!Active) return;
+            Context.Barks.TurnEnded(seat);
             Each(m => m.OnTurnEnd(seat));
             if (Context.GameOver) return;
             if (Context.ActClock.Step(Context.HighestVp(), Context.CompletedRoundsAfterTurnOf(seat)))
@@ -285,6 +329,10 @@ namespace Root33.Core.Engine
             Actions.ShowOverlay(Ids.Overlays.GlobalActBanner, null, null, null);
             FireActEvents(act);
             Each(m => m.OnActChanged(act));
+            if (Context.GameOver) return;
+            ApplySeatTitles();
+            var trigger = act == 2 ? Ids.BarkTriggers.Act2Start : act == 3 ? Ids.BarkTriggers.Act3Start : null;
+            if (trigger != null) Context.Barks.SayEach(SeatedInTurnOrder(), trigger);
         }
 
         /// <summary>The act's story events in acts.json order, each only when its spoiler tier allows and its owner (the
@@ -300,9 +348,22 @@ namespace Root33.Core.Engine
                 var owner = StoryEvents.OwnerOf(e);
                 if (owner != null && !Context.IsSeated(owner)) continue;
                 Context.StoryLog.Add(new StoryEventRecord(id, act, owner));
+                SharedStoryEffects(e);
                 if (owner != null) ModuleOf(owner)?.OnStoryEvent(e);
                 else Each(m => m.OnStoryEvent(e));
             }
+        }
+
+        /// <summary>What a story event shows that no module owns: every vignette plays in ui.global.vignette (the plugin reads
+        /// which one from <see cref="GameContext.StoryLog"/>); the Landing puts the Monolith Number on the Monolith; the Fall
+        /// marks Lumière as the final battlefield. None of them changes VP, charge, rank or relationships.</summary>
+        private void SharedStoryEffects(StoryEventDef e)
+        {
+            if (e.Kind == "vignette") Actions.ShowOverlay(Ids.Overlays.GlobalVignette, null, null, null);
+            if (e.Id == Ids.StoryEvents.Act1Landing)
+                Actions.ShowOverlay(Ids.Overlays.GlobalMonolithNumber, null, Context.Role(Ids.MapRoles.Monolith), null);
+            if (e.Id == Ids.StoryEvents.Act3Fall)
+                Actions.ShowOverlay(Ids.Overlays.GlobalFinalBattlefield, null, Context.Role(Ids.MapRoles.Lumiere), null);
         }
 
         // ------------------------------------------------------------ actions, pieces, battles
@@ -336,10 +397,17 @@ namespace Root33.Core.Engine
 
         public void OnBattleStarting(SeatId attacker, SeatId defender, ClearingId c)
         {
-            if (Active) Each(m => m.OnBattleStarting(attacker, defender, c));
+            if (!Active) return;
+            Each(m => m.OnBattleStarting(attacker, defender, c));
+            if (!Context.GameOver) Context.Barks.Say(defender, Ids.BarkTriggers.Attacked);
         }
 
-        public void OnBattleResolved(BattleResult r) { if (Active) Each(m => m.OnBattleResolved(r)); }
+        public void OnBattleResolved(BattleResult r)
+        {
+            if (!Active) return;
+            Each(m => m.OnBattleResolved(r));
+            if (!Context.GameOver && r.Removed.Any(p => p.Owner != r.Attacker)) Context.Barks.Say(r.Attacker, Ids.BarkTriggers.BattleWon);
+        }
 
         public void OnExploreResolved(SeatId vagabond, ClearingId c) { if (Active) Each(m => m.OnExploreResolved(vagabond, c)); }
 
@@ -403,6 +471,9 @@ namespace Root33.Core.Engine
         {
             if (!State.GlobalE33Mode) return;
             Each(m => m.OnGameOver(winners));
+            // trigger.win for every winner; trigger.loss for one seated character who did not win.
+            Context.Barks.SayEach(SeatedInTurnOrder().Where(winners.Contains), Ids.BarkTriggers.Win);
+            if (winners.Count > 0) Context.Barks.SayOne(SeatedInTurnOrder().Where(s => !winners.Contains(s)), Ids.BarkTriggers.Loss);
             Context.GameOver = true;
             if (State.GlobalCampaignGame > 0)
             {
@@ -456,6 +527,7 @@ namespace Root33.Core.Engine
 
             BindModules();
             Each(m => m.OnStateLoaded(loaded));
+            ApplySeatTitles();
 
             // state.global.countdowns: keep (and redraw) a banner only if its confirm test passes on the loaded board.
             var kept = new HashSet<SeatId>();
@@ -496,8 +568,33 @@ namespace Root33.Core.Engine
         /// <summary>tier safe: always; act2: either mode (it only fires from Act II on); finished: finished mode only.</summary>
         public static bool TierAllows(StoryEventDef e, SpoilerMode mode) => e.Tier != "finished" || mode == SpoilerMode.Finished;
 
-        /// <summary>The character that owns an event: its spawn's owner (spawns.json), or null for an event with no spawn.</summary>
-        public static string OwnerOf(StoryEventDef e) =>
-            !string.IsNullOrEmpty(e.Spawn) && Data.Spawns.TryGetValue(e.Spawn, out var s) ? s.Owner : null;
+        private static readonly System.Text.RegularExpressions.Regex SeatedClause = new System.Text.RegularExpressions.Regex(
+            @"\b(?:if|only when)\s+(.+?)\s+is seated", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+
+        /// <summary>The character that owns an event: its spawn's owner (spawns.json); for an event with no spawn, the
+        /// character its 'what' names in an "If X is seated" / "only when X is seated" clause (story_events notes: "Every event
+        /// whose 'what' names a character fires only when that character is seated"); else null (a table-wide event).</summary>
+        public static string OwnerOf(StoryEventDef e)
+        {
+            if (!string.IsNullOrEmpty(e.Spawn) && Data.Spawns.TryGetValue(e.Spawn, out var s)) return s.Owner;
+            foreach (System.Text.RegularExpressions.Match m in SeatedClause.Matches(e.What ?? ""))
+            {
+                var name = m.Groups[1].Value.Trim();
+                var row = Data.Characters.Values.FirstOrDefault(c =>
+                    string.Equals(c.SafeName, name, StringComparison.OrdinalIgnoreCase) || string.Equals(c.FinishedName, name, StringComparison.OrdinalIgnoreCase));
+                if (row != null) return row.Id;
+            }
+            return null;
+        }
+
+        /// <summary>Whether an event has fired in this game, worked out from the act (so it holds after a load): its act has
+        /// opened, its tier allows it in this game's spoiler mode, and its owner (if any) is seated.</summary>
+        public static bool HasFired(GameContext ctx, string eventId)
+        {
+            if (!Data.StoryEvents.TryGetValue(eventId, out var e) || !Data.Acts.TryGetValue(e.Act, out var act)) return false;
+            if (ctx.Act < act.Number || !TierAllows(e, ctx.Spoilers)) return false;
+            var owner = OwnerOf(e);
+            return owner == null || ctx.IsSeated(owner);
+        }
     }
 }
