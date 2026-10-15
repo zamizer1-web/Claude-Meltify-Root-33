@@ -8,6 +8,9 @@
   Heavy, Almighty) and a faction-badge socket beneath each slot toward the hub, plus every slot empty, filled and
   (Almighty) locked, the socket empty and lit, and a pointer.
 
+Sprites named slot-<name> and badge-<name> are placement boxes inside the tracker or wheel sprite: paste the matching
+128 px tile (or 64 px socket) there to change a slot's state.
+
 Everything is original and drawn from scratch with Pillow in the shared painterly style (tools/art/style.py): ink
 outlines, bone paper, gold leaf, crimson and river teal. The slot marks are invented generic glyphs (sparkle, feather,
 scales, weight, sun). Every random choice comes from a seeded random.Random (noise included), so the same code always
@@ -21,7 +24,7 @@ from pathlib import Path
 from PIL import Image, ImageChops, ImageDraw, ImageFilter, ImageOps
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from style import (BONE, CRIMSON, CRIMSON_DEEP, DUSK, GOLD, GOLD_CORE, GOLD_DEEP, INK, INK_SOFT, NIGHT, PAPER,  # noqa: E402
+from style import (BONE, CRIMSON, CRIMSON_DEEP, DUSK, GOLD, GOLD_CORE, GOLD_DEEP, INK, INK_SOFT,  # noqa: E402
                    TEAL, TEAL_DEEP, brush_stroke, canvas, curve, glow, solid)
 
 SEED = 3373
@@ -39,7 +42,6 @@ IRON_LIGHT = (214, 210, 222)
 WOOD = (128, 88, 56)
 WOOD_DEEP = (74, 50, 36)
 LEATHER = (32, 82, 94)
-VELVET = (30, 24, 40)
 
 
 # ----------------------------------------------------------------------------------------------------------- helpers

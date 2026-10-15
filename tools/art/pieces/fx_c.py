@@ -748,13 +748,13 @@ def melt_frame(stage, rng):
         img = comp(img, glow(pool, VIOLET, 7 * F, 0.9))
     if stage <= 3:
         m = m_by[stage]
-        pts = pawn_outline(m, 1.0, 0.7, F, gx, gy)
+        pts = pawn_outline(m, 1.0 if stage < 2 else 1.5, 0.7, F, gx, gy)
         sil = Image.new("L", size, 0)
         ImageDraw.Draw(sil).polygon(pts, fill=255)
         sil = sil.filter(ImageFilter.GaussianBlur(F * 0.8)).point(lambda v: 255 if v > 128 else 0)
         top_y = min(p[1] for p in pts)
         bot_y = max(p[1] for p in pts)
-        cover = {0: 0.0, 1: 0.36, 2: 0.78, 3: 1.05}[stage]
+        cover = {0: 0.0, 1: 0.36, 2: 0.58, 3: 1.05}[stage]
         level = top_y + (bot_y - top_y) * cover
         wav = Image.new("L", size, 0)
         wpts = [(0, 0), (size[0], 0)]
@@ -767,15 +767,17 @@ def melt_frame(stage, rng):
             row = [x for x in range(size[0]) if sil.getpixel((x, min(size[1] - 1, int(level + 2 * F)))) > 0]
             if row:
                 x_lo, x_hi = row[0], row[-1]
-                n = 5 if stage == 1 else 6
-                for k in range(n):
-                    x = x_lo + (x_hi - x_lo) * (k + 0.5) / n + rng.uniform(-4, 4) * F
-                    ln = rng.uniform(16, 44) * F if stage == 1 else rng.uniform(20, 60) * F
+                spots = [0.12, 0.3, 0.52, 0.66, 0.86] if stage == 1 else [0.08, 0.27, 0.5, 0.78]
+                lens = [0.35, 1.0, 0.55, 0.2, 0.75] if stage == 1 else [0.6, 0.25, 1.0, 0.45]
+                for fx, fl in zip(spots, lens):
+                    x = x_lo + (x_hi - x_lo) * fx + rng.uniform(-2, 2) * F
+                    wd = rng.uniform(5, 9) * F
+                    ln = ((10 + 46 * fl) if stage == 1 else (6 + 24 * fl)) * F
                     y0 = level - 4 * F
-                    y1 = min(bot_y - 3 * F, level + ln)
-                    d = taper_mask(size, [(x, y0), (x + rng.uniform(-1, 1) * F, (y0 + y1) / 2), (x, y1)], [7 * F, 5 * F])
-                    d = union(d, Image.new("L", size, 0))
-                    ImageDraw.Draw(d).ellipse((x - 4.2 * F, y1 - 3 * F, x + 4.2 * F, y1 + 5 * F), fill=255)
+                    y1 = min(bot_y - 4 * F, level + ln)
+                    d = taper_mask(size, [(x, y0), (x + rng.uniform(-1.5, 1.5) * F, (y0 + y1) / 2), (x, y1)], [wd, wd * 0.6])
+                    br = wd * rng.uniform(0.55, 0.75)
+                    ImageDraw.Draw(d).ellipse((x - br, y1 - br * 0.6, x + br, y1 + br * 1.2), fill=255)
                     drips = union(drips, d)
                 drips = inter(drips, grow(sil, 2 * F))
         if stage == 0:
@@ -911,15 +913,15 @@ def rock_tile(rs, rng, crystals=False, tuft=True):
     top = Image.new("L", size, 0)
     ImageDraw.Draw(top).polygon(top_pts, fill=255)
     depth = rs * rng.uniform(0.45, 0.6) * F
-    apex = (cx + rng.uniform(-0.25, 0.25) * rs * F, cy + rs * F * rng.uniform(1.25, 1.55))
+    apex = (cx + rng.uniform(-0.25, 0.25) * rs * F, cy + rs * F * rng.uniform(1.45, 1.85))
     xs = [p[0] for p in top_pts]
     lpt = top_pts[xs.index(min(xs))]
     rpt = top_pts[xs.index(max(xs))]
     hang = Image.new("L", size, 0)
     hd = ImageDraw.Draw(hang)
-    hd.polygon([lpt, (lpt[0] + rs * 0.12 * F, lpt[1] + depth), (apex[0] - rs * 0.3 * F, apex[1] - rs * 0.4 * F), apex,
-                (apex[0] + rs * 0.35 * F, apex[1] - rs * 0.5 * F), (rpt[0] - rs * 0.1 * F, rpt[1] + depth), rpt], fill=255)
-    hd.polygon([(x, y + depth) for x, y in top_pts], fill=255)
+    hd.polygon([lpt, (lpt[0] + rs * 0.2 * F, lpt[1] + depth), (apex[0] - rs * 0.32 * F, apex[1] - rs * 0.55 * F), apex,
+                (apex[0] + rs * 0.3 * F, apex[1] - rs * 0.6 * F), (rpt[0] - rs * 0.22 * F, rpt[1] + depth), rpt], fill=255)
+    hd.polygon([(cx + (x - cx) * 0.86, y + depth * 0.8) for x, y in top_pts], fill=255)
     whole = union(top, hang)
     side = minus(whole, top)
     img = canvas(*size)
@@ -938,9 +940,16 @@ def rock_tile(rs, rng, crystals=False, tuft=True):
         x = cx + rng.uniform(-0.6, 0.6) * rs * F
         sd.line([(x, cy + depth * 0.3), (x + rng.uniform(-3, 3) * F, cy + depth + rs * 0.4 * F)], fill=170, width=max(1, int(F)))
     img = comp(img, solid(size, (34, 28, 40), inter(strata, side)))
-    top_col = map_l(ImageChops.add(linear_light(size, 200), noise_l(size, rng, cell=2, blur=1.0), 2.0, -30),
-                    [(0, STONE), (0.55, STONE_LIGHT), (1, BONE)]).convert("RGBA")
+    top_col = map_l(ImageChops.add(linear_light(size, 200), noise_l(size, rng, cell=2, blur=1.0), 2.0, -40),
+                    [(0, (120, 110, 120)), (0.5, STONE), (0.85, STONE_LIGHT), (1, BONE)]).convert("RGBA")
     img = comp(img, clip(top_col, top))
+    cracks = Image.new("L", size, 0)
+    kd = ImageDraw.Draw(cracks)
+    for _ in range(2):
+        x0, y0 = cx + rng.uniform(-0.6, 0.6) * rs * F, cy + rng.uniform(-0.3, 0.3) * rs * F
+        kd.line([(x0, y0), (x0 + rng.uniform(-0.4, 0.4) * rs * F, y0 + rng.uniform(-0.2, 0.2) * rs * F),
+                 (x0 + rng.uniform(-0.6, 0.6) * rs * F, y0 + rng.uniform(-0.25, 0.25) * rs * F)], fill=150, width=max(1, int(F)))
+    img = comp(img, solid(size, STONE_DEEP, inter(cracks, shrink(top, 2 * F))))
     front = inter(minus(top, shift(top, 0, -1.6 * F)), top)
     img = comp(img, solid(size, INK, inter(minus(grow(top, 1.2 * F), top), side)))
     img = comp(img, solid(size, BONE, scale_l(inter(minus(top, shift(top, 0, 1.6 * F)), top), 0.7)))
@@ -976,13 +985,13 @@ def ring_rocks(rng):
     n = 9
     for i in range(n):
         a = math.radians(i * 360 / n - 80 + rng.uniform(-9, 9))
-        rs = rng.choice([22, 25, 28, 31, 34]) if i % 3 else 33
+        rs = rng.choice([27, 30, 33, 36]) if i % 3 else 39
         rr = 178 + rng.uniform(-7, 7)
         tile, anchor = rock_tile(rs, random.Random(SEED + 300 + i), crystals=i in (2, 6), tuft=i % 2 == 0)
         rocks.append({"a": a, "r": rr, "rs": rs, "ph": rng.uniform(0, 2 * math.pi), "tile": tile, "anchor": anchor, "lift": 16})
     for i in range(8):
         a = math.radians((i + 0.5) * 360 / 8 - 60 + rng.uniform(-10, 10))
-        rs = rng.uniform(7, 11)
+        rs = rng.uniform(9, 13)
         tile, anchor = rock_tile(rs, random.Random(SEED + 400 + i), tuft=False)
         rocks.append({"a": a, "r": 170 + rng.uniform(-14, 22), "rs": rs, "ph": rng.uniform(0, 2 * math.pi), "tile": tile,
                       "anchor": anchor, "lift": 24})
@@ -1003,7 +1012,7 @@ def float_frame(rocks, k, frames=4):
     sd = ImageDraw.Draw(shadows)
     placed = []
     for rk in rocks:
-        lift = rk["lift"] + 7 * math.sin(2 * math.pi * k / frames + rk["ph"])
+        lift = rk["lift"] + 9 * math.sin(2 * math.pi * k / frames + rk["ph"])
         gx, gy = c + math.cos(rk["a"]) * rk["r"], c + math.sin(rk["a"]) * rk["r"]
         rs = rk["rs"]
         sc = max(0.45, 1.0 - lift / 70)
@@ -1052,14 +1061,14 @@ def underside(rng):
         x = c + rng.uniform(-0.75, 0.75) * R
         t = (x - (c - R)) / (2 * R)
         y0 = c + 40 + 150 * math.sin(math.pi * t) ** 1.6 - 8
-        ln = rng.uniform(22, 54)
-        sway = rng.uniform(-14, 14)
+        ln = rng.uniform(28, 70) * (0.5 + 0.5 * math.sin(math.pi * t))
+        sway = rng.uniform(-16, 16)
         p = curve((x, y0), (x + sway * 0.2, y0 + ln * 0.6), (x + sway, y0 + ln), 12)
-        roots = union(roots, taper_mask(size, [(a * F, b * F) for a, b in p], [(3.2 - 2.4 * i / 11) * F for i in range(12)]))
+        roots = union(roots, taper_mask(size, [(a * F, b * F) for a, b in p], [(4.6 - 3.6 * i / 11) * F for i in range(12)]))
     roots = minus(roots, disc)
     whole = union(band, roots)
     img = canvas(*size)
-    img = comp(img, glow(shift(mass, 0, 30 * F), VIOLET, 26 * F, 0.6))
+    img = comp(img, clip(glow(shift(mass, 0, 30 * F), VIOLET, 26 * F, 0.6), ImageOps.invert(grow(disc, 2 * F))))
     img = comp(img, solid(size, INK, minus(grow(whole, 2.4 * F), union(whole, disc))))
     earth = map_l(ImageChops.add(linear_light(size, 270), noise_l(size, rng, cell=3, blur=1.5), 2.0, -40),
                   [(0, EARTH_DEEP), (0.5, EARTH), (0.8, (150, 112, 82)), (1, STONE)]).convert("RGBA")

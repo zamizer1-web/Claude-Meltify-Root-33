@@ -1,6 +1,70 @@
 {
   "pieces": [
     {
+      "asset": "asset.fx.clea-melt",
+      "path": "art/fx/clea-melt.png",
+      "size": [
+        1536,
+        256
+      ],
+      "sprites": [
+        {
+          "name": "piece",
+          "box": [
+            0,
+            0,
+            256,
+            256
+          ]
+        },
+        {
+          "name": "drip",
+          "box": [
+            256,
+            0,
+            512,
+            256
+          ]
+        },
+        {
+          "name": "slump",
+          "box": [
+            512,
+            0,
+            768,
+            256
+          ]
+        },
+        {
+          "name": "pool",
+          "box": [
+            768,
+            0,
+            1024,
+            256
+          ]
+        },
+        {
+          "name": "rise",
+          "box": [
+            1024,
+            0,
+            1280,
+            256
+          ]
+        },
+        {
+          "name": "nevron",
+          "box": [
+            1280,
+            0,
+            1536,
+            256
+          ]
+        }
+      ]
+    },
+    {
       "asset": "asset.dusk-tint",
       "path": "art/fx/dusk-tint.png",
       "size": [
@@ -60,6 +124,61 @@
             0,
             1280,
             256
+          ]
+        }
+      ]
+    },
+    {
+      "asset": "asset.fx.flying-manor-float",
+      "path": "art/fx/flying-manor-float.png",
+      "size": [
+        2560,
+        512
+      ],
+      "sprites": [
+        {
+          "name": "float-1",
+          "box": [
+            0,
+            0,
+            512,
+            512
+          ]
+        },
+        {
+          "name": "float-2",
+          "box": [
+            512,
+            0,
+            1024,
+            512
+          ]
+        },
+        {
+          "name": "float-3",
+          "box": [
+            1024,
+            0,
+            1536,
+            512
+          ]
+        },
+        {
+          "name": "float-4",
+          "box": [
+            1536,
+            0,
+            2048,
+            512
+          ]
+        },
+        {
+          "name": "underside",
+          "box": [
+            2048,
+            0,
+            2560,
+            512
           ]
         }
       ]
@@ -1801,6 +1920,142 @@
         128
       ],
       "sprites": []
+    },
+    {
+      "asset": "asset.nevron-region-sprites",
+      "path": "art/tokens/nevron-region-sprites.png",
+      "size": [
+        896,
+        256
+      ],
+      "sprites": [
+        {
+          "name": "nevron",
+          "box": [
+            0,
+            0,
+            128,
+            128
+          ]
+        },
+        {
+          "name": "woodland-fox",
+          "box": [
+            128,
+            0,
+            256,
+            128
+          ]
+        },
+        {
+          "name": "woodland-rabbit",
+          "box": [
+            256,
+            0,
+            384,
+            128
+          ]
+        },
+        {
+          "name": "woodland-mouse",
+          "box": [
+            384,
+            0,
+            512,
+            128
+          ]
+        },
+        {
+          "name": "lumiere",
+          "box": [
+            512,
+            0,
+            640,
+            128
+          ]
+        },
+        {
+          "name": "old-lumiere",
+          "box": [
+            640,
+            0,
+            768,
+            128
+          ]
+        },
+        {
+          "name": "monolith",
+          "box": [
+            768,
+            0,
+            896,
+            128
+          ]
+        },
+        {
+          "name": "visages",
+          "box": [
+            0,
+            128,
+            128,
+            256
+          ]
+        },
+        {
+          "name": "sirene",
+          "box": [
+            128,
+            128,
+            256,
+            256
+          ]
+        },
+        {
+          "name": "the-reacher",
+          "box": [
+            256,
+            128,
+            384,
+            256
+          ]
+        },
+        {
+          "name": "esquies-nest",
+          "box": [
+            384,
+            128,
+            512,
+            256
+          ]
+        },
+        {
+          "name": "flying-manor",
+          "box": [
+            512,
+            128,
+            640,
+            256
+          ]
+        },
+        {
+          "name": "stone-wave-cliffs",
+          "box": [
+            640,
+            128,
+            768,
+            256
+          ]
+        },
+        {
+          "name": "sacred-river",
+          "box": [
+            768,
+            128,
+            896,
+            256
+          ]
+        }
+      ]
     },
     {
       "asset": "asset.portrait-frame",
