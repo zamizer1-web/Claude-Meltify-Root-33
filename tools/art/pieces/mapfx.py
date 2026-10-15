@@ -333,10 +333,8 @@ def monolith_plate(rng):
     light = conic_light(size, C, lambda deg: 128 + 127 * math.cos(math.radians(deg - 225)))
     img = comp(img, clip(gold_paint(size, rim.getchannel("A"), rng, light=light, bands=1.0), outer))
 
-    # Three gold studs (one per Ring clearing) on the crimson band.
-    for k in range(3):
-        ang = math.radians(-90 + 120 * k)
-        img = comp(img, gem(size, C[0] + math.cos(ang) * 189 * F, C[1] + math.sin(ang) * 189 * F, ang, 13 * F, glow_r=6 * F))
+    # No studs or count marks on the band: the Ring can have any number of clearings (1 to 4+), and ring-barrier.png
+    # already draws one segment per clearing, so the plate stays the same on every map.
 
     # The plain ink centre, sunk into the plate behind a gold collar.
     cseed = rng.randrange(1 << 30)

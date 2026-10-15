@@ -252,7 +252,7 @@ def edge_fade(size, border):
     d = ImageDraw.Draw(m)
     steps = 16
     for k in range(steps + 1):
-        inset = border * (1 - k / steps)
+        inset = border * k / steps  # outermost (clear) first, each inset rectangle a little more opaque
         d.rectangle((inset, inset, w - 1 - inset, h - 1 - inset), fill=int(255 * k / steps))
     return m
 

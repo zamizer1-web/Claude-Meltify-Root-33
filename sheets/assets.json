@@ -308,10 +308,8 @@
       "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
       "sourcePath": "art/portraits/silhouette.png",
       "fallback": "A plain disc in the character's colour with their initial.",
-      "_unverified": {
-        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
-      },
-      "_notes": "Made-for-mod art other than the title rift is planned but not drawn yet, so each sourcePath is marked unverified until the file exists; every fallback is drawable from code alone so the mod works before the art is made."
+      "_notes": "Made-for-mod art other than the title rift is planned but not drawn yet, so each sourcePath is marked unverified until the file exists; every fallback is drawable from code alone so the mod works before the art is made.",
+      "_source": "Drawn for the mod; built by tools/art/make_all.py and listed in art/manifest.json."
     },
     {
       "id": "asset.prompt-frame",
@@ -321,9 +319,7 @@
       "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
       "sourcePath": "art/ui/prompt-frame.png",
       "fallback": "A plain dark panel with a thin gold border.",
-      "_unverified": {
-        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
-      }
+      "_source": "Drawn for the mod; built by tools/art/make_all.py and listed in art/manifest.json."
     },
     {
       "id": "asset.card-frame",
@@ -333,9 +329,7 @@
       "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
       "sourcePath": "art/ui/character-card.png",
       "fallback": "A plain dark card with the character's colour as its border.",
-      "_unverified": {
-        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
-      }
+      "_source": "Drawn for the mod; built by tools/art/make_all.py and listed in art/manifest.json."
     },
     {
       "id": "asset.vignette-frame",
@@ -345,9 +339,7 @@
       "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
       "sourcePath": "art/ui/vignette-frame.png",
       "fallback": "Black bars top and bottom.",
-      "_unverified": {
-        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
-      }
+      "_source": "Drawn for the mod; built by tools/art/make_all.py and listed in art/manifest.json."
     },
     {
       "id": "asset.banner-frame",
@@ -357,9 +349,7 @@
       "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
       "sourcePath": "art/ui/banner-frame.png",
       "fallback": "A plain dark strip across the top of the screen.",
-      "_unverified": {
-        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
-      }
+      "_source": "Drawn for the mod; built by tools/art/make_all.py and listed in art/manifest.json."
     },
     {
       "id": "asset.tracker-frame",
@@ -369,9 +359,7 @@
       "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
       "sourcePath": "art/ui/tracker-frame.png",
       "fallback": "A plain dark panel with text rows.",
-      "_unverified": {
-        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
-      }
+      "_source": "Drawn for the mod; built by tools/art/make_all.py and listed in art/manifest.json."
     },
     {
       "id": "asset.bubble-frame",
@@ -381,9 +369,7 @@
       "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
       "sourcePath": "art/ui/speech-bubble.png",
       "fallback": "A white rounded rectangle with a dark border.",
-      "_unverified": {
-        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
-      }
+      "_source": "Drawn for the mod; built by tools/art/make_all.py and listed in art/manifest.json."
     },
     {
       "id": "asset.label-plate",
@@ -393,9 +379,7 @@
       "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
       "sourcePath": "art/ui/label-plate.png",
       "fallback": "Text with a dark outline, no plate.",
-      "_unverified": {
-        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
-      }
+      "_source": "Drawn for the mod; built by tools/art/make_all.py and listed in art/manifest.json."
     },
     {
       "id": "asset.monolith-plate",
@@ -405,9 +389,7 @@
       "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
       "sourcePath": "art/map/monolith-number.png",
       "fallback": "The number in Root's UI font with a red outline.",
-      "_unverified": {
-        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
-      }
+      "_source": "Drawn for the mod; built by tools/art/make_all.py and listed in art/manifest.json."
     },
     {
       "id": "asset.sacred-river",
@@ -417,9 +399,7 @@
       "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
       "sourcePath": "art/map/sacred-river.png",
       "fallback": "The river clearings get a thin teal outline.",
-      "_unverified": {
-        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
-      }
+      "_source": "Drawn for the mod; built by tools/art/make_all.py and listed in art/manifest.json."
     },
     {
       "id": "asset.final-battlefield",
@@ -429,9 +409,7 @@
       "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
       "sourcePath": "art/map/final-battlefield.png",
       "fallback": "A plain red outline on Lumière.",
-      "_unverified": {
-        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
-      }
+      "_source": "Drawn for the mod; built by tools/art/make_all.py and listed in art/manifest.json."
     },
     {
       "id": "asset.petals",
@@ -441,9 +419,7 @@
       "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
       "sourcePath": "art/fx/petals.png",
       "fallback": "No particles.",
-      "_unverified": {
-        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
-      }
+      "_source": "Drawn for the mod; built by tools/art/make_all.py and listed in art/manifest.json."
     },
     {
       "id": "asset.flag-token",
@@ -453,9 +429,7 @@
       "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
       "sourcePath": "art/tokens/expedition-flag.png",
       "fallback": "A small blue triangle marked 33.",
-      "_unverified": {
-        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
-      }
+      "_source": "Drawn for the mod; built by tools/art/make_all.py and listed in art/manifest.json."
     },
     {
       "id": "asset.route-dots",
@@ -465,9 +439,7 @@
       "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
       "sourcePath": "art/map/route-dots.png",
       "fallback": "A plain dashed line.",
-      "_unverified": {
-        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
-      }
+      "_source": "Drawn for the mod; built by tools/art/make_all.py and listed in art/manifest.json."
     },
     {
       "id": "asset.arm-gauge",
@@ -477,9 +449,7 @@
       "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
       "sourcePath": "art/gauges/gustaves-arm.png",
       "fallback": "Three plain circles and a text button.",
-      "_unverified": {
-        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
-      }
+      "_source": "Drawn for the mod; built by tools/art/make_all.py and listed in art/manifest.json."
     },
     {
       "id": "asset.rock-tokens",
@@ -489,9 +459,7 @@
       "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
       "sourcePath": "art/tokens/rocks.png",
       "fallback": "Four coloured discs marked F, D, S and U.",
-      "_unverified": {
-        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
-      }
+      "_source": "Drawn for the mod; built by tools/art/make_all.py and listed in art/manifest.json."
     },
     {
       "id": "asset.rock-ring",
@@ -501,9 +469,7 @@
       "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
       "sourcePath": "art/gauges/rock-ring.png",
       "fallback": "Four empty circles in a row.",
-      "_unverified": {
-        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
-      }
+      "_source": "Drawn for the mod; built by tools/art/make_all.py and listed in art/manifest.json."
     },
     {
       "id": "asset.badge-lampmaster",
@@ -513,9 +479,7 @@
       "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
       "sourcePath": "art/tokens/badge-lampmaster.png",
       "fallback": "A text badge reading 'Lampmaster'.",
-      "_unverified": {
-        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
-      }
+      "_source": "Drawn for the mod; built by tools/art/make_all.py and listed in art/manifest.json."
     },
     {
       "id": "asset.badge-francois",
@@ -525,9 +489,7 @@
       "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
       "sourcePath": "art/tokens/badge-francois.png",
       "fallback": "A text badge reading 'François'.",
-      "_unverified": {
-        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
-      }
+      "_source": "Drawn for the mod; built by tools/art/make_all.py and listed in art/manifest.json."
     },
     {
       "id": "asset.portrait-frame",
@@ -537,9 +499,7 @@
       "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
       "sourcePath": "art/tokens/portrait-frame.png",
       "fallback": "A plain gold square outline.",
-      "_unverified": {
-        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
-      }
+      "_source": "Drawn for the mod; built by tools/art/make_all.py and listed in art/manifest.json."
     },
     {
       "id": "asset.portrait-veiled",
@@ -549,9 +509,7 @@
       "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
       "sourcePath": "art/tokens/portrait-veiled.png",
       "fallback": "A grey square with a question mark.",
-      "_unverified": {
-        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
-      }
+      "_source": "Drawn for the mod; built by tools/art/make_all.py and listed in art/manifest.json."
     },
     {
       "id": "asset.smeared-canvas",
@@ -561,9 +519,7 @@
       "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
       "sourcePath": "art/fx/smeared-canvas.png",
       "fallback": "The plain speech bubble.",
-      "_unverified": {
-        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
-      }
+      "_source": "Drawn for the mod; built by tools/art/make_all.py and listed in art/manifest.json."
     },
     {
       "id": "asset.sun-moon-gauge",
@@ -573,9 +529,7 @@
       "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
       "sourcePath": "art/gauges/sun-moon.png",
       "fallback": "Two text counters.",
-      "_unverified": {
-        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
-      }
+      "_source": "Drawn for the mod; built by tools/art/make_all.py and listed in art/manifest.json."
     },
     {
       "id": "asset.dusk-tint",
@@ -585,9 +539,7 @@
       "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
       "sourcePath": "art/fx/dusk-tint.png",
       "fallback": "No tint.",
-      "_unverified": {
-        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
-      }
+      "_source": "Drawn for the mod; built by tools/art/make_all.py and listed in art/manifest.json."
     },
     {
       "id": "asset.rank-letters",
@@ -597,9 +549,7 @@
       "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
       "sourcePath": "art/gauges/rank-letters.png",
       "fallback": "The letter in Root's UI font.",
-      "_unverified": {
-        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
-      }
+      "_source": "Drawn for the mod; built by tools/art/make_all.py and listed in art/manifest.json."
     },
     {
       "id": "asset.family-frames",
@@ -609,9 +559,7 @@
       "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
       "sourcePath": "art/gauges/family-frames.png",
       "fallback": "Faction names with their relationship as text.",
-      "_unverified": {
-        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
-      }
+      "_source": "Drawn for the mod; built by tools/art/make_all.py and listed in art/manifest.json."
     },
     {
       "id": "asset.stance-chips",
@@ -621,9 +569,7 @@
       "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
       "sourcePath": "art/gauges/stance-chips.png",
       "fallback": "The stance name as text.",
-      "_unverified": {
-        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
-      }
+      "_source": "Drawn for the mod; built by tools/art/make_all.py and listed in art/manifest.json."
     },
     {
       "id": "asset.journal-glow",
@@ -633,9 +579,7 @@
       "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
       "sourcePath": "art/fx/journal-glow.png",
       "fallback": "A gold outline around the forest.",
-      "_unverified": {
-        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
-      }
+      "_source": "Drawn for the mod; built by tools/art/make_all.py and listed in art/manifest.json."
     },
     {
       "id": "asset.thesis-tracker",
@@ -645,9 +589,7 @@
       "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
       "sourcePath": "art/gauges/thesis.png",
       "fallback": "Text checkboxes.",
-      "_unverified": {
-        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
-      }
+      "_source": "Drawn for the mod; built by tools/art/make_all.py and listed in art/manifest.json."
     },
     {
       "id": "asset.stain-icons",
@@ -657,9 +599,7 @@
       "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
       "sourcePath": "art/gauges/stains.png",
       "fallback": "Text counters and a text button.",
-      "_unverified": {
-        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
-      }
+      "_source": "Drawn for the mod; built by tools/art/make_all.py and listed in art/manifest.json."
     },
     {
       "id": "asset.wheel-frame",
@@ -669,10 +609,7 @@
       "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
       "sourcePath": "art/gauges/bestial-wheel.png",
       "fallback": "Five text slots in a row.",
-      "_unverified": {
-        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
-      },
-      "_source": "https://expedition33.wiki.fextralife.com/Monoco"
+      "_source": "Drawn for the mod; built by tools/art/make_all.py and listed in art/manifest.json."
     },
     {
       "id": "asset.cell-crack",
@@ -682,9 +619,7 @@
       "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
       "sourcePath": "art/tokens/cell-crack.png",
       "fallback": "A thin dark line across the Monolith clearing.",
-      "_unverified": {
-        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
-      }
+      "_source": "Drawn for the mod; built by tools/art/make_all.py and listed in art/manifest.json."
     },
     {
       "id": "asset.nevron-mark",
@@ -694,9 +629,7 @@
       "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
       "sourcePath": "art/tokens/nevron-mark.png",
       "fallback": "A small magenta dot.",
-      "_unverified": {
-        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
-      }
+      "_source": "Drawn for the mod; built by tools/art/make_all.py and listed in art/manifest.json."
     },
     {
       "id": "asset.ring-barrier",
@@ -706,9 +639,7 @@
       "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
       "sourcePath": "art/map/ring-barrier.png",
       "fallback": "A plain circle outline with coloured segments.",
-      "_unverified": {
-        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
-      }
+      "_source": "Drawn for the mod; built by tools/art/make_all.py and listed in art/manifest.json."
     },
     {
       "id": "asset.fx.verso-get-back-up",
@@ -718,9 +649,7 @@
       "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
       "sourcePath": "art/fx/verso-get-back-up.png",
       "fallback": "No animation.",
-      "_unverified": {
-        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
-      }
+      "_source": "Drawn for the mod; built by tools/art/make_all.py and listed in art/manifest.json."
     },
     {
       "id": "asset.fx.esquie-sit",
@@ -730,9 +659,7 @@
       "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
       "sourcePath": "art/fx/esquie-sit.png",
       "fallback": "No animation.",
-      "_unverified": {
-        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
-      }
+      "_source": "Drawn for the mod; built by tools/art/make_all.py and listed in art/manifest.json."
     },
     {
       "id": "asset.fx.sciel-reaping",
@@ -742,9 +669,7 @@
       "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
       "sourcePath": "art/fx/sciel-reaping.png",
       "fallback": "No animation.",
-      "_unverified": {
-        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
-      }
+      "_source": "Drawn for the mod; built by tools/art/make_all.py and listed in art/manifest.json."
     },
     {
       "id": "asset.fx.maelle-keepsake",
@@ -754,9 +679,7 @@
       "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
       "sourcePath": "art/fx/maelle-keepsake.png",
       "fallback": "No animation.",
-      "_unverified": {
-        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
-      }
+      "_source": "Drawn for the mod; built by tools/art/make_all.py and listed in art/manifest.json."
     },
     {
       "id": "asset.fx.maelle-disarm",
@@ -766,9 +689,7 @@
       "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
       "sourcePath": "art/fx/maelle-disarm.png",
       "fallback": "No animation.",
-      "_unverified": {
-        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
-      }
+      "_source": "Drawn for the mod; built by tools/art/make_all.py and listed in art/manifest.json."
     },
     {
       "id": "asset.fx.whm-ink-wipe",
@@ -778,9 +699,7 @@
       "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
       "sourcePath": "art/fx/whm-ink-wipe.png",
       "fallback": "No animation.",
-      "_unverified": {
-        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
-      }
+      "_source": "Drawn for the mod; built by tools/art/make_all.py and listed in art/manifest.json."
     },
     {
       "id": "asset.fx.clea-melt",
@@ -790,9 +709,7 @@
       "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
       "sourcePath": "art/fx/clea-melt.png",
       "fallback": "No animation.",
-      "_unverified": {
-        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
-      }
+      "_source": "Drawn for the mod; built by tools/art/make_all.py and listed in art/manifest.json."
     },
     {
       "id": "asset.fx.flying-manor-float",
@@ -802,9 +719,7 @@
       "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
       "sourcePath": "art/fx/flying-manor-float.png",
       "fallback": "No animation.",
-      "_unverified": {
-        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
-      }
+      "_source": "Drawn for the mod; built by tools/art/make_all.py and listed in art/manifest.json."
     },
     {
       "id": "asset.nevron-region-sprites",
@@ -814,9 +729,7 @@
       "license": "Made for this mod; ships with it under the mod's MIT-compatible license.",
       "sourcePath": "art/tokens/nevron-region-sprites.png",
       "fallback": "The standard Lizard warrior.",
-      "_unverified": {
-        "sourcePath": "planned file, not drawn yet: make it under art/ before the plugin build (preflight --target plugin checks it exists)"
-      }
+      "_source": "Drawn for the mod; built by tools/art/make_all.py and listed in art/manifest.json."
     }
   ]
 }

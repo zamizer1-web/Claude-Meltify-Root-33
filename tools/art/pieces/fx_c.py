@@ -4,8 +4,9 @@ sheet of regional Nevron warrior glyphs.
 All original and drawn from scratch with Pillow in the shared painterly style (tools/art/style.py): ink, bone paper,
 gold leaf, crimson and river teal, leaning here on a violet ink for Clea. The Nevrons are invented ink creatures in the
 family of art/tokens/nevron-mark.png (a spined ink body, one magenta eye, tendril arms, drippy feet); the regional
-variants change only their crest, limbs and accent colour. The converted piece is a generic bone pawn, not any game's
-figure. Every random choice comes from a seeded random.Random (noise included), so the same code always paints the same
+variants change only their crest, limbs and accent colour. The converted piece is an invented, bone-coloured rounded
+critter piece with no faction marks (a pear-shaped body on a flat base, a round head and two small round ears), not any
+game's figure. Every random choice comes from a seeded random.Random (noise included), so the same code always paints the same
 pixels. Pieces are drawn at 2-4x and reduced, so edges stay soft at token size.
 
 Sprites
