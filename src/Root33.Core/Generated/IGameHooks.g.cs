@@ -24,7 +24,7 @@ namespace Root33.Core
         /// <remarks>Sheet row: hook.game-start</remarks>
         void OnGameStart(IReadOnlyList<SeatId> turnOrder, Difficulty difficulty, SpoilerMode spoilers);
 
-        /// The map for a new game is built, before any setup piece is placed. When Gustave is not seated, the core assigns every map role by rule here (Lumière, the Monolith, the Axons, Old Lumière, Esquie's Nest, the Flying Manor, Stone Wave Cliffs, the Sacred River); when he is, it waits until his keep is placed (hook.piece-placed).
+        /// The map for a new game is built, before any setup piece is placed. When Gustave is not seated, the core assigns every map role by rule here (Lumière, the Monolith, the Axons Visages and Sirène, The Reacher, Old Lumière, Esquie's Nest, the Flying Manor, Stone Wave Cliffs, the Sacred River); when he is, it waits until his keep is placed (hook.piece-placed).
         /// <remarks>Sheet row: hook.map-loaded</remarks>
         void OnMapLoaded(string mapName);
 
@@ -144,7 +144,7 @@ namespace Root33.Core
         /// <remarks>Sheet row: hook.game-over</remarks>
         void OnGameOver(IReadOnlyList<SeatId> winners);
 
-        /// Root writes a save (autosave, manual save, or an async online turn). The core returns its state as text, stored beside the save under the game's ID.
+        /// Root writes a save (autosave or manual save). The core returns its state as text, stored beside the save under the game's ID.
         /// <remarks>Sheet row: hook.save</remarks>
         string OnSave();
 

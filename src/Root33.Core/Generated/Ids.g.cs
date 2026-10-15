@@ -25,6 +25,8 @@ namespace Root33.Core.Sheets
             public const string Settings = "sys.settings";
             public const string Campaign = "sys.campaign";
             public const string HirelingsLandmarksTheming = "sys.hirelings-landmarks-theming";
+            public const string MusicMix = "sys.music-mix";
+            public const string CardArt = "sys.card-art";
         }
 
         public static class Dlc
