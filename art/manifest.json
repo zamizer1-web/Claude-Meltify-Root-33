@@ -10,6 +10,61 @@
       "sprites": []
     },
     {
+      "asset": "asset.fx.esquie-sit",
+      "path": "art/fx/esquie-sit.png",
+      "size": [
+        1280,
+        256
+      ],
+      "sprites": [
+        {
+          "name": "drop",
+          "box": [
+            0,
+            0,
+            256,
+            256
+          ]
+        },
+        {
+          "name": "squash",
+          "box": [
+            256,
+            0,
+            512,
+            256
+          ]
+        },
+        {
+          "name": "rebound",
+          "box": [
+            512,
+            0,
+            768,
+            256
+          ]
+        },
+        {
+          "name": "settle",
+          "box": [
+            768,
+            0,
+            1024,
+            256
+          ]
+        },
+        {
+          "name": "rest",
+          "box": [
+            1024,
+            0,
+            1280,
+            256
+          ]
+        }
+      ]
+    },
+    {
       "asset": "asset.journal-glow",
       "path": "art/fx/journal-glow.png",
       "size": [
@@ -32,6 +87,107 @@
             512,
             0,
             640,
+            192
+          ]
+        }
+      ]
+    },
+    {
+      "asset": "asset.fx.maelle-disarm",
+      "path": "art/fx/maelle-disarm.png",
+      "size": [
+        1024,
+        256
+      ],
+      "sprites": [
+        {
+          "name": "feint",
+          "box": [
+            0,
+            0,
+            256,
+            256
+          ]
+        },
+        {
+          "name": "flick",
+          "box": [
+            256,
+            0,
+            512,
+            256
+          ]
+        },
+        {
+          "name": "spin",
+          "box": [
+            512,
+            0,
+            768,
+            256
+          ]
+        },
+        {
+          "name": "away",
+          "box": [
+            768,
+            0,
+            1024,
+            256
+          ]
+        }
+      ]
+    },
+    {
+      "asset": "asset.fx.maelle-keepsake",
+      "path": "art/fx/maelle-keepsake.png",
+      "size": [
+        1152,
+        256
+      ],
+      "sprites": [
+        {
+          "name": "offer",
+          "box": [
+            0,
+            0,
+            256,
+            256
+          ]
+        },
+        {
+          "name": "lift",
+          "box": [
+            256,
+            0,
+            512,
+            256
+          ]
+        },
+        {
+          "name": "pass",
+          "box": [
+            512,
+            0,
+            768,
+            256
+          ]
+        },
+        {
+          "name": "glow",
+          "box": [
+            768,
+            0,
+            1024,
+            256
+          ]
+        },
+        {
+          "name": "keepsake",
+          "box": [
+            1024,
+            64,
+            1152,
             192
           ]
         }
@@ -120,6 +276,70 @@
       ]
     },
     {
+      "asset": "asset.fx.sciel-reaping",
+      "path": "art/fx/sciel-reaping.png",
+      "size": [
+        1920,
+        320
+      ],
+      "sprites": [
+        {
+          "name": "glint",
+          "box": [
+            0,
+            0,
+            320,
+            320
+          ]
+        },
+        {
+          "name": "sweep-1",
+          "box": [
+            320,
+            0,
+            640,
+            320
+          ]
+        },
+        {
+          "name": "sweep-2",
+          "box": [
+            640,
+            0,
+            960,
+            320
+          ]
+        },
+        {
+          "name": "sweep-3",
+          "box": [
+            960,
+            0,
+            1280,
+            320
+          ]
+        },
+        {
+          "name": "harvest",
+          "box": [
+            1280,
+            0,
+            1600,
+            320
+          ]
+        },
+        {
+          "name": "fade",
+          "box": [
+            1600,
+            0,
+            1920,
+            320
+          ]
+        }
+      ]
+    },
+    {
       "asset": "asset.smeared-canvas",
       "path": "art/fx/smeared-canvas.png",
       "size": [
@@ -127,6 +347,1232 @@
         512
       ],
       "sprites": []
+    },
+    {
+      "asset": "asset.fx.verso-get-back-up",
+      "path": "art/fx/verso-get-back-up.png",
+      "size": [
+        1280,
+        512
+      ],
+      "sprites": [
+        {
+          "name": "safe-1",
+          "box": [
+            0,
+            0,
+            256,
+            256
+          ]
+        },
+        {
+          "name": "safe-2",
+          "box": [
+            256,
+            0,
+            512,
+            256
+          ]
+        },
+        {
+          "name": "safe-3",
+          "box": [
+            512,
+            0,
+            768,
+            256
+          ]
+        },
+        {
+          "name": "safe-4",
+          "box": [
+            768,
+            0,
+            1024,
+            256
+          ]
+        },
+        {
+          "name": "safe-5",
+          "box": [
+            1024,
+            0,
+            1280,
+            256
+          ]
+        },
+        {
+          "name": "finished-1",
+          "box": [
+            0,
+            256,
+            256,
+            512
+          ]
+        },
+        {
+          "name": "finished-2",
+          "box": [
+            256,
+            256,
+            512,
+            512
+          ]
+        },
+        {
+          "name": "finished-3",
+          "box": [
+            512,
+            256,
+            768,
+            512
+          ]
+        },
+        {
+          "name": "finished-4",
+          "box": [
+            768,
+            256,
+            1024,
+            512
+          ]
+        },
+        {
+          "name": "finished-5",
+          "box": [
+            1024,
+            256,
+            1280,
+            512
+          ]
+        }
+      ]
+    },
+    {
+      "asset": "asset.fx.whm-ink-wipe",
+      "path": "art/fx/whm-ink-wipe.png",
+      "size": [
+        1536,
+        384
+      ],
+      "sprites": [
+        {
+          "name": "strike",
+          "box": [
+            0,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "name": "sweep",
+          "box": [
+            384,
+            0,
+            768,
+            384
+          ]
+        },
+        {
+          "name": "wipe",
+          "box": [
+            768,
+            0,
+            1152,
+            384
+          ]
+        },
+        {
+          "name": "fade",
+          "box": [
+            1152,
+            0,
+            1536,
+            384
+          ]
+        }
+      ]
+    },
+    {
+      "asset": "asset.wheel-frame",
+      "path": "art/gauges/bestial-wheel.png",
+      "size": [
+        512,
+        896
+      ],
+      "sprites": [
+        {
+          "name": "wheel",
+          "box": [
+            0,
+            0,
+            512,
+            512
+          ]
+        },
+        {
+          "name": "slot-caster",
+          "box": [
+            192,
+            30,
+            320,
+            158
+          ]
+        },
+        {
+          "name": "badge-caster",
+          "box": [
+            224,
+            131,
+            288,
+            195
+          ]
+        },
+        {
+          "name": "slot-agile",
+          "box": [
+            346,
+            142,
+            474,
+            270
+          ]
+        },
+        {
+          "name": "badge-agile",
+          "box": [
+            312,
+            195,
+            376,
+            259
+          ]
+        },
+        {
+          "name": "slot-balanced",
+          "box": [
+            287,
+            323,
+            415,
+            451
+          ]
+        },
+        {
+          "name": "badge-balanced",
+          "box": [
+            279,
+            299,
+            343,
+            363
+          ]
+        },
+        {
+          "name": "slot-heavy",
+          "box": [
+            97,
+            323,
+            225,
+            451
+          ]
+        },
+        {
+          "name": "badge-heavy",
+          "box": [
+            169,
+            299,
+            233,
+            363
+          ]
+        },
+        {
+          "name": "slot-almighty",
+          "box": [
+            38,
+            142,
+            166,
+            270
+          ]
+        },
+        {
+          "name": "badge-almighty",
+          "box": [
+            136,
+            195,
+            200,
+            259
+          ]
+        },
+        {
+          "name": "caster-empty",
+          "box": [
+            0,
+            512,
+            128,
+            640
+          ]
+        },
+        {
+          "name": "agile-empty",
+          "box": [
+            128,
+            512,
+            256,
+            640
+          ]
+        },
+        {
+          "name": "balanced-empty",
+          "box": [
+            256,
+            512,
+            384,
+            640
+          ]
+        },
+        {
+          "name": "heavy-empty",
+          "box": [
+            384,
+            512,
+            512,
+            640
+          ]
+        },
+        {
+          "name": "almighty-empty",
+          "box": [
+            0,
+            640,
+            128,
+            768
+          ]
+        },
+        {
+          "name": "caster-filled",
+          "box": [
+            128,
+            640,
+            256,
+            768
+          ]
+        },
+        {
+          "name": "agile-filled",
+          "box": [
+            256,
+            640,
+            384,
+            768
+          ]
+        },
+        {
+          "name": "balanced-filled",
+          "box": [
+            384,
+            640,
+            512,
+            768
+          ]
+        },
+        {
+          "name": "heavy-filled",
+          "box": [
+            0,
+            768,
+            128,
+            896
+          ]
+        },
+        {
+          "name": "almighty-filled",
+          "box": [
+            128,
+            768,
+            256,
+            896
+          ]
+        },
+        {
+          "name": "almighty-locked",
+          "box": [
+            256,
+            768,
+            384,
+            896
+          ]
+        },
+        {
+          "name": "socket-empty",
+          "box": [
+            384,
+            768,
+            448,
+            832
+          ]
+        },
+        {
+          "name": "socket-lit",
+          "box": [
+            448,
+            768,
+            512,
+            832
+          ]
+        },
+        {
+          "name": "pointer",
+          "box": [
+            384,
+            832,
+            448,
+            896
+          ]
+        }
+      ]
+    },
+    {
+      "asset": "asset.family-frames",
+      "path": "art/gauges/family-frames.png",
+      "size": [
+        720,
+        304
+      ],
+      "sprites": [
+        {
+          "name": "indifferent",
+          "box": [
+            0,
+            0,
+            144,
+            184
+          ]
+        },
+        {
+          "name": "amiable",
+          "box": [
+            144,
+            0,
+            288,
+            184
+          ]
+        },
+        {
+          "name": "friendly",
+          "box": [
+            288,
+            0,
+            432,
+            184
+          ]
+        },
+        {
+          "name": "allied",
+          "box": [
+            432,
+            0,
+            576,
+            184
+          ]
+        },
+        {
+          "name": "hostile",
+          "box": [
+            576,
+            0,
+            720,
+            184
+          ]
+        },
+        {
+          "name": "window",
+          "box": [
+            29,
+            34,
+            115,
+            137
+          ]
+        },
+        {
+          "name": "sketch-slot",
+          "box": [
+            29,
+            192,
+            115,
+            295
+          ]
+        },
+        {
+          "name": "chosen",
+          "box": [
+            188,
+            192,
+            244,
+            248
+          ]
+        }
+      ]
+    },
+    {
+      "asset": "asset.arm-gauge",
+      "path": "art/gauges/gustaves-arm.png",
+      "size": [
+        512,
+        352
+      ],
+      "sprites": [
+        {
+          "name": "panel",
+          "box": [
+            0,
+            0,
+            416,
+            152
+          ]
+        },
+        {
+          "name": "pip-slot-1",
+          "box": [
+            122,
+            24,
+            218,
+            120
+          ]
+        },
+        {
+          "name": "pip-slot-2",
+          "box": [
+            202,
+            24,
+            298,
+            120
+          ]
+        },
+        {
+          "name": "pip-slot-3",
+          "box": [
+            282,
+            24,
+            378,
+            120
+          ]
+        },
+        {
+          "name": "pip-empty",
+          "box": [
+            0,
+            160,
+            96,
+            256
+          ]
+        },
+        {
+          "name": "pip-blue",
+          "box": [
+            100,
+            160,
+            196,
+            256
+          ]
+        },
+        {
+          "name": "pip-white",
+          "box": [
+            200,
+            160,
+            296,
+            256
+          ]
+        },
+        {
+          "name": "overcharge-off",
+          "box": [
+            0,
+            264,
+            208,
+            344
+          ]
+        },
+        {
+          "name": "overcharge-armed",
+          "box": [
+            216,
+            264,
+            424,
+            344
+          ]
+        },
+        {
+          "name": "overcharge-locked",
+          "box": [
+            304,
+            168,
+            512,
+            248
+          ]
+        }
+      ]
+    },
+    {
+      "asset": "asset.rank-letters",
+      "path": "art/gauges/rank-letters.png",
+      "size": [
+        1280,
+        256
+      ],
+      "sprites": [
+        {
+          "name": "D",
+          "box": [
+            0,
+            0,
+            256,
+            256
+          ]
+        },
+        {
+          "name": "C",
+          "box": [
+            256,
+            0,
+            512,
+            256
+          ]
+        },
+        {
+          "name": "B",
+          "box": [
+            512,
+            0,
+            768,
+            256
+          ]
+        },
+        {
+          "name": "A",
+          "box": [
+            768,
+            0,
+            1024,
+            256
+          ]
+        },
+        {
+          "name": "S",
+          "box": [
+            1024,
+            0,
+            1280,
+            256
+          ]
+        }
+      ]
+    },
+    {
+      "asset": "asset.rock-ring",
+      "path": "art/gauges/rock-ring.png",
+      "size": [
+        608,
+        384
+      ],
+      "sprites": [
+        {
+          "name": "ring",
+          "box": [
+            0,
+            0,
+            352,
+            352
+          ]
+        },
+        {
+          "name": "slot-florrie",
+          "box": [
+            112,
+            2,
+            240,
+            130
+          ]
+        },
+        {
+          "name": "slot-dorrie",
+          "box": [
+            222,
+            112,
+            350,
+            240
+          ]
+        },
+        {
+          "name": "slot-soarrie",
+          "box": [
+            112,
+            222,
+            240,
+            350
+          ]
+        },
+        {
+          "name": "slot-urrie",
+          "box": [
+            2,
+            112,
+            130,
+            240
+          ]
+        },
+        {
+          "name": "slot-filled-florrie",
+          "box": [
+            352,
+            0,
+            480,
+            128
+          ]
+        },
+        {
+          "name": "slot-filled-dorrie",
+          "box": [
+            480,
+            0,
+            608,
+            128
+          ]
+        },
+        {
+          "name": "slot-filled-soarrie",
+          "box": [
+            352,
+            128,
+            480,
+            256
+          ]
+        },
+        {
+          "name": "slot-filled-urrie",
+          "box": [
+            480,
+            128,
+            608,
+            256
+          ]
+        },
+        {
+          "name": "slot-empty",
+          "box": [
+            352,
+            256,
+            480,
+            384
+          ]
+        }
+      ]
+    },
+    {
+      "asset": "asset.stain-icons",
+      "path": "art/gauges/stains.png",
+      "size": [
+        384,
+        352
+      ],
+      "sprites": [
+        {
+          "name": "fire-lit",
+          "box": [
+            0,
+            0,
+            128,
+            128
+          ]
+        },
+        {
+          "name": "fire-dim",
+          "box": [
+            0,
+            128,
+            128,
+            256
+          ]
+        },
+        {
+          "name": "ice-lit",
+          "box": [
+            128,
+            0,
+            256,
+            128
+          ]
+        },
+        {
+          "name": "ice-dim",
+          "box": [
+            128,
+            128,
+            256,
+            256
+          ]
+        },
+        {
+          "name": "lightning-lit",
+          "box": [
+            256,
+            0,
+            384,
+            128
+          ]
+        },
+        {
+          "name": "lightning-dim",
+          "box": [
+            256,
+            128,
+            384,
+            256
+          ]
+        },
+        {
+          "name": "toggle-off",
+          "box": [
+            0,
+            256,
+            192,
+            352
+          ]
+        },
+        {
+          "name": "toggle-armed",
+          "box": [
+            192,
+            256,
+            384,
+            352
+          ]
+        }
+      ]
+    },
+    {
+      "asset": "asset.stance-chips",
+      "path": "art/gauges/stance-chips.png",
+      "size": [
+        480,
+        160
+      ],
+      "sprites": [
+        {
+          "name": "offensive",
+          "box": [
+            0,
+            0,
+            160,
+            160
+          ]
+        },
+        {
+          "name": "defensive",
+          "box": [
+            160,
+            0,
+            320,
+            160
+          ]
+        },
+        {
+          "name": "virtuose",
+          "box": [
+            320,
+            0,
+            480,
+            160
+          ]
+        }
+      ]
+    },
+    {
+      "asset": "asset.sun-moon-gauge",
+      "path": "art/gauges/sun-moon.png",
+      "size": [
+        512,
+        468
+      ],
+      "sprites": [
+        {
+          "name": "sun-frame",
+          "box": [
+            0,
+            0,
+            416,
+            136
+          ]
+        },
+        {
+          "name": "sun-slot-1",
+          "box": [
+            118,
+            20,
+            174,
+            92
+          ]
+        },
+        {
+          "name": "sun-slot-2",
+          "box": [
+            172,
+            20,
+            228,
+            92
+          ]
+        },
+        {
+          "name": "sun-slot-3",
+          "box": [
+            226,
+            20,
+            282,
+            92
+          ]
+        },
+        {
+          "name": "sun-slot-4",
+          "box": [
+            280,
+            20,
+            336,
+            92
+          ]
+        },
+        {
+          "name": "sun-slot-5",
+          "box": [
+            334,
+            20,
+            390,
+            92
+          ]
+        },
+        {
+          "name": "suit-slot-fox",
+          "box": [
+            202,
+            82,
+            234,
+            114
+          ]
+        },
+        {
+          "name": "suit-slot-rabbit",
+          "box": [
+            238,
+            82,
+            270,
+            114
+          ]
+        },
+        {
+          "name": "suit-slot-mouse",
+          "box": [
+            274,
+            82,
+            306,
+            114
+          ]
+        },
+        {
+          "name": "moon-frame",
+          "box": [
+            0,
+            140,
+            416,
+            276
+          ]
+        },
+        {
+          "name": "moon-slot-1",
+          "box": [
+            138,
+            168,
+            194,
+            240
+          ]
+        },
+        {
+          "name": "moon-slot-2",
+          "box": [
+            234,
+            168,
+            290,
+            240
+          ]
+        },
+        {
+          "name": "moon-slot-3",
+          "box": [
+            330,
+            168,
+            386,
+            240
+          ]
+        },
+        {
+          "name": "sun-step-empty",
+          "box": [
+            424,
+            0,
+            480,
+            72
+          ]
+        },
+        {
+          "name": "sun-step-lit",
+          "box": [
+            424,
+            76,
+            480,
+            148
+          ]
+        },
+        {
+          "name": "moon-step-empty",
+          "box": [
+            424,
+            152,
+            480,
+            224
+          ]
+        },
+        {
+          "name": "moon-step-lit",
+          "box": [
+            424,
+            228,
+            480,
+            300
+          ]
+        },
+        {
+          "name": "suit-fox",
+          "box": [
+            480,
+            4,
+            512,
+            36
+          ]
+        },
+        {
+          "name": "suit-rabbit",
+          "box": [
+            480,
+            40,
+            512,
+            72
+          ]
+        },
+        {
+          "name": "suit-mouse",
+          "box": [
+            480,
+            76,
+            512,
+            108
+          ]
+        },
+        {
+          "name": "twilight-frame",
+          "box": [
+            0,
+            284,
+            192,
+            380
+          ]
+        },
+        {
+          "name": "charge-slot-sun",
+          "box": [
+            22,
+            296,
+            94,
+            368
+          ]
+        },
+        {
+          "name": "charge-slot-moon",
+          "box": [
+            98,
+            296,
+            170,
+            368
+          ]
+        },
+        {
+          "name": "twilight-armed",
+          "box": [
+            200,
+            284,
+            392,
+            380
+          ]
+        },
+        {
+          "name": "charge-sun-off",
+          "box": [
+            0,
+            392,
+            72,
+            464
+          ]
+        },
+        {
+          "name": "charge-sun-lit",
+          "box": [
+            78,
+            392,
+            150,
+            464
+          ]
+        },
+        {
+          "name": "charge-moon-off",
+          "box": [
+            156,
+            392,
+            228,
+            464
+          ]
+        },
+        {
+          "name": "charge-moon-lit",
+          "box": [
+            234,
+            392,
+            306,
+            464
+          ]
+        }
+      ]
+    },
+    {
+      "asset": "asset.thesis-tracker",
+      "path": "art/gauges/thesis.png",
+      "size": [
+        576,
+        416
+      ],
+      "sprites": [
+        {
+          "name": "tracker",
+          "box": [
+            0,
+            0,
+            576,
+            160
+          ]
+        },
+        {
+          "name": "slot-journal",
+          "box": [
+            8,
+            16,
+            136,
+            144
+          ]
+        },
+        {
+          "name": "journal-empty",
+          "box": [
+            0,
+            160,
+            128,
+            288
+          ]
+        },
+        {
+          "name": "journal-filled",
+          "box": [
+            0,
+            288,
+            128,
+            416
+          ]
+        },
+        {
+          "name": "slot-route-chart",
+          "box": [
+            132,
+            16,
+            260,
+            144
+          ]
+        },
+        {
+          "name": "route-chart-empty",
+          "box": [
+            128,
+            160,
+            256,
+            288
+          ]
+        },
+        {
+          "name": "route-chart-filled",
+          "box": [
+            128,
+            288,
+            256,
+            416
+          ]
+        },
+        {
+          "name": "slot-chroma-sample",
+          "box": [
+            256,
+            16,
+            384,
+            144
+          ]
+        },
+        {
+          "name": "chroma-sample-empty",
+          "box": [
+            256,
+            160,
+            384,
+            288
+          ]
+        },
+        {
+          "name": "chroma-sample-filled",
+          "box": [
+            256,
+            288,
+            384,
+            416
+          ]
+        },
+        {
+          "name": "slot-parents-journal",
+          "box": [
+            430,
+            16,
+            558,
+            144
+          ]
+        },
+        {
+          "name": "parents-journal-empty",
+          "box": [
+            384,
+            160,
+            512,
+            288
+          ]
+        },
+        {
+          "name": "parents-journal-filled",
+          "box": [
+            384,
+            288,
+            512,
+            416
+          ]
+        }
+      ]
     },
     {
       "asset": "asset.final-battlefield",
