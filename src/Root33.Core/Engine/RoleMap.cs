@@ -61,13 +61,16 @@ namespace Root33.Core.Engine
             }
             Set(Monolith, monolith);
 
-            // role.visages / role.sirene / role.the-reacher: the Monolith's open path neighbours in clearing order.
-            var monolithNeighbours = Paths(monolith).Distinct().OrderBy(c => c.Value).ToList();
-            Set(Visages, monolithNeighbours.Take(1).ToArray());
-            Set(Sirene, monolithNeighbours.Skip(1).Take(1).ToArray());
-            Set(TheReacher, monolithNeighbours.Skip(2).Take(1).ToArray());
-
+            // role.visages / role.sirene / role.the-reacher: the Monolith's open path neighbours in clearing order, skipping
+            // corners (a corner already holds Lumière, Esquie's Nest or the Flying Manor). A skipped corner gets no name but is
+            // still a Monolith neighbour.
             var cornerSet = new HashSet<ClearingId>(corners);
+            var monolithNeighbours = Paths(monolith).Distinct().OrderBy(c => c.Value).ToList();
+            var axons = monolithNeighbours.Where(c => !cornerSet.Contains(c)).ToList();
+            Set(Visages, axons.Take(1).ToArray());
+            Set(Sirene, axons.Skip(1).Take(1).ToArray());
+            Set(TheReacher, axons.Skip(2).Take(1).ToArray());
+
             var neighbourSet = new HashSet<ClearingId>(monolithNeighbours);
 
             // role.old-lumiere: the most central ruin that is not a corner or a Monolith neighbour; else the most central such clearing.

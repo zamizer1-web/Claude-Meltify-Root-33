@@ -50,8 +50,6 @@ namespace Root33.Core.Characters.Maelle
     /// </summary>
     public sealed class MaelleBot : IBotDirector
     {
-        /// <summary>Root's own VP win, which tune.maelle-threat-vp is read against (no tuning row holds it).</summary>
-        public const int RootWinVp = 30;
 
         public string PlanId => Ids.BotPlans.Maelle;
 
@@ -254,7 +252,7 @@ namespace Root33.Core.Characters.Maelle
         public bool MayBattle(BotView view, SeatId defender) =>
             view.Board.RelationshipOf(view.Seat, defender) == Relationship.Hostile || NearRootWin(view.Board, defender);
 
-        public static bool NearRootWin(IBoardView b, SeatId s) => b.Vp(s) >= RootWinVp - Tuning.MaelleThreatVp;
+        public static bool NearRootWin(IBoardView b, SeatId s) => b.Vp(s) >= Tuning.RootWinVp - Tuning.MaelleThreatVp;
 
         // ================================================================= step 4: Goal mode
 

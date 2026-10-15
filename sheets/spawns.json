@@ -6,7 +6,7 @@
       "appearsInAct": "act1",
       "placeAt": "role.stone-wave-cliffs",
       "guards": 2,
-      "claimRule": "Guarded rock (spawned at setup when Esquie is seated). tune.esquie-guards-florrie warriors are placed from the Nevron host's supply with a Lampmaster badge; GuardsLeft = the number actually placed (0 placed makes it loose at once). Host: Clea if seated; otherwise the non-Marquise, non-Vagabond faction with the most warriors in supply (ties: lowest VP, then lowest seat); otherwise the Marquise. GuardsLeft drops by one for every host warrior removed in that clearing in any battle, whoever fought it; at 0 the rock is loose. After each of Esquie's actions he claims every loose rock in his pawn's clearing. A claimed rock is never lost.",
+      "claimRule": "Guarded rock (spawned at setup when Esquie is seated). tune.esquie-guards-florrie warriors are placed from the Nevron host's supply with a Lampmaster badge; GuardsLeft = the number actually placed (0 placed makes it loose at once). Host: Clea if seated; otherwise the non-Marquise, non-Vagabond faction with the most warriors in supply (ties: lowest VP, then lowest seat); otherwise the Marquise. GuardsLeft drops by one for every host warrior removed from that clearing, in a battle (whoever fought it) or any other way (Strike, Bomb, Revolt); at 0 the rock is loose. After each of Esquie's actions he claims every loose rock in his pawn's clearing. A claimed rock is never lost.",
       "state": "state.esquie.rocks",
       "overlay": "ui.esquie.rocks",
       "actions": [
@@ -80,7 +80,7 @@
       "appearsInAct": "act3",
       "placeAt": "role.esquies-nest",
       "guards": 3,
-      "claimRule": "Guarded rock: spawns at the start of Act III, or as soon as Esquie holds the other three rocks if that comes first. tune.esquie-guards-urrie warriors are placed from the Nevron host's supply with a François badge (host chosen again at spawn time by the same priority as Florrie); GuardsLeft = the number actually placed. GuardsLeft drops by one for every host warrior removed in that clearing in any battle; at 0 it is loose and Esquie claims it after any of his actions in the Nest. Never lost once claimed.",
+      "claimRule": "Guarded rock: spawns at the start of Act III, or as soon as Esquie holds the other three rocks if that comes first. tune.esquie-guards-urrie warriors are placed from the Nevron host's supply with a François badge (host chosen again at spawn time by the same priority as Florrie); GuardsLeft = the number actually placed. GuardsLeft drops by one for every host warrior removed from that clearing, in a battle (whoever fought it) or any other way (Strike, Bomb, Revolt); at 0 it is loose and Esquie claims it after any of his actions in the Nest. Never lost once claimed.",
       "state": "state.esquie.rocks",
       "overlay": "ui.esquie.rocks",
       "actions": [

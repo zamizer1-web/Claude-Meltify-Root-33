@@ -224,6 +224,9 @@ namespace Root33.Core.Sheets
         /// Maelle's bot fights a non-Hostile faction only if it is within this many VP of winning.
         public const int MaelleThreatVp = 5;
 
+        /// Root's own VP win (a Root rule, not a mod setting): bots use it to judge 'within N VP of winning'.
+        public const int RootWinVp = 30;
+
         /// Distinct relic types (tablet, figure, jewelry) among her recovered relics for her win.
         public const int LuneRelicTypes = 3;
 

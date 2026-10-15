@@ -580,7 +580,7 @@
       "plan": "bot.paintress",
       "order": 5,
       "name": "Repaint",
-      "rule": "A destroyed Portrait is rebuilt elsewhere: the clearing where it fell goes into state.paintress.repaint-avoid and the site score skips it for tune.paintress-repaint-avoid-turns (2) of her turns.",
+      "rule": "A destroyed easel outside the Monolith (any of her roosts removed there) is rebuilt elsewhere: the clearing where it fell goes into state.paintress.repaint-avoid and the site score skips it for tune.paintress-repaint-avoid-turns (2) of her turns.",
       "scoring": "Step 1's site score without the avoided clearings.",
       "reads": [
         "read.buildings-of-type",

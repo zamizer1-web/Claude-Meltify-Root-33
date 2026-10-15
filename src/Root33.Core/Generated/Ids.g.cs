@@ -193,6 +193,8 @@ namespace Root33.Core.Sheets
             public const string GlobalCountdowns = "state.global.countdowns";
             public const string GlobalSpoilerMode = "state.global.spoiler-mode";
             public const string GlobalDifficulty = "state.global.difficulty";
+            public const string GlobalFaithfulGustave = "state.global.faithful-gustave";
+            public const string GlobalMonolithBarrier = "state.global.monolith-barrier";
             public const string GlobalSeatCharacters = "state.global.seat-characters";
             public const string GlobalRoles = "state.global.roles";
             public const string GlobalE33Mode = "state.global.e33-mode";
@@ -914,6 +916,7 @@ namespace Root33.Core.Sheets
             public const string Maelle2pVp = "tune.maelle-2p-vp";
             public const string MaelleFamilyRepickVp = "tune.maelle-family-repick-vp";
             public const string MaelleThreatVp = "tune.maelle-threat-vp";
+            public const string RootWinVp = "tune.root-win-vp";
             public const string LuneRelicTypes = "tune.lune-relic-types";
             public const string LuneStainHits = "tune.lune-stain-hits";
             public const string LuneDelveEscort = "tune.lune-delve-escort";

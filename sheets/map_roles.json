@@ -96,7 +96,7 @@
     {
       "id": "role.visages",
       "continentName": "Visages",
-      "assignRule": "Autumn: fixed to autumn.09 (right middle), from the real board in map_autumn.json. Other maps: the Monolith's path neighbours at map load, taken in order of Root clearing number: the first is Visages and the second Sirène (the two Axons, as in Clair Obscur), the third The Reacher. Rivers are not paths, and closed Mountain paths do not count. A fourth or later neighbour gets no name but is still a Monolith neighbour for every rule that reads adjacency.",
+      "assignRule": "Autumn: fixed to autumn.09 (right middle), from the real board in map_autumn.json. Other maps: the Monolith's path neighbours at map load, taken in order of Root clearing number, skipping corners (a corner already holds Lumière, Esquie's Nest or the Flying Manor): the first is Visages and the second Sirène (the two Axons, as in Clair Obscur), the third The Reacher. Rivers are not paths, and closed Mountain paths do not count. A fourth or later neighbour or a skipped corner gets no name but is still a Monolith neighbour for every rule that reads adjacency.",
       "count": "1",
       "usedBy": [
         "white-haired-man",
@@ -104,7 +104,8 @@
       ],
       "tests": [
         "MapRoles_AxonsFollowMonolithNeighboursInClearingOrder",
-        "MapRoles_ClosedMountainPathsDoNotMakeAxons"
+        "MapRoles_ClosedMountainPathsDoNotMakeAxons",
+        "MapRoles_AxonsSkipCornerNeighbours"
       ],
       "_notes": "The White-Haired Man's Ring and Gustave's Beachhead read Monolith adjacency directly; the Visages, Sirène and The Reacher names label the same clearings on the Ring overlay. The optional v1.1 Monolith Barrier reads Visages and Sirène. Lore fix after research: the Axons are Visages and Sirène; The Reacher is a place name only, never called an Axon.",
       "_source": "https://expedition33.wiki.fextralife.com/Walkthrough ; https://expedition33.wiki.fextralife.com/The_Reacher"

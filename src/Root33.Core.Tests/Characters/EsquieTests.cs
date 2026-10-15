@@ -33,9 +33,10 @@ namespace Root33.Core.Tests.Characters
             .Supply(1, 25).Supply(2, 20)
             .Pawn(0, "autumn.05");
 
-        private static TestTable Start(FakeBoard b, int act = 1, Difficulty d = Difficulty.Normal, ModuleRegistry registry = null)
+        private static TestTable Start(FakeBoard b, int act = 1, Difficulty d = Difficulty.Normal, ModuleRegistry registry = null,
+            bool updateRules = false)
         {
-            var t = TestTable.Start(b, registry ?? Registry(), d);
+            var t = TestTable.Start(b, registry ?? Registry(), d, updateRules: updateRules);
             if (act > 1) t.Game.OnActChanged(act);
             return t;
         }
@@ -113,8 +114,8 @@ namespace Root33.Core.Tests.Characters
             var t = Start(b);
             Assert.Equal(2, R(t, Florrie).GuardsLeft);
 
-            // The Marquise attacks the host: one host warrior removed in that clearing costs one guard (counted once, though
-            // hook.piece-removed also fires for the battle hit).
+            // The Marquise attacks the host: one host warrior removed in that clearing costs one guard, counted once at
+            // hook.piece-removed (hook.battle-resolved counts nothing).
             t.Game.OnBattleStarting(S(1), S(2), C(Cliffs));
             b.Warriors(2, A(Cliffs), 1);
             t.Game.OnPieceRemoved(S(1), new RemovedPiece(S(2), PieceKind.Warrior, null), C(Cliffs));
@@ -335,6 +336,7 @@ namespace Root33.Core.Tests.Characters
 
             t.Game.OnBattleStarting(S(0), S(2), C(Cliffs));
             b.Warriors(2, A(Cliffs), 1);
+            t.Game.OnPieceRemoved(S(0), new RemovedPiece(S(2), PieceKind.Warrior, null), C(Cliffs));
             t.Game.OnBattleResolved(Battle(Cliffs, 0, 2, 2));
             Assert.Equal(1, b.GuardFloors[(S(2), C(Cliffs))]);
 
@@ -365,6 +367,8 @@ namespace Root33.Core.Tests.Characters
             var t = Start(b);
             t.Game.OnBattleStarting(S(0), S(2), C(Cliffs));
             b.Warriors(2, A(Cliffs), 0);
+            t.Game.OnPieceRemoved(S(0), new RemovedPiece(S(2), PieceKind.Warrior, null), C(Cliffs));
+            t.Game.OnPieceRemoved(S(0), new RemovedPiece(S(2), PieceKind.Warrior, null), C(Cliffs));
             t.Game.OnBattleResolved(Battle(Cliffs, 0, 2, 2, 2));
             Assert.Equal(RockStatus.Loose, R(t, Florrie).Status);
             Assert.False(b.GuardFloors.ContainsKey((S(2), C(Cliffs))));
@@ -401,6 +405,8 @@ namespace Root33.Core.Tests.Characters
             var t = Start(b);
             t.Game.OnBattleStarting(S(1), S(2), C(Cliffs));
             b.Warriors(2, A(Cliffs), 0);
+            t.Game.OnPieceRemoved(S(1), new RemovedPiece(S(2), PieceKind.Warrior, null), C(Cliffs));
+            t.Game.OnPieceRemoved(S(1), new RemovedPiece(S(2), PieceKind.Warrior, null), C(Cliffs));
             t.Game.OnBattleResolved(Battle(Cliffs, 1, 2, 2, 2));
             Assert.Equal(RockStatus.Loose, R(t, Florrie).Status);
             Assert.DoesNotContain((S(2), C(Cliffs)), b.BlockedPlacements);
@@ -471,7 +477,7 @@ namespace Root33.Core.Tests.Characters
         public void RockPowers_FlorrieLetsRiversCountAsPaths()
         {
             var b = Table();
-            var t = Start(b);
+            var t = Start(b, updateRules: true); // v1.1 row: the update rules on
             Assert.DoesNotContain((S(0), EsquieTweaks.AbilityRiversAsPaths), b.Abilities);
             SetRock(t, Florrie, RockStatus.Loose, Cliffs);
             ActIn(t, Cliffs);
@@ -483,7 +489,7 @@ namespace Root33.Core.Tests.Characters
             Assert.Contains((S(0), EsquieTweaks.AbilityRiversAsPaths), b.Abilities);
 
             var u = Table().Unsupported(Ids.BoardActions.GrantAbility);
-            var tu = Start(u);
+            var tu = Start(u, updateRules: true);
             SetRock(tu, Florrie, RockStatus.Loose, Cliffs);
             ActIn(tu, Cliffs);
             Assert.Equal(RockStatus.Held, R(tu, Florrie).Status);
@@ -494,7 +500,7 @@ namespace Root33.Core.Tests.Characters
         public void RockPowers_DorrieWaivesHostileBoot()
         {
             var b = Table().Pawn(0, A(OldLumiere));
-            var t = Start(b, act: 2);
+            var t = Start(b, act: 2, updateRules: true); // v1.1 row: the update rules on
             t.Game.OnExploreResolved(S(0), C(OldLumiere));
             Assert.Equal(RockStatus.Held, R(t, Dorrie).Status);
             Assert.Contains((S(0), EsquieTweaks.AbilityNoHostileBoot), b.Abilities);
@@ -505,7 +511,7 @@ namespace Root33.Core.Tests.Characters
         public void RockPowers_SoarrieGlideOncePerTurn()
         {
             var b = Table();
-            var t = Start(b, act: 2);
+            var t = Start(b, act: 2, updateRules: true); // v1.1 row: the update rules on
             Assert.Equal(RockStatus.HeldByRuler, R(t, Soarrie).Status);
             ActIn(t, Monolith);   // nobody rules the Monolith
             Assert.Equal(RockStatus.Held, R(t, Soarrie).Status);
@@ -1273,6 +1279,43 @@ namespace Root33.Core.Tests.Characters
             Assert.False(bot.CanFinishQuestThisTurn(View(t)));
             Assert.True(bot.Spoiler(View(t)).PreEmpts);
             Assert.Equal("move:9:3", bot.ChooseAction(View(t), new[] { "move:9:2", "move:9:3", "move:9:7" }));
+        }
+
+        // ================================================================= v1.1 rock powers are off in the first release
+
+        [Fact]
+        public void RockPowers_FlorrieGrantsNothingWithoutUpdateRules()
+        {
+            var b = Table();
+            var t = Start(b);
+            Assert.False(t.Ctx.UpdateRules); // builder-questions C1 (a): off in the first release
+            SetRock(t, Florrie, RockStatus.Loose, Cliffs);
+            ActIn(t, Cliffs);
+            Assert.Equal(RockStatus.Held, R(t, Florrie).Status); // the rock still counts for the win
+            Assert.Empty(b.Abilities);
+            t.SaveAndLoad(Registry());                            // and nothing is granted on load either
+            Assert.Empty(b.Abilities);
+        }
+
+        [Fact]
+        public void RockPowers_DorrieGrantsNothingWithoutUpdateRules()
+        {
+            var b = Table().Pawn(0, A(OldLumiere));
+            var t = Start(b, act: 2);
+            t.Game.OnExploreResolved(S(0), C(OldLumiere));
+            Assert.Equal(RockStatus.Held, R(t, Dorrie).Status);
+            Assert.Empty(b.Abilities);
+        }
+
+        [Fact]
+        public void RockPowers_SoarrieGrantsNothingWithoutUpdateRules()
+        {
+            var b = Table();
+            var t = Start(b, act: 2);
+            ActIn(t, Monolith);
+            Assert.Equal(RockStatus.Held, R(t, Soarrie).Status);
+            Assert.Empty(b.Abilities);
+            Assert.DoesNotContain(b.Log, l => l.StartsWith("GrantAbility", StringComparison.Ordinal));
         }
     }
 }

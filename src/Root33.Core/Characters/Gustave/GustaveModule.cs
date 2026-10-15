@@ -39,6 +39,14 @@ namespace Root33.Core.Characters.Gustave
 
         public override void OnToggle(SeatId seat, string toggleId, bool on) => GustaveTweaks.Toggle(Ctx, Seat, seat, toggleId, on);
 
+        /// <summary>story.act2.beach (owner gustave): in finished mode with Faithful Gustave on, the Beach plays as the retitle
+        /// (do.set-seat-title "Expedition 33"); otherwise the plugin shows the vignette from the story log.</summary>
+        public override void OnStoryEvent(Root33.Core.Sheets.StoryEventDef storyEvent)
+        {
+            if (storyEvent.Id == Root33.Core.Sheets.Ids.StoryEvents.Act2Beach && Ctx.Options.FaithfulGustaveActive(Ctx.Spoilers))
+                Actions.SetSeatTitle(Seat, SpoilerText.FaithfulGustaveTitle);
+        }
+
         /// <summary>hook.battle-start: a bot Gustave arms Overcharge here when step 5 allows it, then the toggle is read.</summary>
         public override void OnBattleStarting(SeatId attacker, SeatId defender, ClearingId c)
         {

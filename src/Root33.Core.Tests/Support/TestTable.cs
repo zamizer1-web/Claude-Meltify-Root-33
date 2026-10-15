@@ -25,10 +25,13 @@ namespace Root33.Core.Tests.Support
         /// <summary>Seats every character the board was built with (<see cref="FakeBoard.Seat"/>) and runs game creation,
         /// map load and setup. <paramref name="registry"/> defaults to an empty one (no character modules).</summary>
         public static TestTable Start(FakeBoard board, ModuleRegistry registry = null, Difficulty difficulty = Difficulty.Normal,
-            SpoilerMode spoilers = SpoilerMode.Safe, Action<Root33Game> beforeSetup = null, bool runSetup = true)
+            SpoilerMode spoilers = SpoilerMode.Safe, Action<Root33Game> beforeSetup = null, bool runSetup = true,
+            bool updateRules = false, Action<Root33Game> beforeStart = null)
         {
             var game = new Root33Game(board, board, registry ?? new ModuleRegistry(),
                 new Capabilities().Unsupported(board.UnsupportedActions.ToArray()));
+            game.NextGameOptions.UpdateRules = updateRules; // the internal v1.1 switch (off in the first release)
+            beforeStart?.Invoke(game);
             game.OnCharacterSelectShown(Enum.GetValues(typeof(EngineId)).Cast<EngineId>().ToArray(), 4);
             foreach (var s in board.Seats())
             {
@@ -82,6 +85,7 @@ namespace Root33.Core.Tests.Support
             if (edit != null) text = edit(text);
             var game = new Root33Game(Board, Board, registry ?? new ModuleRegistry(),
                 new Capabilities().Unsupported(Board.UnsupportedActions.ToArray()));
+            game.NextGameOptions.UpdateRules = Ctx.Options.UpdateRules; // the same build loads the save
             game.OnLoad(text);
             var t = new TestTable(Board, game);
             t._round = t.State.GlobalRound;

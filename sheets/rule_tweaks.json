@@ -194,9 +194,11 @@
         "do.grant-ability"
       ],
       "tests": [
-        "RockPowers_FlorrieLetsRiversCountAsPaths"
+        "RockPowers_FlorrieLetsRiversCountAsPaths",
+        "RockPowers_FlorrieGrantsNothingWithoutUpdateRules"
       ],
-      "_source": "https://expedition33.wiki.fextralife.com/Esquie"
+      "_source": "https://expedition33.wiki.fextralife.com/Esquie",
+      "_notes": "Creator decision (builder-questions C1, option (a)): this v1.1 rule is off in the first release. It acts only while the internal update-rules setting (GameOptions.UpdateRules, read through GameContext.RuleOn; default off, not shown to players) is on, and is switched on in the update once tested in Root. With it off, holding the rock still counts for win.esquie; only the ability is not granted."
     },
     {
       "id": "tweak.esquie.dorrie-coral",
@@ -213,9 +215,11 @@
         "do.grant-ability"
       ],
       "tests": [
-        "RockPowers_DorrieWaivesHostileBoot"
+        "RockPowers_DorrieWaivesHostileBoot",
+        "RockPowers_DorrieGrantsNothingWithoutUpdateRules"
       ],
-      "_source": "https://expedition33.wiki.fextralife.com/Esquie"
+      "_source": "https://expedition33.wiki.fextralife.com/Esquie",
+      "_notes": "Creator decision (builder-questions C1, option (a)): this v1.1 rule is off in the first release. It acts only while the internal update-rules setting (GameOptions.UpdateRules, read through GameContext.RuleOn; default off, not shown to players) is on, and is switched on in the update once tested in Root. With it off, holding the rock still counts for win.esquie; only the ability is not granted."
     },
     {
       "id": "tweak.esquie.soarrie-glide",
@@ -233,9 +237,10 @@
         "do.grant-ability"
       ],
       "tests": [
-        "RockPowers_SoarrieGlideOncePerTurn"
+        "RockPowers_SoarrieGlideOncePerTurn",
+        "RockPowers_SoarrieGrantsNothingWithoutUpdateRules"
       ],
-      "_notes": "Urrie's power in the roster is the victory dive, which is win-vignette presentation rather than a rule, so it has no row here.",
+      "_notes": "Urrie's power in the roster is the victory dive, which is win-vignette presentation rather than a rule, so it has no row here. Creator decision (builder-questions C1, option (a)): this v1.1 rule is off in the first release. It acts only while the internal update-rules setting (GameOptions.UpdateRules, read through GameContext.RuleOn; default off, not shown to players) is on, and is switched on in the update once tested in Root. With it off, holding the rock still counts for win.esquie; only the ability is not granted.",
       "_source": "https://expedition33.wiki.fextralife.com/Esquie"
     },
     {
@@ -270,9 +275,10 @@
       ],
       "tests": [
         "StillLife_MovesOneWarriorBeforeRoll",
-        "StillLife_OncePerTurn"
+        "StillLife_OncePerTurn",
+        "StillLife_OffWithoutUpdateRules"
       ],
-      "_notes": "'Once per turn' is read as once per turn of whichever seat is playing, since enemies start battles on their own turns."
+      "_notes": "'Once per turn' is read as once per turn of whichever seat is playing, since enemies start battles on their own turns. Creator decision (builder-questions C1, option (a)): this v1.1 rule is off in the first release. It acts only while the internal update-rules setting (GameOptions.UpdateRules, read through GameContext.RuleOn; default off, not shown to players) is on, and is switched on in the update once tested in Root. Creator decision (C2, option (a)): automatic. The game moves the warrior from the neighbouring clearing that has the most of her warriors; she is not asked."
     },
     {
       "id": "tweak.sciel.twilight",
@@ -293,9 +299,10 @@
       "tests": [
         "Twilight_SunAndMoonAddHitToFirstEveningBattle",
         "Twilight_ChargesResetAfterBoostedBattle",
-        "Twilight_NoHitWithOnlyOneCharge"
+        "Twilight_NoHitWithOnlyOneCharge",
+        "Twilight_OffWithoutUpdateRules"
       ],
-      "_notes": "Charges are held (yes or no), not counted. If she holds both but does not battle that Evening, the charges are kept for a later Evening; the roster resets them only after the boosted battle.",
+      "_notes": "Charges are held (yes or no), not counted. If she holds both but does not battle that Evening, the charges are kept for a later Evening; the roster resets them only after the boosted battle. Creator decision (builder-questions C1, option (a)): this v1.1 rule is off in the first release. It acts only while the internal update-rules setting (GameOptions.UpdateRules, read through GameContext.RuleOn; default off, not shown to players) is on, and is switched on in the update once tested in Root.",
       "_source": "https://expedition33.wiki.fextralife.com/Sciel ; https://expedition33.wiki.fextralife.com/Lune"
     },
     {
@@ -336,7 +343,7 @@
         "SoarrieHandoff_VersoScoresOneVp",
         "SoarrieHandoff_NotWhenVersoInForest"
       ],
-      "_notes": "Both pawns must be in the same clearing (not the same forest), as the roster says 'Verso's clearing'. Corrected after research: Root digital has supported games with two Vagabonds without any DLC since update 1.27.0, so the earlier assumption that a second Vagabond needs The Riverfolk Expansion is gone. The Esquie and Verso hand-off therefore works on a base-game table.",
+      "_notes": "Both pawns must be in the same clearing (not the same forest), as the roster says 'Verso's clearing'. Corrected after research: Root digital has supported games with two Vagabonds without any DLC since update 1.27.0, so the earlier assumption that a second Vagabond needs The Riverfolk Expansion is gone. The Esquie and Verso hand-off therefore works on a base-game table. Carried out by Esquie's module as part of spawn.soarrie (state.esquie.rocks; HookOrder.Esquie runs at hook.evening-end before the win check, so the rock counts that turn). Verso's module does nothing for this row; its tests register both modules. The overlay redrawn or hidden is ui.esquie.rocks (Soarrie leaves Verso's card).",
       "_source": "https://news.direwolfdigital.com/root-update-1-27-0-the-riverfolk-expansion/"
     },
     {
@@ -509,9 +516,10 @@
       "tests": [
         "MonolithBarrier_BlocksMonolithBattleUntilAxonsRuled",
         "MonolithBarrier_StaysDownOnceBroken",
-        "MonolithBarrier_OffUnlessOptionOn"
+        "MonolithBarrier_OffUnlessOptionOn",
+        "MonolithBarrier_OffWithoutUpdateRules"
       ],
-      "_notes": "The roster lists this as an optional v1.1 table rule with no owner and no seat condition. It is filed under the White-Haired Man (the Barrier is his imagery), but it is switched by opt.monolith-barrier and applies whether or not he is seated. 'Both Axon clearings' is read as Visages and Sirène, ruled at the end of the same turn."
+      "_notes": "The roster lists this as an optional v1.1 table rule with no owner and no seat condition. It is filed under the White-Haired Man (the Barrier is his imagery), but it is switched by opt.monolith-barrier and applies whether or not he is seated. 'Both Axon clearings' is read as Visages and Sirène, ruled at the end of the same turn. Creator decision (builder-questions C1, option (a)): this v1.1 rule is off in the first release. It acts only while the internal update-rules setting (GameOptions.UpdateRules, read through GameContext.RuleOn; default off, not shown to players) is on, and is switched on in the update once tested in Root. Both opt.monolith-barrier (copied into state.global.monolith-barrier) and the update-rules setting must be on."
     }
   ]
 }

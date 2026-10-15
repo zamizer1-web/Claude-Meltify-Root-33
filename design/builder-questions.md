@@ -1,6 +1,6 @@
 # Builder questions: triage
 
-The questions come from the core-rules build (workflow `wf_54303220-2f7`): the foundation builder and the six first-version character builders (Paintress, Sciel, Maelle, Gustave, Verso, Esquie). This pass is read-only: no sheet or code has been changed. The Esquie and Verso builders were being re-run while this was written, so any new questions from those re-runs are not included here.
+The questions come from the core-rules build (workflow `wf_54303220-2f7`): the foundation builder and the six first-version character builders (Paintress, Sciel, Maelle, Gustave, Verso, Esquie). The triage pass itself was read-only; the A fixes and the two C decisions were applied afterwards (see their status lines). The Esquie and Verso builders were being re-run while this was written, so any new questions from those re-runs are not included here.
 
 **65 questions, merged into 31 items:**
 
@@ -32,7 +32,9 @@ The builders have already written Twilight and Still Life, and right now both ar
 - **(b)** Turn them on in the first release.
 - **(c)** Add an "Extra rules (from the update)" setting that players can turn on. It is off by default.
 
-**Recommendation: (a).** It is what you approved, and it leaves fewer things to test on your PC before release. Esquie's rock powers also need Root's own code checked first (see D4). (Sources: S-Q4, P-Q3, E-Q5, F-Q5. The code side is simple: switch rules on or off by the `version` column of `rule_tweaks.json`.)
+**Decided: (a).** The creator chose to follow the plan: every v1.1 row of `rule_tweaks.json` (Twilight, Still Life, the three rock powers, the Monolith Barrier) is off in the first release. The code checks one internal setting, `GameOptions.UpdateRules` (read through `GameContext.RuleOn`; default off, never shown to players), and the update switches it on. Each affected row's `_notes` records this.
+
+**Recommendation was: (a).** It is what you approved, and it leaves fewer things to test on your PC before release. Esquie's rock powers also need Root's own code checked first (see D4). (Sources: S-Q4, P-Q3, E-Q5, F-Q5. The code side is simple: switch rules on or off by the `version` column of `rule_tweaks.json`.)
 
 ### C2. Still Life: does a human Paintress choose, or does the game choose for her?
 
@@ -42,11 +44,15 @@ Still Life lets her move one warrior into a portrait under attack before the dic
 - **(b)** A switch on her board that she sets ahead of time ("Still Life: on/off"), like Gustave's Overcharge switch.
 - **(c)** A pop-up that asks her every time. This is more work to build, and it pauses the other players' turns.
 
-**Recommendation: (a).** Add (b) later only if playtesting shows that players want control. This only matters once the update rules are switched on (C1). (Source: P-Q3)
+**Decided: (a), automatic,** as it works now (recorded in `tweak.paintress.still-life._notes`).
+
+**Recommendation was: (a).** Add (b) later only if playtesting shows that players want control. This only matters once the update rules are switched on (C1). (Source: P-Q3)
 
 ---
 
 ## A. Safe sheet fixes (the intent is already clear)
+
+**Status: all eight applied** (sheets, code and tests), with preflight, generation and the test suite run afterwards.
 
 After every fix: run `python3 -I tools/preflight.py --target core`, then `python3 -I tools/gen_cs.py`, then `dotnet test src/Root33.sln`.
 

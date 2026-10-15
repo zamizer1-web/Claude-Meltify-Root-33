@@ -34,6 +34,14 @@ namespace Root33.Core
         /// <remarks>Sheet row: state.global.difficulty (owner global); initial: Normal (copied from opt.difficulty when the game is created)</remarks>
         public Difficulty GlobalDifficulty;
 
+        /// true when this game plays with Faithful Gustave (finished mode only)
+        /// <remarks>Sheet row: state.global.faithful-gustave (owner global); initial: false; at hook.game-start copied from opt.faithful-gustave when state.global.spoiler-mode is Finished, otherwise false</remarks>
+        public bool GlobalFaithfulGustave;
+
+        /// true when this game plays with the v1.1 Monolith Barrier table rule (tweak.white-haired-man.monolith-barrier)
+        /// <remarks>Sheet row: state.global.monolith-barrier (owner global); initial: false; copied from opt.monolith-barrier at hook.game-start</remarks>
+        public bool GlobalMonolithBarrier;
+
         /// every seat maps to one character id from characters.json
         /// <remarks>Sheet row: state.global.seat-characters (owner global); initial: empty; filled as seats are assigned</remarks>
         public Dictionary<SeatId,string> GlobalSeatCharacters;
@@ -94,7 +102,7 @@ namespace Root33.Core
         /// <remarks>Sheet row: state.paintress.still-life-used (owner paintress); initial: false</remarks>
         public bool PaintressStillLifeUsed;
 
-        /// clearings where a Portrait was destroyed, mapped to her turns left to avoid rebuilding there (0-2)
+        /// clearings where one of her roosts outside the Monolith was destroyed, mapped to her turns left to avoid rebuilding there (0-2)
         /// <remarks>Sheet row: state.paintress.repaint-avoid (owner paintress); initial: empty</remarks>
         public Dictionary<ClearingId,int> PaintressRepaintAvoid;
 

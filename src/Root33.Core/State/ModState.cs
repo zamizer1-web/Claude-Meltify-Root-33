@@ -36,6 +36,8 @@ namespace Root33.Core
             GlobalCountdowns = new HashSet<SeatId>();
             GlobalSpoilerMode = SpoilerMode.Safe;
             GlobalDifficulty = Difficulty.Normal;
+            GlobalFaithfulGustave = false;
+            GlobalMonolithBarrier = false;
             GlobalSeatCharacters = new Dictionary<SeatId, string>();
             GlobalRoles = new Dictionary<RoleId, IReadOnlyList<ClearingId>>();
             GlobalE33Mode = false;
@@ -127,6 +129,8 @@ namespace Root33.Core
                 (m, s) => m.GlobalCountdowns = new HashSet<SeatId>(C.ParseList(s, C.ParseSeat))),
             F(Ids.State.GlobalSpoilerMode, m => C.Enum(m.GlobalSpoilerMode), (m, s) => m.GlobalSpoilerMode = C.ParseEnum<SpoilerMode>(s)),
             F(Ids.State.GlobalDifficulty, m => C.Enum(m.GlobalDifficulty), (m, s) => m.GlobalDifficulty = C.ParseEnum<Difficulty>(s)),
+            F(Ids.State.GlobalFaithfulGustave, m => C.Bool(m.GlobalFaithfulGustave), (m, s) => m.GlobalFaithfulGustave = C.ParseBool(s)),
+            F(Ids.State.GlobalMonolithBarrier, m => C.Bool(m.GlobalMonolithBarrier), (m, s) => m.GlobalMonolithBarrier = C.ParseBool(s)),
             F(Ids.State.GlobalSeatCharacters, m => C.Map(m.GlobalSeatCharacters, C.Seat, C.Esc),
                 (m, s) => m.GlobalSeatCharacters = C.ParseMap(s, C.ParseSeat, C.Unesc)),
             F(Ids.State.GlobalRoles, m => C.Map(m.GlobalRoles, r => C.Esc(r.Value), l => C.List(l, C.Clearing)),

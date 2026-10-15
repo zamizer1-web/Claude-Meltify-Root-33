@@ -47,6 +47,11 @@ namespace Root33.Core.Characters.WhiteHairedMan
 
         // ================================================================= Monolith Barrier (v1.1, opt.monolith-barrier)
 
+        /// <summary>The Barrier acts only when this game has opt.monolith-barrier on (state.global.monolith-barrier) and the v1.1
+        /// update rules are on (<see cref="GameContext.RuleOn"/>; off in the first release).</summary>
+        public static bool BarrierOn(GameContext ctx) =>
+            ctx.Options.MonolithBarrier && ctx.RuleOn(Ids.RuleTweaks.WhiteHairedManMonolithBarrier);
+
         /// <summary>The seats that cannot bring the Barrier down: the White-Haired Man and the Paintress, when seated.</summary>
         private static bool Excluded(GameContext ctx, SeatId s) =>
             ctx.SeatOf(CharacterIds.WhiteHairedMan) == s || ctx.SeatOf(CharacterIds.Paintress) == s;
@@ -55,7 +60,7 @@ namespace Root33.Core.Characters.WhiteHairedMan
         /// Monolith. A Strike is not a battle and is not blocked.</summary>
         public static bool BarrierAllows(GameContext ctx, ClearingId c, bool strike)
         {
-            if (strike || !ctx.Options.MonolithBarrier || ctx.State.WhiteHairedManBarrierDown) return true;
+            if (strike || !BarrierOn(ctx) || ctx.State.WhiteHairedManBarrierDown) return true;
             var monolith = ctx.Role(Ids.MapRoles.Monolith);
             return !monolith.HasValue || c != monolith.Value;
         }
@@ -65,7 +70,7 @@ namespace Root33.Core.Characters.WhiteHairedMan
         /// A map without one of the two roles never brings it down. Returns true when it came down on this call.</summary>
         public static bool BarrierTurnEnd(GameContext ctx)
         {
-            if (!ctx.Options.MonolithBarrier || ctx.State.WhiteHairedManBarrierDown) return false;
+            if (!BarrierOn(ctx) || ctx.State.WhiteHairedManBarrierDown) return false;
             var visages = ctx.Role(Ids.MapRoles.Visages);
             var sirene = ctx.Role(Ids.MapRoles.Sirene);
             if (!visages.HasValue || !sirene.HasValue) return false;

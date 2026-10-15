@@ -129,7 +129,7 @@ namespace Root33.Core.Tests.Characters
         public void StillLife_MovesOneWarriorBeforeRoll()
         {
             var board = Family(Table()).Warriors(1, 4, 4).Warriors(0, 11, 2);
-            var t = TestTable.Start(board, Registry());
+            var t = TestTable.Start(board, Registry(), updateRules: true);
             t.Game.OnBattleStarting(S(0), S(1), C(11)); // rabbit Portrait 11, next to 3 and 4
             Assert.Equal(2 + Tuning.PaintressStillLifeWarriors, board.Warriors(S(1), C(11)));
             Assert.Equal(4 - Tuning.PaintressStillLifeWarriors, board.Warriors(S(1), C(4)));
@@ -138,14 +138,14 @@ namespace Root33.Core.Tests.Characters
 
             // Not in a Living Portrait, or her own battle: nothing moves.
             var b2 = Family(Table()).Warriors(1, 4, 4).Warriors(1, 10, 2).Warriors(0, 10, 1);
-            var t2 = TestTable.Start(b2, Registry());
+            var t2 = TestTable.Start(b2, Registry(), updateRules: true);
             t2.Game.OnBattleStarting(S(0), S(1), C(10));
             t2.Game.OnBattleStarting(S(1), S(0), C(11));
             Assert.DoesNotContain(b2.Log, l => l.StartsWith("MoveWarriors"));
 
             // The plugin cannot move warriors: Still Life is left out.
             var b3 = Family(Table()).Warriors(1, 4, 4).Unsupported(Ids.BoardActions.MoveWarriors);
-            var t3 = TestTable.Start(b3, Registry());
+            var t3 = TestTable.Start(b3, Registry(), updateRules: true);
             t3.Game.OnBattleStarting(S(0), S(1), C(11));
             Assert.Equal(2, b3.Warriors(S(1), C(11)));
         }
@@ -154,7 +154,7 @@ namespace Root33.Core.Tests.Characters
         public void StillLife_OncePerTurn()
         {
             var board = Family(Table()).Warriors(1, 4, 4).Warriors(1, 2, 3);
-            var t = TestTable.Start(board, Registry());
+            var t = TestTable.Start(board, Registry(), updateRules: true);
             t.PlayTurn(0, during: x =>
             {
                 x.Game.OnBattleStarting(S(0), S(1), C(11));
@@ -543,6 +543,19 @@ namespace Root33.Core.Tests.Characters
             Assert.Empty(ModuleRegistry.MissingBotRules(new PaintressBot()));
             Assert.Equal(Ids.BotPlans.Paintress, new PaintressModule().Bot.PlanId);
             Assert.Equal(Ids.WinConditions.Paintress, new PaintressModule().Win.WinId);
+        }
+
+        [Fact]
+        public void StillLife_OffWithoutUpdateRules()
+        {
+            var board = Family(Table()).Warriors(1, 4, 4).Warriors(0, 11, 2);
+            var t = TestTable.Start(board, Registry());
+            Assert.False(t.Ctx.RuleOn(Ids.RuleTweaks.PaintressStillLife)); // builder-questions C1 (a): off in the first release
+            t.Game.OnBattleStarting(S(0), S(1), C(11));
+            Assert.Equal(2, board.Warriors(S(1), C(11)));
+            Assert.Equal(4, board.Warriors(S(1), C(4)));
+            Assert.DoesNotContain(board.Log, l => l.StartsWith("MoveWarriors"));
+            Assert.False(t.State.PaintressStillLifeUsed);
         }
     }
 }

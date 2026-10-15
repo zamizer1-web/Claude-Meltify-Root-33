@@ -142,10 +142,12 @@ namespace Root33.Core.Engine
             State.GlobalSpoilerMode = spoilers;
             State.GlobalCampaignGame = NextGameOptions.Campaign ? Math.Max(1, ProfileCampaignGame) : 0;
             State.GlobalCampaignJournal = State.GlobalCampaignGame > 0 && ProfileCampaignJournal;
-            Context.Options = new GameOptions
+            // state.global.faithful-gustave (finished mode only) and state.global.monolith-barrier: fixed for this game.
+            State.GlobalFaithfulGustave = NextGameOptions.FaithfulGustave && spoilers == SpoilerMode.Finished;
+            State.GlobalMonolithBarrier = NextGameOptions.MonolithBarrier;
+            Context.Options = new GameOptions(() => Context.State)
             {
-                Spoilers = spoilers, Difficulty = difficulty, FaithfulGustave = NextGameOptions.FaithfulGustave,
-                Campaign = NextGameOptions.Campaign, MonolithBarrier = NextGameOptions.MonolithBarrier,
+                Spoilers = spoilers, Difficulty = difficulty, Campaign = NextGameOptions.Campaign, UpdateRules = NextGameOptions.UpdateRules,
             };
             foreach (var kv in _pendingSeats) State.GlobalSeatCharacters[kv.Key] = kv.Value;
             _pendingSeats.Clear();
@@ -337,8 +339,9 @@ namespace Root33.Core.Engine
             if (trigger != null) Context.Barks.SayEach(SeatedInTurnOrder(), trigger);
         }
 
-        /// <summary>The act's story events in acts.json order, each only when its spoiler tier allows and its owner (the
-        /// spawn's owner, for spawn and tag events) is seated. Owned events go to the owner's module; the rest to every module.</summary>
+        /// <summary>The act's story events in acts.json order, each only when its spoiler tier allows and its owner
+        /// (story_events.owner) is seated. Owned events go to the owner's module (Gustave's handles the Beach); table-wide
+        /// events (owner null) to every module.</summary>
         private void FireActEvents(int act)
         {
             var row = Data.Acts.Values.FirstOrDefault(a => a.Number == act);
@@ -499,10 +502,11 @@ namespace Root33.Core.Engine
 
             var loaded = State.Load(map);
             State.GlobalE33Mode = true;
-            Context.Options = new GameOptions
+            // Faithful Gustave and the Monolith Barrier come from the save (false if it has none); UpdateRules from the build.
+            Context.Options = new GameOptions(() => Context.State)
             {
-                Spoilers = State.GlobalSpoilerMode, Difficulty = State.GlobalDifficulty, FaithfulGustave = NextGameOptions.FaithfulGustave,
-                Campaign = State.GlobalCampaignGame > 0, MonolithBarrier = NextGameOptions.MonolithBarrier,
+                Spoilers = State.GlobalSpoilerMode, Difficulty = State.GlobalDifficulty, Campaign = State.GlobalCampaignGame > 0,
+                UpdateRules = NextGameOptions.UpdateRules,
             };
 
             // state.global.round: Root's own counter wins when it has one.
@@ -571,24 +575,9 @@ namespace Root33.Core.Engine
         /// <summary>tier safe: always; act2: either mode (it only fires from Act II on); finished: finished mode only.</summary>
         public static bool TierAllows(StoryEventDef e, SpoilerMode mode) => e.Tier != "finished" || mode == SpoilerMode.Finished;
 
-        private static readonly System.Text.RegularExpressions.Regex SeatedClause = new System.Text.RegularExpressions.Regex(
-            @"\b(?:if|only when)\s+(.+?)\s+is seated", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-
-        /// <summary>The character that owns an event: its spawn's owner (spawns.json); for an event with no spawn, the
-        /// character its 'what' names in an "If X is seated" / "only when X is seated" clause (story_events notes: "Every event
-        /// whose 'what' names a character fires only when that character is seated"); else null (a table-wide event).</summary>
-        public static string OwnerOf(StoryEventDef e)
-        {
-            if (!string.IsNullOrEmpty(e.Spawn) && Data.Spawns.TryGetValue(e.Spawn, out var s)) return s.Owner;
-            foreach (System.Text.RegularExpressions.Match m in SeatedClause.Matches(e.What ?? ""))
-            {
-                var name = m.Groups[1].Value.Trim();
-                var row = Data.Characters.Values.FirstOrDefault(c =>
-                    string.Equals(c.SafeName, name, StringComparison.OrdinalIgnoreCase) || string.Equals(c.FinishedName, name, StringComparison.OrdinalIgnoreCase));
-                if (row != null) return row.Id;
-            }
-            return null;
-        }
+        /// <summary>The character that owns an event (story_events.owner): it fires, and is logged, only when that character
+        /// is seated. Null for a table-wide event.</summary>
+        public static string OwnerOf(StoryEventDef e) => string.IsNullOrEmpty(e.Owner) ? null : e.Owner;
 
         /// <summary>Whether an event has fired in this game, worked out from the act (so it holds after a load): its act has
         /// opened, its tier allows it in this game's spoiler mode, and its owner (if any) is seated.</summary>

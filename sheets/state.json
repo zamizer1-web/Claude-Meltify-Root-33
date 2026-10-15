@@ -67,6 +67,32 @@
       "onLoad": "Restored from the save, so a game keeps the difficulty it started with."
     },
     {
+      "id": "state.global.faithful-gustave",
+      "owner": "global",
+      "csType": "bool",
+      "range": "true when this game plays with Faithful Gustave (finished mode only)",
+      "initial": "false; at hook.game-start copied from opt.faithful-gustave when state.global.spoiler-mode is Finished, otherwise false",
+      "writtenBy": [
+        "hook.game-start",
+        "hook.load"
+      ],
+      "onLoad": "Restored from the save, so a game keeps the setting it started with; false if the save has none.",
+      "_notes": "Like state.global.spoiler-mode and state.global.difficulty: the copy a game reads (GameContext.Options), so a change to opt.faithful-gustave applies from the next game."
+    },
+    {
+      "id": "state.global.monolith-barrier",
+      "owner": "global",
+      "csType": "bool",
+      "range": "true when this game plays with the v1.1 Monolith Barrier table rule (tweak.white-haired-man.monolith-barrier)",
+      "initial": "false; copied from opt.monolith-barrier at hook.game-start",
+      "writtenBy": [
+        "hook.game-start",
+        "hook.load"
+      ],
+      "onLoad": "Restored from the save, so a game keeps the setting it started with; false if the save has none.",
+      "_notes": "The copy a game reads (GameContext.Options). The Barrier is a v1.1 rule, so it also needs the internal update-rules setting (off in the first release)."
+    },
+    {
       "id": "state.global.seat-characters",
       "owner": "global",
       "csType": "Dictionary<SeatId,string>",
@@ -276,7 +302,7 @@
       "id": "state.paintress.repaint-avoid",
       "owner": "paintress",
       "csType": "Dictionary<ClearingId,int>",
-      "range": "clearings where a Portrait was destroyed, mapped to her turns left to avoid rebuilding there (0-2)",
+      "range": "clearings where one of her roosts outside the Monolith was destroyed, mapped to her turns left to avoid rebuilding there (0-2)",
       "initial": "empty",
       "writtenBy": [
         "hook.piece-removed",

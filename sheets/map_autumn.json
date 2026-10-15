@@ -13,6 +13,10 @@
         "autumn.12"
       ],
       "river": true,
+      "riverLinks": [
+        "autumn.06"
+      ],
+      "oppositeCorner": "autumn.03",
       "engineClearingId": "unknown",
       "suit": "rabbit",
       "corner": true,
@@ -36,6 +40,8 @@
         "autumn.09"
       ],
       "river": false,
+      "riverLinks": [],
+      "oppositeCorner": "autumn.04",
       "engineClearingId": "unknown",
       "suit": "rabbit",
       "corner": true,
@@ -59,6 +65,8 @@
         "autumn.11"
       ],
       "river": false,
+      "riverLinks": [],
+      "oppositeCorner": "autumn.01",
       "engineClearingId": "unknown",
       "suit": "mouse",
       "corner": true,
@@ -82,6 +90,8 @@
         "autumn.12"
       ],
       "river": false,
+      "riverLinks": [],
+      "oppositeCorner": "autumn.02",
       "engineClearingId": "unknown",
       "suit": "fox",
       "corner": true,
@@ -103,6 +113,8 @@
         "autumn.06"
       ],
       "river": false,
+      "riverLinks": [],
+      "oppositeCorner": null,
       "engineClearingId": "unknown",
       "suit": "fox",
       "corner": false,
@@ -125,6 +137,11 @@
         "autumn.08"
       ],
       "river": true,
+      "riverLinks": [
+        "autumn.01",
+        "autumn.07"
+      ],
+      "oppositeCorner": null,
       "engineClearingId": "unknown",
       "suit": "mouse",
       "corner": false,
@@ -146,6 +163,11 @@
         "autumn.09"
       ],
       "river": true,
+      "riverLinks": [
+        "autumn.06",
+        "autumn.10"
+      ],
+      "oppositeCorner": null,
       "engineClearingId": "unknown",
       "suit": "mouse",
       "corner": false,
@@ -170,6 +192,8 @@
         "autumn.12"
       ],
       "river": false,
+      "riverLinks": [],
+      "oppositeCorner": null,
       "engineClearingId": "unknown",
       "suit": "fox",
       "corner": false,
@@ -192,6 +216,8 @@
         "autumn.07"
       ],
       "river": false,
+      "riverLinks": [],
+      "oppositeCorner": null,
       "engineClearingId": "unknown",
       "suit": "fox",
       "corner": false,
@@ -214,6 +240,11 @@
         "autumn.08"
       ],
       "river": true,
+      "riverLinks": [
+        "autumn.07",
+        "autumn.11"
+      ],
+      "oppositeCorner": null,
       "engineClearingId": "unknown",
       "suit": "rabbit",
       "corner": false,
@@ -235,6 +266,10 @@
         "autumn.04"
       ],
       "river": true,
+      "riverLinks": [
+        "autumn.10"
+      ],
+      "oppositeCorner": null,
       "engineClearingId": "unknown",
       "suit": "rabbit",
       "corner": false,
@@ -256,6 +291,8 @@
         "autumn.08"
       ],
       "river": false,
+      "riverLinks": [],
+      "oppositeCorner": null,
       "engineClearingId": "unknown",
       "suit": "mouse",
       "corner": false,

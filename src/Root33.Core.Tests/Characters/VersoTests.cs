@@ -12,7 +12,10 @@ namespace Root33.Core.Tests.Characters
     {
         private const string Monolith = "role.monolith";
         private static SeatId S(int i) => new SeatId(i);
-        private static ModuleRegistry Registry() => new ModuleRegistry().Register(CharacterIds.Verso, () => new VersoModule());
+        /// <summary>Verso and Esquie: tweak.verso.soarrie-handoff is carried out by Esquie's module (spawn.soarrie), so the hand-off
+        /// tests need both; Esquie's module is bound only on tables where he is seated.</summary>
+        private static ModuleRegistry Registry() => new ModuleRegistry().Register(CharacterIds.Verso, () => new VersoModule())
+            .Register(CharacterIds.Esquie, () => new Root33.Core.Characters.Esquie.EsquieModule());
 
         private static TestTable Start(FakeBoard b, int act = 2, Difficulty d = Difficulty.Normal)
         {

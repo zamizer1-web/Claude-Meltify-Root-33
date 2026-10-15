@@ -184,10 +184,16 @@ namespace Root33.Core.Characters.Esquie
             CheckEarlyUrrie(ctx, me);
         }
 
-        /// <summary>tweak.esquie.florrie-swim / dorrie-coral / soarrie-glide (v1.1): do.grant-ability, left out when the plugin
-        /// cannot grant abilities (the rocks still count for the win).</summary>
+        /// <summary>The v1.1 rule_tweaks row of each rock's power, in rock order (Urrie's power is presentation only).</summary>
+        private static readonly string[] PowerRows =
+            { Ids.RuleTweaks.EsquieFlorrieSwim, Ids.RuleTweaks.EsquieDorrieCoral, Ids.RuleTweaks.EsquieSoarrieGlide };
+
+        /// <summary>tweak.esquie.florrie-swim / dorrie-coral / soarrie-glide (v1.1): do.grant-ability, only while the update
+        /// rules are on (<see cref="GameContext.RuleOn"/>), and left out when the plugin cannot grant abilities. Either way the
+        /// rocks still count for the win.</summary>
         private static void GrantPower(GameContext ctx, SeatId me, int i)
         {
+            if (i < PowerRows.Length && !ctx.RuleOn(PowerRows[i])) return;
             if (!ctx.SupportsAction(Ids.BoardActions.GrantAbility)) return;
             if (i == Florrie) ctx.Actions.GrantAbility(me, AbilityRiversAsPaths);
             else if (i == Dorrie) ctx.Actions.GrantAbility(me, AbilityNoHostileBoot);
@@ -252,7 +258,8 @@ namespace Root33.Core.Characters.Esquie
             if (ctx.Role(Ids.MapRoles.Monolith) == c && ctx.Board.PawnClearing(me) == c && ctx.Board.Ruler(c) == receiver) Claim(ctx, me, Soarrie);
         }
 
-        /// <summary>hook.evening-end for Esquie: the Soarrie hand-off in Verso's clearing (Verso scores), then the early-Urrie check.</summary>
+        /// <summary>hook.evening-end for Esquie: tweak.verso.soarrie-handoff, carried out here as part of spawn.soarrie (Esquie's
+        /// pawn in Verso's clearing: Soarrie leaves Verso's card and Verso scores), then the early-Urrie check.</summary>
         public static void EveningEnd(GameContext ctx, SeatId me)
         {
             var s = ctx.State.EsquieRocks[Soarrie];
@@ -264,26 +271,10 @@ namespace Root33.Core.Characters.Esquie
                 {
                     Claim(ctx, me, Soarrie);
                     ctx.ScoreVp(verso, Tuning.VersoSoarrieVp);
+                    ctx.Actions.HideOverlay(Ids.Overlays.EsquieRocks, verso, null, null);
                 }
             }
             CheckEarlyUrrie(ctx, me);
-        }
-
-        /// <summary>hook.battle-resolved: every host warrior removed in a guarded rock's clearing, whoever fought, costs a guard.</summary>
-        public static void BattleResolved(GameContext ctx, BattleResult res)
-        {
-            var rocks = ctx.State.EsquieRocks;
-            for (var i = 0; i < rocks.Length; i++)
-            {
-                var r = rocks[i];
-                if (r.Status != RockStatus.Guarded || r.Clearing != res.Clearing || !r.HostSeat.HasValue) continue;
-                var host = r.HostSeat.Value;
-                var lost = res.Removed.Count(p => p.Owner == host && p.Kind == PieceKind.Warrior);
-                if (lost <= 0) continue;
-                r.GuardsLeft = Math.Max(0, r.GuardsLeft - lost);
-                if (r.GuardsLeft == 0) MakeLoose(ctx, i);
-                else SendGuardRules(ctx, r);
-            }
         }
 
         /// <summary>hook.piece-moved: Esquie entering the Nest in Act I while the decoy is up.</summary>
@@ -338,12 +329,12 @@ namespace Root33.Core.Characters.Esquie
         /// rock (keyed to the clearing, so any Vagabond battling there).</summary>
         public static bool FriendsNotFoesAllows(ModState s, ClearingId battleClearing) => GuardedRockAt(s, battleClearing) < 0;
 
-        /// <summary>hook.piece-removed outside a battle (Strike, Bomb, Revolt, ...): a host warrior removed in a guarded rock's
-        /// clearing costs a guard. Removals inside a battle are counted once, at hook.battle-resolved
-        /// (<paramref name="inBattleAt"/> is the clearing of the battle being fought, if any).</summary>
-        public static void PieceRemoved(GameContext ctx, RemovedPiece piece, ClearingId c, ClearingId? inBattleAt)
+        /// <summary>hook.piece-removed: every host warrior removed from a guarded rock's clearing costs a guard, in a battle
+        /// (whoever fought it) or any other way (Strike, Bomb, Revolt). This is the only place guards are counted, so a removal
+        /// is counted once; hook.battle-resolved counts nothing.</summary>
+        public static void PieceRemoved(GameContext ctx, RemovedPiece piece, ClearingId c)
         {
-            if (piece.Kind != PieceKind.Warrior || inBattleAt == c) return;
+            if (piece.Kind != PieceKind.Warrior) return;
             var rocks = ctx.State.EsquieRocks;
             for (var i = 0; i < rocks.Length; i++)
             {

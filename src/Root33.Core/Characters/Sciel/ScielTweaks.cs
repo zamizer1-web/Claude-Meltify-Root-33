@@ -16,18 +16,21 @@ namespace Root33.Core.Characters.Sciel
         /// <summary>hook.piece-placed: a Lantern she places gives the Sun charge.</summary>
         public static void OnPiecePlaced(GameContext ctx, SeatId me, SeatId owner, PieceKind kind, string type)
         {
+            if (!ctx.RuleOn(Ids.RuleTweaks.ScielTwilight)) return; // v1.1: off in the first release
             if (owner == me && kind == PieceKind.Token && type == PieceTypes.Sympathy) ctx.State.ScielSun = true;
         }
 
         /// <summary>hook.evening-start of her own turn: holding Sun and Moon arms Twilight.</summary>
         public static void ArmAtEveningStart(GameContext ctx)
         {
+            if (!ctx.RuleOn(Ids.RuleTweaks.ScielTwilight)) return; // v1.1: off in the first release
             if (ctx.State.ScielSun && ctx.State.ScielMoon) ctx.State.ScielTwilightArmed = true;
         }
 
         /// <summary>hook.battle-start: her first battle while Twilight is armed deals the extra hit (do.add-hits).</summary>
         public static void BoostBattle(GameContext ctx, SeatId me, SeatId attacker)
         {
+            if (!ctx.RuleOn(Ids.RuleTweaks.ScielTwilight)) return; // v1.1: off in the first release
             if (attacker == me && ctx.State.ScielTwilightArmed) ctx.Actions.AddHits(me, Tuning.ScielTwilightHits);
         }
 
@@ -35,6 +38,7 @@ namespace Root33.Core.Characters.Sciel
         /// any other battle she starts that removes an enemy warrior gives the Moon charge.</summary>
         public static void AfterBattle(GameContext ctx, SeatId me, BattleResult r)
         {
+            if (!ctx.RuleOn(Ids.RuleTweaks.ScielTwilight)) return; // v1.1: off in the first release
             if (r == null || r.Attacker != me) return;
             if (ctx.State.ScielTwilightArmed)
             {
@@ -47,6 +51,10 @@ namespace Root33.Core.Characters.Sciel
         }
 
         /// <summary>hook.turn-end of her own turn: an unused arming lapses (the charges themselves are kept).</summary>
-        public static void EndTurn(GameContext ctx) => ctx.State.ScielTwilightArmed = false;
+        public static void EndTurn(GameContext ctx)
+        {
+            if (!ctx.RuleOn(Ids.RuleTweaks.ScielTwilight)) return; // v1.1: off in the first release
+            ctx.State.ScielTwilightArmed = false;
+        }
     }
 }

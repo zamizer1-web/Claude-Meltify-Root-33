@@ -123,10 +123,9 @@ namespace Root33.Core.Tests.Support
 
         /// <summary>
         /// Root's Autumn map from sheets/map_autumn.json: 12 clearings (autumn.NN is clearing NN), suits, slots, paths,
-        /// river flags, ruins, corners, Continent names and fixed roles. Three facts the sheet has no column for come from
-        /// design/autumn-map-verified.json (the source the sheet was filled from): the river's links (B-E, E-G, G-K, K-I =
-        /// 11-10, 10-7, 7-6, 6-1), the diagonal corner pairs (A-L, C-I = 4-2, 3-1), and the forests, numbered here 1-7 as
-        /// the faces the printed paths enclose (Root's own forest numbers are still unknown).
+        /// river flags, river links (riverLinks), diagonal corner pairs (oppositeCorner), ruins, corners, Continent names and
+        /// fixed roles. Only the forests have no sheet column yet; they come from design/autumn-map-verified.json, numbered
+        /// here 1-7 as the faces the printed paths enclose (Root's own forest ids are still unknown, builder-questions D2).
         /// </summary>
         public static FakeBoard Autumn()
         {
@@ -141,8 +140,14 @@ namespace Root33.Core.Tests.Support
             }
             foreach (var r in AutumnMap.Rows)
                 foreach (var p in r.Paths) b.Path(AutumnMap.ClearingOf(r.Id).Value, AutumnMap.ClearingOf(p).Value);
-            b.River(11, 10).River(10, 7).River(7, 6).River(6, 1);
-            b.Opposite(4, 2).Opposite(3, 1);
+            foreach (var r in AutumnMap.Rows)
+            {
+                var c = AutumnMap.ClearingOf(r.Id).Value;
+                foreach (var l in r.RiverLinks)
+                    if (string.CompareOrdinal(r.Id, l) < 0) b.River(c, AutumnMap.ClearingOf(l).Value);
+                if (!string.IsNullOrEmpty(r.OppositeCorner) && string.CompareOrdinal(r.Id, r.OppositeCorner) < 0)
+                    b.Opposite(c, AutumnMap.ClearingOf(r.OppositeCorner).Value);
+            }
             b.Forest(1, 4, 11, 3, 10).Forest(2, 4, 10, 8, 12).Forest(3, 3, 10, 8, 7, 9).Forest(4, 12, 8, 1)
              .Forest(5, 8, 1, 5, 6).Forest(6, 8, 7, 2, 6).Forest(7, 7, 9, 2);
             return b;

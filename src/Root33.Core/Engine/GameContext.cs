@@ -8,16 +8,38 @@ namespace Root33.Core.Engine
     /// <summary>The player's choices for one game (sheets/options.json). Copied into <see cref="ModState"/> when a game is created.</summary>
     public sealed class GameOptions
     {
+        private readonly Func<ModState> _state;
+        private bool _faithfulGustave, _monolithBarrier;
+
+        /// <summary>Settings for a game not created yet (the player's profile, <see cref="Root33Game.NextGameOptions"/>).</summary>
+        public GameOptions() { }
+
+        /// <summary>One game's options: <see cref="FaithfulGustave"/> and <see cref="MonolithBarrier"/> read and write the saved
+        /// rows state.global.faithful-gustave and state.global.monolith-barrier, so a loaded game keeps the settings it started with.</summary>
+        internal GameOptions(Func<ModState> state) { _state = state; }
+
         /// <summary>opt.spoiler-mode (default safe).</summary>
         public SpoilerMode Spoilers = SpoilerMode.Safe;
         /// <summary>opt.difficulty (default normal).</summary>
         public Difficulty Difficulty = Difficulty.Normal;
-        /// <summary>opt.faithful-gustave (default off; treated as off in safe mode).</summary>
-        public bool FaithfulGustave;
+        /// <summary>opt.faithful-gustave (default off; treated as off in safe mode). In a game: state.global.faithful-gustave.</summary>
+        public bool FaithfulGustave
+        {
+            get => _state != null ? _state().GlobalFaithfulGustave : _faithfulGustave;
+            set { if (_state != null) _state().GlobalFaithfulGustave = value; else _faithfulGustave = value; }
+        }
         /// <summary>opt.campaign (default off = Free Play).</summary>
         public bool Campaign;
-        /// <summary>opt.monolith-barrier (v1.1, default off).</summary>
-        public bool MonolithBarrier;
+        /// <summary>opt.monolith-barrier (v1.1, default off). In a game: state.global.monolith-barrier.</summary>
+        public bool MonolithBarrier
+        {
+            get => _state != null ? _state().GlobalMonolithBarrier : _monolithBarrier;
+            set { if (_state != null) _state().GlobalMonolithBarrier = value; else _monolithBarrier = value; }
+        }
+        /// <summary>Internal setting, never shown to players and not an options.json row: the v1.1 rule_tweaks rows act only
+        /// while it is on (<see cref="GameContext.RuleOn"/>). Off in the first release (builder-questions C1, option (a)); the
+        /// update switches it on once those rules were tested in Root. A game takes it from the build, not from its save.</summary>
+        public bool UpdateRules;
 
         /// <summary>Faithful Gustave as the rules read it: finished mode only.</summary>
         public bool FaithfulGustaveActive(SpoilerMode game) => FaithfulGustave && game == SpoilerMode.Finished;
@@ -67,7 +89,7 @@ namespace Root33.Core.Engine
             State = new ModState();
             Countdown = new Countdown();
             ActClock = NewActClock();
-            Options = new GameOptions();
+            Options = new GameOptions(() => State);
             TurnOrder = new SeatId[0];
             Barks = new BarkDirector(this);
         }
@@ -105,6 +127,13 @@ namespace Root33.Core.Engine
         public bool E33Mode => State.GlobalE33Mode;
 
         public bool SupportsAction(string boardActionId) => Capabilities.Supports(boardActionId);
+
+        /// <summary>The internal update-rules setting of this game (<see cref="GameOptions.UpdateRules"/>).</summary>
+        public bool UpdateRules => Options.UpdateRules;
+
+        /// <summary>Whether a rule_tweaks row acts in this game: a v1 row always; a v1.1 row only while
+        /// <see cref="GameOptions.UpdateRules"/> is on (off in the first release).</summary>
+        public bool RuleOn(string ruleTweakId) => Data.RuleTweaks[ruleTweakId].Version != "v1.1" || Options.UpdateRules;
 
         // ------------------------------------------------------------ seats and characters
 

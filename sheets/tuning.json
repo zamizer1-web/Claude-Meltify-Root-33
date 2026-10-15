@@ -663,6 +663,14 @@
       ]
     },
     {
+      "id": "tune.root-win-vp",
+      "value": 30,
+      "description": "Root's own VP win (a Root rule, not a mod setting): bots use it to judge 'within N VP of winning'.",
+      "usedBy": [
+        "bot.maelle"
+      ]
+    },
+    {
       "id": "tune.lune-relic-types",
       "value": 3,
       "description": "Distinct relic types (tablet, figure, jewelry) among her recovered relics for her win.",

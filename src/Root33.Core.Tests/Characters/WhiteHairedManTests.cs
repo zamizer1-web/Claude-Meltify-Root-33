@@ -264,7 +264,7 @@ namespace Root33.Core.Tests.Characters
         {
             var board = Table().Warriors(0, 3, 1).Warriors(1, 3, 1).Warriors(1, 9, 2);
             var t = Start(board);
-            t.Ctx.Options.MonolithBarrier = true;
+            t.Ctx.Options.MonolithBarrier = true; t.Ctx.Options.UpdateRules = true;
             Assert.False(t.Game.CanStartBattle(S(1), S(0), C(3), false));
             Assert.True(t.Game.CanStartBattle(S(1), S(0), C(9), false)); // only the Monolith
             Assert.True(t.Game.CanStartBattle(S(1), S(0), C(3), true));  // a Strike is not a battle
@@ -287,7 +287,7 @@ namespace Root33.Core.Tests.Characters
             // Axons ruled by the Paintress do not count either.
             var p = Table().Seat(2, EngineId.Eyrie, CharacterIds.Paintress).Warriors(1, 9, 2).Warriors(2, 10, 2);
             var t2 = Start(p);
-            t2.Ctx.Options.MonolithBarrier = true;
+            t2.Ctx.Options.MonolithBarrier = true; t2.Ctx.Options.UpdateRules = true;
             t2.PlayRound();
             Assert.False(t2.State.WhiteHairedManBarrierDown);
             Assert.False(t2.Game.CanStartBattle(S(1), S(2), C(3), false));
@@ -298,7 +298,7 @@ namespace Root33.Core.Tests.Characters
         {
             var board = Table().Warriors(1, 9, 2).Warriors(1, 10, 2).Warriors(0, 3, 1).Warriors(1, 3, 1);
             var t = Start(board);
-            t.Ctx.Options.MonolithBarrier = true;
+            t.Ctx.Options.MonolithBarrier = true; t.Ctx.Options.UpdateRules = true;
             t.PlayTurn(0);
             Assert.True(t.State.WhiteHairedManBarrierDown);
 
@@ -309,7 +309,7 @@ namespace Root33.Core.Tests.Characters
 
             // Restored from the save.
             var loaded = t.SaveAndLoad(Registry());
-            loaded.Ctx.Options.MonolithBarrier = true;
+            loaded.Ctx.Options.MonolithBarrier = true; loaded.Ctx.Options.UpdateRules = true;
             Assert.True(loaded.State.WhiteHairedManBarrierDown);
             Assert.True(loaded.Game.CanStartBattle(S(1), S(0), C(3), false));
         }
@@ -328,7 +328,7 @@ namespace Root33.Core.Tests.Characters
             var noWhm = FakeBoard.Autumn().Seat(0, EngineId.Marquise, CharacterIds.Gustave).Seat(1, EngineId.Alliance)
                 .Warriors(0, 3, 1).Warriors(1, 3, 1);
             var t2 = TestTable.Start(noWhm, new ModuleRegistry());
-            t2.Ctx.Options.MonolithBarrier = true;
+            t2.Ctx.Options.MonolithBarrier = true; t2.Ctx.Options.UpdateRules = true;
             Assert.False(t2.Game.CanStartBattle(S(0), S(1), C(3), false));
         }
 
@@ -623,6 +623,25 @@ namespace Root33.Core.Tests.Characters
             Assert.Equal(S(1), b.Threat);
             Assert.Equal(WhmAnswerKind.Bomb, b.Kind);
             Assert.Equal("plot:7:bomb", Bot.ChooseAction(View(near), legal));
+        }
+
+        [Fact]
+        public void MonolithBarrier_OffWithoutUpdateRules()
+        {
+            // The table chose the Barrier (opt.monolith-barrier on), but the v1.1 rules are off in the first release.
+            var b = FakeBoard.Autumn().Seat(0, EngineId.Marquise).Seat(1, EngineId.Eyrie);
+            var t = TestTable.Start(b, beforeStart: g => g.NextGameOptions.MonolithBarrier = true);
+            Assert.True(t.Ctx.Options.MonolithBarrier);
+            Assert.False(t.Ctx.UpdateRules);
+            var monolith = t.Ctx.Role(Ids.MapRoles.Monolith).Value;
+            Assert.True(t.Game.CanStartBattle(new SeatId(0), new SeatId(1), monolith, false));
+            Assert.False(Root33.Core.Characters.WhiteHairedMan.WhiteHairedManTweaks.BarrierTurnEnd(t.Ctx));
+            Assert.False(t.State.WhiteHairedManBarrierDown);
+
+            // The same table with the update rules on: the Barrier blocks the battle.
+            var on = TestTable.Start(FakeBoard.Autumn().Seat(0, EngineId.Marquise).Seat(1, EngineId.Eyrie), updateRules: true,
+                beforeStart: g => g.NextGameOptions.MonolithBarrier = true);
+            Assert.False(on.Game.CanStartBattle(new SeatId(0), new SeatId(1), monolith, false));
         }
     }
 }

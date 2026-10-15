@@ -965,6 +965,14 @@
             "core"
           ]
         },
+        "owner": {
+          "type": "ref:characters",
+          "required": false,
+          "neededBy": [
+            "core"
+          ],
+          "description": "the character whose event this is; it fires (and is logged) only when that character is seated; null for table-wide events"
+        },
         "tier": {
           "type": "enum:safe|act2|finished",
           "required": true,
@@ -1180,6 +1188,20 @@
             "core"
           ],
           "description": "the river touches this clearing"
+        },
+        "riverLinks": {
+          "type": "refs:map_autumn",
+          "required": false,
+          "neededBy": [
+            "core"
+          ]
+        },
+        "oppositeCorner": {
+          "type": "ref:map_autumn",
+          "required": false,
+          "neededBy": [
+            "core"
+          ]
         },
         "engineClearingId": {
           "type": "string",

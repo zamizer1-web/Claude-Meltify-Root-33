@@ -65,7 +65,7 @@ namespace Root33.Core.Characters.Gustave
 
 **Veto hooks.** `CanStartBattle` (hook.battle-legal) and `AllowHostile` (hook.hostility-change) return true by default; the game allows the action only if every module allows it.
 
-**Story events.** At setup (Act I) and when an act opens, `Root33Game` walks that act's `events` in acts.json order. An event fires only when its tier allows it (safe: always; act2: either mode; finished: finished mode only) and, if it has a spawn, only when that spawn's owner is seated. A spawn or tag event goes to its owner's `OnStoryEvent`; an event without a spawn goes to every module, and the module decides whether it is its own (for example Gustave's Beach vignette). Every fired event is logged in `Ctx.StoryLog` for the plugin to show. No act event may change VP, charges, rank or relationships (`Acts_ActEventsNeverChangeVpChargeRankOrRelationships` runs every registered module).
+**Story events.** At setup (Act I) and when an act opens, `Root33Game` walks that act's `events` in acts.json order. An event fires only when its tier allows it (safe: always; act2: either mode; finished: finished mode only) and, if it has an `owner` (story_events.owner), only when that character is seated. An owned event goes to its owner's `OnStoryEvent` (Gustave's module handles the Beach); a table-wide event (owner null) goes to every module. Every fired event is logged in `Ctx.StoryLog` for the plugin to show. No act event may change VP, charges, rank or relationships (`Acts_ActEventsNeverChangeVpChargeRankOrRelationships` runs every registered module).
 
 ## Hooks: what runs when
 
@@ -75,7 +75,7 @@ namespace Root33.Core.Characters.Gustave
 |---|---|---|
 | hook.character-select | hides the Clockwork bots, starts an E33 game setup | none bound yet |
 | hook.seat-assigned | records the seat's character (the mod's pick, or the one character of that engine) | none bound yet |
-| hook.game-start | `ModState.Reset()`, copies difficulty, spoiler mode, campaign, seat characters; binds modules | `OnGameStart` |
+| hook.game-start | `ModState.Reset()`, copies difficulty, spoiler mode, Faithful Gustave, Monolith Barrier, campaign, seat characters; binds modules | `OnGameStart` |
 | hook.map-loaded | assigns roles now on Autumn, or on any map when Gustave is not seated | `OnRolesAssigned`, `OnMapLoaded` |
 | hook.piece-placed | Gustave's keep on a non-Autumn map assigns the roles (Lumière = the keep's corner) | `OnRolesAssigned`, `OnPiecePlaced` |
 | hook.setup-complete | roles by rule if still missing, campaign journal (+1 card), **Act I story events** | `OnStoryEvent`, `OnSetupComplete` |
@@ -132,7 +132,8 @@ Rule methods are pure: they take a `BotView` (plus plain arguments) and return a
 | Member | Use |
 |---|---|
 | `Board`, `Actions`, `State` | the board, the actions, the saved state |
-| `Act`, `Round`, `Difficulty`, `Spoilers`, `Options` | game facts; `Options` holds the opt.* choices for this game |
+| `Act`, `Round`, `Difficulty`, `Spoilers`, `Options` | game facts; `Options` holds the opt.* choices for this game (Faithful Gustave and the Monolith Barrier read state.global.faithful-gustave / monolith-barrier, so a loaded game keeps them) |
+| `RuleOn(ruleTweakId)`, `UpdateRules` | whether a rule_tweaks row acts: v1 rows always, v1.1 rows only while the internal `GameOptions.UpdateRules` setting is on (off in the first release, never shown to players; tests turn it on with `TestTable.Start(..., updateRules: true)`) |
 | `CharacterOf(seat)`, `SeatOf(character)`, `IsSeated(character)`, `IsVagabond(seat)` | seats and characters |
 | `Role(roleId)`, `RoleClearings(roleId)`, `HasRole(c, roleId)`, `MonolithNeighbours()` | map roles; pass `Ids.MapRoles.*` |
 | `HighestVp()`, `MonolithNumber`, `CompletedRoundsAfterTurnOf(seat)` | scores and the act clock's inputs |
@@ -169,7 +170,7 @@ Assert.Equal("win.gustave", board.Banners[new SeatId(0)]);
 - Everything else Root shows: `Pawn`, `PawnInForest`, `Item`, `Relationship`, `Coalition`, `Supply`, `SupplyOf`, `Relic`, `CarryRelic`, `RecoverRelic`, `DropRelic`, `FaceUpPlotAt`, `HiddenPlotAt`, `Column` (Decree, Retinue), `SupportersAre`, `Burrow`, `Ministers`, `Outcast`, `MoodIs`, `Hoard`, `Legal`, `RuinEmptied`, `RootRound`.
 - Every action applies to the board and is logged: `Log`, `Winners`, `Banners`, `ScoredVp`, `Draws`, `ExtraHits`, `ExtraMaxHits`, `IgnoresFirstHit`, `GuardFloors`, `BlockedPlacements`, `HomeRestrictions`, `StartForestRestrictions`, `Abilities`, `Bubbles`, `Overlays` (`OverlayShown(id)`), `SeatTitles`, `SubmittedActions`, `NativeAiSteps`, `TaggedRelics`, `FreeDigs`. `PlaceWarriors` takes from the seat's supply and returns how many it placed.
 - Fallbacks: `board.Unsupported(Ids.BoardActions.PlaceWarriors)` makes that action do nothing, and `TestTable` tells the game it is unsupported, so `Ctx.SupportsAction` is false and your fallback path runs.
-- Three Autumn facts have no sheet column, so the fake takes them from `design/autumn-map-verified.json`: the river links (11-10, 10-7, 7-6, 6-1), the diagonal corner pairs (1-3, 2-4), and the seven forests, numbered 1-7 here as the faces the printed paths enclose. Root's own forest numbers are still unknown; do not hard-code them in rules.
+- The river links (`map_autumn.riverLinks`: 1-6, 6-7, 7-10, 10-11) and the diagonal corner pairs (`oppositeCorner`: 1-3, 2-4) come from the sheet. Only the seven forests have no sheet column yet, so the fake takes them from `design/autumn-map-verified.json`, numbered 1-7 here as the faces the printed paths enclose. Root's own forest numbers are still unknown; do not hard-code them in rules.
 
 **Tests.** Every `tests` cell of your rows names xunit methods: write each as a `[Fact]` with exactly that name in `src/Root33.Core.Tests/Characters/<Name>Tests.cs`, and make it prove what the row says. A row is finished only when its named tests exist and pass. Run everything with:
 

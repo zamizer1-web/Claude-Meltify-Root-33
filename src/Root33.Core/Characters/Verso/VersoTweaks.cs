@@ -6,8 +6,8 @@ using Root33.Core.Sheets;
 namespace Root33.Core.Characters.Verso
 {
     /// <summary>
-    /// Verso's rank (state.verso.rank, updated at hook.battle-resolved as win.verso's notes say), tweak.verso.perfection
-    /// and tweak.verso.soarrie-handoff. Verso has no spawns rows (spawn.soarrie is Esquie's).
+    /// Verso's rank (state.verso.rank, updated at hook.battle-resolved as win.verso's notes say) and tweak.verso.perfection.
+    /// tweak.verso.soarrie-handoff lives in EsquieTweaks (spawn.soarrie is Esquie's).
     /// </summary>
     public static class VersoTweaks
     {
@@ -36,35 +36,6 @@ namespace Root33.Core.Characters.Verso
         {
             if (attacker != me || ctx.State.VersoRank < Tuning.VersoPerfectionRank) return;
             ctx.Actions.AddHits(me, Tuning.VersoPerfectionHits);
-        }
-
-        /// <summary>tweak.verso.soarrie-handoff (hook.act-change): with Esquie seated, Soarrie appears on Verso's card from
-        /// Act II (only while it has not spawned yet, so Esquie's own spawn code and this agree).</summary>
-        public static void SoarrieAppears(GameContext ctx, SeatId me, int act)
-        {
-            if (act < 2 || !ctx.IsSeated(CharacterIds.Esquie)) return;
-            var soarrie = ctx.State.EsquieRocks[ModState.Soarrie];
-            if (soarrie.Status != RockStatus.NotSpawned) return;
-            soarrie.Status = RockStatus.WithVerso;
-            soarrie.HostSeat = me;
-            soarrie.Clearing = null;
-            soarrie.GuardsLeft = 0;
-        }
-
-        /// <summary>tweak.verso.soarrie-handoff (hook.evening-end of Esquie's turn): Esquie's pawn in Verso's clearing (not a
-        /// forest) in Act II or later passes Soarrie to Esquie and Verso scores tune.verso-soarrie-vp.</summary>
-        public static void SoarrieHandoff(GameContext ctx, SeatId me, SeatId seat)
-        {
-            if (ctx.Act < 2 || ctx.CharacterOf(seat) != CharacterIds.Esquie) return;
-            var soarrie = ctx.State.EsquieRocks[ModState.Soarrie];
-            if (soarrie.Status != RockStatus.WithVerso) return;
-            var mine = ctx.Board.PawnClearing(me);
-            if (!mine.HasValue || ctx.Board.PawnClearing(seat) != mine.Value) return;
-            soarrie.Status = RockStatus.Held;
-            soarrie.HostSeat = null;
-            soarrie.Clearing = null;
-            ctx.ScoreVp(me, Tuning.VersoSoarrieVp);
-            ctx.Actions.HideOverlay(Ids.Overlays.EsquieRocks, me, null, null);
         }
     }
 }

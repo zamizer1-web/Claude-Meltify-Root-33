@@ -44,6 +44,7 @@ namespace Root33.Core.Characters.Paintress
         /// its fallback leaves Still Life out). Returns the clearing the warrior came from, or null.</summary>
         public static ClearingId? StillLife(GameContext ctx, SeatId paintress, SeatId attacker, ClearingId c)
         {
+            if (!ctx.RuleOn(Ids.RuleTweaks.PaintressStillLife)) return null; // v1.1: off in the first release
             if (attacker == paintress || ctx.Board.CoalitionPartner(attacker) == paintress) return null;
             if (ctx.State.PaintressStillLifeUsed) return null;
             if (!ctx.SupportsAction(Ids.BoardActions.MoveWarriors)) return null;

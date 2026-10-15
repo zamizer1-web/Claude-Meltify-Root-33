@@ -150,11 +150,11 @@ namespace Root33.Core.Tests.Characters
 
         private static RemovedPiece Warrior(int owner) => new RemovedPiece(S(owner), PieceKind.Warrior, null);
 
-        private static TestTable TwilightTable(out FakeBoard b)
+        private static TestTable TwilightTable(out FakeBoard b, bool updateRules = true)
         {
             b = FakeBoard.Autumn().Seat(0, EngineId.Alliance, CharacterIds.Sciel).Seat(1, EngineId.Marquise)
                 .Warriors(0, 5, 3).Warriors(1, 5, 2).Warriors(0, 6, 3).Warriors(1, 6, 2);
-            return TestTable.Start(b, Registry());
+            return TestTable.Start(b, Registry(), updateRules: updateRules); // v1.1 row: on unless a test says otherwise
         }
 
         [Fact]
@@ -611,6 +611,34 @@ namespace Root33.Core.Tests.Characters
             hb.Legal(0, "spread:7", "move:8:12");
             var (_, hv) = View(hb, Difficulty.Hard, act: 2, phase: TurnPhase.Evening);
             Assert.Equal("move:8:12", oneStep.ChooseAction(hv, hb.LegalActions(S(0))));
+        }
+
+        [Fact]
+        public void Twilight_OffWithoutUpdateRules()
+        {
+            var t = TwilightTable(out var b, updateRules: false); // builder-questions C1 (a): off in the first release
+            EveningTurn(t, 0,
+                daylight: x => x.Game.OnPiecePlaced(S(0), PieceKind.Token, PieceTypes.Sympathy, new ClearingId(5)),
+                evening: x =>
+                {
+                    x.Game.OnBattleStarting(S(0), S(1), new ClearingId(5));
+                    x.Game.OnBattleResolved(Battle(0, 1, 5, Warrior(1)));
+                });
+            Assert.False(t.State.ScielSun);   // no Sun for a Lantern
+            Assert.False(t.State.ScielMoon);  // no Moon for a removal
+            t.PlayTurn(1);
+
+            // Even holding both charges, nothing is armed and no hit is added.
+            t.State.ScielSun = true;
+            t.State.ScielMoon = true;
+            EveningTurn(t, 0, evening: x =>
+            {
+                Assert.False(x.State.ScielTwilightArmed);
+                x.Game.OnBattleStarting(S(0), S(1), new ClearingId(6));
+                x.Game.OnBattleResolved(Battle(0, 1, 6, Warrior(1)));
+            });
+            Assert.False(b.ExtraHits.ContainsKey(S(0)));
+            Assert.True(t.State.ScielSun && t.State.ScielMoon);
         }
     }
 }
