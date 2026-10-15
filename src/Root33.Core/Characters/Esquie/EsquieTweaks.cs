@@ -294,20 +294,62 @@ namespace Root33.Core.Characters.Esquie
 
         // ------------------------------------------------------------ battle tweaks
 
-        /// <summary>tweak.esquie.belly-bounce: an undamaged Bag counts as a sword in a guarded-rock clearing.</summary>
+        /// <summary>Under the no-spawn fallback: index of an unclaimed (loose) Florrie or Urrie in a clearing, or -1.</summary>
+        public static int FallbackRockAt(GameContext ctx, ClearingId c)
+        {
+            if (!NoSpawnFallback(ctx)) return -1;
+            foreach (var i in new[] { Florrie, Urrie })
+            {
+                var r = ctx.State.EsquieRocks[i];
+                if (r.Status == RockStatus.Loose && r.Clearing == c) return i;
+            }
+            return -1;
+        }
+
+        /// <summary>A clearing where Esquie's rock rules apply to battles: a guarded rock, or (no-spawn fallback) an unclaimed
+        /// Florrie or Urrie.</summary>
+        public static bool IsRockBattleClearing(GameContext ctx, ClearingId c) => GuardedRockAt(ctx.State, c) >= 0 || FallbackRockAt(ctx, c) >= 0;
+
+        /// <summary>Whether he has an undamaged Bag (Belly Bounce).</summary>
+        public static bool HasUndamagedBag(IBoardView b, SeatId me) => b.Items(me).Any(it => it.Type == ItemType.Bag && !it.Damaged);
+
+        /// <summary>tweak.esquie.belly-bounce: an undamaged Bag counts as tune.esquie-belly-bounce-swords sword in a guarded-rock
+        /// clearing (under the no-spawn fallback, in a clearing with an unclaimed Florrie or Urrie), however many Bags he has.</summary>
         public static void BellyBounce(GameContext ctx, SeatId me, SeatId attacker, SeatId defender, ClearingId c)
         {
             if (attacker != me && defender != me) return;
-            if (GuardedRockAt(ctx.State, c) < 0) return;
-            if (ctx.Board.Items(me).Any(it => it.Type == ItemType.Bag && !it.Damaged))
-                ctx.Actions.AddMaxHits(me, Tuning.EsquieBellyBounceSwords);
+            if (!IsRockBattleClearing(ctx, c)) return;
+            if (HasUndamagedBag(ctx.Board, me)) ctx.Actions.AddMaxHits(me, Tuning.EsquieBellyBounceSwords);
         }
 
-        /// <summary>tweak.esquie.never-mad: only the host's guards, in a guarded-rock clearing.</summary>
+        /// <summary>tweak.esquie.never-mad: only the host's warriors, in a guarded-rock clearing. Under the no-spawn fallback
+        /// (no host) only in a clearing with an unclaimed Florrie or Urrie, against any faction's warriors there.</summary>
         public static bool NeverMadAllows(GameContext ctx, SeatId defender, ClearingId c)
         {
             var i = GuardedRockAt(ctx.State, c);
-            return i >= 0 && ctx.State.EsquieRocks[i].HostSeat == defender;
+            if (i >= 0) return ctx.State.EsquieRocks[i].HostSeat == defender;
+            return FallbackRockAt(ctx, c) >= 0 && ctx.Board.Warriors(defender, c) > 0;
+        }
+
+        /// <summary>tweak.esquie.friends-not-foes: Root's hostility change is skipped for battles in a clearing with a guarded
+        /// rock (keyed to the clearing, so any Vagabond battling there).</summary>
+        public static bool FriendsNotFoesAllows(ModState s, ClearingId battleClearing) => GuardedRockAt(s, battleClearing) < 0;
+
+        /// <summary>hook.piece-removed outside a battle (Strike, Bomb, Revolt, ...): a host warrior removed in a guarded rock's
+        /// clearing costs a guard. Removals inside a battle are counted once, at hook.battle-resolved
+        /// (<paramref name="inBattleAt"/> is the clearing of the battle being fought, if any).</summary>
+        public static void PieceRemoved(GameContext ctx, RemovedPiece piece, ClearingId c, ClearingId? inBattleAt)
+        {
+            if (piece.Kind != PieceKind.Warrior || inBattleAt == c) return;
+            var rocks = ctx.State.EsquieRocks;
+            for (var i = 0; i < rocks.Length; i++)
+            {
+                var r = rocks[i];
+                if (r.Status != RockStatus.Guarded || r.Clearing != c || r.HostSeat != piece.Owner) continue;
+                r.GuardsLeft = Math.Max(0, r.GuardsLeft - 1);
+                if (r.GuardsLeft == 0) MakeLoose(ctx, i);
+                else SendGuardRules(ctx, r);
+            }
         }
 
         // ------------------------------------------------------------ load

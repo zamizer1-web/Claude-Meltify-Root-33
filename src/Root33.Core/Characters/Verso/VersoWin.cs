@@ -20,18 +20,17 @@ namespace Root33.Core.Characters.Verso
                    && UndamagedSwords(ctx.Board, me) >= Tuning.VersoEasySwords;
         }
 
-        public static bool InMonolith(GameContext ctx, SeatId me)
-        {
-            var monolith = ctx.Role(Ids.MapRoles.Monolith);
-            return monolith.HasValue && ctx.Board.PawnClearing(me) == monolith.Value;
-        }
+        public static bool InMonolith(GameContext ctx, SeatId me) => InMonolith(ctx.Board, me, ctx.Role(Ids.MapRoles.Monolith));
+
+        public static bool InMonolith(IBoardView b, SeatId me, ClearingId? monolith) =>
+            monolith.HasValue && b.PawnClearing(me) == monolith.Value;
 
         /// <summary>No other seat has warriors, buildings or a pawn in the Monolith (tokens do not count).</summary>
-        public static bool MonolithAlone(GameContext ctx, SeatId me)
+        public static bool MonolithAlone(GameContext ctx, SeatId me) => MonolithAlone(ctx.Board, me, ctx.Role(Ids.MapRoles.Monolith));
+
+        public static bool MonolithAlone(IBoardView b, SeatId me, ClearingId? monolith)
         {
-            var monolith = ctx.Role(Ids.MapRoles.Monolith);
             if (!monolith.HasValue) return false;
-            var b = ctx.Board;
             return b.Seats().Where(o => o != me).All(o =>
                 b.Warriors(o, monolith.Value) + b.Buildings(o, monolith.Value) == 0 && b.PawnClearing(o) != monolith.Value);
         }
