@@ -265,6 +265,18 @@
       "v1": false,
       "needsCreatorPc": true,
       "_notes": "Requested by the creator as a note, not a first-version feature."
+    },
+    {
+      "id": "sys.card-art",
+      "name": "Combined Root x Clair Obscur card art (last)",
+      "description": "Creator's idea, scheduled as the very last thing worked on: new faces for Root's deck (suited cards, ambushes, dominance and item cards) drawn in a combined Root x Clair Obscur style. Original art made for the mod, combined at runtime with what is in the player's own installs; nothing from either game is shipped. Needs the creator's PC to find how Root draws card faces and how they can be replaced at runtime.",
+      "sheets": [
+        "assets",
+        "overlays"
+      ],
+      "v1": false,
+      "needsCreatorPc": true,
+      "_notes": "Requested by the creator: last priority, after every other system."
     }
   ]
 }
