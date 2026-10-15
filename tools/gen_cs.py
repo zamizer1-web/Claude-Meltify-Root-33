@@ -44,6 +44,24 @@ def pascal(text):
     return out
 
 
+CS_KEYWORDS = {
+    "abstract", "as", "base", "bool", "break", "byte", "case", "catch", "char", "checked", "class", "const", "continue",
+    "decimal", "default", "delegate", "do", "double", "else", "enum", "event", "explicit", "extern", "false", "finally",
+    "fixed", "float", "for", "foreach", "goto", "if", "implicit", "in", "int", "interface", "internal", "is", "lock",
+    "long", "namespace", "new", "null", "object", "operator", "out", "override", "params", "private", "protected",
+    "public", "readonly", "ref", "return", "sbyte", "sealed", "short", "sizeof", "stackalloc", "static", "string",
+    "struct", "switch", "this", "throw", "true", "try", "typeof", "uint", "ulong", "unchecked", "unsafe", "ushort",
+    "using", "virtual", "void", "volatile", "while",
+}
+
+
+def param_name(column):
+    """camelCase constructor parameter for a column, escaped with @ when it is a C# keyword (params, public, default...)."""
+    name = pascal(column)
+    name = name[0].lower() + name[1:]
+    return "@" + name if name in CS_KEYWORDS else name
+
+
 def class_name(sheet):
     return pascal(sheet[:-1] if sheet.endswith("s") and not sheet.endswith("ss") else sheet) + "Def"
 
@@ -140,8 +158,8 @@ def main():
         cols = [(c, s) for c, s in spec["columns"].items() if needed(s, args.target)]
         cname = class_name(name)
         props = "\n".join(f"{doc(s.get('description', c))}\n        public {cs_type(s['type'])} {pascal(c)} {{ get; }}" for c, s in cols)
-        params = ", ".join(f"{cs_type(s['type'])} {pascal(c)[0].lower() + pascal(c)[1:]}" for c, s in cols)
-        assigns = "\n".join(f"            {pascal(c)} = {pascal(c)[0].lower() + pascal(c)[1:]};" for c, s in cols)
+        params = ", ".join(f"{cs_type(s['type'])} {param_name(c)}" for c, s in cols)
+        assigns = "\n".join(f"            {pascal(c)} = {param_name(c)};" for c, s in cols)
         defs.append(f"""    /// <summary>{(spec.get('description') or name).replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')}</summary>
     public sealed partial class {cname}
     {{

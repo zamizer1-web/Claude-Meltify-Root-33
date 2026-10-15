@@ -199,7 +199,7 @@ namespace Root33.Core.Sheets
         /// tests
         public IReadOnlyList<string> Tests { get; }
 
-        public WinConditionDef(string id, string character, string title, string kind, int actMin, int vpMin, string playerText, string announceTest, string confirmTest, string counterplay, bool offWithDominance, bool offInCoalition, IReadOnlyDictionary<string, string> params, IReadOnlyList<string> state, IReadOnlyList<string> hooks, IReadOnlyList<string> reads, IReadOnlyList<string> overlays, IReadOnlyList<string> tests)
+        public WinConditionDef(string id, string character, string title, string kind, int actMin, int vpMin, string playerText, string announceTest, string confirmTest, string counterplay, bool offWithDominance, bool offInCoalition, IReadOnlyDictionary<string, string> @params, IReadOnlyList<string> state, IReadOnlyList<string> hooks, IReadOnlyList<string> reads, IReadOnlyList<string> overlays, IReadOnlyList<string> tests)
         {
             Id = id;
             Character = character;
@@ -213,7 +213,7 @@ namespace Root33.Core.Sheets
             Counterplay = counterplay;
             OffWithDominance = offWithDominance;
             OffInCoalition = offInCoalition;
-            Params = params;
+            Params = @params;
             State = state;
             Hooks = hooks;
             Reads = reads;
@@ -608,13 +608,13 @@ namespace Root33.Core.Sheets
         /// v1
         public bool V1 { get; }
 
-        public OverlayDef(string id, string owner, string kind, string shows, bool public, IReadOnlyList<string> art, IReadOnlyList<string> state, bool v1)
+        public OverlayDef(string id, string owner, string kind, string shows, bool @public, IReadOnlyList<string> art, IReadOnlyList<string> state, bool v1)
         {
             Id = id;
             Owner = owner;
             Kind = kind;
             Shows = shows;
-            Public = public;
+            Public = @public;
             Art = art;
             State = state;
             V1 = v1;
@@ -686,12 +686,12 @@ namespace Root33.Core.Sheets
         /// description
         public string Description { get; }
 
-        public OptionDef(string id, string name, IReadOnlyList<string> values, string default, string description)
+        public OptionDef(string id, string name, IReadOnlyList<string> values, string @default, string description)
         {
             Id = id;
             Name = name;
             Values = values;
-            Default = default;
+            Default = @default;
             Description = description;
         }
     }
