@@ -29,6 +29,12 @@ namespace Root33.Core.Characters.Curator
             if (storyEvent.Id == Ids.StoryEvents.Act3CellCrack) CuratorTweaks.OpenCrack(Ctx, Seat);
         }
 
+        /// <summary>hook.battle-legal, for his own bot seat only: step 1's limits (bot.curator.01-helper: no big fights and no
+        /// battle against the Paintress before she is one step from her win, in Acts I-II) also bind the decisions Root's own
+        /// AI plays for him. Humans and other seats are never limited.</summary>
+        public override bool CanStartBattle(SeatId attacker, SeatId defender, ClearingId c, bool strike) =>
+            !IsMe(attacker) || !Board.IsBot(Seat) || Director.CanBattle(new BotView(Ctx, Seat), c, defender);
+
         public override void OnActionResolved(SeatId seat) => CuratorTweaks.ActionResolved(Ctx, Seat, seat);
 
         public override void OnPieceRemoved(SeatId? remover, RemovedPiece piece, ClearingId c) =>

@@ -15,16 +15,20 @@ namespace Root33.Core.Characters.Monoco
     {
         public MonocoWin() : base(Ids.WinConditions.Monoco) { }
 
-        public override bool Announce(GameContext ctx, SeatId seat) => UnitsMissing(ctx, seat) == 0;
+        public override bool Announce(GameContext ctx, SeatId seat) => WheelMissing(ctx.State.MonocoFeet, ctx.Board, seat) == 0;
 
         public override bool Confirm(GameContext ctx, SeatId seat) => Announce(ctx, seat) && ctx.Board.PawnClearing(seat).HasValue;
 
-        /// <summary>Missing feet plus missing source factions (one unit each).</summary>
-        public int UnitsMissing(GameContext ctx, SeatId seat)
+        /// <summary>The public Goal Tracker (bot.*.08-spoiler's units): each missing foot, each missing source faction, and the
+        /// yes/no part "the Warlord on the map" that the confirm adds.</summary>
+        public int UnitsMissing(GameContext ctx, SeatId seat) =>
+            WheelMissing(ctx.State.MonocoFeet, ctx.Board, seat) + (ctx.Board.PawnClearing(seat).HasValue ? 0 : 1);
+
+        /// <summary>Missing feet plus missing source factions (one unit each): 0 when the announce test's themed part holds.</summary>
+        public static int WheelMissing(IReadOnlyList<FootState> feet, IBoardView board, SeatId seat)
         {
-            var feet = ctx.State.MonocoFeet;
-            var missingFeet = feet.Count(f => !f.Earned);
-            var missingFactions = Math.Max(0, FactionsNeeded(ctx.Board, seat) - MonocoFeetRules.DistinctFactions(feet));
+            var missingFeet = feet.Take(Tuning.MonocoFeet).Count(f => !f.Earned) + Math.Max(0, Tuning.MonocoFeet - feet.Count);
+            var missingFactions = Math.Max(0, FactionsNeeded(board, seat) - MonocoFeetRules.DistinctFactions(feet));
             return missingFeet + missingFactions;
         }
 

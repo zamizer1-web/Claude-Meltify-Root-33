@@ -89,15 +89,17 @@ namespace Root33.Core.Characters.Monoco
         }
 
         /// <summary>The VP leader at battle start other than Monoco; on a tie (VpLeaderAtStart null) every seat tied for the
-        /// top score other than Monoco. The board only reports VP now, so a tie is read from the current scores.</summary>
+        /// top score other than Monoco. The board only reports VP now, so a tie is read from the current scores of the seats
+        /// other than Monoco: a tie at the top always holds at least one of them, and the VP Monoco scores in this very battle
+        /// (razing the leader's building) must not lift him over the tied leaders and void the foot.</summary>
         public static IEnumerable<SeatId> Leaders(GameContext ctx, SeatId me, BattleResult r)
         {
             if (r.VpLeaderAtStart.HasValue)
                 return r.VpLeaderAtStart.Value == me ? new SeatId[0] : new[] { r.VpLeaderAtStart.Value };
-            var seats = ctx.Board.Seats();
-            if (seats.Count == 0) return new SeatId[0];
-            var top = seats.Max(s => ctx.Board.Vp(s));
-            return seats.Where(s => s != me && ctx.Board.Vp(s) == top).ToList();
+            var others = ctx.Board.Seats().Where(s => s != me).ToList();
+            if (others.Count == 0) return new SeatId[0];
+            var top = others.Max(s => ctx.Board.Vp(s));
+            return others.Where(s => ctx.Board.Vp(s) == top).ToList();
         }
 
         /// <summary>tweak.monoco.sacred-river-rebirth (hook.warlord-removed): lose Almighty and the most recently earned other

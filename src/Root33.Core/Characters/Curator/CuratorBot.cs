@@ -148,16 +148,27 @@ namespace Root33.Core.Characters.Curator
                 .Where(x => x.p.HasValue && b.Ruler(x.p.Value.clearing) == me && b.FreeSlots(x.p.Value.clearing) >= 1)
                 .OrderBy(x => x.p.Value.clearing.Value).Select(x => x.k).FirstOrDefault();
             if (build != null) return build;
-            var sway = BestSway(legal, null);
+            var sway = BestSway(legal);
             if (sway != null) return sway;
             if (b.BurrowWarriors(me) < Tuning.CuratorBurrowStock && legal.Contains(CuratorActionKey.Recruit)) return CuratorActionKey.Recruit;
             return null;
         }
 
-        private static string BestSway(IEnumerable<string> legal, IReadOnlyList<string> only) =>
-            legal.Select(k => (k, p: CuratorActionKey.ParseSway(k)))
-                .Where(x => x.p.HasValue && (only == null || only.Contains(x.p.Value.minister)))
+        /// <summary>The legal sway with the most VP (step 1).</summary>
+        private static string BestSway(IEnumerable<string> legal) =>
+            legal.Select(k => (k, p: CuratorActionKey.ParseSway(k))).Where(x => x.p.HasValue)
                 .OrderByDescending(x => x.p.Value.vp).ThenBy(x => x.k, StringComparer.Ordinal).Select(x => x.k).FirstOrDefault();
+
+        /// <summary>Whether a minister grants a Battle or a Move (<see cref="BattleOrMoveMinisters"/>).</summary>
+        public static bool GrantsBattleOrMove(string minister) =>
+            minister != null && BattleOrMoveMinisters.Contains(minister.ToLowerInvariant());
+
+        /// <summary>Step 3's minister order: those that grant Battle or Move first, then by VP (ties: key order).</summary>
+        public List<Ranked<string>> MinisterRanking(IEnumerable<string> legal) =>
+            legal.Select(k => (k, p: CuratorActionKey.ParseSway(k))).Where(x => x.p.HasValue)
+                .OrderByDescending(x => GrantsBattleOrMove(x.p.Value.minister)).ThenByDescending(x => x.p.Value.vp)
+                .ThenBy(x => x.k, StringComparer.Ordinal)
+                .Select(x => new Ranked<string>(x.k, (GrantsBattleOrMove(x.p.Value.minister) ? 100 : 0) + x.p.Value.vp)).ToList();
 
         // ================================================================= 02 reveal
 
@@ -215,17 +226,32 @@ namespace Root33.Core.Characters.Curator
                 .Select(r => (ClearingId?)r.Item).FirstOrDefault();
         }
 
+        /// <summary>The seat he battles in Lumière: its ruler, or with a tied rule the other seat with the most warriors plus
+        /// buildings there (ties: lower seat); null when he rules it or no other seat has a piece there.</summary>
+        public SeatId? LumiereDefender(BotView view)
+        {
+            var l = LumiereOf(view);
+            if (!l.HasValue) return null;
+            var b = view.Board;
+            var ruler = b.Ruler(l.Value);
+            if (ruler == view.Seat) return null;
+            if (ruler.HasValue) return ruler;
+            return b.Seats().Where(s => s != view.Seat && b.Warriors(s, l.Value) + b.Buildings(s, l.Value) > 0)
+                .OrderByDescending(s => b.Warriors(s, l.Value) + b.Buildings(s, l.Value)).ThenBy(s => s.Value)
+                .Select(s => (SeatId?)s).FirstOrDefault();
+        }
+
         /// <summary>Lumière's ruler's warriors + the margin (Easy: tune.curator-easy-assault-margin).</summary>
         public int LumiereWarriorsNeeded(BotView view)
         {
             var l = LumiereOf(view);
             if (!l.HasValue) return 0;
-            var ruler = view.Board.Ruler(l.Value);
-            var defenders = ruler.HasValue && ruler.Value != view.Seat ? view.Board.Warriors(ruler.Value, l.Value) : 0;
+            var d = LumiereDefender(view);
+            var defenders = d.HasValue ? view.Board.Warriors(d.Value, l.Value) : 0;
             return defenders + LumiereMargin(view);
         }
 
-        /// <summary>Step 3 (Act III): re-dig a lost Monolith tunnel (never on Easy), sway Battle and Move ministers, dig to
+        /// <summary>Step 3 (Act III): re-dig a lost Monolith tunnel (never on Easy), sway (Battle and Move ministers first), dig to
         /// <see cref="DigTarget"/>, march or battle into Lumière with <see cref="LumiereWarriorsNeeded"/>, and with no keep
         /// there build in it or hold tune.curator-lumiere-warriors warriors. Leaves the announce turn to step 4.</summary>
         [BotRule("bot.curator.03-lumiere")]
@@ -240,7 +266,7 @@ namespace Root33.Core.Characters.Curator
             if (m.HasValue && Crack(view) == CuratorTweaks.Gone && b.TokensOfType(me, m.Value, PieceTypes.Tunnel) == 0
                 && view.Difficulty != Difficulty.Easy && legal.Contains(CuratorActionKey.DigKey(m.Value)))
                 return CuratorActionKey.DigKey(m.Value);
-            var sway = BestSway(legal, BattleOrMoveMinisters);
+            var sway = MinisterRanking(legal).Select(r => r.Item).FirstOrDefault();
             if (sway != null) return sway;
             var target = DigTarget(view);
             if (target.HasValue && b.TokensOfType(me, target.Value, PieceTypes.Tunnel) == 0 && legal.Contains(CuratorActionKey.DigKey(target.Value)))
@@ -249,9 +275,10 @@ namespace Root33.Core.Characters.Curator
             if (ruler != me)
             {
                 var need = LumiereWarriorsNeeded(view);
-                if (b.Warriors(me, l.Value) >= need && ruler.HasValue)
+                var defender = LumiereDefender(view);
+                if (b.Warriors(me, l.Value) >= need && defender.HasValue)
                 {
-                    var battle = CuratorActionKey.BattleKey(l.Value, ruler.Value);
+                    var battle = CuratorActionKey.BattleKey(l.Value, defender.Value);
                     return legal.Contains(battle) ? battle : null;
                 }
                 return MoveReaching(view, legal, l.Value, need);
@@ -299,15 +326,22 @@ namespace Root33.Core.Characters.Curator
         }
 
         /// <summary>Step 4: on the announce turn, recruit into the Burrow, then pour every warrior that can reach Lumière in
-        /// (the largest legal move first).</summary>
+        /// (the largest legal move into it first; with none, out of the Burrow into his tunnel next to it).</summary>
         [BotRule("bot.curator.04-announce")]
         public string Announce(BotView view, IReadOnlyList<string> legal)
         {
             if (legal == null || !IsAnnounceTurn(view)) return null;
             if (legal.Contains(CuratorActionKey.Recruit)) return CuratorActionKey.Recruit;
             var l = LumiereOf(view).Value;
-            return MovesInto(legal, l).OrderByDescending(m => m.Count).ThenBy(m => m.From.HasValue ? m.From.Value.Value : -1)
+            var b = view.Board;
+            var into = MovesInto(legal, l).OrderByDescending(m => m.Count).ThenBy(m => m.From.HasValue ? m.From.Value.Value : -1)
                 .Select(m => m.Key).FirstOrDefault();
+            if (into != null) return into;
+            // By the tunnel next to it: out of the Burrow into a neighbour holding his tunnel, to march on in.
+            var near = new HashSet<ClearingId>(b.PathNeighbours(l));
+            return legal.Select(CuratorActionKey.ParseMove)
+                .Where(m => m.HasValue && !m.Value.From.HasValue && near.Contains(m.Value.To) && b.TokensOfType(view.Seat, m.Value.To, PieceTypes.Tunnel) > 0)
+                .Select(m => m.Value).OrderByDescending(m => m.Count).ThenBy(m => m.To.Value).Select(m => m.Key).FirstOrDefault();
         }
 
         // ================================================================= 05 spoiler
@@ -325,9 +359,27 @@ namespace Root33.Core.Characters.Curator
             return e;
         }
 
+        /// <summary>Paths from <paramref name="c"/> to the nearest clearing holding his warriors, buildings or tokens (0 there;
+        /// int.MaxValue with none on the map).</summary>
+        public int DistanceToOwnPieces(BotView view, ClearingId c)
+        {
+            var b = view.Board;
+            var me = view.Seat;
+            bool Mine(ClearingId x) => b.Warriors(me, x) + b.Buildings(me, x) + b.Tokens(me, x) > 0;
+            var seen = new HashSet<ClearingId> { c };
+            var frontier = new List<ClearingId> { c };
+            for (var d = 0; frontier.Count > 0; d++)
+            {
+                if (frontier.Any(Mine)) return d;
+                frontier = frontier.SelectMany(x => b.PathNeighbours(x)).Where(seen.Add).ToList();
+            }
+            return int.MaxValue;
+        }
+
         /// <summary>Step 5, the shared spoiler layer: for the most urgent threat (<see cref="SpoilerLayer.Threats"/>), the cheapest
         /// legal answer in its key clearings: a battle there (1 action + expected hits) or a move in, through the Burrow or by
-        /// march, ahead of a battle (2 + hits); ties by key order, then lower clearing. Step 1's limits bind in Acts I-II.</summary>
+        /// march, ahead of a battle (2 + hits); ties by key order (its win's met parts come first), then the answer nearest his
+        /// pieces, then the lower clearing. Step 1's limits bind in Acts I-II.</summary>
         [BotRule("bot.curator.05-spoiler")]
         public CuratorSpoilerAnswer Spoiler(BotView view, IReadOnlyList<string> legal)
         {
@@ -352,7 +404,8 @@ namespace Root33.Core.Characters.Curator
                         answers.Add((new CuratorSpoilerAnswer { Threat = threat.Seat, Banner = threat.Banner, Clearing = c, Key = move, Cost = 2 + hits }, i));
                 }
                 if (answers.Count == 0) continue;
-                var best = answers.OrderBy(x => x.a.Cost).ThenBy(x => x.index).ThenBy(x => x.a.Clearing.Value).First().a;
+                var best = answers.OrderBy(x => x.a.Cost).ThenBy(x => x.index).ThenBy(x => DistanceToOwnPieces(view, x.a.Clearing))
+                    .ThenBy(x => x.a.Clearing.Value).First().a;
                 best.PreEmpts = SpoilerLayer.PreEmpts(view, threat, IsAnnounceTurn(view));
                 return best;
             }
@@ -361,14 +414,29 @@ namespace Root33.Core.Characters.Curator
 
         // ================================================================= decisions
 
+        /// <summary>The legal actions step 1's limits leave him (<see cref="CanBattle"/> filters battles).</summary>
+        public List<string> Allowed(BotView view, IReadOnlyList<string> legal)
+        {
+            var list = new List<string>();
+            foreach (var k in legal)
+            {
+                var battle = CuratorActionKey.ParseBattle(k);
+                if (battle == null || CanBattle(view, battle.Value.clearing, battle.Value.defender)) list.Add(k);
+            }
+            return list;
+        }
+
         /// <summary>hook.bot-decision: the spoiler layer when it pre-empts, then steps 1-4 in order, then the spoiler layer with
-        /// the actions they leave free; null lets Root's own AI decide.</summary>
+        /// the actions they leave free; null lets Root's own AI decide (battles step 1 forbids are vetoed for his bot seat
+        /// through hook.battle-legal, see <see cref="CuratorModule.CanStartBattle"/>).</summary>
         public string ChooseAction(BotView view, IReadOnlyList<string> legalActions)
         {
             if (legalActions == null || legalActions.Count == 0) return null;
-            var spoiler = Spoiler(view, legalActions);
+            var legal = Allowed(view, legalActions);
+            if (legal.Count == 0) return null;
+            var spoiler = Spoiler(view, legal);
             if (spoiler != null && spoiler.PreEmpts) return spoiler.Key;
-            var key = Helper(view, legalActions) ?? Reveal(view, legalActions) ?? Lumiere(view, legalActions) ?? Announce(view, legalActions);
+            var key = Helper(view, legal) ?? Reveal(view, legal) ?? Lumiere(view, legal) ?? Announce(view, legal);
             if (key != null) return key;
             return spoiler?.Key;
         }

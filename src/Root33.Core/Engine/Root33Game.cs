@@ -306,6 +306,8 @@ namespace Root33.Core.Engine
         {
             if (!Active) return;
             Context.Barks.TurnEnded(seat);
+            // tweak.white-haired-man.monolith-barrier: the Barrier comes down once both Axons are ruled at the end of a turn.
+            Characters.WhiteHairedMan.WhiteHairedManTweaks.BarrierTurnEnd(Context);
             Each(m => m.OnTurnEnd(seat));
             if (Context.GameOver) return;
             if (Context.ActClock.Step(Context.HighestVp(), Context.CompletedRoundsAfterTurnOf(seat)))
@@ -390,7 +392,8 @@ namespace Root33.Core.Engine
         public bool CanStartBattle(SeatId attacker, SeatId defender, ClearingId c, bool strike)
         {
             if (!Active) return true;
-            var ok = true;
+            // tweak.white-haired-man.monolith-barrier: a table rule (opt.monolith-barrier), whether or not he is seated.
+            var ok = Characters.WhiteHairedMan.WhiteHairedManTweaks.BarrierAllows(Context, c, strike);
             foreach (var m in _modules.ToArray()) ok &= m.CanStartBattle(attacker, defender, c, strike);
             return ok;
         }
