@@ -38,6 +38,20 @@ namespace Root33.Core
             return advanced;
         }
 
+        /// <summary>hook.turn-end: the state-based act check, at most one step per call. Advances when the current act's VP mark
+        /// or last round has been reached (a threshold already met keeps advancing one step per later call).
+        /// Returns true when the act moved.</summary>
+        public bool Step(int highestVp, int completedRounds)
+        {
+            if (Act >= LastAct) return false;
+            var i = Act - 1;
+            var byVp = _endsAtVp[i] > 0 && highestVp >= _endsAtVp[i];
+            var byRound = _endsAfterRound[i] > 0 && completedRounds >= _endsAfterRound[i];
+            if (!byVp && !byRound) return false;
+            Act++;
+            return true;
+        }
+
         /// <summary>Restores the act from a save (clamped to the valid range).</summary>
         public void Restore(int act) => Act = act < 1 ? 1 : act > LastAct ? LastAct : act;
     }
