@@ -74,7 +74,7 @@ public static class Render
             var ss = g.Seat(s);
             var dom = ss.Dominance is int dc ? $" · ACTIVE {Cards.Get(dc).Name} (no VP scoring)" : "";
             var coal = ss.CoalitionWith is int cw ? $" · in coalition with seat {cw + 1}" : "";
-            sb.AppendLine($"  {Who(g, s)} {FactionRegistry.EngineName(ss.Engine)}{(ss.Human ? "" : " [bot]")}: {ss.Vp} VP{dom}{coal} · {ss.Hand.Count} cards in hand");
+            sb.AppendLine($"  {Who(g, s)} {FactionRegistry.EngineName(ss.Engine)}{(ss.Human ? "" : " [bot]")}: {ss.Vp} VP{dom}{coal} · {ss.Hand.Count} card{(ss.Hand.Count == 1 ? "" : "s")} in hand");
             if (ss.CraftedItems.Count > 0) sb.AppendLine($"    crafted items: {string.Join(", ", ss.CraftedItems)}");
             if (ss.PlayArea.Count > 0) sb.AppendLine($"    play area: {string.Join(", ", ss.PlayArea.Select(Cards.Label))}");
             foreach (var line in g.Faction(s).BoardText(g, s).Split('\n')) sb.AppendLine("    " + line);
@@ -87,6 +87,8 @@ public static class Render
         sb.AppendLine();
         sb.AppendLine($"YOUR HAND ({g.Seat(seat).Hand.Count}):");
         foreach (var c in g.Seat(seat).Hand) sb.AppendLine("  " + Cards.Describe(c));
+        var own = g.Faction(seat).PrivateText(g, seat);
+        if (!string.IsNullOrWhiteSpace(own)) sb.AppendLine(own.TrimEnd());
         var mod = g.Bridge.ModView(seat);
         if (!string.IsNullOrWhiteSpace(mod)) { sb.AppendLine(); sb.AppendLine(mod.TrimEnd()); }
         if (g.Pending is Decision d && d.Seat == seat) { sb.AppendLine(); sb.AppendLine(Options(g, d)); }

@@ -15,6 +15,12 @@ the real Root 33 rules in `src/Root33.Core`. Root itself cannot run in the cloud
 | Vagabond Tinker/Ranger/Thief (`Factions/Vagabond*.cs`) | done, tested (`VagabondTests.cs`) | engineer C |
 | Root 33 core link (`Root33/CoreBridge.cs`, `Root33/SimBoard.cs`, `Root33/ModText.cs`) | done, tested (`CoreBridgeTests.cs`) | engineer D |
 
+Integration playtest (lead): a full 4-seat game in safe mode (gustave, paintress, sciel, esquie; seed 11) was played
+through `tools/sim.sh` to the end (round 10, the Woodland Alliance won with 31 VP; 334 decisions, Act I to Act III,
+banners, goal trackers and speech bubbles shown). Part of a finished-mode game (sciel, verso, gustave, maelle; seed 23)
+ran 101 decisions and ended with a Marquise Rabbit Dominance win. Every `do`, `view` and `status` ended with a correct
+STATUS or GAME OVER line, no `view` showed another seat's hand or the Alliance's supporters, and no core error was logged.
+
 Tests: `src/Root33.Sim.Tests` (deck, battle maths, move and rule, crafting, dominance, the Marquise turn, save/load
 round trip, CLI, and 100 seeded all-bot games that must finish or reach round 30 without an exception or a stuck
 decision).
@@ -71,7 +77,7 @@ clearings are 1-12 (`sheets/map_autumn.json`); forests 1-7 (`SimMap.ForestDefs`)
 | `Program.cs`, `tools/sim.sh`, `src/Directory.Build.props` | lead | CLI, launcher, build settings |
 | `src/Root33.Sim.Tests/*` | each owner adds its own test file (`EyrieTests.cs`, `AllianceTests.cs`, `VagabondTests.cs`, `CoreBridgeTests.cs`); `SimTestKit.cs` (lead) has table helpers |
 
-If you need a change in a file you do not own, ask its owner; never edit it.
+The ownership split was for the parallel build; the lead now owns every file.
 
 ### The decision model (how to write a faction)
 
@@ -124,7 +130,9 @@ If you need a change in a file you do not own, ask its owner; never edit it.
 | `LossPriority` | 5 | each faction (order a non-active seat loses buildings/tokens) |
 | `UsesDominanceNormally`, `OpenOptions`, `ChooseOpen` | true / none | Vagabond (coalitions) |
 | `OnPiecePlaced`, `OnPieceRemoved`, `OnWarriorsRemoved`, `OnPiecesMoved`, `OnBattleResolved` | nothing | Marquise Field Hospitals; Alliance Outrage and base removal; Vagabond Hostile; Eyrie roost loss |
+| `ExtraHits` | 0 | Eyrie (Commander: +1 as attacker in every battle) |
 | `PieceName`, `BoardText`, `RulesText` | type name / stub text | each faction |
+| `PrivateText` | none | Alliance (its supporters, shown only in its own `view`) |
 | `Items`, `RelationshipWith`, `EyrieLeader`, `DecreeColumn`, `Supporters`, `Officers` | empty | C, B (read by D's SimBoard) |
 
 ### Core-bridge seams (engineer D)
@@ -241,8 +249,8 @@ Every place the tabletop is not exactly Root's rules:
    - A card the Eyrie cannot resolve is only checked when no unresolved card of the current column can be resolved;
      the player picks the order inside a column among the cards that can be resolved now (Law 7.5.2).
    - Charismatic Recruit with one warrior left in supply places it, then falls into Turmoil (cannot fully recruit).
-   - Commander's extra hit is added through the shared extra-hit channel (`State.Mod.ExtraHits`) when a Decree battle
-     starts; a battle started by Command Warren does not get it (there is no faction hook at battle start).
+   - The Commander's extra hit comes from the faction hook `IFaction.ExtraHits`, so it applies to every battle the
+     Eyrie start (Decree or Command Warren).
    - Turmoil's Humiliate cannot take the score below 0. `hook.turmoil` (`OnTurmoil`) is called when the Eyrie fall
      into Turmoil, before Humiliate.
    - Setup corner: a corner that is not the keep's corner and, if possible, opposite it (Law 7.3.2); with no Marquise,
@@ -258,8 +266,8 @@ Every place the tabletop is not exactly Root's rules:
      its own hit frame (damaging items).
    - Losing the last base with more than 5 supporters: outside the Alliance's turn the default discards non-bird
      supporters first.
-   - Supporters are hidden: `view` shows only their number. The Alliance sees them in `rules --seat N` and in the text
-     of its own options (Birdsong actions, the Daylight "end" option).
+   - Supporters are hidden: `view` shows everyone only their number; the Alliance's own `view` adds a
+     "YOUR SUPPORTERS" line (by suit) under its hand (`IFaction.PrivateText`), and `rules --seat N` repeats it.
    - Decree cards and supporters are held by the faction (`Eyrie.DecreeCards`, `Alliance.SupporterCards`), not in a
      hand or play area.
 
@@ -290,7 +298,7 @@ Every place the tabletop is not exactly Root's rules:
 
 ## Next steps
 
-1. B: done (Eyrie and Alliance); C: done (the Vagabonds); D: done (the Root 33 link: `Root33Game`
-   over `SimBoard`, every hook, wins, acts, story, spawns, banners, bubbles, `ModView`).
-2. Lead: review their seams, then run the 4-player robustness test with all real factions and two full CLI games
-   (safe and finished spoiler modes).
+1. Done: Eyrie and Alliance (B), the Vagabonds (C), the Root 33 link (D), the lead's integration (every seam request
+   applied, the 100-game robustness test with all factions live, a full 4-seat CLI game in safe mode and part of a
+   finished-mode game with Verso and Maelle).
+2. For a veteran: check the board numbers marked "to be checked" above against the printed boards.

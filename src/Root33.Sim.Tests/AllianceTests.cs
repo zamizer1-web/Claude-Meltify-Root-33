@@ -31,6 +31,16 @@ public class AllianceTests
     }
 
     [Fact]
+    public void View_ShowsTheSupportersOnlyToTheAllianceSeat()
+    {
+        var g = Table();
+        Support(g, Suit.Fox); Support(g, Suit.Mouse);
+        Assert.Contains("YOUR SUPPORTERS (face down, only you see them; 2): fox x1, mouse x1", Render.View(g, A));
+        Assert.DoesNotContain("YOUR SUPPORTERS", Render.View(g, M));
+        Assert.Contains("supporters: 2 card(s), face down", Render.View(g, M));
+    }
+
+    [Fact]
     public void SpreadSympathy_AnywhereFirst_ThenAdjacent_CostAndVpByTheTrack_MartialLaw()
     {
         var g = Table();

@@ -79,6 +79,8 @@ public interface IFaction
     string PieceName(string type);
     /// <summary>The faction board as every player sees it (public).</summary>
     string BoardText(SimGame g, int seat);
+    /// <summary>What only this seat may see of its own faction (hidden cards held outside the hand); "" for none.</summary>
+    string PrivateText(SimGame g, int seat);
     /// <summary>The faction board as its player reads it: phases and actions in plain words.</summary>
     string RulesText(SimGame g, int seat);
 
@@ -139,6 +141,7 @@ public abstract class FactionBase : IFaction
     public virtual string PieceName(string type) => type.Replace('.', ' ');
     public virtual string BoardText(SimGame g, int seat) => $"{Name}: (no faction board text yet)";
     public virtual string RulesText(SimGame g, int seat) => $"{Name}: (no rules text yet)";
+    public virtual string PrivateText(SimGame g, int seat) => "";
 
     public virtual IReadOnlyList<ItemState> Items(SimGame g, int seat) => Array.Empty<ItemState>();
     public virtual Relationship RelationshipWith(SimGame g, int seat, int faction) => Relationship.Indifferent;

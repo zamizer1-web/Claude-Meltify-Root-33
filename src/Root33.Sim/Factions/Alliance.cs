@@ -458,6 +458,9 @@ public sealed class Alliance : FactionBase
         return string.Join("\n", lines);
     }
 
+    public override string PrivateText(SimGame g, int seat) =>
+        $"YOUR SUPPORTERS (face down, only you see them; {D(g, seat).Supporters.Count}): {SupportersText(g, seat)}";
+
     public override string RulesText(SimGame g, int seat) =>
 $@"WOODLAND ALLIANCE (faction board)
 Your supporters now (face down, only you see them): {SupportersText(g, seat)}; officers: {D(g, seat).Officers}.

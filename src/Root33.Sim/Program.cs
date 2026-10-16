@@ -155,7 +155,7 @@ public static class Program
         for (int s = 0; s < g.SeatCount; s++)
         {
             var ss = g.Seat(s);
-            sb.AppendLine($"  {Render.Who(g, s)} {FactionRegistry.EngineName(ss.Engine)}{(ss.Human ? "" : " [bot]")}: {ss.Vp} VP, {ss.Hand.Count} cards" +
+            sb.AppendLine($"  {Render.Who(g, s)} {FactionRegistry.EngineName(ss.Engine)}{(ss.Human ? "" : " [bot]")}: {ss.Vp} VP, {ss.Hand.Count} card{(ss.Hand.Count == 1 ? "" : "s")}" +
                           (ss.Dominance is int d ? $", {Cards.Get(d).Name} active" : ""));
         }
         sb.Append(Render.StatusLine(g));

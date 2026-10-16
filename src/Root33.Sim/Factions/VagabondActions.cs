@@ -26,8 +26,9 @@ public sealed partial class Vagabond
 
     static Decision? SetupNext(SimGame g, Frame f)
     {
-        var forests = g.HomeChoices(f.Seat, SimMap.ForestDefs.Keys.OrderBy(x => x));
-        var d = new Decision(f.Seat, $"{FactionRegistry.EngineName(g.Seat(f.Seat).Engine)} setup: place your pawn in any forest");
+        var forests = g.HomeChoices(f.Seat, SimMap.ForestDefs.Keys.OrderBy(x => x)).ToList();
+        var where = forests.Count < SimMap.ForestDefs.Count ? "in one of the forests Root 33 allows" : "in any forest";
+        var d = new Decision(f.Seat, $"{FactionRegistry.EngineName(g.Seat(f.Seat).Engine)} setup: place your pawn {where}");
         foreach (var x in forests) d.Add($"forest:{x}", $"Pawn in {ForestText(x)}");
         return d;
     }
