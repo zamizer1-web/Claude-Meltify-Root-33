@@ -1,0 +1,8 @@
+<Project>
+  <!-- Builds run under a shared flock (tools/sim.sh and the engineers' build command). A compiler server
+       (VBCSCompiler) started by a build inherits the lock's file descriptor and would hold the lock after the build
+       ends, blocking every other build. Compile in-process instead. -->
+  <PropertyGroup>
+    <UseSharedCompilation>false</UseSharedCompilation>
+  </PropertyGroup>
+</Project>
