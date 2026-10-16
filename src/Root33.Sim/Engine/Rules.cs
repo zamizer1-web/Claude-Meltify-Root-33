@@ -218,8 +218,8 @@ public static class Battles
                 var mod = g.State.Mod;
                 int attRolled = b!.DefenderArmorers ? 0 : Capped(g, att, c, b.AttackerRoll);
                 int defRolled = b.AttackerArmorers ? 0 : Capped(g, def, c, b.DefenderRoll);
-                int attHits = attRolled + (b.BrutalTactics ? 1 : 0) + mod.ExtraHits.GetValueOrDefault(att);
-                int defHits = defRolled + (b.Sappers ? 1 : 0) + mod.ExtraHits.GetValueOrDefault(def);
+                int attHits = attRolled + (b.BrutalTactics ? 1 : 0) + mod.ExtraHits.GetValueOrDefault(att) + g.Faction(att).ExtraHits(g, att, true);
+                int defHits = defRolled + (b.Sappers ? 1 : 0) + mod.ExtraHits.GetValueOrDefault(def) + g.Faction(def).ExtraHits(g, def, false);
                 bool defenseless = g.Faction(def).IsDefenseless(g, def, c);
                 if (defenseless) attHits++;
                 if (mod.IgnoreFirstHit.Contains(def) && attHits > 0) attHits--;
@@ -423,6 +423,7 @@ public static class Crafting
                         g.RemoveWarriors(o, c, g.Warriors(o, c), seat, card.Name);
                         foreach (var p in g.Clearing(c).Buildings.Where(p => p.Seat == o).ToList()) g.RemoveBuilding(o, c, p.Type, seat, card.Name);
                         foreach (var p in g.Clearing(c).Tokens.Where(p => p.Seat == o).ToList()) g.RemoveToken(o, c, p.Type, seat, card.Name);
+                        Vagabond.FullRemoval(g, o, c, seat); // Law 9.2.2.I: a Vagabond caught in a favor damages 3 items
                     }
                 }
                 g.ToDiscard(cardId);

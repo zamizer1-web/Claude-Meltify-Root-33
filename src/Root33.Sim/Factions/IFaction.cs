@@ -43,6 +43,8 @@ public interface IFaction
     void GainCraftedItem(SimGame g, int seat, ItemType item);
     /// <summary>VP for crafting an item card (default: the card's VP; Eyrie: Disdain for Trade).</summary>
     int CraftVp(SimGame g, int seat, CardDef card);
+    /// <summary>Extra hits this faction deals in any battle it is in (e.g. the Eyrie Commander as attacker), added at Law 4.3.5.</summary>
+    int ExtraHits(SimGame g, int seat, bool attacker);
     /// <summary>Whether the seat may attack from c (default: it has warriors there; Vagabond: pawn and an undamaged sword).</summary>
     bool CanAttackFrom(SimGame g, int seat, int c);
     /// <summary>Whether the seat has a piece the defender could hit in c (default: warriors, buildings, tokens, or its pawn).</summary>
@@ -110,6 +112,7 @@ public abstract class FactionBase : IFaction
     }
     public virtual void GainCraftedItem(SimGame g, int seat, ItemType item) => g.Seat(seat).CraftedItems.Add(item);
     public virtual int CraftVp(SimGame g, int seat, CardDef card) => card.Vp;
+    public virtual int ExtraHits(SimGame g, int seat, bool attacker) => 0;
     public virtual bool CanAttackFrom(SimGame g, int seat, int c) => g.Warriors(seat, c) > 0;
     public virtual bool PresentIn(SimGame g, int seat, int c)
     {

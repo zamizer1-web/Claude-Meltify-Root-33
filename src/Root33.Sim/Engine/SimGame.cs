@@ -147,7 +147,7 @@ public sealed partial class SimGame
         int s = from ?? State.FirstSeat;
         for (int i = 0; i < SeatCount; i++) yield return (s + i) % SeatCount;
     }
-    public string SeatName(int seat) => $"seat {seat + 1} ({Seat(seat).Character})";
+    public string SeatName(int seat) => Render.Who(this, seat);
     public string ClearingName(int c) => $"{Map.Clearings[c].Name} [c{c}, {Cards.SuitName(Map.Clearings[c].Suit)}]";
     public Suit SuitOf(int c) => Map.Clearings[c].Suit;
     public ClearingState Clearing(int c) => State.Clearings[c];

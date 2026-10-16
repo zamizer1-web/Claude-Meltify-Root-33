@@ -13,7 +13,7 @@ the real Root 33 rules in `src/Root33.Core`. Root itself cannot run in the cloud
 | CLI (`Program.cs`), `tools/sim.sh`, bot policy | done, tested | lead |
 | Eyrie Dynasties, Woodland Alliance (`Factions/Eyrie.cs`, `Factions/Alliance.cs`) | done, tested (`EyrieTests.cs`, `AllianceTests.cs`) | engineer B |
 | Vagabond Tinker/Ranger/Thief (`Factions/Vagabond*.cs`) | done, tested (`VagabondTests.cs`) | engineer C |
-| Root 33 core link (`Root33/CoreBridge.cs`, `Root33/SimBoard.cs`, `Root33/ModText.cs`) | **STUB** (empty hooks) | engineer D |
+| Root 33 core link (`Root33/CoreBridge.cs`, `Root33/SimBoard.cs`, `Root33/ModText.cs`) | done, tested (`CoreBridgeTests.cs`) | engineer D |
 
 Tests: `src/Root33.Sim.Tests` (deck, battle maths, move and rule, crafting, dominance, the Marquise turn, save/load
 round trip, CLI, and 100 seeded all-bot games that must finish or reach round 30 without an exception or a stuck
@@ -263,9 +263,34 @@ Every place the tabletop is not exactly Root's rules:
    - Decree cards and supporters are held by the faction (`Eyrie.DecreeCards`, `Alliance.SupporterCards`), not in a
      hand or play area.
 
+14. **Root 33 core link** (engineer D; `Root33/CoreBridge.cs`, `SimBoard.cs`, `ModText.cs`):
+   - The tabletop is a real Root 33 game: `CoreBridge` builds `Root33Game` over `SimBoard` (IBoardView and
+     IBoardActions over the sim state) with `ModuleRegistry.Default`, selects each seat's character, and forwards every
+     `sheets/game_hooks.json` row the base game raises. The difficulty is always Normal.
+   - Hooks the core causes while it runs (a guard warrior it places, VP it scores) are queued and sent to the core right
+     after the hook that caused them; the core never runs inside itself.
+   - A core exception is caught, logged once per hook ("Root 33 core error ...") and the game goes on without that rule.
+   - No tunnels, free digs or relics in the base game: those board actions are reported unsupported, so the core takes
+     its sheet fallbacks.
+   - Countdown wins: the banner goes up at the end of the owner's turn and the win is confirmed at the start of their next
+     Birdsong; a win ends the game at once and `GAME OVER` names the character's own win. A reload keeps the banner up
+     until that Birdsong.
+   - Speech bubbles: every bubble is logged publicly; `view` shows each seat the bubbles since the end of its own last
+     turn (the last 120 are kept). The core does not save bubble cooldowns, so the bridge carries them across reloads by
+     reading the bark director's private fields; if the core renames them, cooldowns simply restart after each command.
+   - Overlays (art on the board) are kept as keys only; `view` draws each character's public tracker or gauge from the
+     core's state as text (Road and Arm, Portraits 0/3, Sun and Moon, Perfection letter, family row, rock ring), marks a
+     seat "ONE STEP AWAY" from its themed test, and shows the Monolith Number, the act and countdown banners.
+   - do.submit-action is remembered and taken at that bot seat's next decision if still legal; do.native-ai-step uses
+     the tabletop's own bot policy. Other bot decisions ask the core's bot director first (hook.bot-decision).
+   - Rule texts come from the sheets with the notes meant for the plugin builder left out (patches, UI, fallbacks, other
+     maps, DLC); v1.1 rules are off in this release and not shown.
+   - At every save the dictionaries that lose keys in play (a clearing's warriors, banners) are rebuilt in key order, so
+     a game the CLI reloads at every command plays exactly like one kept in memory.
+
 ## Next steps
 
-1. B: done (Eyrie and Alliance); C: done (the Vagabonds); D: CoreBridge/SimBoard/ModText forwarding to
-   `Root33Game` and every hook.
+1. B: done (Eyrie and Alliance); C: done (the Vagabonds); D: done (the Root 33 link: `Root33Game`
+   over `SimBoard`, every hook, wins, acts, story, spawns, banners, bubbles, `ModView`).
 2. Lead: review their seams, then run the 4-player robustness test with all real factions and two full CLI games
    (safe and finished spoiler modes).

@@ -21,7 +21,7 @@ public class AllianceTests
     {
         var g = SimGame.New(new[] { new SimGame.SeatSpec("gustave", true), new SimGame.SeatSpec("sciel", true) }, 3);
         int deck = g.State.Deck.Count;
-        g.Choose(0, "keep:1"); g.Choose(0, "sawmill:1"); g.Choose(0, "workshop:5"); g.Choose(0, "recruiter:12");
+        g.Choose(0, "sawmill:1"); g.Choose(0, "workshop:5"); g.Choose(0, "recruiter:12");
         Assert.True(g.State.SetupDone);
         Assert.Equal(3, Alliance.D(g, 1).Supporters.Count);
         Assert.Equal(deck - 3, g.State.Deck.Count);

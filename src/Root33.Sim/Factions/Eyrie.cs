@@ -405,12 +405,6 @@ public sealed class Eyrie : FactionBase
             case "battle":
             {
                 int c = int.Parse(p[2]), def = int.Parse(p[3]);
-                if (D(g, seat).Leader == "commander")
-                {
-                    // Commander: one extra hit as attacker (through the shared extra-hit channel, cleared when the battle ends).
-                    g.State.Mod.ExtraHits[seat] = g.State.Mod.ExtraHits.GetValueOrDefault(seat) + 1;
-                    g.Log($"{g.SeatName(seat)}'s Commander will deal an extra hit in this battle.");
-                }
                 Battles.Start(g, seat, def, c);
                 break;
             }
@@ -462,6 +456,14 @@ public sealed class Eyrie : FactionBase
     // ---------------------------------------------------------------------------------------------- reads and text
 
     public override string EyrieLeader(SimGame g, int seat) => D(g, seat).Leader;
+
+    /// <summary>Commander (Eyrie leader): one extra hit as attacker in every battle, Decree or card (e.g. Command Warren).</summary>
+    public override int ExtraHits(SimGame g, int seat, bool attacker)
+    {
+        if (!attacker || D(g, seat).Leader != "commander") return 0;
+        g.Log($"{g.SeatName(seat)}'s Commander deals an extra hit.");
+        return 1;
+    }
     public override IReadOnlyList<Suit> DecreeColumn(SimGame g, int seat, string column) =>
         D(g, seat).Decree.TryGetValue(column, out var l) ? l.Select(CardSuit).ToList() : Array.Empty<Suit>();
 

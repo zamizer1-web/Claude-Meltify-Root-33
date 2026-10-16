@@ -285,7 +285,22 @@ public sealed class CoreBridge
         St.Mod.Extra["bridge"] = JsonSerializer.Serialize(_data, SimJson.Options);
         string text = "";
         Safe("hook.save", () => text = _game.OnSave());
+        Canonical();
         return text;
+    }
+
+    /// <summary>
+    /// The CLI reloads the save on every command, so a reloaded game must play on exactly like the one kept in memory. A .NET
+    /// Dictionary refills the slot of a removed key, so after a removal its order is no longer the order the same
+    /// dictionary has when read back from JSON (and rules that walk it, such as ruler ties, could then differ). At each save
+    /// the dictionaries that lose keys during play (a clearing's warriors, banners, Extra) are rebuilt in key order.
+    /// </summary>
+    private void Canonical()
+    {
+        foreach (var cs in St.Clearings.Values)
+            cs.Warriors = cs.Warriors.OrderBy(kv => kv.Key).ToDictionary(kv => kv.Key, kv => kv.Value);
+        St.Mod.Banners = St.Mod.Banners.OrderBy(kv => kv.Key).ToDictionary(kv => kv.Key, kv => kv.Value);
+        St.Mod.Extra = St.Mod.Extra.OrderBy(kv => kv.Key, StringComparer.Ordinal).ToDictionary(kv => kv.Key, kv => kv.Value);
     }
 
     /// <summary>hook.load: called right after a save is read, with State.Mod.CoreState. A reload is not a game event: it
@@ -406,7 +421,7 @@ public sealed class CoreBridge
 
     private void WriteModView(StringBuilder sb, int seat)
     {
-        sb.AppendLine($"ROOT 33 · {ModText.ActTitle(Ctx.Act)} · Monolith Number {Ctx.MonolithNumber} (33 minus the top score)");
+        sb.AppendLine($"ROOT 33 · {ModText.ActTitle(Ctx.Act)} · Monolith Number {Ctx.MonolithNumber} (33 minus the top score of players not on a dominance card)");
         sb.AppendLine("  " + ModText.ActLine(Ctx.Act));
         foreach (var kv in St.Mod.Banners.OrderBy(k => k.Key))
             sb.AppendLine("  " + ModText.BannerAnnounced(_g, kv.Key, kv.Value));
@@ -449,7 +464,7 @@ public sealed class CoreBridge
         if (win is IGoalProgress p)
         {
             var missing = p.UnitsMissing(Ctx, S(seat));
-            parts.Add(missing == 0 ? "themed test met" : $"{missing} step{(missing == 1 ? "" : "s")} missing");
+            parts.Add(missing switch { 0 => "themed test met", 1 => "ONE STEP AWAY", _ => $"{missing} steps missing" });
         }
         if (St.Mod.Banners.ContainsKey(seat)) parts.Add("COUNTDOWN ANNOUNCED");
         return $"{row.Title} ({(row.Kind == "quest" ? "quest" : "countdown")}): {string.Join(", ", parts)}";

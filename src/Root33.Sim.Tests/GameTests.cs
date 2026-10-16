@@ -9,10 +9,10 @@ public class MarquiseTests
     {
         var g = SimGame.New(new[] { new SimGame.SeatSpec("gustave", true), new SimGame.SeatSpec("paintress", true) }, seed);
         Assert.Equal("marquise.setup", g.Pending!.Kind);
-        g.Choose(0, "keep:1");
         g.Choose(0, "sawmill:1");
         g.Choose(0, "workshop:5");
         g.Choose(0, "recruiter:12");
+        g.Choose(1, "leader:despot");
         return g;
     }
 
@@ -154,8 +154,14 @@ public class RobustnessTests
                 Assert.NotEmpty(g.Pending!.Options);
             }
             Assert.All(g.State.Seats, s => Assert.InRange(s.Vp, 0, 60));
+            int held = Enumerable.Range(0, g.SeatCount).Sum(s => g.Faction(s) switch
+            {
+                Eyrie => Eyrie.DecreeCards(g, s).Count(),
+                Alliance => Alliance.SupporterCards(g, s).Count(),
+                _ => 0,
+            });
             Assert.Equal(54 - (table.Length == 2 ? 4 : 0),
-                g.State.Deck.Count + g.State.Discard.Count + g.State.AvailableDominance.Count + g.State.Seats.Sum(s => s.Hand.Count + s.PlayArea.Count));
+                g.State.Deck.Count + g.State.Discard.Count + g.State.AvailableDominance.Count + held + g.State.Seats.Sum(s => s.Hand.Count + s.PlayArea.Count));
         }
         Assert.True(finished > 0, "no bot game reached a win");
     }
@@ -171,17 +177,17 @@ public class CliTests
         {
             var w = new StringWriter();
             Assert.Equal(0, Program.Run(new[] { "new", "--save", path, "--seed", "7", "--spoiler", "safe", "--seats", "gustave:human,paintress:bot,sciel:bot,esquie:bot" }, w));
-            Assert.StartsWith("STATUS: round 0 (setup) · seat 1 (gustave) to act", Last(w));
+            Assert.StartsWith("STATUS: round 0 (setup) · seat 1 (Gustave) to act", Last(w));
             w = new StringWriter();
             Program.Run(new[] { "view", "--save", path, "--seat", "1" }, w);
             Assert.Contains("YOUR HAND (3)", w.ToString());
-            Assert.Contains("keep:1", w.ToString());
+            Assert.Contains("sawmill:1", w.ToString());
             w = new StringWriter();
             Assert.Equal(1, Program.Run(new[] { "do", "--save", path, "--seat", "2", "1" }, w));
             Assert.Contains("not seat 2's", w.ToString());
             w = new StringWriter();
-            Assert.Equal(0, Program.Run(new[] { "do", "--save", path, "--seat", "1", "keep:1" }, w));
-            Assert.Contains("garrisons a warrior", w.ToString());
+            Assert.Equal(0, Program.Run(new[] { "do", "--save", path, "--seat", "1", "sawmill:1" }, w));
+            Assert.Contains("sawmill", w.ToString());
             Assert.StartsWith("STATUS:", Last(w));
             w = new StringWriter();
             Program.Run(new[] { "status", "--save", path }, w);

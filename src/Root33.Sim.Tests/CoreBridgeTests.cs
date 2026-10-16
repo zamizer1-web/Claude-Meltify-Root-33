@@ -199,6 +199,51 @@ public class CoreBridgeTests
         Assert.Empty(g.Bridge.Errors);
     }
 
+    /// <summary>Every card stays on the table while the core draws extra cards: deck, discard, dominance, hands, play areas,
+    /// the Eyrie's Decree and the Alliance's supporters (2 seats: the 4 dominance cards are out).</summary>
+    [Theory]
+    [InlineData(31, new[] { "gustave", "paintress", "sciel", "esquie" })]
+    [InlineData(32, new[] { "sciel", "maelle", "gustave", "paintress" })]
+    [InlineData(33, new[] { "gustave", "sciel" })]
+    public void CoreRules_KeepEveryCardOnTheTable(int seed, string[] table)
+    {
+        var g = NewGame(seed, false, table);
+        for (int r = 1; r <= 30 && !g.State.GameOver; r++)
+        {
+            Bots.Run(g, roundCap: r);
+            int held = 0;
+            for (int s = 0; s < g.SeatCount; s++)
+                held += g.Seat(s).Faction switch
+                {
+                    "eyrie" => Eyrie.DecreeCards(g, s).Count(),
+                    "alliance" => Alliance.SupporterCards(g, s).Count(),
+                    _ => 0,
+                };
+            var st = g.State;
+            Assert.Equal(54 - (table.Length == 2 ? 4 : 0),
+                st.Deck.Count + st.Discard.Count + st.AvailableDominance.Count + st.Seats.Sum(x => x.Hand.Count + x.PlayArea.Count) + held);
+        }
+        Assert.Empty(g.Bridge.Errors);
+    }
+
+    /// <summary>The CLI reloads the save on every command: a game reloaded every few decisions plays on exactly like the
+    /// one kept in memory (bark cooldowns, banners, the core's state and the board's own order included).</summary>
+    [Fact]
+    public void ReloadingEveryFewDecisions_PlaysTheSameGameAsKeepingItInMemory()
+    {
+        var kept = NewGame(41, false, "gustave", "paintress", "sciel", "esquie");
+        var reloaded = SimGame.FromJson(kept.ToJson());
+        for (int i = 0; i < 40 && !kept.State.GameOver; i++)
+        {
+            Bots.Run(kept, maxDecisions: 25);
+            Bots.Run(reloaded, maxDecisions: 25);
+            reloaded = SimGame.FromJson(reloaded.ToJson());
+            Assert.Equal(kept.ToJson(), reloaded.ToJson());
+        }
+        Assert.Empty(kept.Bridge.Errors);
+        Assert.Empty(reloaded.Bridge.Errors);
+    }
+
     [Theory]
     [InlineData(21)]
     [InlineData(22)]

@@ -64,7 +64,7 @@ public class EyrieTests
     public void Setup_RoostAndSixWarriorsOppositeTheKeep_ThenALeaderWithItsViziers()
     {
         var g = SimGame.New(new[] { new SimGame.SeatSpec("gustave", true), new SimGame.SeatSpec("paintress", true) }, 3);
-        g.Choose(0, "keep:1"); g.Choose(0, "sawmill:1"); g.Choose(0, "workshop:5"); g.Choose(0, "recruiter:12");
+        g.Choose(0, "sawmill:1"); g.Choose(0, "workshop:5"); g.Choose(0, "recruiter:12");
         // the only legal home is clearing 3 (opposite the keep), applied at once; the leader is a real choice
         Assert.Equal("eyrie.setup", g.Pending!.Kind);
         Assert.Equal(4, g.Pending.Options.Count);
@@ -218,6 +218,23 @@ public class EyrieTests
         Assert.Equal(1, g.BuildingsOf(E, 11, PieceTypes.Roost));
         Assert.Equal("test.hold", g.Pending!.Kind);
         Assert.Equal(0, g.Seat(E).Vp);
+    }
+
+    [Fact]
+    public void Commander_ExtraHit_AlsoInABattleOutsideTheDecree()
+    {
+        // e.g. a Command Warren battle: the Commander's extra hit is the leader's, not the Decree's.
+        var g = Table();
+        Lead(g, "commander");
+        Kit.Warriors(g, E, 5, 3);
+        Kit.Warriors(g, M, 5, 3);
+        BKit.Run(g, E, new Frame("eyrie.daylight", E) { Step = 1 });
+        g.State.Pending = null;
+        Battles.Start(g, E, M, 5);
+        Kit.Dice(g, 1, 0);
+        g.Advance();
+        Assert.Equal(1, g.Warriors(M, 5));                       // 1 rolled + 1 Commander
+        Assert.Equal(3, g.Warriors(E, 5));
     }
 
     [Fact]

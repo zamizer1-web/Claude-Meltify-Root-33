@@ -71,7 +71,7 @@ public class VagabondTests
     public void Setup_PawnInAForest_StartingItems_ThreeQuests_IndifferentRelationships()
     {
         var g = SimGame.New(new[] { new SimGame.SeatSpec("gustave", true), new SimGame.SeatSpec("maelle", true) }, 3);
-        g.Choose(0, "keep:1"); g.Choose(0, "sawmill:1"); g.Choose(0, "workshop:5"); g.Choose(0, "recruiter:12");
+        g.Choose(0, "sawmill:1"); g.Choose(0, "workshop:5"); g.Choose(0, "recruiter:12");
         Assert.Equal("vagabond.setup", g.Pending!.Kind);
         Assert.Equal(7, g.Pending.Options.Count);
         g.Choose(1, "forest:3");
@@ -182,6 +182,23 @@ public class VagabondTests
         Assert.Equal(2, g.Warriors(0, 1));
         Assert.Equal(1, g.Warriors(0, 5));
         Assert.Equal(1, Vagabond.MoveCost(g, 1, 5));
+    }
+
+    [Fact]
+    public void FullRemoval_AFavorCraftedInTheVagabondsClearing_DamagesThreeItems()
+    {
+        var g = Kit.Table(1, "gustave", "maelle");
+        var fox = g.ClearingIds.Where(c => g.SuitOf(c) == Suit.Fox).Take(3).ToList();
+        foreach (var c in fox) Kit.Building(g, 0, c, PieceTypes.Workshop);
+        Pawn(g, 1, fox[0]);
+        Kit.Active(g, 0, TurnPhase.Daylight);
+        var favor = Kit.Card("favor-of-the-foxes");
+        g.Seat(0).Hand.Add(favor);
+        Crafting.Craft(g, 0, favor);
+        g.State.Pending = null; g.Advance();
+        // Law 9.2.2.I: three items to damage (outside the Vagabond's turn the default order picks them)
+        for (int i = 0; i < 3 && g.Pending?.Kind == "vagabond.hits"; i++) g.Choose(1, g.Pending.Options[0].Key);
+        Assert.Equal(3, Vagabond.DamagedCount(g, 1));
     }
 
     // ------------------------------------------------------------------------------------------ battle
