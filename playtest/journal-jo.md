@@ -40,3 +40,22 @@ So this is the character screen. Six people, and I get to pick first, which feel
 **What worries me:** I'm picking first, so I'm picking blind. Also, three of the six are "Vagabond" characters, and the screen says at most two can be seated and the table of four has exactly one. Whichever one I take, the others can't, and nobody has explained what a Vagabond is. If it turns out Vagabonds are weak I'm in trouble, but the "no VP needed" line is tempting enough that I'll risk it.
 
 **My pick:** Esquie.
+
+## Setup + Round 1
+
+Setup: the game gave me two forests to put my pawn in. I picked forest 6 because it touches Stone Wave Cliffs, which the card says is where my first rock (Florrie) is. A pawn in a forest is a little wooden guy standing between squares, I guess. Right away the screen told me what the others did: Sciel's side drew cards, the Paintress parked "2 warriors" on Stone Wave Cliffs. The log says those are MY rock's "guards" - and they belong to the Paintress, not to some villain. That is odd: someone else's pieces are standing on my rock. Funny, in a good way.
+
+The big map is a wall of text, 12 numbered places. Gustave has one little guy EVERYWHERE (he "garrisoned" every clearing). The Paintress started with 6 guys in the Monolith and quickly spread them out and built "roosts" (little buildings I guess) and got 2 points just for that. Sciel got points just for putting "sympathy" tokens down. Everyone seems to score just for doing normal things. I have 0 at the start and don't know how anyone is supposed to catch up.
+
+My turn 1 (I did this in order the game offered):
+- "Slip" to Stone Wave Cliffs. The game said Slip is a free move at the start of my turn. OK.
+- Next it offered "Craft a card with your hammers". I had a mouse card (Root Tea), I was standing in a mouse place, and it costs one mouse. So I crafted it. That gave me a Tea and 2 VP right away. Easiest 2 points ever. I do not know why a Tea is worth 2 points, but I will take it.
+- Then "Day Labor" (exhaust a torch -> take a card from the discard pile). I figured out the Root Tea I just crafted had gone to the discard pile! So I took it right back. Free 2 points next turn too. That felt like a cheat code but the game offered it so I'm doing it.
+- I did NOT see any option to fight the guards on Florrie. Zero. The card said I "only fight the guards," and the rules say bag counts as a sword near a guarded rock, but "Battle (1 sword)" - I have no sword in my bag, only boots/hammer/torch/bag. The battle button just never showed up. I'm a bit worried: how do I get a sword? I do not know yet. (Possible bug or maybe by design that I need a sword item first.) I will keep an eye on it next turn.
+- Evening: I drew a card, "Fox Dominance". I don't know what it does yet. The rules sheet says with 10+ VP I can "activate a dominance card" to join the team of the player with the fewest points. Wait, that means I stop scoring? No thanks, that is confusing.
+
+What the others did: Gustave attacked Sciel in Old Lumière (dice rolled 2 and 2) and removed a sympathy token, and Sciel said "Those were seedlings. You can pay the farmer on your way out." That was funny and felt like Sciel's character (kind, farmer-ish). Gustave's speech about "I'd still like a word with them" (the painter) felt very Expedition 33 and also like a player complaining about the rules. The Paintress sounded exactly like the Paintress.
+
+Confused: "Outrage" (Gustave had to give Sciel a card after hitting her token). "Field Hospitals", "Revolt", "supporter". Not explained, I only read the log. I think Sciel is the kind of person who builds a crowd and then explodes.
+
+Felt: mostly like Root (the crafting and the rows of numbers), with Expedition 33 in the speech bubbles and place names.

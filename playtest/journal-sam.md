@@ -79,3 +79,17 @@ Things I'm nervous about:
 6. **verso**. By my napkin maths the rank track drifts the wrong way unless I only fight undefended pieces, and the finish means evicting whoever holds the Monolith. Cool concept, but this looks like the hardest seat to win from.
 
 If Jo and Kit take two of the first three, I'll still be happy with one of the others, but I'd be uneasy about Esquie being in someone else's hands.
+
+## Setup and Round 1 (I'm the Paintress, seat 3, Eyrie)
+
+Setup: the Eyrie start is exactly the Root start I know: roost and six warriors in the corner (the Monolith, which happens to be opposite the Cat keep in Lumiere). I took the Despot (Move and Build viziers) because my win needs roosts in all three suits, and a Build vizier is the cheapest way to get them. Also I'm at 0 VP so an early Turmoil costs me nothing.
+
+Surprise at setup: two of MY warriors are sitting in Stone Wave Cliffs (c6) as "guards" of Esquie's Florrie rock. My supply says 12/20, so they come out of my box. I have never been asked in Root to lend warriors to someone else's objective, and nobody told me. Also, when I try to Move, c6 is not offered as a place to move out of, and it's not offered as a place to Build a roost either, even though the board says I rule it. So the guards are frozen pieces and the clearing is partly off-limits to me. That's two Root rules (move from any clearing you have warriors in, build in a clearing you rule) quietly switched off for that clearing. Not explained anywhere I saw. I'd want a line on the faction board.
+
+Turn: Added Brutal Tactics (bird) to Move and Anvil (fox) to Build. Move: 2 warriors to Visages (fox) and 2 to the Reacher (rabbit), leaving 2 in the Monolith. Build: Anvil built the fox roost at Visages, a vizier built the rabbit roost at the Reacher. Three roosts: +2 VP and drew 2 cards (third-roost bonus), exactly like real Root. Felt like Root, 100 percent. The Decree UI is clear. Move needs a count prompt, nice.
+
+What the others did: Sciel (4) spread seedlings (sympathy) and Gustave (2) fought her at Old Lumiere and wiped her token, then built a workshop. Esquie crafted a tea and went to Stone Wave Cliffs where my guards are. Speech bubbles: Gustave talks about "whoever painted this world gave it rules", Sciel "game night run a little long". The bubbles are cute and break the fourth wall a lot, it's fine, but they read like jokes about the game, not about the lore. Mine said "Squares, turns, little wooden figures..." fun.
+
+My own scoreboard: Paintress 2, Esquie 2, Gustave 3, Sciel 2. Monolith Number is 30 (33 minus top score of non-dominance players). I don't know what that number does yet.
+
+Confusion: "Monolith Number 33 minus top score". Does it do anything? Does the Paintress get something when it hits zero? It's on every screen and I can't tell why.

@@ -1,72 +1,75 @@
 # Root 33 playtest · live
 
-Updated 2026-10-20 21:21:18 UTC after every move. Reopen this file to see the latest.
+Updated 2026-10-20 21:26:21 UTC after every move. Reopen this file to see the latest.
 
-**STATUS: round 2 · seat 4 (Sciel) to act · Birdsong, Revolt: revolt in a sympathetic clearing (any number of times), or go on to Spread Sympathy**
+**STATUS: round 2 · seat 2 (Gustave) to act · How many warriors move from Spring Meadows [c5, fox] to Stone Wave Cliffs [c6, mouse]?**
 
 ## Recent moves (public log)
 ```text
-   74 [r1] seat 1 (Esquie) draws 1 card (hand 4).
-   76 [r1] --- seat 2 (Gustave) (Marquise de Cat): Birdsong ---
-   77 [r1] seat 2 (Gustave) says: "Whoever painted this world gave it rules, a turn order and a scoring track. Very tidy. I'd still like a word with them."
-   78 [r1] seat 2 (Gustave) places a wood token in Lumière [c1, rabbit].
-   79 [r1] --- seat 2 (Gustave): Daylight ---
-   80 [r1] seat 2 (Gustave) battles seat 4 (Sciel) in Old Lumière [c8, fox].
-   81 [r1] seat 4 (Sciel) says: "Those were seedlings. You can pay the farmer on your way out."
-   82 [r1] Dice: 2 and 2. seat 2 (Gustave) (attacker) takes 2, seat 4 (Sciel) (defender) takes 2.
-   83 [r1] Hits: seat 2 (Gustave) deals 2 (incl. +1, defender defenseless), seat 4 (Sciel) deals 0.
-   84 [r1] seat 4 (Sciel)'s sympathy is removed from Old Lumière [c8, fox] (hit).
-   85 [r1] seat 2 (Gustave) scores 1 VP (removed an enemy token): now 1 VP.
-   86 [r1] Outrage: seat 2 (Gustave) gives a card to seat 4 (Sciel)'s Supporters stack.
-   88 [r1] seat 4 (Sciel) gains a supporter (Outrage); 4 supporter(s).
-   90 [r1] seat 2 (Gustave)'s wood is removed from Lumière [c1, rabbit] (spent to build).
-   91 [r1] seat 2 (Gustave) places a workshop in Old Lumière [c8, fox].
-   92 [r1] seat 2 (Gustave) scores 2 VP (built a workshop): now 3 VP.
-   93 [r1] seat 2 (Gustave) places 1 warrior in Spring Meadows [c5, fox].
-   94 [r1] --- seat 2 (Gustave): Evening ---
-   95 [r1] seat 2 (Gustave) draws 1 card plus 0 bonus (uncovered on the recruiter track).
-   96 [r1] seat 2 (Gustave) draws 1 card (hand 3).
-   98 [r1] --- seat 3 (The Paintress) (Eyrie Dynasties): Birdsong ---
-   99 [r1] seat 3 (The Paintress) adds [50] Brutal Tactics (bird) to the Decree's Move column.
-  100 [r1] seat 3 (The Paintress) adds [7] Anvil (fox) to the Decree's Build column.
-  101 [r1] --- seat 3 (The Paintress): Daylight ---
-  102 [r1] seat 3 (The Paintress) moves 2 warriors from The Monolith [c3, mouse] to Visages [c9, fox].
-  103 [r1] seat 3 (The Paintress) moves 2 warriors from The Monolith [c3, mouse] to The Reacher [c11, rabbit].
-  104 [r1] seat 3 (The Paintress) places a roost in Visages [c9, fox].
-  105 [r1] seat 3 (The Paintress) places a roost in The Reacher [c11, rabbit].
-  106 [r1] seat 3 (The Paintress) has resolved the whole Decree.
-  107 [r1] --- seat 3 (The Paintress): Evening ---
-  108 [r1] seat 3 (The Paintress) scores 2 VP (Roosts track, 3 roosts on the map): now 2 VP.
-  109 [r1] seat 3 (The Paintress) draws 1 card plus 1 bonus (uncovered on the Roosts track).
-  110 [r1] seat 3 (The Paintress) draws 2 cards (hand 3).
-  112 [r2] === Round 2 ===
-  113 [r2] --- seat 4 (Sciel) (Woodland Alliance): Birdsong ---
+  118 [r2] seat 4 (Sciel) places 1 warrior in Esquie's Nest [c2, rabbit].
+  119 [r2] seat 4 (Sciel) places a warrior in the Officers box (revolt): 1 officer(s).
+  120 [r2] seat 2 (Gustave) (not their turn, decided by the default): Field Hospitals: 1 warrior(s) were removed from Esquie's Nest [c2, rabbit]. Spend a rabbit card to place them at the keep in Lumière [c1, rabbit]? -> Do not use Field Hospitals
+  121 [r2] seat 4 (Sciel) spends 1 fox supporter to spread sympathy to Visages [c9, fox]: [11] Tax Collector (fox).
+  122 [r2] seat 4 (Sciel) places a sympathy token in Visages [c9, fox].
+  123 [r2] seat 4 (Sciel) scores 1 VP (sympathy track): now 3 VP.
+  124 [r2] --- seat 4 (Sciel): Daylight ---
+  125 [r2] seat 4 (Sciel) crafts [31] Travel Gear (mouse) (activating rabbit).
+  126 [r2] seat 4 (Sciel) scores 1 VP (crafted Boots): now 4 VP.
+  127 [r2] --- seat 4 (Sciel): Evening ---
+  128 [r2] seat 4 (Sciel) places 1 warrior in Esquie's Nest [c2, rabbit].
+  129 [r2] seat 4 (Sciel) draws 1 card plus 1 bonus (one per base on the map).
+  130 [r2] seat 4 (Sciel) draws 2 cards (hand 2).
+  132 [r2] --- seat 1 (Esquie) (Vagabond): Birdsong ---
+  133 [r2] seat 1 (Esquie) refreshes (up to 5): flips torch, hammer face up.
+  134 [r2] seat 1 (Esquie) slips from Stone Wave Cliffs [c6, mouse] to Esquie's Nest [c2, rabbit].
+  135 [r2] seat 1 (Esquie) says: "Hmm! This rock is much too grumpy to be Florrie. Florrie is never grumpy."
+  136 [r2] --- seat 1 (Esquie): Daylight ---
+  137 [r2] seat 1 (Esquie) moves (exhausting 1 boot) from Esquie's Nest [c2, rabbit] to Visages [c9, fox].
+  138 [r2] seat 1 (Esquie) exhausts a torch to explore the ruin in Visages [c9, fox]; the emptied ruin is removed.
+  139 [r2] seat 1 (Esquie) finds in the ruin: a sword, placed face up in the Satchel.
+  140 [r2] seat 1 (Esquie) scores 1 VP (explored a ruin): now 3 VP.
+  141 [r2] seat 1 (Esquie) exhausts a hammer to Aid seat 4 (Sciel), giving them [1] Fox Dominance (fox).
+  142 [r2] seat 1 (Esquie) takes from seat 4 (Sciel)'s Crafted Items: a boots, placed face up in the Satchel.
+  143 [r2] seat 1 (Esquie)'s relationship with seat 4 (Sciel) (Woodland Alliance) goes from Indifferent to Amiable (aided 1 time this turn).
+  144 [r2] seat 1 (Esquie) scores 1 VP (relationship with seat 4 (Sciel) improved to Amiable): now 4 VP.
+  145 [r2] seat 1 (Esquie) completes the quest [q1] Errand (fox: tea + boots) in Visages [c9, fox], exhausting a tea and a boots.
+  146 [r2] seat 1 (Esquie) scores 1 VP (quest Errand): now 5 VP.
+  147 [r2] New face-up quest: [q12] Fend Off a Bear (mouse: torch + crossbow).
+  148 [r2] --- seat 1 (Esquie): Evening ---
+  149 [r2] seat 1 (Esquie) draws 1 card (hand 4).
+  151 [r2] --- seat 2 (Gustave) (Marquise de Cat): Birdsong ---
+  152 [r2] seat 2 (Gustave) places a wood token in Lumière [c1, rabbit].
+  153 [r2] --- seat 2 (Gustave): Daylight ---
+  154 [r2] seat 2 (Gustave)'s wood is removed from Lumière [c1, rabbit] (spent to build).
+  155 [r2] seat 2 (Gustave) places a sawmill in Spring Meadows [c5, fox].
+  156 [r2] seat 2 (Gustave) scores 1 VP (built a sawmill): now 4 VP.
+  157 [r2] seat 2 (Gustave) places 1 warrior in Spring Meadows [c5, fox].
 ```
 
 ## Board, scores and the Root 33 trackers
 ```text
 === Root 33 tabletop · Autumn map (the Continent) · seed 33 · spoiler safe · spectator view ===
-Round 2 · seat 4 (Sciel)'s turn · Birdsong
+Round 2 · seat 2 (Gustave)'s turn · Daylight
 
 CLEARINGS (number, name, suit, slots: pieces · ruler)
    1 Lumière (rabbit corner river, 1 slot, 0 free) - paths to 5,8,12
        seat 2: 1 warrior, sawmill, keep · ruled by seat 2 (Gustave)
-   2 Esquie's Nest (rabbit corner, 1 slot, 1 free) - paths to 6,7,9
-       seat 2: 1 warrior | seat 4: sympathy · ruled by seat 2 (Gustave)
+   2 Esquie's Nest (rabbit corner, 1 slot, 0 free) - paths to 6,7,9
+       seat 4: 2 warriors, rabbit base, sympathy · ruled by seat 4 (Sciel)
    3 The Monolith (mouse corner, 2 slots, 1 free) - paths to 9,10,11
        seat 3: 2 warriors, roost · ruled by seat 3 (The Paintress)
    4 Flying Manor (fox corner, 1 slot, 1 free) - paths to 10,11,12
        seat 2: 1 warrior · ruled by seat 2 (Gustave)
-   5 Spring Meadows (fox, 2 slots, 1 free) - paths to 1,6
-       seat 2: 2 warriors, recruiter · ruled by seat 2 (Gustave)
+   5 Spring Meadows (fox, 2 slots, 0 free) - paths to 1,6
+       seat 2: 3 warriors, recruiter, sawmill · ruled by seat 2 (Gustave)
    6 Stone Wave Cliffs (mouse river, 2 slots, 2 free) - paths to 2,5,8
-       seat 1: pawn | seat 2: 1 warrior | seat 3: 2 warriors · ruled by seat 3 (The Paintress)
+       seat 2: 1 warrior | seat 3: 2 warriors · ruled by seat 3 (The Paintress)
    7 Gestral Village (mouse river, 3 slots, 3 free) - paths to 2,8,9
        seat 2: 1 warrior | seat 4: sympathy · ruled by seat 2 (Gustave)
    8 Old Lumière (fox, 2 slots, 0 free) - paths to 1,6,7,10,12
        seat 2: 1 warrior, workshop | ruin · ruled by seat 2 (Gustave)
-   9 Visages (fox, 2 slots, 0 free) - paths to 2,3,7
-       seat 2: 1 warrior | seat 3: 2 warriors, roost | ruin · ruled by seat 3 (The Paintress)
+   9 Visages (fox, 2 slots, 1 free) - paths to 2,3,7
+       seat 1: pawn | seat 2: 1 warrior | seat 3: 2 warriors, roost | seat 4: sympathy · ruled by seat 3 (The Paintress)
   10 Sirène (rabbit river, 2 slots, 1 free) - paths to 3,4,8
        seat 2: 1 warrior | ruin · ruled by seat 2 (Gustave)
   11 The Reacher (rabbit river, 2 slots, 1 free) - paths to 3,4
@@ -75,19 +78,19 @@ CLEARINGS (number, name, suit, slots: pieces · ruler)
        seat 2: 1 warrior, workshop | ruin · ruled by seat 2 (Gustave)
 
 FACTIONS
-  seat 1 (Esquie) Vagabond (Tinker): 2 VP · 4 cards in hand
+  seat 1 (Esquie) Vagabond (Tinker): 5 VP · 4 cards in hand
     Vagabond (Tinker) board:
-      pawn: Stone Wave Cliffs [c6, mouse]
-      tracks: tea 1/3 (refresh 5), coins 0/3 (evening draw 1), bags 1/3
-      satchel: boots, hammer (exhausted), torch (exhausted)
+      pawn: Visages [c9, fox]
+      tracks: tea 0/3 (refresh 3), coins 0/3 (evening draw 1), bags 1/3
+      satchel: 2 x boots (exhausted), hammer (exhausted), sword, tea (exhausted), torch (exhausted)
       damaged: none
-      items counted for the limit: 3 of 8
-      relationships: seat 2 (Gustave) Indifferent; seat 3 (The Paintress) Indifferent; seat 4 (Sciel) Indifferent
-      completed quests: none
-      face-up quests: [q1] Errand (fox: tea + boots); [q6] Errand (rabbit: tea + boots); [q9] Expel Bandits (rabbit: sword + sword) (quest deck 12)
-  seat 2 (Gustave) Marquise de Cat: 3 VP · 3 cards in hand
+      items counted for the limit: 6 of 8
+      relationships: seat 2 (Gustave) Indifferent; seat 3 (The Paintress) Indifferent; seat 4 (Sciel) Amiable
+      completed quests: fox 1
+      face-up quests: [q6] Errand (rabbit: tea + boots); [q9] Expel Bandits (rabbit: sword + sword); [q12] Fend Off a Bear (mouse: torch + crossbow) (quest deck 11)
+  seat 2 (Gustave) Marquise de Cat: 4 VP · 3 cards in hand
     Marquise de Cat board:
-      sawmills: 5 on the track; next costs 1 wood and scores 1 VP
+      sawmills: 4 on the track; next costs 2 wood and scores 2 VP
       workshops: 4 on the track; next costs 2 wood and scores 2 VP
       recruiters: 5 on the track; next costs 1 wood and scores 1 VP
       keep: Lumière [c1, rabbit]
@@ -100,22 +103,22 @@ FACTIONS
       bird cards in the Decree: 3 (VP lost in Turmoil)
       roosts: 3 on the map, 4 on the track; Evening scores 2 VP and draws 2 card(s)
       warriors in supply: 12/20
-  seat 4 (Sciel) Woodland Alliance: 2 VP · 1 card in hand
+  seat 4 (Sciel) Woodland Alliance: 4 VP · 3 cards in hand
     Woodland Alliance board:
-      supporters: 4 card(s), face down (limit 5: no base on the map); officers: 0
-      bases: fox base on the board, rabbit base on the board, mouse base on the board
-      sympathy: 2 on the map, 8 on the track; the next costs 1 matching supporter(s) (+1 under martial law) and scores 1 VP
-      warriors in supply: 10/10; evening draw: 1
+      supporters: 1 card(s), face down (no limit: a base is on the map); officers: 1
+      bases: fox base on the board, rabbit base in c2, mouse base on the board
+      sympathy: 3 on the map, 7 on the track; the next costs 2 matching supporter(s) (+1 under martial law) and scores 1 VP
+      warriors in supply: 7/10; evening draw: 2
 
-Item supply: Boots x2, Bag x2, Crossbow x1, Hammer x1, Sword x2, Tea x1, Coins x2
-Ruins (items face down): c8, c9, c10, c12
-Deck: 34 cards · discard pile: 3 (top: [43] Birdy Bindle (bird))
+Item supply: Boots x1, Bag x2, Crossbow x1, Hammer x1, Sword x2, Tea x1, Coins x2
+Ruins (items face down): c8, c10, c12
+Deck: 31 cards · discard pile: 7 (top: [31] Travel Gear (mouse))
 
-ROOT 33 · Act I: The Landing · Monolith Number 30 (33 minus the top score of players not on a dominance card)
+ROOT 33 · Act I: The Landing · Monolith Number 28 (33 minus the top score of players not on a dominance card)
   Themed wins are locked until Act II. Act II: The Monolith begins at the end of a turn once anyone has 10+ VP, or after round 4.
 GOAL TRACKER (public)
-  seat 4 (Sciel) · Twilight Harvest (countdown): locked until Act II, needs 10+ VP, 6 steps missing
-      Sun: 0/5 Sanctuaries (none) · Moon: 0 Aquafarm(s) on the map
+  seat 4 (Sciel) · Twilight Harvest (countdown): locked until Act II, needs 10+ VP, 4 steps missing
+      Sun: 1/5 Sanctuaries (rabbit) · Moon: 1 Aquafarm(s) on the map
   seat 1 (Esquie) · Esquie's Rocks Come Home (quest): locked until Act II, 4 steps missing
       rocks home 0/4 · Florrie at Stone Wave Cliffs [c6, mouse], guarded by 2 seat 3 (The Paintress) warriors; Dorrie appears in Act II; Soarrie appears in Act II; Urrie appears in Act III
   seat 2 (Gustave) · The Road to the Monolith (countdown): locked until Act II, needs 10+ VP, 3 steps missing
@@ -134,4 +137,5 @@ LATEST SPEECH BUBBLES
   r1 seat 4 (Sciel): "Whoever's painting this world has let game night run a little long."
   r1 seat 2 (Gustave): "Whoever painted this world gave it rules, a turn order and a scoring track. Very tidy. I'd still like a word with them."
   r1 seat 4 (Sciel): "Those were seedlings. You can pay the farmer on your way out."
+  r2 seat 1 (Esquie): "Hmm! This rock is much too grumpy to be Florrie. Florrie is never grumpy."
 ```

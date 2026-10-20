@@ -11,12 +11,12 @@
       "Engine": "vagabond-tinker",
       "Faction": "vagabond",
       "Human": true,
-      "Vp": 2,
+      "Vp": 5,
       "Hand": [
         25,
         21,
         30,
-        1
+        22
       ],
       "PlayArea": [],
       "CraftedItems": [],
@@ -24,13 +24,13 @@
       "CoalitionWith": null,
       "SupplyWarriors": 0,
       "Supply": {},
-      "PawnClearing": 6,
+      "PawnClearing": 9,
       "PawnForest": null,
       "FactionData": {
         "Items": [
           {
             "Type": "Boots",
-            "Exhausted": false,
+            "Exhausted": true,
             "Damaged": false
           },
           {
@@ -50,16 +50,28 @@
           },
           {
             "Type": "Tea",
+            "Exhausted": true,
+            "Damaged": false
+          },
+          {
+            "Type": "Sword",
             "Exhausted": false,
+            "Damaged": false
+          },
+          {
+            "Type": "Boots",
+            "Exhausted": true,
             "Damaged": false
           }
         ],
         "Relations": {
           "1": "Indifferent",
           "2": "Indifferent",
-          "3": "Indifferent"
+          "3": "Amiable"
         },
-        "Completed": [],
+        "Completed": [
+          1
+        ],
         "QuestDeck": [
           7,
           3,
@@ -71,13 +83,12 @@
           13,
           11,
           10,
-          0,
-          12
+          0
         ],
         "QuestsUp": [
-          1,
           6,
-          9
+          9,
+          12
         ],
         "BattleAlly": null,
         "AllyHits": 0,
@@ -90,7 +101,7 @@
       "Engine": "marquise",
       "Faction": "marquise",
       "Human": true,
-      "Vp": 3,
+      "Vp": 4,
       "Hand": [
         28,
         51,
@@ -102,7 +113,7 @@
       "CoalitionWith": null,
       "SupplyWarriors": 13,
       "Supply": {
-        "sawmill": 5,
+        "sawmill": 4,
         "workshop": 4,
         "recruiter": 5,
         "wood": 8,
@@ -157,31 +168,30 @@
       "Engine": "alliance",
       "Faction": "alliance",
       "Human": true,
-      "Vp": 2,
+      "Vp": 4,
       "Hand": [
-        31
+        39,
+        20,
+        1
       ],
       "PlayArea": [],
       "CraftedItems": [],
       "Dominance": null,
       "CoalitionWith": null,
-      "SupplyWarriors": 10,
+      "SupplyWarriors": 7,
       "Supply": {
-        "sympathy": 8,
+        "sympathy": 7,
         "base.fox": 1,
-        "base.rabbit": 1,
+        "base.rabbit": 0,
         "base.mouse": 1
       },
       "PawnClearing": null,
       "PawnForest": null,
       "FactionData": {
         "Supporters": [
-          53,
-          11,
-          24,
           41
         ],
-        "Officers": 0
+        "Officers": 1
       }
     }
   ],
@@ -211,9 +221,14 @@
     "2": {
       "Id": 2,
       "Warriors": {
-        "1": 1
+        "3": 2
       },
-      "Buildings": [],
+      "Buildings": [
+        {
+          "Seat": 3,
+          "Type": "base.rabbit"
+        }
+      ],
       "Tokens": [
         {
           "Seat": 3,
@@ -251,12 +266,16 @@
     "5": {
       "Id": 5,
       "Warriors": {
-        "1": 2
+        "1": 3
       },
       "Buildings": [
         {
           "Seat": 1,
           "Type": "recruiter"
+        },
+        {
+          "Seat": 1,
+          "Type": "sawmill"
         }
       ],
       "Tokens": [],
@@ -316,9 +335,14 @@
           "Type": "roost"
         }
       ],
-      "Tokens": [],
-      "Ruin": true,
-      "RuinItem": "Sword"
+      "Tokens": [
+        {
+          "Seat": 3,
+          "Type": "sympathy"
+        }
+      ],
+      "Ruin": false,
+      "RuinItem": null
     },
     "10": {
       "Id": 10,
@@ -393,19 +417,19 @@
     34,
     27,
     46,
-    13,
-    22,
-    20,
-    39
+    13
   ],
   "Discard": [
     2,
     49,
-    43
+    43,
+    24,
+    53,
+    11,
+    31
   ],
   "AvailableDominance": [],
   "ItemSupply": [
-    "Boots",
     "Boots",
     "Bag",
     "Bag",
@@ -421,39 +445,69 @@
   "SetupQueue": [],
   "SetupSeat": -1,
   "Turn": {
-    "Seat": 3,
-    "Phase": "Birdsong",
-    "Step": 2,
+    "Seat": 1,
+    "Phase": "Daylight",
+    "Step": 5,
     "UsedCraftPieces": [],
     "UsedOnce": [],
-    "Counters": {}
+    "Counters": {
+      "marquise.recruited": 1
+    }
   },
   "Stack": [
     {
-      "Kind": "alliance.birdsong",
-      "Seat": 3,
-      "Step": 0,
+      "Kind": "marquise.daylight",
+      "Seat": 1,
+      "Step": 2,
+      "I": {
+        "actions": 0
+      },
+      "S": {
+        "pending": "march"
+      },
+      "L": []
+    },
+    {
+      "Kind": "marquise.march",
+      "Seat": 1,
+      "Step": 1,
       "I": {},
       "S": {},
+      "L": []
+    },
+    {
+      "Kind": "move",
+      "Seat": 1,
+      "Step": 1,
+      "I": {
+        "optional": 1,
+        "fromSuit": -1,
+        "fixedFrom": -1,
+        "from": 5,
+        "to": 6
+      },
+      "S": {
+        "label": "March, move 1 of 2"
+      },
       "L": []
     }
   ],
   "Pending": {
-    "Seat": 3,
-    "Kind": "alliance.birdsong",
-    "Prompt": "Birdsong, Revolt: revolt in a sympathetic clearing (any number of times), or go on to Spread Sympathy",
+    "Seat": 1,
+    "Kind": "move",
+    "Prompt": "How many warriors move from Spring Meadows [c5, fox] to Stone Wave Cliffs [c6, mouse]?",
     "Options": [
       {
-        "Key": "revolt:2",
-        "Text": "Revolt in Esquie\u0027s Nest [c2, rabbit]: spend 2 rabbit supporters, remove every enemy piece there, place the rabbit base, 1 warrior(s) and an officer (your supporters: fox x1, rabbit x1, bird x2)"
+        "Key": "count:3",
+        "Text": "3 warriors"
       },
       {
-        "Key": "revolt:7",
-        "Text": "Revolt in Gestral Village [c7, mouse]: spend 2 mouse supporters, remove every enemy piece there, place the mouse base, 1 warrior(s) and an officer (your supporters: fox x1, rabbit x1, bird x2)"
+        "Key": "count:2",
+        "Text": "2 warriors"
       },
       {
-        "Key": "done",
-        "Text": "Stop revolting: go on to Spread Sympathy"
+        "Key": "count:1",
+        "Text": "1 warrior"
       }
     ],
     "DefaultKey": null,
@@ -1138,9 +1192,273 @@
       "Round": 2,
       "Only": null,
       "Text": "--- seat 4 (Sciel) (Woodland Alliance): Birdsong ---"
+    },
+    {
+      "N": 114,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 4 (Sciel) spends 2 rabbit supporters to revolt in Esquie\u0027s Nest [c2, rabbit]: [24] Cobbler (rabbit), [53] Sappers (bird)."
+    },
+    {
+      "N": 115,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 4 (Sciel) REVOLTS in Esquie\u0027s Nest [c2, rabbit]: every enemy piece there is removed."
+    },
+    {
+      "N": 116,
+      "Round": 2,
+      "Only": null,
+      "Text": "1 seat 2 (Gustave) warrior is removed from Esquie\u0027s Nest [c2, rabbit] (revolt)."
+    },
+    {
+      "N": 117,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 4 (Sciel) places a rabbit base in Esquie\u0027s Nest [c2, rabbit]."
+    },
+    {
+      "N": 118,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 4 (Sciel) places 1 warrior in Esquie\u0027s Nest [c2, rabbit]."
+    },
+    {
+      "N": 119,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 4 (Sciel) places a warrior in the Officers box (revolt): 1 officer(s)."
+    },
+    {
+      "N": 120,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 2 (Gustave) (not their turn, decided by the default): Field Hospitals: 1 warrior(s) were removed from Esquie\u0027s Nest [c2, rabbit]. Spend a rabbit card to place them at the keep in Lumi\u00E8re [c1, rabbit]? -\u003E Do not use Field Hospitals"
+    },
+    {
+      "N": 121,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 4 (Sciel) spends 1 fox supporter to spread sympathy to Visages [c9, fox]: [11] Tax Collector (fox)."
+    },
+    {
+      "N": 122,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 4 (Sciel) places a sympathy token in Visages [c9, fox]."
+    },
+    {
+      "N": 123,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 4 (Sciel) scores 1 VP (sympathy track): now 3 VP."
+    },
+    {
+      "N": 124,
+      "Round": 2,
+      "Only": null,
+      "Text": "--- seat 4 (Sciel): Daylight ---"
+    },
+    {
+      "N": 125,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 4 (Sciel) crafts [31] Travel Gear (mouse) (activating rabbit)."
+    },
+    {
+      "N": 126,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 4 (Sciel) scores 1 VP (crafted Boots): now 4 VP."
+    },
+    {
+      "N": 127,
+      "Round": 2,
+      "Only": null,
+      "Text": "--- seat 4 (Sciel): Evening ---"
+    },
+    {
+      "N": 128,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 4 (Sciel) places 1 warrior in Esquie\u0027s Nest [c2, rabbit]."
+    },
+    {
+      "N": 129,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 4 (Sciel) draws 1 card plus 1 bonus (one per base on the map)."
+    },
+    {
+      "N": 130,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 4 (Sciel) draws 2 cards (hand 2)."
+    },
+    {
+      "N": 131,
+      "Round": 2,
+      "Only": 3,
+      "Text": "You drew: [39] Favor of the Mice (mouse), [20] Command Warren (rabbit)."
+    },
+    {
+      "N": 132,
+      "Round": 2,
+      "Only": null,
+      "Text": "--- seat 1 (Esquie) (Vagabond): Birdsong ---"
+    },
+    {
+      "N": 133,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 1 (Esquie) refreshes (up to 5): flips torch, hammer face up."
+    },
+    {
+      "N": 134,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 1 (Esquie) slips from Stone Wave Cliffs [c6, mouse] to Esquie\u0027s Nest [c2, rabbit]."
+    },
+    {
+      "N": 135,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 1 (Esquie) says: \u0022Hmm! This rock is much too grumpy to be Florrie. Florrie is never grumpy.\u0022"
+    },
+    {
+      "N": 136,
+      "Round": 2,
+      "Only": null,
+      "Text": "--- seat 1 (Esquie): Daylight ---"
+    },
+    {
+      "N": 137,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 1 (Esquie) moves (exhausting 1 boot) from Esquie\u0027s Nest [c2, rabbit] to Visages [c9, fox]."
+    },
+    {
+      "N": 138,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 1 (Esquie) exhausts a torch to explore the ruin in Visages [c9, fox]; the emptied ruin is removed."
+    },
+    {
+      "N": 139,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 1 (Esquie) finds in the ruin: a sword, placed face up in the Satchel."
+    },
+    {
+      "N": 140,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 1 (Esquie) scores 1 VP (explored a ruin): now 3 VP."
+    },
+    {
+      "N": 141,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 1 (Esquie) exhausts a hammer to Aid seat 4 (Sciel), giving them [1] Fox Dominance (fox)."
+    },
+    {
+      "N": 142,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 1 (Esquie) takes from seat 4 (Sciel)\u0027s Crafted Items: a boots, placed face up in the Satchel."
+    },
+    {
+      "N": 143,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 1 (Esquie)\u0027s relationship with seat 4 (Sciel) (Woodland Alliance) goes from Indifferent to Amiable (aided 1 time this turn)."
+    },
+    {
+      "N": 144,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 1 (Esquie) scores 1 VP (relationship with seat 4 (Sciel) improved to Amiable): now 4 VP."
+    },
+    {
+      "N": 145,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 1 (Esquie) completes the quest [q1] Errand (fox: tea \u002B boots) in Visages [c9, fox], exhausting a tea and a boots."
+    },
+    {
+      "N": 146,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 1 (Esquie) scores 1 VP (quest Errand): now 5 VP."
+    },
+    {
+      "N": 147,
+      "Round": 2,
+      "Only": null,
+      "Text": "New face-up quest: [q12] Fend Off a Bear (mouse: torch \u002B crossbow)."
+    },
+    {
+      "N": 148,
+      "Round": 2,
+      "Only": null,
+      "Text": "--- seat 1 (Esquie): Evening ---"
+    },
+    {
+      "N": 149,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 1 (Esquie) draws 1 card (hand 4)."
+    },
+    {
+      "N": 150,
+      "Round": 2,
+      "Only": 0,
+      "Text": "You drew: [22] Better Burrow Bank (rabbit)."
+    },
+    {
+      "N": 151,
+      "Round": 2,
+      "Only": null,
+      "Text": "--- seat 2 (Gustave) (Marquise de Cat): Birdsong ---"
+    },
+    {
+      "N": 152,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 2 (Gustave) places a wood token in Lumi\u00E8re [c1, rabbit]."
+    },
+    {
+      "N": 153,
+      "Round": 2,
+      "Only": null,
+      "Text": "--- seat 2 (Gustave): Daylight ---"
+    },
+    {
+      "N": 154,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 2 (Gustave)\u0027s wood is removed from Lumi\u00E8re [c1, rabbit] (spent to build)."
+    },
+    {
+      "N": 155,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 2 (Gustave) places a sawmill in Spring Meadows [c5, fox]."
+    },
+    {
+      "N": 156,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 2 (Gustave) scores 1 VP (built a sawmill): now 4 VP."
+    },
+    {
+      "N": 157,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 2 (Gustave) places 1 warrior in Spring Meadows [c5, fox]."
     }
   ],
-  "DecisionsTaken": 35,
+  "DecisionsTaken": 55,
   "GameOver": false,
   "Winners": [],
   "GameOverText": null,
@@ -1193,7 +1511,6 @@
       "ui.gustave.arm@1//",
       "ui.esquie.rocks@0/6/",
       "ui.esquie.lampmaster-badge@2/6/",
-      "ui.esquie.francois-decoy@0/2/",
       "ui.global.goal-tracker@//",
       "ui.paintress.portrait-tracker@2//",
       "ui.gustave.flags@1/5/",
@@ -1207,9 +1524,9 @@
     ],
     "DeclaredWinners": [],
     "DeclaredWinId": null,
-    "CoreState": "root33-state 1\nstate.clea.covered=\nstate.curator.cell-crack=none\nstate.esquie.decoy=true\nstate.esquie.rocks=guarded|6|2|2;notSpawned|~|~|0;notSpawned|~|~|0;notSpawned|~|~|0\nstate.esquie.target=~\nstate.global.act=1\nstate.global.campaign-game=0\nstate.global.campaign-journal=false\nstate.global.countdowns=\nstate.global.difficulty=Normal\nstate.global.e33-mode=true\nstate.global.faithful-gustave=false\nstate.global.monolith-barrier=false\nstate.global.pending-draws=\nstate.global.pending-vp=\nstate.global.roles=role.esquies-nest=2;role.flying-manor=4;role.lumiere=1;role.monolith=3;role.old-lumiere=8;role.sacred-river=1,6,7,10,11;role.sirene=10;role.stone-wave-cliffs=6;role.the-reacher=11;role.visages=9\nstate.global.round=2\nstate.global.seat-characters=0=esquie;1=gustave;2=paintress;3=sciel\nstate.global.spoiler-mode=Safe\nstate.gustave.arm=1\nstate.gustave.flags=1,5,8,12\nstate.gustave.overcharge-armed=false\nstate.gustave.route=\nstate.lune.stain-armed=~\nstate.lune.stains=fire=0;ice=0;lightning=0\nstate.lune.tagged-relic=~\nstate.maelle.family=\nstate.maelle.stance=none\nstate.maelle.stance-turn=\nstate.monoco.feet=false|~|0;false|~|0;false|~|0;false|~|0;false|~|0\nstate.paintress.repaint-avoid=\nstate.paintress.still-life-used=false\nstate.sciel.moon=false\nstate.sciel.sun=false\nstate.sciel.twilight-armed=false\nstate.verso.rank=0\nstate.white-haired-man.barrier-down=false\n",
+    "CoreState": "root33-state 1\nstate.clea.covered=\nstate.curator.cell-crack=none\nstate.esquie.decoy=false\nstate.esquie.rocks=guarded|6|2|2;notSpawned|~|~|0;notSpawned|~|~|0;notSpawned|~|~|0\nstate.esquie.target=~\nstate.global.act=1\nstate.global.campaign-game=0\nstate.global.campaign-journal=false\nstate.global.countdowns=\nstate.global.difficulty=Normal\nstate.global.e33-mode=true\nstate.global.faithful-gustave=false\nstate.global.monolith-barrier=false\nstate.global.pending-draws=\nstate.global.pending-vp=\nstate.global.roles=role.esquies-nest=2;role.flying-manor=4;role.lumiere=1;role.monolith=3;role.old-lumiere=8;role.sacred-river=1,6,7,10,11;role.sirene=10;role.stone-wave-cliffs=6;role.the-reacher=11;role.visages=9\nstate.global.round=2\nstate.global.seat-characters=0=esquie;1=gustave;2=paintress;3=sciel\nstate.global.spoiler-mode=Safe\nstate.gustave.arm=1\nstate.gustave.flags=1,5,8,12\nstate.gustave.overcharge-armed=false\nstate.gustave.route=\nstate.lune.stain-armed=~\nstate.lune.stains=fire=0;ice=0;lightning=0\nstate.lune.tagged-relic=~\nstate.maelle.family=\nstate.maelle.stance=none\nstate.maelle.stance-turn=\nstate.monoco.feet=false|~|0;false|~|0;false|~|0;false|~|0;false|~|0\nstate.paintress.repaint-avoid=\nstate.paintress.still-life-used=false\nstate.sciel.moon=false\nstate.sciel.sun=false\nstate.sciel.twilight-armed=false\nstate.verso.rank=0\nstate.white-haired-man.barrier-down=false\n",
     "Extra": {
-      "bridge": "{\n  \u0022Bubbles\u0022: [\n    {\n      \u0022N\u0022: 1,\n      \u0022Seat\u0022: 3,\n      \u0022BarkId\u0022: \u0022bark.sciel.04\u0022,\n      \u0022Round\u0022: 0\n    },\n    {\n      \u0022N\u0022: 2,\n      \u0022Seat\u0022: 0,\n      \u0022BarkId\u0022: \u0022bark.esquie.01\u0022,\n      \u0022Round\u0022: 0\n    },\n    {\n      \u0022N\u0022: 3,\n      \u0022Seat\u0022: 1,\n      \u0022BarkId\u0022: \u0022bark.gustave.01\u0022,\n      \u0022Round\u0022: 0\n    },\n    {\n      \u0022N\u0022: 4,\n      \u0022Seat\u0022: 2,\n      \u0022BarkId\u0022: \u0022bark.paintress.03\u0022,\n      \u0022Round\u0022: 0\n    },\n    {\n      \u0022N\u0022: 5,\n      \u0022Seat\u0022: 3,\n      \u0022BarkId\u0022: \u0022bark.sciel.03\u0022,\n      \u0022Round\u0022: 1\n    },\n    {\n      \u0022N\u0022: 6,\n      \u0022Seat\u0022: 1,\n      \u0022BarkId\u0022: \u0022bark.gustave.05\u0022,\n      \u0022Round\u0022: 1\n    },\n    {\n      \u0022N\u0022: 7,\n      \u0022Seat\u0022: 3,\n      \u0022BarkId\u0022: \u0022bark.sciel.08\u0022,\n      \u0022Round\u0022: 1\n    }\n  ],\n  \u0022BubbleCount\u0022: 7,\n  \u0022BubbleMark\u0022: {\n    \u00223\u0022: 5,\n    \u00220\u0022: 5,\n    \u00221\u0022: 7,\n    \u00222\u0022: 7\n  },\n  \u0022Story\u0022: [\n    {\n      \u0022EventId\u0022: \u0022story.act1.landing\u0022,\n      \u0022Act\u0022: 1,\n      \u0022Round\u0022: 0\n    },\n    {\n      \u0022EventId\u0022: \u0022story.act1.florrie\u0022,\n      \u0022Act\u0022: 1,\n      \u0022Round\u0022: 0\n    },\n    {\n      \u0022EventId\u0022: \u0022story.act1.francois-decoy\u0022,\n      \u0022Act\u0022: 1,\n      \u0022Round\u0022: 0\n    }\n  ],\n  \u0022LastAct\u0022: 1,\n  \u0022Barks\u0022: {\n    \u0022Turns\u0022: {\n      \u00220\u0022: 1,\n      \u00221\u0022: 1,\n      \u00222\u0022: 1,\n      \u00223\u0022: 1\n    },\n    \u0022ByTrigger\u0022: [\n      {\n        \u0022Seat\u0022: 0,\n        \u0022Trigger\u0022: \u0022trigger.game-start\u0022,\n        \u0022Turn\u0022: 0\n      },\n      {\n        \u0022Seat\u0022: 1,\n        \u0022Trigger\u0022: \u0022trigger.game-start\u0022,\n        \u0022Turn\u0022: 0\n      },\n      {\n        \u0022Seat\u0022: 1,\n        \u0022Trigger\u0022: \u0022trigger.turn-start\u0022,\n        \u0022Turn\u0022: 0\n      },\n      {\n        \u0022Seat\u0022: 2,\n        \u0022Trigger\u0022: \u0022trigger.game-start\u0022,\n        \u0022Turn\u0022: 0\n      },\n      {\n        \u0022Seat\u0022: 3,\n        \u0022Trigger\u0022: \u0022trigger.attacked\u0022,\n        \u0022Turn\u0022: 1\n      },\n      {\n        \u0022Seat\u0022: 3,\n        \u0022Trigger\u0022: \u0022trigger.game-start\u0022,\n        \u0022Turn\u0022: 0\n      },\n      {\n        \u0022Seat\u0022: 3,\n        \u0022Trigger\u0022: \u0022trigger.turn-start\u0022,\n        \u0022Turn\u0022: 0\n      }\n    ],\n    \u0022LastAny\u0022: {\n      \u00220\u0022: 0,\n      \u00221\u0022: 0,\n      \u00222\u0022: 0,\n      \u00223\u0022: 1\n    },\n    \u0022LineUsed\u0022: {\n      \u0022bark.esquie.01\u0022: 1,\n      \u0022bark.gustave.01\u0022: 2,\n      \u0022bark.gustave.05\u0022: 5,\n      \u0022bark.paintress.03\u0022: 3,\n      \u0022bark.sciel.03\u0022: 4,\n      \u0022bark.sciel.04\u0022: 0,\n      \u0022bark.sciel.08\u0022: 6\n    },\n    \u0022Said\u0022: 7\n  }\n}"
+      "bridge": "{\n  \u0022Bubbles\u0022: [\n    {\n      \u0022N\u0022: 1,\n      \u0022Seat\u0022: 3,\n      \u0022BarkId\u0022: \u0022bark.sciel.04\u0022,\n      \u0022Round\u0022: 0\n    },\n    {\n      \u0022N\u0022: 2,\n      \u0022Seat\u0022: 0,\n      \u0022BarkId\u0022: \u0022bark.esquie.01\u0022,\n      \u0022Round\u0022: 0\n    },\n    {\n      \u0022N\u0022: 3,\n      \u0022Seat\u0022: 1,\n      \u0022BarkId\u0022: \u0022bark.gustave.01\u0022,\n      \u0022Round\u0022: 0\n    },\n    {\n      \u0022N\u0022: 4,\n      \u0022Seat\u0022: 2,\n      \u0022BarkId\u0022: \u0022bark.paintress.03\u0022,\n      \u0022Round\u0022: 0\n    },\n    {\n      \u0022N\u0022: 5,\n      \u0022Seat\u0022: 3,\n      \u0022BarkId\u0022: \u0022bark.sciel.03\u0022,\n      \u0022Round\u0022: 1\n    },\n    {\n      \u0022N\u0022: 6,\n      \u0022Seat\u0022: 1,\n      \u0022BarkId\u0022: \u0022bark.gustave.05\u0022,\n      \u0022Round\u0022: 1\n    },\n    {\n      \u0022N\u0022: 7,\n      \u0022Seat\u0022: 3,\n      \u0022BarkId\u0022: \u0022bark.sciel.08\u0022,\n      \u0022Round\u0022: 1\n    },\n    {\n      \u0022N\u0022: 8,\n      \u0022Seat\u0022: 0,\n      \u0022BarkId\u0022: \u0022bark.esquie.02\u0022,\n      \u0022Round\u0022: 2\n    }\n  ],\n  \u0022BubbleCount\u0022: 8,\n  \u0022BubbleMark\u0022: {\n    \u00223\u0022: 7,\n    \u00220\u0022: 8,\n    \u00221\u0022: 7,\n    \u00222\u0022: 7\n  },\n  \u0022Story\u0022: [\n    {\n      \u0022EventId\u0022: \u0022story.act1.landing\u0022,\n      \u0022Act\u0022: 1,\n      \u0022Round\u0022: 0\n    },\n    {\n      \u0022EventId\u0022: \u0022story.act1.florrie\u0022,\n      \u0022Act\u0022: 1,\n      \u0022Round\u0022: 0\n    },\n    {\n      \u0022EventId\u0022: \u0022story.act1.francois-decoy\u0022,\n      \u0022Act\u0022: 1,\n      \u0022Round\u0022: 0\n    }\n  ],\n  \u0022LastAct\u0022: 1,\n  \u0022Barks\u0022: {\n    \u0022Turns\u0022: {\n      \u00220\u0022: 2,\n      \u00221\u0022: 1,\n      \u00222\u0022: 1,\n      \u00223\u0022: 2\n    },\n    \u0022ByTrigger\u0022: [\n      {\n        \u0022Seat\u0022: 0,\n        \u0022Trigger\u0022: \u0022trigger.game-start\u0022,\n        \u0022Turn\u0022: 0\n      },\n      {\n        \u0022Seat\u0022: 1,\n        \u0022Trigger\u0022: \u0022trigger.game-start\u0022,\n        \u0022Turn\u0022: 0\n      },\n      {\n        \u0022Seat\u0022: 1,\n        \u0022Trigger\u0022: \u0022trigger.turn-start\u0022,\n        \u0022Turn\u0022: 0\n      },\n      {\n        \u0022Seat\u0022: 2,\n        \u0022Trigger\u0022: \u0022trigger.game-start\u0022,\n        \u0022Turn\u0022: 0\n      },\n      {\n        \u0022Seat\u0022: 3,\n        \u0022Trigger\u0022: \u0022trigger.attacked\u0022,\n        \u0022Turn\u0022: 1\n      },\n      {\n        \u0022Seat\u0022: 3,\n        \u0022Trigger\u0022: \u0022trigger.game-start\u0022,\n        \u0022Turn\u0022: 0\n      },\n      {\n        \u0022Seat\u0022: 3,\n        \u0022Trigger\u0022: \u0022trigger.turn-start\u0022,\n        \u0022Turn\u0022: 0\n      }\n    ],\n    \u0022LastAny\u0022: {\n      \u00220\u0022: 0,\n      \u00221\u0022: 0,\n      \u00222\u0022: 0,\n      \u00223\u0022: 1\n    },\n    \u0022LineUsed\u0022: {\n      \u0022bark.esquie.01\u0022: 1,\n      \u0022bark.gustave.01\u0022: 2,\n      \u0022bark.gustave.05\u0022: 5,\n      \u0022bark.paintress.03\u0022: 3,\n      \u0022bark.sciel.03\u0022: 4,\n      \u0022bark.sciel.04\u0022: 0,\n      \u0022bark.sciel.08\u0022: 6\n    },\n    \u0022Said\u0022: 7\n  }\n}"
     }
   }
 }
