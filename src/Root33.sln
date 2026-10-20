@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Root33.Sim", "Root33.Sim\Ro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Root33.Sim.Tests", "Root33.Sim.Tests\Root33.Sim.Tests.csproj", "{700B0929-B6AA-448E-8F56-8C2B274A817E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Root33.Host", "Root33.Host\Root33.Host.csproj", "{5F244161-8BDE-4764-8C9D-BE201DDE7110}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Root33.Host.Tests", "Root33.Host.Tests\Root33.Host.Tests.csproj", "{59E214D4-AA6E-46DA-898C-8EF68A3B1B7D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +40,13 @@ Global
 		{700B0929-B6AA-448E-8F56-8C2B274A817E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{700B0929-B6AA-448E-8F56-8C2B274A817E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{700B0929-B6AA-448E-8F56-8C2B274A817E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F244161-8BDE-4764-8C9D-BE201DDE7110}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F244161-8BDE-4764-8C9D-BE201DDE7110}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F244161-8BDE-4764-8C9D-BE201DDE7110}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F244161-8BDE-4764-8C9D-BE201DDE7110}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59E214D4-AA6E-46DA-898C-8EF68A3B1B7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59E214D4-AA6E-46DA-898C-8EF68A3B1B7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59E214D4-AA6E-46DA-898C-8EF68A3B1B7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59E214D4-AA6E-46DA-898C-8EF68A3B1B7D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

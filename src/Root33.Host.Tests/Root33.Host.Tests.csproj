@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>annotations</Nullable>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+    <PackageReference Include="xunit" Version="2.5.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.5.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Root33.Host\Root33.Host.csproj" />
+  </ItemGroup>
+
+  <!-- The core's test board and game driver (src/Root33.Core.Tests/Support), compiled in here as they are: Root33.Host is
+       tested over the same sheet-driven Autumn board the core's own tests use. -->
+  <ItemGroup>
+    <Compile Include="..\Root33.Core.Tests\Support\FakeBoard.cs" Link="Support\FakeBoard.cs" />
+    <Compile Include="..\Root33.Core.Tests\Support\TestTable.cs" Link="Support\TestTable.cs" />
+  </ItemGroup>
+
+</Project>
