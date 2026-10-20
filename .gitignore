@@ -8,3 +8,5 @@ pc-report.json
 __pycache__/
 *.pyc
 src/test-results.trx
+playtest/*.lock
+playtest/*.tmp
