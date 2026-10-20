@@ -1,8 +1,8 @@
 # Root 33 playtest · live
 
-Updated 2026-10-20 21:13:09 UTC after every move. Reopen this file to see the latest.
+Updated 2026-10-20 21:14:24 UTC after every move. Reopen this file to see the latest.
 
-**STATUS: round 0 (setup) · seat 2 (Gustave) to act · Marquise setup: place your starting sawmill in the keep's clearing or an adjacent one**
+**STATUS: round 0 (setup) · seat 3 (The Paintress) to act · Eyrie setup: choose your first leader (the Loyal Viziers go into the two Decree columns it names)**
 
 ## Recent moves (public log)
 ```text
@@ -14,6 +14,12 @@ Updated 2026-10-20 21:13:09 UTC after every move. Reopen this file to see the la
    10 [r0] Setup: seat 2 (Gustave) sets up the Marquise de Cat.
    11 [r0] seat 2 (Gustave) places a keep token in Lumière [c1, rabbit].
    12 [r0] seat 2 (Gustave) garrisons a warrior in every clearing except The Monolith [c3, mouse].
+   13 [r0] seat 2 (Gustave) places a sawmill in Lumière [c1, rabbit].
+   14 [r0] seat 2 (Gustave) places a workshop in Forgotten Battlefield [c12, mouse].
+   15 [r0] seat 2 (Gustave) places a recruiter in Spring Meadows [c5, fox].
+   16 [r0] Setup: seat 3 (The Paintress) sets up the Eyrie Dynasties.
+   17 [r0] seat 3 (The Paintress) places a roost in The Monolith [c3, mouse].
+   18 [r0] seat 3 (The Paintress) places 6 warriors in The Monolith [c3, mouse].
 ```
 
 ## Board, scores and the Root 33 trackers
@@ -22,16 +28,16 @@ Updated 2026-10-20 21:13:09 UTC after every move. Reopen this file to see the la
 Setup in progress.
 
 CLEARINGS (number, name, suit, slots: pieces · ruler)
-   1 Lumière (rabbit corner river, 1 slot, 1 free) - paths to 5,8,12
-       seat 2: 1 warrior, keep · ruled by seat 2 (Gustave)
+   1 Lumière (rabbit corner river, 1 slot, 0 free) - paths to 5,8,12
+       seat 2: 1 warrior, sawmill, keep · ruled by seat 2 (Gustave)
    2 Esquie's Nest (rabbit corner, 1 slot, 1 free) - paths to 6,7,9
        seat 2: 1 warrior · ruled by seat 2 (Gustave)
-   3 The Monolith (mouse corner, 2 slots, 2 free) - paths to 9,10,11
-       empty · ruled by nobody
+   3 The Monolith (mouse corner, 2 slots, 1 free) - paths to 9,10,11
+       seat 3: 6 warriors, roost · ruled by seat 3 (The Paintress)
    4 Flying Manor (fox corner, 1 slot, 1 free) - paths to 10,11,12
        seat 2: 1 warrior · ruled by seat 2 (Gustave)
-   5 Spring Meadows (fox, 2 slots, 2 free) - paths to 1,6
-       seat 2: 1 warrior · ruled by seat 2 (Gustave)
+   5 Spring Meadows (fox, 2 slots, 1 free) - paths to 1,6
+       seat 2: 1 warrior, recruiter · ruled by seat 2 (Gustave)
    6 Stone Wave Cliffs (mouse river, 2 slots, 2 free) - paths to 2,5,8
        seat 2: 1 warrior · ruled by seat 2 (Gustave)
    7 Gestral Village (mouse river, 3 slots, 3 free) - paths to 2,8,9
@@ -44,8 +50,8 @@ CLEARINGS (number, name, suit, slots: pieces · ruler)
        seat 2: 1 warrior | ruin · ruled by seat 2 (Gustave)
   11 The Reacher (rabbit river, 2 slots, 2 free) - paths to 3,4
        seat 2: 1 warrior · ruled by seat 2 (Gustave)
-  12 Forgotten Battlefield (mouse, 2 slots, 1 free) - paths to 1,4,8
-       seat 2: 1 warrior | ruin · ruled by seat 2 (Gustave)
+  12 Forgotten Battlefield (mouse, 2 slots, 0 free) - paths to 1,4,8
+       seat 2: 1 warrior, workshop | ruin · ruled by seat 2 (Gustave)
 
 FACTIONS
   seat 1 (Esquie) Vagabond (Tinker): 0 VP · 3 cards in hand
@@ -60,9 +66,9 @@ FACTIONS
       face-up quests: [q1] Errand (fox: tea + boots); [q6] Errand (rabbit: tea + boots); [q9] Expel Bandits (rabbit: sword + sword) (quest deck 12)
   seat 2 (Gustave) Marquise de Cat: 0 VP · 3 cards in hand
     Marquise de Cat board:
-      sawmills: 6 on the track; next costs 0 wood and scores 0 VP
-      workshops: 6 on the track; next costs 0 wood and scores 0 VP
-      recruiters: 6 on the track; next costs 0 wood and scores 0 VP
+      sawmills: 5 on the track; next costs 1 wood and scores 1 VP
+      workshops: 5 on the track; next costs 1 wood and scores 2 VP
+      recruiters: 5 on the track; next costs 1 wood and scores 1 VP
       keep: Lumière [c1, rabbit]
       wood in supply: 8/8; warriors in supply: 14/25; evening draw: 1
   seat 3 (The Paintress) Eyrie Dynasties: 0 VP · 3 cards in hand
@@ -71,8 +77,8 @@ FACTIONS
       other leaders face up: Builder, Charismatic, Commander, Despot; deposed (face down): none
       Decree: Recruit: - | Move: - | Battle: - | Build: -
       bird cards in the Decree: 0 (VP lost in Turmoil)
-      roosts: 0 on the map, 7 on the track; Evening scores 0 VP and draws 1 card(s)
-      warriors in supply: 20/20
+      roosts: 1 on the map, 6 on the track; Evening scores 0 VP and draws 1 card(s)
+      warriors in supply: 14/20
   seat 4 (Sciel) Woodland Alliance: 0 VP · 3 cards in hand
     Woodland Alliance board:
       supporters: 0 card(s), face down (limit 5: no base on the map); officers: 0
@@ -93,6 +99,6 @@ GOAL TRACKER (public)
       rocks home 0/4 · Florrie not on the map; Dorrie appears in Act II; Soarrie appears in Act II; Urrie appears in Act III
   seat 2 (Gustave) · The Road to the Monolith (countdown): locked until Act II, needs 10+ VP, 6 steps missing
       Arm 0/3 · flags: c1 · Chain from Lumière: c1 covering rabbit · Beachhead: not reached
-  seat 3 (The Paintress) · The Family Portrait (countdown): locked until Act II, needs 10+ VP, 4 steps missing
-      Portraits 0/3: none · missing: fox, rabbit, mouse · holds the Monolith with an easel: no
+  seat 3 (The Paintress) · The Family Portrait (countdown): locked until Act II, needs 10+ VP, 3 steps missing
+      Portraits 0/3: none · missing: fox, rabbit, mouse · holds the Monolith with an easel: yes
 ```

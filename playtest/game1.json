@@ -96,9 +96,9 @@
       "CoalitionWith": null,
       "SupplyWarriors": 14,
       "Supply": {
-        "sawmill": 6,
-        "workshop": 6,
-        "recruiter": 6,
+        "sawmill": 5,
+        "workshop": 5,
+        "recruiter": 5,
         "wood": 8,
         "keep": 0
       },
@@ -122,9 +122,9 @@
       "CraftedItems": [],
       "Dominance": null,
       "CoalitionWith": null,
-      "SupplyWarriors": 20,
+      "SupplyWarriors": 14,
       "Supply": {
-        "roost": 7
+        "roost": 6
       },
       "PawnClearing": null,
       "PawnForest": null,
@@ -178,7 +178,12 @@
       "Warriors": {
         "1": 1
       },
-      "Buildings": [],
+      "Buildings": [
+        {
+          "Seat": 1,
+          "Type": "sawmill"
+        }
+      ],
       "Tokens": [
         {
           "Seat": 1,
@@ -200,8 +205,15 @@
     },
     "3": {
       "Id": 3,
-      "Warriors": {},
-      "Buildings": [],
+      "Warriors": {
+        "2": 6
+      },
+      "Buildings": [
+        {
+          "Seat": 2,
+          "Type": "roost"
+        }
+      ],
       "Tokens": [],
       "Ruin": false,
       "RuinItem": null
@@ -221,7 +233,12 @@
       "Warriors": {
         "1": 1
       },
-      "Buildings": [],
+      "Buildings": [
+        {
+          "Seat": 1,
+          "Type": "recruiter"
+        }
+      ],
       "Tokens": [],
       "Ruin": false,
       "RuinItem": null
@@ -291,7 +308,12 @@
       "Warriors": {
         "1": 1
       },
-      "Buildings": [],
+      "Buildings": [
+        {
+          "Seat": 1,
+          "Type": "workshop"
+        }
+      ],
       "Tokens": [],
       "Ruin": true,
       "RuinItem": "Boots"
@@ -359,11 +381,10 @@
   ],
   "SetupDone": false,
   "SetupQueue": [
-    2,
     0,
     3
   ],
-  "SetupSeat": 1,
+  "SetupSeat": 2,
   "Turn": {
     "Seat": 0,
     "Phase": "Birdsong",
@@ -374,36 +395,34 @@
   },
   "Stack": [
     {
-      "Kind": "marquise.setup",
-      "Seat": 1,
+      "Kind": "eyrie.setup",
+      "Seat": 2,
       "Step": 1,
-      "I": {
-        "keep": 1
-      },
+      "I": {},
       "S": {},
       "L": []
     }
   ],
   "Pending": {
-    "Seat": 1,
-    "Kind": "marquise.setup",
-    "Prompt": "Marquise setup: place your starting sawmill in the keep\u0027s clearing or an adjacent one",
+    "Seat": 2,
+    "Kind": "eyrie.setup",
+    "Prompt": "Eyrie setup: choose your first leader (the Loyal Viziers go into the two Decree columns it names)",
     "Options": [
       {
-        "Key": "sawmill:1",
-        "Text": "sawmill in Lumi\u00E8re [c1, rabbit] (1 free slot(s))"
+        "Key": "leader:builder",
+        "Text": "Builder: viziers on Recruit and Move; when you craft an item you score its printed VP (ignores Disdain for Trade)"
       },
       {
-        "Key": "sawmill:5",
-        "Text": "sawmill in Spring Meadows [c5, fox] (2 free slot(s))"
+        "Key": "leader:charismatic",
+        "Text": "Charismatic: viziers on Recruit and Battle; each Recruit action places two warriors instead of one"
       },
       {
-        "Key": "sawmill:8",
-        "Text": "sawmill in Old Lumi\u00E8re [c8, fox] (1 free slot(s))"
+        "Key": "leader:commander",
+        "Text": "Commander: viziers on Move and Battle; as attacker in battle you deal an extra hit"
       },
       {
-        "Key": "sawmill:12",
-        "Text": "sawmill in Forgotten Battlefield [c12, mouse] (1 free slot(s))"
+        "Key": "leader:despot",
+        "Text": "Despot: viziers on Move and Build; when you remove at least one enemy building or token in a battle, score one extra VP"
       }
     ],
     "DefaultKey": null,
@@ -482,9 +501,45 @@
       "Round": 0,
       "Only": null,
       "Text": "seat 2 (Gustave) garrisons a warrior in every clearing except The Monolith [c3, mouse]."
+    },
+    {
+      "N": 13,
+      "Round": 0,
+      "Only": null,
+      "Text": "seat 2 (Gustave) places a sawmill in Lumi\u00E8re [c1, rabbit]."
+    },
+    {
+      "N": 14,
+      "Round": 0,
+      "Only": null,
+      "Text": "seat 2 (Gustave) places a workshop in Forgotten Battlefield [c12, mouse]."
+    },
+    {
+      "N": 15,
+      "Round": 0,
+      "Only": null,
+      "Text": "seat 2 (Gustave) places a recruiter in Spring Meadows [c5, fox]."
+    },
+    {
+      "N": 16,
+      "Round": 0,
+      "Only": null,
+      "Text": "Setup: seat 3 (The Paintress) sets up the Eyrie Dynasties."
+    },
+    {
+      "N": 17,
+      "Round": 0,
+      "Only": null,
+      "Text": "seat 3 (The Paintress) places a roost in The Monolith [c3, mouse]."
+    },
+    {
+      "N": 18,
+      "Round": 0,
+      "Only": null,
+      "Text": "seat 3 (The Paintress) places 6 warriors in The Monolith [c3, mouse]."
     }
   ],
-  "DecisionsTaken": 1,
+  "DecisionsTaken": 5,
   "GameOver": false,
   "Winners": [],
   "GameOverText": null,
@@ -497,6 +552,9 @@
     "HomeRestrictions": {
       "1": [
         1
+      ],
+      "2": [
+        3
       ]
     },
     "StartForestRestrictions": {},
