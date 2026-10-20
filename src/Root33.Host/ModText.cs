@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Root33.Core;
+using Root33.Core.Engine;
 using Root33.Core.Sheets;
 
 namespace Root33.Host
@@ -45,6 +46,14 @@ namespace Root33.Host
         /// <summary>Root's printed name for an engine (engines.json rootName: "Marquise de Cat").</summary>
         public static string EngineName(string engineId) =>
             Data.Engines.TryGetValue(engineId, out var e) ? e.RootName : engineId;
+
+        /// <summary>Root's printed name for an engine the board reports (read.seat-engine); "Vagabond" for one the mod does not list.</summary>
+        public static string EngineName(EngineId engine)
+        {
+            foreach (var e in Data.Engines.Values)
+                if (ModuleRegistry.EngineIdOf(e.Id) == engine) return e.RootName;
+            return engine == EngineId.VagabondOther ? "Vagabond" : engine.ToString();
+        }
 
         /// <summary>Root's printed name for the engine a character rides ("gustave" gives "Marquise de Cat").</summary>
         public static string CharacterEngineName(string characterId) =>

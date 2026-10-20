@@ -96,6 +96,19 @@ namespace Root33.Host
             for (; _warningsSeen < ctx.Warnings.Count; _warningsSeen++) log(ModText.NoteLine(ctx.Warnings[_warningsSeen]));
         }
 
+        /// <summary>A new game in the same session (the core clears its logs at hook.game-start): nothing said yet, and
+        /// <see cref="CatchUp"/> reads the core's logs from the start again.</summary>
+        public void Reset()
+        {
+            Bubbles.Clear();
+            BubbleCount = 0;
+            BubbleMark.Clear();
+            Story.Clear();
+            LastAct = 0;
+            _storySeen = 0;
+            _warningsSeen = 0;
+        }
+
         /// <summary>After a load: what the core logged while it reloaded is not news, so <see cref="CatchUp"/> starts after it.</summary>
         public void SkipSeen(GameContext ctx)
         {

@@ -98,6 +98,27 @@ public class ModFeedTests
     }
 
     [Fact]
+    public void ModFeed_Reset_StartsANewGameFromTheCoresLogs()
+    {
+        var t = new HostTable(HostTable.FourSeats());
+        t.Feed.CatchUp(t.Ctx, 1, setupDone: true, _ => { });
+        t.Feed.AddBubble(S0, "bark.x", 1);
+        t.Feed.TurnEnded(S0);
+        t.Feed.Reset();
+        Assert.Empty(t.Feed.Bubbles);
+        Assert.Equal(0, t.Feed.BubbleCount);
+        Assert.Empty(t.Feed.BubbleMark);
+        Assert.Empty(t.Feed.Story);
+        Assert.Equal(0, t.Feed.LastAct);
+        // the next game: the core cleared its story log at hook.game-start and fills it again
+        var next = new HostTable(HostTable.FourSeats());
+        var lines = new List<string>();
+        t.Feed.CatchUp(next.Ctx, 1, setupDone: true, lines.Add);
+        Assert.Equal(ModText.ActBannerLine(1), lines[0]);
+        Assert.Equal(next.Ctx.StoryLog.Count, t.Feed.Story.Count);
+    }
+
+    [Fact]
     public void ModFeed_PlainRootGame_LogsNothing()
     {
         var board = HostTable.FourSeats();

@@ -42,6 +42,10 @@ public class ModTextTests
         Assert.Equal("Marquise de Cat", ModText.EngineName("marquise"));
         Assert.Equal("Vagabond (Tinker)", ModText.CharacterEngineName("esquie"));
         Assert.Equal("Woodland Alliance", ModText.CharacterEngineName("sciel"));
+        Assert.Equal("Eyrie Dynasties", ModText.EngineName(EngineId.Eyrie));
+        Assert.Equal("Vagabond (Thief)", ModText.EngineName(EngineId.VagabondThief));
+        Assert.Equal("Keepers in Iron", ModText.EngineName(EngineId.Keepers));
+        Assert.Equal("Vagabond", ModText.EngineName(EngineId.VagabondOther));
         var row = Data.MapAutumn["autumn.03"];
         Assert.Equal($"{row.ContinentName} [c3, {row.Suit}]", ModText.ClearingName(new ClearingId(3)));
         Assert.Equal("The Monolith [c3, mouse]", ModText.ClearingName(new ClearingId(3)));

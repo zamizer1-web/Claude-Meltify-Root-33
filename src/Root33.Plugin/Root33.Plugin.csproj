@@ -1,0 +1,99 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Root 33 inside Root: a BepInEx 6 IL2CPP plugin (Root33Plugin : BasePlugin). Not in src/Root33.sln: it builds against Root's
+    own assemblies, which exist only on the creator's PC.
+
+      On the PC:     tools\pc\build-plugin.ps1   (dotnet build src\Root33.Plugin -c Release -p:RootDir=D:\Mods\Root33-dev)
+                     references BepInEx, Il2CppInterop and HarmonyX from $(RootDir)\BepInEx\core and Root's Unity interop
+                     assemblies from $(RootDir)\BepInEx\interop (Private=false: they stay in Root's folder).
+      In the cloud:  dotnet build src/Root33.Plugin -p:NoUnity=true
+                     a compile check: BepInEx.Unity.IL2CPP, Il2CppInterop and HarmonyX come from NuGet (the bleeding-edge build
+                     nearest BepInEx 6.0.0-pre.2) and every file under Unity/ is left out (they need Root's interop assemblies).
+
+    If the PC finds a Mono build of Root instead, -p:RootMono=true builds the BepInEx 5 entry (ROOT_MONO in Plugin.cs) against
+    $(RootDir)\BepInEx\core\BepInEx.dll and $(RootDir)\Root_Data\Managed; -p:NoUnity=true -p:RootMono=true compile-checks it.
+  -->
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <LangVersion>10.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <AssemblyName>Root33.Plugin</AssemblyName>
+    <RootNamespace>Root33.Plugin</RootNamespace>
+    <Version>0.1.0</Version>
+    <GenerateDependencyFile>false</GenerateDependencyFile>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <!-- The dev copy of Root (never the Steam install). It may hold the game one folder down (D:\Mods\Root33-dev\Root). -->
+    <RootDir Condition="'$(RootDir)' == ''">D:\Mods\Root33-dev</RootDir>
+    <RootDir Condition="!Exists('$(RootDir)\BepInEx') And Exists('$(RootDir)\Root\BepInEx')">$(RootDir)\Root</RootDir>
+    <BepInExCore>$(RootDir)\BepInEx\core</BepInExCore>
+    <BepInExInterop>$(RootDir)\BepInEx\interop</BepInExInterop>
+    <RootManaged>$(RootDir)\Root_Data\Managed</RootManaged>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(NoUnity)' == 'true'">
+    <DefineConstants>$(DefineConstants);NOUNITY</DefineConstants>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(RootMono)' == 'true'">
+    <TargetFramework>net472</TargetFramework>
+    <DefineConstants>$(DefineConstants);ROOT_MONO</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Root33.Core\Root33.Core.csproj" />
+    <ProjectReference Include="..\Root33.Host\Root33.Host.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(NoUnity)' == 'true'">
+    <Compile Remove="Unity\**" />
+    <None Include="Unity\**" />
+  </ItemGroup>
+
+  <!-- Cloud compile check, BepInEx 6 IL2CPP. -->
+  <ItemGroup Condition="'$(NoUnity)' == 'true' And '$(RootMono)' != 'true'">
+    <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be.725" IncludeAssets="compile" PrivateAssets="all" />
+    <PackageReference Include="Il2CppInterop.Runtime" Version="1.4.6-ci.426" IncludeAssets="compile" PrivateAssets="all" />
+    <PackageReference Include="HarmonyX" Version="2.10.2" IncludeAssets="compile" PrivateAssets="all" />
+  </ItemGroup>
+
+  <!-- Cloud compile check, BepInEx 5 (Mono). -->
+  <ItemGroup Condition="'$(NoUnity)' == 'true' And '$(RootMono)' == 'true'">
+    <PackageReference Include="BepInEx.Core" Version="5.4.21" IncludeAssets="compile" PrivateAssets="all" />
+    <PackageReference Include="BepInEx.BaseLib" Version="5.4.21" IncludeAssets="compile" PrivateAssets="all" />
+    <PackageReference Include="UnityEngine.Modules" Version="2020.3.49" IncludeAssets="compile" PrivateAssets="all" />
+    <PackageReference Include="HarmonyX" Version="2.10.2" IncludeAssets="compile" PrivateAssets="all" />
+  </ItemGroup>
+
+  <!-- The PC build, BepInEx 6 IL2CPP: BepInEx's own assemblies and Root's interop assemblies from the dev copy. -->
+  <ItemGroup Condition="'$(NoUnity)' != 'true' And '$(RootMono)' != 'true'">
+    <Reference Include="BepInEx.Core" HintPath="$(BepInExCore)\BepInEx.Core.dll" Private="false" />
+    <Reference Include="BepInEx.Unity.IL2CPP" HintPath="$(BepInExCore)\BepInEx.Unity.IL2CPP.dll" Private="false" />
+    <Reference Include="BepInEx.Unity.Common" HintPath="$(BepInExCore)\BepInEx.Unity.Common.dll" Private="false" Condition="Exists('$(BepInExCore)\BepInEx.Unity.Common.dll')" />
+    <Reference Include="Il2CppInterop.Runtime" HintPath="$(BepInExCore)\Il2CppInterop.Runtime.dll" Private="false" />
+    <Reference Include="Il2CppInterop.Common" HintPath="$(BepInExCore)\Il2CppInterop.Common.dll" Private="false" Condition="Exists('$(BepInExCore)\Il2CppInterop.Common.dll')" />
+    <Reference Include="0Harmony" HintPath="$(BepInExCore)\0Harmony.dll" Private="false" />
+    <Reference Include="$(BepInExInterop)\*.dll" Private="false" />
+  </ItemGroup>
+
+  <!-- The PC build, BepInEx 5 (Mono): BepInEx 5 and Root's managed assemblies (not the framework copies Unity ships). -->
+  <ItemGroup Condition="'$(NoUnity)' != 'true' And '$(RootMono)' == 'true'">
+    <Reference Include="BepInEx" HintPath="$(BepInExCore)\BepInEx.dll" Private="false" />
+    <Reference Include="0Harmony" HintPath="$(BepInExCore)\0Harmony.dll" Private="false" />
+    <Reference Include="$(RootManaged)\*.dll" Private="false"
+               Exclude="$(RootManaged)\mscorlib.dll;$(RootManaged)\netstandard.dll;$(RootManaged)\System.dll;$(RootManaged)\System.*.dll;$(RootManaged)\Mono.*.dll" />
+  </ItemGroup>
+
+  <Target Name="Root33CheckRootDir" BeforeTargets="ResolveAssemblyReferences" Condition="'$(NoUnity)' != 'true'">
+    <Error Condition="'$(RootMono)' != 'true' And !Exists('$(BepInExCore)\BepInEx.Unity.IL2CPP.dll')"
+           Text="Root 33: no BepInEx 6 IL2CPP in '$(RootDir)' ($(BepInExCore)\BepInEx.Unity.IL2CPP.dll is missing). Pass the dev copy of Root (the folder with Root.exe and BepInEx\) as -p:RootDir=..., or -p:RootMono=true for a Mono build with BepInEx 5." />
+    <Error Condition="'$(RootMono)' != 'true' And !Exists('$(BepInExInterop)')"
+           Text="Root 33: '$(BepInExInterop)' does not exist yet. Start the dev copy of Root once with BepInEx installed: BepInEx 6 generates Root's interop assemblies there on its first run." />
+    <Error Condition="'$(RootMono)' == 'true' And !Exists('$(BepInExCore)\BepInEx.dll')"
+           Text="Root 33: no BepInEx 5 in '$(RootDir)' ($(BepInExCore)\BepInEx.dll is missing)." />
+  </Target>
+
+</Project>
