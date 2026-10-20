@@ -27,6 +27,7 @@ public static class Program
         "  Root33.Sim do      --save F --seat N <number-or-key>\n" +
         "  Root33.Sim log     --save F [--since K] [--seat N]\n" +
         "  Root33.Sim rules   --save F --seat N\n" +
+        "  Root33.Sim wait    --save F --seat N [--until-round R] [--timeout S]   (blocks until seat N must decide)\n" +
         "Characters: gustave=Marquise, paintress=Eyrie, sciel=Woodland Alliance, esquie=Vagabond Tinker,\n" +
         "            verso=Vagabond Ranger, maelle=Vagabond Thief. --save may also come from $ROOT33_SAVE.";
 
@@ -46,6 +47,7 @@ public static class Program
                 case "do": return WithGame(opts, true, g => output.WriteLine(Do(g, SeatArg(g, opts), positional)));
                 case "log": return WithGame(opts, false, g => output.WriteLine(LogText(g, opts)));
                 case "rules": return WithGame(opts, false, g => output.WriteLine(RulesText(g, SeatArg(g, opts))));
+                case "wait": return CmdWait(opts, output);
                 case "help": case "--help": case "-h": output.WriteLine(Usage); return 0;
                 default: output.WriteLine(Usage); return 1;
             }
@@ -104,8 +106,73 @@ public static class Program
         using var lk = Lock(path);
         var g = SimGame.Load(path);
         act(g);
-        if (write) g.Save(path);
+        if (write) { g.Save(path); WriteLive(g, path); }
         return 0;
+    }
+
+    /// <summary>The live watch page next to the save (game1.json -> game1.live.md): the STATUS line, the spectator view
+    /// and the last 40 public log entries. Public information only, so anyone can watch without seeing a hand.</summary>
+    internal static void WriteLive(SimGame g, string savePath)
+    {
+        try
+        {
+            var live = Path.Combine(Path.GetDirectoryName(Path.GetFullPath(savePath)) ?? ".", Path.GetFileNameWithoutExtension(savePath) + ".live.md");
+            var sb = new StringBuilder();
+            sb.AppendLine("# Root 33 playtest · live");
+            sb.AppendLine();
+            sb.AppendLine($"Updated {DateTime.UtcNow:yyyy-MM-dd HH:mm:ss} UTC after every move. Reopen this file to see the latest.");
+            sb.AppendLine();
+            sb.AppendLine("**" + Render.StatusLine(g).Replace("*", "") + "**");
+            sb.AppendLine();
+            sb.AppendLine("## Recent moves (public log)");
+            sb.AppendLine("```text");
+            foreach (var e in g.LogFor(null, Math.Max(0, g.State.Log.Count - 40))) sb.AppendLine($"{e.N,5} [r{e.Round}] {e.Text}");
+            sb.AppendLine("```");
+            sb.AppendLine();
+            sb.AppendLine("## Board, scores and the Root 33 trackers");
+            sb.AppendLine("```text");
+            sb.AppendLine(Render.Spectator(g));
+            sb.AppendLine("```");
+            var tmp = live + ".tmp";
+            File.WriteAllText(tmp, sb.ToString());
+            File.Move(tmp, live, overwrite: true);
+        }
+        catch (IOException) { /* the watch page is a convenience; never fail a move over it */ }
+    }
+
+    /// <summary>
+    /// wait --seat N [--until-round R] [--timeout S]: blocks until seat N must decide, the game is over, or (with
+    /// --until-round) the game has moved past round R; gives up after S seconds (default 540) so a player can wait again.
+    /// Lets several players run at once, each waiting for its own turn. Prints one first word: YOUR-TURN, GAME-OVER,
+    /// PAUSE or STILL-WAITING, then the STATUS line.
+    /// </summary>
+    static int CmdWait(Dictionary<string, string> o, TextWriter output)
+    {
+        var path = SavePath(o);
+        if (!File.Exists(path)) throw new SimUsageException($"no game at {path} (start one with 'new')");
+        if (!o.TryGetValue("seat", out var ss) || !int.TryParse(ss, out var seatNo) || seatNo < 1) throw new SimUsageException("--seat N required");
+        int untilRound = o.TryGetValue("until-round", out var ur) && int.TryParse(ur, out var r) ? r : int.MaxValue;
+        int timeout = o.TryGetValue("timeout", out var ts) && int.TryParse(ts, out var t) ? t : 540;
+        var deadline = DateTime.UtcNow.AddSeconds(timeout);
+        DateTime lastWrite = DateTime.MinValue;
+        string status = "";
+        while (true)
+        {
+            var w = File.GetLastWriteTimeUtc(path);
+            if (w != lastWrite)
+            {
+                lastWrite = w;
+                SimGame g;
+                using (Lock(path)) g = SimGame.Load(path);
+                if (seatNo > g.SeatCount) throw new SimUsageException($"--seat must be 1-{g.SeatCount}");
+                status = Render.StatusLine(g);
+                if (g.State.GameOver) { output.WriteLine("GAME-OVER"); output.WriteLine(status); return 0; }
+                if (g.State.SetupDone && g.State.Round > untilRound) { output.WriteLine($"PAUSE: round {untilRound} is over; stop here for now."); output.WriteLine(status); return 0; }
+                if (g.Pending is Decision d && d.Seat == seatNo - 1) { output.WriteLine("YOUR-TURN"); output.WriteLine(status); return 0; }
+            }
+            if (DateTime.UtcNow >= deadline) { output.WriteLine("STILL-WAITING (another player is deciding; run wait again)"); output.WriteLine(status); return 0; }
+            Thread.Sleep(2000);
+        }
     }
 
     static FileStream Lock(string path)
@@ -129,7 +196,7 @@ public static class Program
         using var lk = Lock(save);
         var g = SimGame.New(seats.Select(x => new SimGame.SeatSpec(x.Character, x.Human)).ToList(), seed, spoiler);
         Bots.Run(g);
-        g.Save(save);
+        g.Save(save); WriteLive(g, save);
         output.WriteLine($"New game saved to {save} (seed {seed}, spoiler {spoiler}).");
         foreach (var e in g.LogFor(null)) output.WriteLine(e.Text);
         output.WriteLine(Render.StatusLine(g));

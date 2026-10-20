@@ -205,6 +205,40 @@ public class CliTests
         finally { foreach (var f in new[] { path, path + ".lock" }) if (File.Exists(f)) File.Delete(f); }
     }
 
+    [Fact]
+    public void Cli_Wait_ReturnsOnYourTurn_PausesPastTheRound_AndGivesUpAfterTheTimeout()
+    {
+        var path = Path.Combine(Path.GetTempPath(), "root33-wait-" + Guid.NewGuid().ToString("N") + ".json");
+        try
+        {
+            var w = new StringWriter();
+            Assert.Equal(0, Program.Run(new[] { "new", "--save", path, "--seed", "7", "--spoiler", "safe", "--seats", "gustave:human,paintress:human,sciel:human,esquie:human" }, w));
+            w = new StringWriter();
+            Assert.Equal(0, Program.Run(new[] { "wait", "--save", path, "--seat", "1", "--timeout", "5" }, w));
+            Assert.StartsWith("YOUR-TURN", w.ToString());
+            w = new StringWriter();
+            Assert.Equal(0, Program.Run(new[] { "wait", "--save", path, "--seat", "2", "--timeout", "0" }, w));
+            Assert.StartsWith("STILL-WAITING", w.ToString());
+            Assert.StartsWith("STATUS:", Last(w));
+            w = new StringWriter();
+            Assert.Equal(1, Program.Run(new[] { "wait", "--save", path, "--seat", "9", "--timeout", "0" }, w));
+            // Play setup through as whichever seat is asked, until round 1 starts, then a wait limited to round 0 pauses.
+            for (int i = 0; i < 400; i++)
+            {
+                w = new StringWriter();
+                Program.Run(new[] { "status", "--save", path }, w);
+                var st = Last(w);
+                if (!st.StartsWith("STATUS: round 0")) break;
+                var seat = st.Split("· seat ")[1].Split(' ')[0];
+                Assert.Equal(0, Program.Run(new[] { "do", "--save", path, "--seat", seat, "1" }, new StringWriter()));
+            }
+            w = new StringWriter();
+            Assert.Equal(0, Program.Run(new[] { "wait", "--save", path, "--seat", "3", "--until-round", "0", "--timeout", "0" }, w));
+            Assert.StartsWith("PAUSE", w.ToString());
+        }
+        finally { foreach (var f in new[] { path, path + ".lock" }) if (File.Exists(f)) File.Delete(f); }
+    }
+
     [Theory]
     [InlineData("gustave:human,gustave:human")]
     [InlineData("gustave:human,lune:human")]

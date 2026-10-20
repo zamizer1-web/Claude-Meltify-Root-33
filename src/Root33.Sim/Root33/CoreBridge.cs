@@ -419,6 +419,16 @@ public sealed class CoreBridge
         return sb.ToString().TrimEnd();
     }
 
+    /// <summary>The mod's public view for a spectator (the live watch page): like ModView, with the last 12 speech bubbles.</summary>
+    public string SpectatorModView()
+    {
+        if (!Ctx.E33Mode) return "";
+        var sb = new StringBuilder();
+        try { WriteModView(sb, -1); }
+        catch (Exception e) { sb.AppendLine($"(Root 33 view unavailable: {e.Message})"); }
+        return sb.ToString().TrimEnd();
+    }
+
     private void WriteModView(StringBuilder sb, int seat)
     {
         sb.AppendLine($"ROOT 33 · {ModText.ActTitle(Ctx.Act)} · Monolith Number {Ctx.MonolithNumber} (33 minus the top score of players not on a dominance card)");
@@ -443,10 +453,10 @@ public sealed class CoreBridge
         }
 
         var mark = _data.BubbleMark.TryGetValue(seat, out var m) ? m : 0;
-        var bubbles = _data.Bubbles.Where(b => b.N > mark).ToList();
+        var bubbles = seat < 0 ? _data.Bubbles.TakeLast(12).ToList() : _data.Bubbles.Where(b => b.N > mark).ToList();
         if (bubbles.Count > 0)
         {
-            sb.AppendLine("SPEECH BUBBLES SINCE YOUR LAST TURN");
+            sb.AppendLine(seat < 0 ? "LATEST SPEECH BUBBLES" : "SPEECH BUBBLES SINCE YOUR LAST TURN");
             foreach (var b in bubbles) sb.AppendLine($"  r{b.Round} {Render.Who(_g, b.Seat)}: \"{ModText.BarkText(b.BarkId)}\"");
         }
     }

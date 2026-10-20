@@ -53,6 +53,32 @@ public static class Render
         var sb = new StringBuilder();
         var st = g.State;
         sb.AppendLine($"=== Root 33 tabletop · Autumn map (the Continent) · seed {st.Seed} · spoiler {st.Spoiler} · you are {Who(g, seat)}, {FactionRegistry.EngineName(g.Seat(seat).Engine)} ===");
+        PublicBoard(g, sb);
+        sb.AppendLine();
+        sb.AppendLine($"YOUR HAND ({g.Seat(seat).Hand.Count}):");
+        foreach (var c in g.Seat(seat).Hand) sb.AppendLine("  " + Cards.Describe(c));
+        var own = g.Faction(seat).PrivateText(g, seat);
+        if (!string.IsNullOrWhiteSpace(own)) sb.AppendLine(own.TrimEnd());
+        var mod = g.Bridge.ModView(seat);
+        if (!string.IsNullOrWhiteSpace(mod)) { sb.AppendLine(); sb.AppendLine(mod.TrimEnd()); }
+        if (g.Pending is Decision d && d.Seat == seat) { sb.AppendLine(); sb.AppendLine(Options(g, d)); }
+        return sb.ToString().TrimEnd();
+    }
+
+    /// <summary>What a spectator may see (the live watch page): the public board and the mod's public view, no hands.</summary>
+    public static string Spectator(SimGame g)
+    {
+        var sb = new StringBuilder();
+        sb.AppendLine($"=== Root 33 tabletop · Autumn map (the Continent) · seed {g.State.Seed} · spoiler {g.State.Spoiler} · spectator view ===");
+        PublicBoard(g, sb);
+        var mod = g.Bridge.SpectatorModView();
+        if (!string.IsNullOrWhiteSpace(mod)) { sb.AppendLine(); sb.AppendLine(mod.TrimEnd()); }
+        return sb.ToString().TrimEnd();
+    }
+
+    static void PublicBoard(SimGame g, StringBuilder sb)
+    {
+        var st = g.State;
         if (st.SetupDone) sb.AppendLine($"Round {st.Round} · {Who(g, st.Turn.Seat)}'s turn · {st.Turn.Phase}");
         else sb.AppendLine("Setup in progress.");
         sb.AppendLine();
@@ -84,15 +110,6 @@ public static class Render
         sb.AppendLine($"Ruins (items face down): {string.Join(", ", st.Clearings.Values.Where(c => c.Ruin).Select(c => $"c{c.Id}"))}");
         sb.AppendLine($"Deck: {st.Deck.Count} cards · discard pile: {st.Discard.Count} (top: {(st.Discard.Count > 0 ? Cards.Label(st.Discard[^1]) : "none")})");
         if (st.AvailableDominance.Count > 0) sb.AppendLine($"Available dominance cards: {string.Join(", ", st.AvailableDominance.Select(Cards.Label))}");
-        sb.AppendLine();
-        sb.AppendLine($"YOUR HAND ({g.Seat(seat).Hand.Count}):");
-        foreach (var c in g.Seat(seat).Hand) sb.AppendLine("  " + Cards.Describe(c));
-        var own = g.Faction(seat).PrivateText(g, seat);
-        if (!string.IsNullOrWhiteSpace(own)) sb.AppendLine(own.TrimEnd());
-        var mod = g.Bridge.ModView(seat);
-        if (!string.IsNullOrWhiteSpace(mod)) { sb.AppendLine(); sb.AppendLine(mod.TrimEnd()); }
-        if (g.Pending is Decision d && d.Seat == seat) { sb.AppendLine(); sb.AppendLine(Options(g, d)); }
-        return sb.ToString().TrimEnd();
     }
 }
 
