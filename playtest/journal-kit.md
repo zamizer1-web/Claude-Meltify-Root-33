@@ -86,3 +86,27 @@ I pick second, so I should assume Jo grabs my favourite. I've put these in the o
 6. **paintress.** I want to be the Paintress. I really do; the card is the best one. She's last only because it is the most jargon I would be walking into with the least idea of how to play it ("roost," "Lords of the Forest," "Canvas Plan," "ties count"). If I knew the rules, she'd be near the top. I'd rather someone who knows what a roost is has her, so that I have somebody to learn from.
 
 (I would not be heartbroken if I end up with anyone. I'm mostly curious whether the first few turns teach me the words, or whether I'm going to be asking the table every five minutes.)
+
+## Round 1 (my first turn, as Gustave)
+
+Setup first. The game asked me three small questions: where to put a sawmill, a workshop and a recruiter. I did not know what any of the three do. The log taught me a little ("Birdsong: place one wood at each sawmill" sounds like sawmills make wood, and wood pays for building). I put the sawmill at home in Lumière (safe, it's the keep), the workshop in Forgotten Battlefield because it is a mouse clearing and the Road card says I need fox, rabbit and mouse, and the recruiter in Spring Meadows because it is a little dead end with two roads in. That was me guessing.
+
+I liked that my first line of speech came out unprompted and in character: "Thirty-two, one year left, and now the whole world takes turns. Fine. I'll make mine count." That is Gustave. The second one in Birdsong ("Whoever painted this world gave it rules, a turn order and a scoring track. Very tidy. I'd still like a word with them.") is also very him, dry and practical. Sciel's "keep the young ones out of harm's way" is Sciel. Esquie's "I'm much too round for squares" made me laugh out loud. The Paintress being polite about painting the world carefully is chilling in the right way.
+
+What I saw others do: Sciel put sympathy tokens in three clearings and mobilised (I think that means putting cards face-down in a stack). Esquie slipped to Stone Wave Cliffs and crafted a tea, which scored 2 VP right away. The Paintress started with 6 warriors and a roost in the Monolith (clearing 3) and 2 warriors in Stone Wave Cliffs, which is where Florrie is. So the Paintress is already "guarding" Esquie's first rock. Spicy.
+
+My turn: the game dropped me straight into Daylight with 3 actions and a 36-line menu. That was a lot. What I worked out:
+- I rule almost the whole map because I have 1 warrior everywhere. Ruling matters for building and (I think) for winning.
+- I battled Sciel's sympathy token in Old Lumière. I had no idea what would happen. I rolled 2 and 2, she had no warriors, so I got +1 for "defenseless", and the token got removed. +1 VP. Gustave "fights a thing that is not fighting back" felt a bit off for Gustave, but he is a pragmatist.
+- THEN: "Outrage ... give a fox card (birds count) to Sciel's Supporters stack." Nobody warned me. I had to hand over a card. I gave Ambush! and kept Royal Claim. Lesson learned the hard way: hitting Sciel's tokens costs me a card each time. I did not do more battles because I only had Mouse Dominance and Royal Claim left and I did not want to lose either.
+- I built a workshop in Old Lumière (cost 1 wood, 2 VP, now 3 VP) and recruited one warrior.
+
+What I think I now know about my hand: Royal Claim says "In Birdsong, you may discard this card to score one point per clearing you rule." I rule ten clearings. That is 10 points if nobody takes anything off me before my next Birdsong. I am keeping it for that. Also Mouse Dominance: I rule two mouse clearings already (7 and 12), and I need a third plus 10 VP. That looks like a real route to winning.
+
+Possible bug / confusion to flag: I had Royal Claim in hand during my Birdsong this turn and was never offered to discard it, I just got the wood automatically and then Daylight. I will watch whether it prompts next turn. (If it is supposed to be offered automatically, it did not show up. Command: just "wait", no command of mine.)
+
+Also: the craft step. The rules say craft first in Daylight, but there was no craft option because nothing in my hand was craftable (Royal Claim costs any+any+any+any, which is four, I have two workshops). The game did not say "you have nothing to craft", it just skipped. Fine, but a new player may wonder.
+
+Other confusion: tokens do not take up slots (Esquie's Nest says "1 slot, 1 free" with a sympathy token in it). I guessed it, the game does not say so.
+
+Feels like Root with Expedition 33 flavour: the speech bubbles and the names. The Arm charge, flags and Road are all there in the goal tracker but nothing has happened with them yet since it is Act I. I do not feel like an engineer yet, I feel like I am doing bookkeeping.

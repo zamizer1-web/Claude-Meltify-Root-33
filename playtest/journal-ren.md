@@ -63,3 +63,15 @@ I pick last, so I expect a Vagabond or whatever faction is left. I am ranking by
 4. **maelle.** Fun, with an unusual "make friends" plan, but it depends on the table letting her aid and on not being hit in Gustave's home. A thief who must not fight, in a game of fighters, is a narrow path.
 5. **sciel.** A Woodland Alliance with a quiet-corners theme could be great because everyone else is fighting at the Monolith. But the Sanctuary rules are the clunkiest and the easiest for one token to break.
 6. **paintress.** Iconic and strongest in flavour, but the whole table's wins run through her capital, and the Eyrie is the faction that least enjoys that. I would only choose her if I wanted to play the villain and soak up the damage.
+
+## Round 1
+
+Seat 4 goes first, so I opened the whole game with nothing to react to. That is odd for a last pick (normally the last seat is last), but fine; the log says "seat 4 (Sciel) takes the first turn".
+
+- **What I did.** Spread three tokens at 1 supporter each: Old Lumière (fox hub, five paths), Gestral Village (mouse, three open slots, far from the Monolith) and Esquie's Nest (rabbit corner). Scored 0+1+1 = 2 VP. I wanted one token of each suit for crafting and as Revolt anchors, all touching c8 or c7. Then I mobilised all three cards in my hand (Sappers, Tax Collector, Cobbler) as supporters, because with 0 warriors on the map I cannot Train, organise or recruit, and I did not want a persistent-effect craft. Drew Travel Gear. Ended the turn with 3 supporters (fox, rabbit, bird) and 1 card in hand.
+- **Feels like Root?** Completely. This is a proper Alliance round-one.
+- **Unclear / possibly a bug:** Lumière (c1) never shows up as a spread target, even from Old Lumière, which touches it, and with a bird in my supporters. It was missing from the very first list too (c2..c12 shown, no c1). Is Lumière deliberately unspreadable? If so the rules text should say so; if not it is a missing option. I would not have minded Lumière being barred, but I want to know why.
+- **Setup notes.** The Marquise garrisoned every clearing but the Monolith, the Eyrie put 6 warriors plus a roost on the Monolith, then dropped 2 more at Stone Wave Cliffs on Florrie. The Paintress's Despot leader and Loyal Viziers in Move and Build look like a rough opener for her; I will see.
+- **Speech bubbles.** All four opened with a line. Gustave: "Thirty-two, one year left..." is exactly his voice (and the 32/33 joke lands). The Paintress: "Squares, turns, little wooden figures" works for her. Esquie's "I'm much too round for squares" made me laugh. Mine ("game night run a little long") is a bit meta for Sciel, but it is funny.
+- **Spoiler safety.** Lines all read safe for a newcomer. No ending reveals.
+- **Log observation.** When I spend supporters, the log prints the exact card (name, suit) publicly: "[2] Gently Used Knapsack (fox)". That matches Root (spent cards go to the discard face-up), so it is rules-correct, but note that my remaining supporters stay hidden.
