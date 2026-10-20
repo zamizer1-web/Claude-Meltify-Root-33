@@ -73,7 +73,7 @@ clearings are 1-12 (`sheets/map_autumn.json`); forests 1-7 (`SimMap.ForestDefs`)
 | `Factions/Marquise.cs` | lead | the Marquise de Cat |
 | `Factions/Eyrie.cs`, `Factions/Alliance.cs` | **B** | Eyrie Dynasties, Woodland Alliance |
 | `Factions/Vagabond.cs` | **C** | Vagabond (Tinker, Ranger, Thief) |
-| `Root33/CoreBridge.cs`, `Root33/SimBoard.cs`, `Root33/ModText.cs` | **D** | the link to `Root33.Core` |
+| `Root33/CoreBridge.cs`, `Root33/SimBoard.cs`, `Root33/SimHost.cs`, `Root33/ModText.cs` | **D** | the link to `Root33.Core`; the texts, the mod's view, the feed and the hook dispatch are `src/Root33.Host`'s (shared with the in-game plugin), `SimHost` is what the tabletop supplies to it and `ModText` here forwards to `Root33.Host.ModText` |
 | `Program.cs`, `tools/sim.sh`, `src/Directory.Build.props` | lead | CLI, launcher, build settings |
 | `src/Root33.Sim.Tests/*` | each owner adds its own test file (`EyrieTests.cs`, `AllianceTests.cs`, `VagabondTests.cs`, `CoreBridgeTests.cs`); `SimTestKit.cs` (lead) has table helpers |
 
@@ -159,7 +159,7 @@ The ownership split was for the parallel build; the lead now owns every file.
 | `SimGame.ToJson` / `FromJson` | `OnSave()` -> `State.Mod.CoreState`; `OnLoad(State.Mod.CoreState)` |
 | bot seat decides | `OnBotDecision(seat, decision)` (null: random legal policy) |
 | every engine step | `IsGameOver(out text)`: true ends the game with `State.Mod.DeclaredWinners` |
-| `view` / `rules` / `select` | `ModView(seat)`, `CharacterCard(seat)`, static `SelectCards(spoiler)`; `ModText.SeatTitle(g, seat)` names seats |
+| `view` / `rules` / `select` | `ModView(seat)`, `CharacterCard(seat)`, static `SelectCards(spoiler)` (Root33.Host's `ModView` and `ModCards`); `ModText.SeatTitle(g, seat)` names seats |
 
 Called from faction files: `OnExploreResolved`, `OnAidResolved`, `OnHostilityChange` (returns false to skip),
 `OnRelationshipChanged`, `OnItemChanged` (C); `OnTurmoil` (B). Not called (no such piece in the base game, or raised
@@ -271,7 +271,7 @@ Every place the tabletop is not exactly Root's rules:
    - Decree cards and supporters are held by the faction (`Eyrie.DecreeCards`, `Alliance.SupporterCards`), not in a
      hand or play area.
 
-14. **Root 33 core link** (engineer D; `Root33/CoreBridge.cs`, `SimBoard.cs`, `ModText.cs`):
+14. **Root 33 core link** (engineer D; `Root33/CoreBridge.cs`, `SimBoard.cs`, `SimHost.cs`, `ModText.cs`, over `src/Root33.Host`):
    - The tabletop is a real Root 33 game: `CoreBridge` builds `Root33Game` over `SimBoard` (IBoardView and
      IBoardActions over the sim state) with `ModuleRegistry.Default`, selects each seat's character, and forwards every
      `sheets/game_hooks.json` row the base game raises. The difficulty is always Normal.

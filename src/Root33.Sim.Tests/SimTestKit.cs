@@ -45,13 +45,16 @@ public static class Kit
         g.Seat(seat).Supply[type] = g.Supply(seat, type) - 1;
     }
 
+    /// <summary>Registers the test-only 'test.hold' step once, when the test assembly loads and before any test runs.
+    /// SimGame.Steps is shared by every test, and xunit runs test classes in parallel, so adding it lazily from Hold let
+    /// two classes race on the same registry (RulesTests.Dominance_ActivatesAt10Vp_StopsScoring_WinsAtBirdsong failed
+    /// once that way).</summary>
+    [System.Runtime.CompilerServices.ModuleInitializer]
+    internal static void RegisterTestSteps() =>
+        SimGame.Steps.Add("test.hold", (_, f) => new Decision(f.Seat, "hold").Add("hold-a", "hold").Add("hold-b", "hold"), (_, _, _) => { });
+
     /// <summary>Push a frame that always asks the active seat to hold, so Advance stops right after the frames above it.</summary>
-    public static void Hold(SimGame g, int seat)
-    {
-        if (!SimGame.Steps.Contains("test.hold"))
-            SimGame.Steps.Add("test.hold", (_, f) => new Decision(f.Seat, "hold").Add("hold-a", "hold").Add("hold-b", "hold"), (_, _, _) => { });
-        g.Push(new Frame("test.hold", seat));
-    }
+    public static void Hold(SimGame g, int seat) => g.Push(new Frame("test.hold", seat));
 
     public static int Card(string key, Suit? suit = null) =>
         Cards.All.First(c => c.Key == key && (suit == null || c.Suit == suit)).Id;

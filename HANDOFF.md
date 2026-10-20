@@ -1,5 +1,20 @@
 # Root 33: handoff to the session on the creator's PC
 
+## Status
+
+- **Cloud, since this handoff was first written:** the rules are done and tested (`src/Root33.Core`, 432 tests). A text
+  tabletop of Root runs the real core (`src/Root33.Sim`, 103 tests, `docs/SIM.md`): an integration game was played to the end,
+  and four AI playtesters (Jo, Kit, Ren, Sam) played a 4-seat safe-mode game in it, stopped in round 3 at the creator's
+  request (`playtest/journal-*.md`). Their verdict: it plays like Root, with Expedition 33 only in the bubbles, names and
+  Goal Tracker. Redesign ideas are on hold in `design/redesign-ideas.md` (the creator is thinking about them; do not build
+  them yet). The glitches they reported are being fixed in the cloud. The **plugin kit** is ready for this session:
+  `src/Root33.Host` (the mod's texts and panel, shared by the tabletop and the plugin), `tools/Root33.Discover` (reads Root's
+  assemblies and reports where the board, turns and AI live), `src/Root33.Plugin` (the BepInEx 6 plugin: entry, panel, probe,
+  generated adapter stubs and hook map), `tools/gen_plugin_stubs.py`, `tools/pc/build-plugin.ps1` and `tools/pc/discover.ps1`.
+- **PC session:** the dev copy of Root is at `D:\Mods\Root33-dev` with BepInEx 6 working (IL2CPP build, BepInEx 6.0.0-pre.2;
+  confirm it in `pc-report.json`).
+- **Next:** `docs/PLUGIN-PLAN.md`, milestones M0 to M7, each with its acceptance check.
+
 Root 33 is a mod for **Root** (Dire Wolf Digital, Unity, Steam app 965580) that makes **Clair Obscur: Expedition 33** (Sandfall, UE5, Steam app 1903340) characters playable. Each character rides on a Root faction or Vagabond and adds its own themed way to win; bots play the characters and chase those wins. Single player against bots is the main mode. The map is Root's Autumn map renamed as the Continent. The creator's plan approval and the full design are in `design/roster-draft.md`.
 
 The creator's standing preferences: verification over speed (test on your side, then have them check on theirs), and keep projects and big files on the **D: drive**. They asked to be interrupted only when something truly needs them.
@@ -29,7 +44,7 @@ Every cell still marked `_unverified` for target `plugin` needs Root's or Clair 
    - placing another seat's warriors, tunnels, tags → `board_actions.json` (each has a fallback if Root won't allow it);
    - the title screen logo and localisation keys for renamed pieces → `overlays.json`, `reskins.json`.
 5. **Clair Obscur assets.** Find the character portraits and music cues in its Paks (FModel/CUE4Parse/retoc). Write their paths into `assets.json`. Check every library's license before bundling it; credit authors in the release.
-6. **Build the plugin** (`src/Root33.Plugin`, a new project) that implements `IBoardView`, `IBoardActions` and `IGameHooks` for Root with Harmony patches and hands everything else to `Root33.Core`. Preflight with `--target plugin` must be clean first.
+6. **Build the plugin** by following `docs/PLUGIN-PLAN.md` (M0 to M7): `src/Root33.Plugin` already exists as a kit; it implements `IBoardView` and `IBoardActions` for Root (`Adapter/`), calls `IGameHooks` from Harmony patches (`Patches/`) and hands everything else to `Root33.Core` and `Root33.Host`. Each read, action and hook is filled in as its sheet row is confirmed; the plan's M1 makes `--target plugin` clean for the board, hooks, map and engines.
 7. **Test in the game**: start single-player games against bots with each first-version character; prove each win condition, each bot plan and the title screen work; take real screenshots (only the game window, no private windows). Then ask the creator to check on their side.
 8. **Melty.** Ask the creator to paste a fresh Publish prompt from Melty Studio (the key is never stored in files, commits, logs or screenshots). Root and Clair Obscur are not in Melty's catalog, so the release uses the tested own-copy route:
 
@@ -40,7 +55,7 @@ Every cell still marked `_unverified` for target `plugin` needs Root's or Clair 
     "launch":{"kind":"exe","path":"{managed}/Root33Launcher.exe","args":["--root","{managed}/own/root"]}}
    ```
 
-   In the cloud, `one_click_check` said this shape is one click (with the loader requested as `{"kind":"loader","id":"bepinex-5"}` or bundled), and `validate_recipe` flagged it for a human review. Re-run `inspect_package`, `validate_recipe` and `one_click_check` on the real files. Prove on the PC that Melty finds the Steam copy of Root and that the copy starts. If Melty's review refuses the route, tell the creator, keep the listing a draft, and suggest asking Melty (Discord: https://discord.com/invite/meltygg) to add Root to its catalog.
+   In the cloud, `one_click_check` said this shape is one click (with the loader requested as `{"kind":"loader","id":"bepinex-5"}` or bundled), and `validate_recipe` flagged it for a human review. The loader must match what this PC found: for Root under BepInEx 6 IL2CPP request `{"kind":"loader","id":"bepinex-6-il2cpp"}` instead of `bepinex-5` (`docs/PLUGIN-PLAN.md`, release notes). Re-run `inspect_package`, `validate_recipe` and `one_click_check` on the real files. Prove on the PC that Melty finds the Steam copy of Root and that the copy starts. If Melty's review refuses the route, tell the creator, keep the listing a draft, and suggest asking Melty (Discord: https://discord.com/invite/meltygg) to add Root to its catalog.
 
 ## Things the creator decided
 
