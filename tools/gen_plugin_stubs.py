@@ -248,7 +248,7 @@ def hook_map():
         if provides:
             lines.append(comment_text("Root provides: " + "; ".join(provides)))
         if kind == "event":
-            lines.append("        // Nothing to patch in Root: " + ("the core raises it from hook.turn-end (Root33Runtime gets it like any other hook)."
+            lines.append("        // Nothing to patch in Root: " + ("the core runs it itself inside hook.turn-end; the plugin does nothing."
                                                                        if rid == "hook.act-change" else
                                                                        "the mod's own overlay raises it: Root33Runtime.Hook(" + cs_string(rid) + ", g => " + call + ")."))
         else:
@@ -260,9 +260,13 @@ def hook_map():
                       f"        // internal static class {cls}",
                       "        // {"]
             if ret == "void":
+                # hook.turn-end and hook.load have entry points of their own (the bubble marks; a quiet reload).
+                stmt = {"hook.turn-end": "Root33Runtime.TurnEnd(seat);",
+                        "hook.load": "Root33Runtime.Load(saved);   // saved: the text hook.save stored beside this save"}.get(
+                    rid, f"Root33Runtime.Hook({cs_string(rid)}, g => {call});")
                 lines += [f"        //     private static void {'Prefix' if kind == 'prefix' else 'Postfix'}(/* TODO_RootType __instance, Root's arguments */)",
                           "        //     {"] + locals_ + [
-                          f"        //         Root33Runtime.Hook({cs_string(rid)}, g => {call});",
+                          f"        //         {stmt}",
                           "        //     }"]
             elif ret == "bool" and kind == "prefix":
                 lines += ["        //     private static bool Prefix(ref bool __result /*, TODO_RootType __instance, Root's arguments */)",
@@ -287,7 +291,8 @@ def hook_map():
             else:
                 lines += [f"        //     private static void Postfix(/* TODO_RootType __instance, Root's arguments */)",
                           "        //     {"] + locals_ + [
-                          f"        //         var text = Root33Runtime.Ask({cs_string(rid)}, g => {call}, \"\");",
+                          ("        //         var text = Root33Runtime.Save();" if rid == "hook.save"
+                           else f"        //         var text = Root33Runtime.Ask({cs_string(rid)}, g => {call}, \"\");"),
                           "        //         // store `text` beside Root's save, under the game's id (hook.load reads it back)",
                           "        //     }"]
             lines.append("        // }")

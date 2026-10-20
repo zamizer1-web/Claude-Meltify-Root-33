@@ -39,12 +39,12 @@ namespace Root33.Plugin
             Game = new Root33Game(Board, Board, ModuleRegistry.Default(), new Capabilities().Unsupported(RootBoard.UnmappedActions));
             Game.NextGameOptions.Spoilers = settings.Spoilers;
             Game.ProfileSpoilerMode = settings.Spoilers;
+            Feed = new ModFeed();
             Hooks = new HookDispatcher(Game)
             {
                 FirstError = (hook, e) => _log.LogWarning(ModText.CoreErrorLine(hook, e.Message)),
                 AfterHook = () => Feed.CatchUp(Game.Context, Game.Context.Round, SetupDone, line => _log.LogInfo(line)),
             };
-            Feed = new ModFeed();
             Host = new RootHost(Board, Game.Context, settings);
             View = new ModView(Game.Context, Host, Feed);
             Board.BubbleShown = (seat, barkId) =>
