@@ -78,6 +78,12 @@ against Il2CppInterop with stand-in Unity types, not against Root's own interop 
 `BepInEx\interop` and note the fix here. If a component logs `could not start` (ClassInjector), or nothing draws, see
 "Risks" below.
 
+Fixes found on the PC (Root build 22238765, BepInEx 6.0.0-be.790):
+- Root's interop assemblies put types named `ConfigFile` and `Paths` in the global namespace, and they hide BepInEx's
+  under a `using`. The plugin names `BepInEx.Configuration.ConfigFile` and `BepInEx.Paths` in full (Plugin.cs,
+  PluginSettings.cs, Unity/Probe.cs). Any new file that uses them must do the same.
+- M0 passed: the log shows every acceptance line and no Root 33 error, F9 wrote the probe and every scene change is logged.
+
 ## M1: discover
 
 ```powershell
@@ -99,6 +105,26 @@ UnityExplorer (dev copy only). Then fill the sheets' plugin columns and clear th
 | `game_hooks.json` | `engineSymbol`, `patchKind` (prefix/postfix/poll) | 34 |
 | `map_autumn.json` | `engineClearingId` (Root's id for each clearing, matched by position) | 12 |
 | `engines.json` | `engineType`, `digitalAi` | 12 |
+
+Found on the PC (see each row's `_notes` for the source):
+- Root33.Discover needs .NET 8 to build; it also builds for net6.0 unchanged. MetadataLoadContext cannot name a few
+  nested types in Unity's own interop assemblies (8 types, none of Root's); the scanner now leaves those out and says so in
+  the report instead of failing.
+- Root's game logic is `tuber-canis` (`tuber.canis.*`, `tuber_canis.data.*` enums), the menus are `tuber-client`, the
+  views are `voodoo` (`lotus.ViewManager.ViewFor(EntityID, viewLayer)`). The live match is
+  `Canis.boardgames.CanisMatch.Match` (a MonoBehaviour), cast to `tuber.canis.TuberMatch`.
+- Every rule step is a `Canis.actions.Action` whose `execute()` is an iterator, run by
+  `Canis.actions.continuations.ExecuteStack`: `PushSubAction(Match, Action)` when an action starts and
+  `PopToParent(Match, Action completedAction)` when it finishes. Most hooks are one of those two patches, dispatched on
+  the action's type. The match runs on its own thread (`Canis.Match.Run`), so core calls go to the main thread.
+- The AI decides in `tuber.canis.entities.ai.AIProfile.MakeChoice(SelectionMessage, TuberAIChoiceContext)`.
+- Root supports an extra win condition per seat: `TuberPlayerEntity.altWinCondition` (`AdHocWinCondition`,
+  `WinConditionUtils.Or`), which `do.declare-winner` uses.
+- Autumn clearing ids come from a dev-only dump of Root's own `FallBoardLayout` (node index, suit, slots, neighbours,
+  rivers, opposite corners), matched to the sheet by shape. Root's ruins are at its clearings 3, 5, 6 and 7, which are
+  autumn.10, .08, .07 and .09. The sheet has a ruin at autumn.12 instead of autumn.07: the creator decides which to keep.
+- Rows that still need a running game keep their `_unverified` entry with the reason (relics, setup restrictions, view
+  layers, the AI's action keys, round counting).
 
 `assets.json` (Clair Obscur paths) and `reskins.json` (localisation keys) belong to HANDOFF step 5 and M5.
 

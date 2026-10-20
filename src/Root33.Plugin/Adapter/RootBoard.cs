@@ -118,456 +118,456 @@ namespace Root33.Plugin.Adapter
         // ================================================================= IBoardView (sheets/board_reads.json)
 
         /// <summary>read.seats: Every seat at the table, in turn order (2-4 seats).</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's player/faction list in turn order</remarks>
+        /// <remarks>engineSymbol: tuber.canis.TuberMatch.Players (List&lt;TuberPlayerEntity&gt;); next seat: TuberMatch.NextPlayer(); match from Canis.boardgames.CanisMatch.Match (MonoBehaviour)</remarks>
         public IReadOnlyList<SeatId> Seats() =>
-            throw new NotMappedException("read.seats", "unknown: Root's player/faction list in turn order");
+            throw new NotMappedException("read.seats", "tuber.canis.TuberMatch.Players (List<TuberPlayerEntity>); next seat: TuberMatch.NextPlayer(); match from Canis.boardgames.CanisMatch.Match (MonoBehaviour)");
 
         /// <summary>read.seat-engine: The Root engine a seat plays (faction or Vagabond character).</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's per-player faction type</remarks>
+        /// <remarks>engineSymbol: tuber.canis.entities.TuberPlayerEntity.Faction (tuber_canis.data.Factions); Vagabonds: TuberEntityExtensions.VagabondCharacter(VagabondPlayer.Vagabond) (tuber_canis.data.VagabondCharacters)</remarks>
         public EngineId EngineOf(SeatId seat) =>
-            throw new NotMappedException("read.seat-engine", "unknown: Root's per-player faction type");
+            throw new NotMappedException("read.seat-engine", "tuber.canis.entities.TuberPlayerEntity.Faction (tuber_canis.data.Factions); Vagabonds: TuberEntityExtensions.VagabondCharacter(VagabondPlayer.Vagabond) (tuber_canis.data.VagabondCharacters)");
 
         /// <summary>read.is-bot: Whether a seat is played by Root's AI rather than a human.</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's player controller type (human/AI)</remarks>
+        /// <remarks>engineSymbol: Canis.entities.PlayerEntity.IsAI (and AILevel); Clockwork bots: TuberPlayerEntity.IsClockwork()</remarks>
         public bool IsBot(SeatId seat) =>
-            throw new NotMappedException("read.is-bot", "unknown: Root's player controller type (human/AI)");
+            throw new NotMappedException("read.is-bot", "Canis.entities.PlayerEntity.IsAI (and AILevel); Clockwork bots: TuberPlayerEntity.IsClockwork()");
 
         /// <summary>read.current-seat: The seat whose turn it is.</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's active player</remarks>
+        /// <remarks>engineSymbol: tuber.canis.TuberMatch.CurrentTurnPlayer()</remarks>
         public SeatId CurrentSeat() =>
-            throw new NotMappedException("read.current-seat", "unknown: Root's active player");
+            throw new NotMappedException("read.current-seat", "tuber.canis.TuberMatch.CurrentTurnPlayer()");
 
         /// <summary>read.phase: The current phase of the current seat's turn.</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's turn phase state</remarks>
+        /// <remarks>engineSymbol: tuber.canis.entities.TuberPlayerEntity.GamePhase (int; tuber_canis.data.Phases Setup=0, Birdsong=1, Daylight=2, Evening=3)</remarks>
         public TurnPhase Phase() =>
-            throw new NotMappedException("read.phase", "unknown: Root's turn phase state");
+            throw new NotMappedException("read.phase", "tuber.canis.entities.TuberPlayerEntity.GamePhase (int; tuber_canis.data.Phases Setup=0, Birdsong=1, Daylight=2, Evening=3)");
 
         /// <summary>read.round: Root's own round counter, or 0 if Root keeps none (the core then uses state.global.round).</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's round/turn counter, if any</remarks>
+        /// <remarks>engineSymbol (unverified): tuber.canis.entities.TuberPlaymat.OnTurn / GetTurnCounter(AccountID)</remarks>
         public int Round() =>
-            throw new NotMappedException("read.round", "unknown: Root's round/turn counter, if any");
+            throw new NotMappedException("read.round", "tuber.canis.entities.TuberPlaymat.OnTurn / GetTurnCounter(AccountID)");
 
         /// <summary>read.vp: A seat's victory points. Undefined while the seat has an active dominance card (its marker is off the track); callers check read.active-dominance first.</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's score track</remarks>
+        /// <remarks>engineSymbol: tuber.canis.entities.TuberEntityExtensions.VictoryPoints(player) (TuberAttributes.VictoryPoints)</remarks>
         public int Vp(SeatId seat) =>
-            throw new NotMappedException("read.vp", "unknown: Root's score track");
+            throw new NotMappedException("read.vp", "tuber.canis.entities.TuberEntityExtensions.VictoryPoints(player) (TuberAttributes.VictoryPoints)");
 
         /// <summary>read.active-dominance: The suit of the dominance card a seat has activated, or null when it has none.</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's active dominance card per player</remarks>
+        /// <remarks>engineSymbol: tuber.canis.entities.TuberPlayerEntity.ActivatedDominance (bool) + DominanceSuit (tuber_canis.data.Suits)</remarks>
         public Suit? ActiveDominance(SeatId seat) =>
-            throw new NotMappedException("read.active-dominance", "unknown: Root's active dominance card per player");
+            throw new NotMappedException("read.active-dominance", "tuber.canis.entities.TuberPlayerEntity.ActivatedDominance (bool) + DominanceSuit (tuber_canis.data.Suits)");
 
         /// <summary>read.coalition-partner: For a Vagabond in a coalition, its partner seat; null when not in a coalition.</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's Vagabond coalition state</remarks>
+        /// <remarks>engineSymbol: tuber.canis.entities.TuberPlayerEntity.CoalitionPlayers() / InDirectCoalitionWith(other) (TuberAttributes.CoalitionWith)</remarks>
         public SeatId? CoalitionPartner(SeatId seat) =>
-            throw new NotMappedException("read.coalition-partner", "unknown: Root's Vagabond coalition state");
+            throw new NotMappedException("read.coalition-partner", "tuber.canis.entities.TuberPlayerEntity.CoalitionPlayers() / InDirectCoalitionWith(other) (TuberAttributes.CoalitionWith)");
 
         /// <summary>read.hand-size: Number of cards in a seat's hand (public). Verso's bot treats a defender with 3+ cards as a possible Ambush.</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's player hand</remarks>
+        /// <remarks>engineSymbol: tuber.canis.entities.TuberPlayerEntity.CardsInHand (count)</remarks>
         public int HandSize(SeatId seat) =>
-            throw new NotMappedException("read.hand-size", "unknown: Root's player hand");
+            throw new NotMappedException("read.hand-size", "tuber.canis.entities.TuberPlayerEntity.CardsInHand (count)");
 
         /// <summary>read.hand-suits: Suits of the cards in a seat's own hand (birds as Suit.Bird). Bots may call this only for their own seat.</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's player hand card suits</remarks>
+        /// <remarks>engineSymbol: tuber.canis.entities.TuberPlayerEntity.CardsInHand + TuberEntityExtensions.Suit(card)</remarks>
         public IReadOnlyList<Suit> HandSuits(SeatId seat) =>
-            throw new NotMappedException("read.hand-suits", "unknown: Root's player hand card suits");
+            throw new NotMappedException("read.hand-suits", "tuber.canis.entities.TuberPlayerEntity.CardsInHand + TuberEntityExtensions.Suit(card)");
 
         /// <summary>read.legal-actions: Every action the seat may legally take now, as stable action keys from the engine's legal-action API (the same API the human UI uses to highlight clickable clearings, cards and items).</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's legal-action generator used by the UI and AI</remarks>
+        /// <remarks>engineSymbol (unverified): Networking.selection.messages.SelectionMessage handed to tuber.canis.entities.ai.AIProfile.MakeChoice (SelectionWithTargetsRequired.TargetMap, IntChoiceRequired, CustomChoiceRequired)</remarks>
         public IReadOnlyList<string> LegalActions(SeatId seat) =>
-            throw new NotMappedException("read.legal-actions", "unknown: Root's legal-action generator used by the UI and AI");
+            throw new NotMappedException("read.legal-actions", "Networking.selection.messages.SelectionMessage handed to tuber.canis.entities.ai.AIProfile.MakeChoice (SelectionWithTargetsRequired.TargetMap, IntChoiceRequired, CustomChoiceRequired)");
 
         /// <summary>read.map-name: The map in play: 'autumn', 'winter', 'lake' or 'mountain'.</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's selected map id</remarks>
+        /// <remarks>engineSymbol: tuber.canis.TuberMatchInitData.ChosenMap (tuber_canis.data.MapLayout: Fall=autumn, Winter, Lake, Mountain)</remarks>
         public string MapName() =>
-            throw new NotMappedException("read.map-name", "unknown: Root's selected map id");
+            throw new NotMappedException("read.map-name", "tuber.canis.TuberMatchInitData.ChosenMap (tuber_canis.data.MapLayout: Fall=autumn, Winter, Lake, Mountain)");
 
         /// <summary>read.clearings: Every clearing on the map.</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's map clearing list</remarks>
+        /// <remarks>engineSymbol: tuber.canis.entities.TuberPlaymat.Board.Clearings (TuberBoardNode); Root's id is TuberBoardNode.Index</remarks>
         public IReadOnlyList<ClearingId> Clearings() =>
-            throw new NotMappedException("read.clearings", "unknown: Root's map clearing list");
+            throw new NotMappedException("read.clearings", "tuber.canis.entities.TuberPlaymat.Board.Clearings (TuberBoardNode); Root's id is TuberBoardNode.Index");
 
         /// <summary>read.suits-of: The suit of a clearing (from suit markers on random-suit maps). A Lost City landmark returns fox, rabbit and mouse, since it counts as every suit.</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's clearing suit and landmark data</remarks>
+        /// <remarks>engineSymbol: tuber.canis.entities.TuberEntity.Suit on TuberBoardNode; Lost City: TuberEntityExtensions.IsLostCityClearing(node)</remarks>
         public IReadOnlyList<Suit> SuitsOf(ClearingId c) =>
-            throw new NotMappedException("read.suits-of", "unknown: Root's clearing suit and landmark data");
+            throw new NotMappedException("read.suits-of", "tuber.canis.entities.TuberEntity.Suit on TuberBoardNode; Lost City: TuberEntityExtensions.IsLostCityClearing(node)");
 
         /// <summary>read.path-neighbours: Clearings joined to this one by an open path. Rivers are not paths; Mountain's closed paths are left out until removed.</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's clearing adjacency (paths)</remarks>
+        /// <remarks>engineSymbol: tuber.canis.entities.TuberBoardNode.ClearingNeighbors (closed Mountain paths: BlockedNeighbors)</remarks>
         public IReadOnlyList<ClearingId> PathNeighbours(ClearingId c) =>
-            throw new NotMappedException("read.path-neighbours", "unknown: Root's clearing adjacency (paths)");
+            throw new NotMappedException("read.path-neighbours", "tuber.canis.entities.TuberBoardNode.ClearingNeighbors (closed Mountain paths: BlockedNeighbors)");
 
         /// <summary>read.river-neighbours: Clearings joined to this one by river (Lake: every coastal clearing via the lake).</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's river adjacency</remarks>
+        /// <remarks>engineSymbol: tuber.canis.entities.TuberBoardNode.RiverNeighbors</remarks>
         public IReadOnlyList<ClearingId> RiverNeighbours(ClearingId c) =>
-            throw new NotMappedException("read.river-neighbours", "unknown: Root's river adjacency");
+            throw new NotMappedException("read.river-neighbours", "tuber.canis.entities.TuberBoardNode.RiverNeighbors");
 
         /// <summary>read.on-river: Whether a river touches a clearing; on Lake, whether it is on the lake shore (the Sacred River role).</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's river clearing flag</remarks>
+        /// <remarks>engineSymbol: tuber.canis.entities.TuberBoardNode.HasRiver (Lake shore: IsCoast)</remarks>
         public bool OnRiver(ClearingId c) =>
-            throw new NotMappedException("read.on-river", "unknown: Root's river clearing flag");
+            throw new NotMappedException("read.on-river", "tuber.canis.entities.TuberBoardNode.HasRiver (Lake shore: IsCoast)");
 
         /// <summary>read.corners: The four corner clearings (home sites).</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's corner/home clearing data</remarks>
+        /// <remarks>engineSymbol: tuber.canis.entities.TuberBoard.Corners (TuberBoardNode.IsCorner)</remarks>
         public IReadOnlyList<ClearingId> Corners() =>
-            throw new NotMappedException("read.corners", "unknown: Root's corner/home clearing data");
+            throw new NotMappedException("read.corners", "tuber.canis.entities.TuberBoard.Corners (TuberBoardNode.IsCorner)");
 
         /// <summary>read.opposite-corner: The corner Root itself treats as diagonally opposite a corner (the pairing Bird dominance and Marquise setup use), or null on a map where Root has no such pairing.</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's diagonal corner pairs (as used by Bird dominance)</remarks>
+        /// <remarks>engineSymbol: tuber.canis.entities.TuberBoard.OppositeCornerFor(node) / TuberBoardNode.OppositeCorner() (Fall layout: 0&lt;-&gt;8, 2&lt;-&gt;11)</remarks>
         public ClearingId? OppositeCorner(ClearingId corner) =>
-            throw new NotMappedException("read.opposite-corner", "unknown: Root's diagonal corner pairs (as used by Bird dominance)");
+            throw new NotMappedException("read.opposite-corner", "tuber.canis.entities.TuberBoard.OppositeCornerFor(node) / TuberBoardNode.OppositeCorner() (Fall layout: 0<->8, 2<->11)");
 
         /// <summary>read.has-ruin: Whether a clearing still holds a ruin with its item (true until it is explored or raided).</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's ruin chits per clearing</remarks>
+        /// <remarks>engineSymbol: tuber.canis.entities.TuberBoardNode.HasRuin</remarks>
         public bool HasRuin(ClearingId c) =>
-            throw new NotMappedException("read.has-ruin", "unknown: Root's ruin chits per clearing");
+            throw new NotMappedException("read.has-ruin", "tuber.canis.entities.TuberBoardNode.HasRuin");
 
         /// <summary>read.total-slots: Building slots printed in a clearing.</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's clearing slot count</remarks>
+        /// <remarks>engineSymbol: tuber.canis.entities.TuberBoardNode.BuildableSpots</remarks>
         public int TotalSlots(ClearingId c) =>
-            throw new NotMappedException("read.total-slots", "unknown: Root's clearing slot count");
+            throw new NotMappedException("read.total-slots", "tuber.canis.entities.TuberBoardNode.BuildableSpots");
 
         /// <summary>read.free-slots: Building slots not filled by a building or a ruin.</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's clearing slot occupancy</remarks>
+        /// <remarks>engineSymbol: tuber.canis.entities.TuberBoardNode.OpenBuildSlots</remarks>
         public int FreeSlots(ClearingId c) =>
-            throw new NotMappedException("read.free-slots", "unknown: Root's clearing slot occupancy");
+            throw new NotMappedException("read.free-slots", "tuber.canis.entities.TuberBoardNode.OpenBuildSlots");
 
         /// <summary>read.forests-around: Forests (numbered by the mod in Root's own order) that touch a clearing.</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's forest areas and their bordering clearings</remarks>
+        /// <remarks>engineSymbol: tuber.canis.entities.TuberBoardNode.ForestNeighbors (a forest's number is its TuberBoardNode.Index; Fall forests are 12-18)</remarks>
         public IReadOnlyList<int> ForestsAround(ClearingId c) =>
-            throw new NotMappedException("read.forests-around", "unknown: Root's forest areas and their bordering clearings");
+            throw new NotMappedException("read.forests-around", "tuber.canis.entities.TuberBoardNode.ForestNeighbors (a forest's number is its TuberBoardNode.Index; Fall forests are 12-18)");
 
         /// <summary>read.forest-clearings: Clearings that touch a forest.</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's forest areas and their bordering clearings</remarks>
+        /// <remarks>engineSymbol: tuber.canis.entities.TuberBoard.Forests, each forest's TuberBoardNode.ClearingNeighbors</remarks>
         public IReadOnlyList<ClearingId> ForestClearings(int forest) =>
-            throw new NotMappedException("read.forest-clearings", "unknown: Root's forest areas and their bordering clearings");
+            throw new NotMappedException("read.forest-clearings", "tuber.canis.entities.TuberBoard.Forests, each forest's TuberBoardNode.ClearingNeighbors");
 
         /// <summary>read.ruler: The seat that rules a clearing under Root's own rule (most warriors plus buildings; Eyrie win ties by Lords of the Forest; Lizard gardens always rule), or null when nobody rules it.</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's clearing ruler computation</remarks>
+        /// <remarks>engineSymbol: tuber.canis.entities.TuberBoardNode.getRulingFaction(includeMercenaries, null)</remarks>
         public SeatId? Ruler(ClearingId c) =>
-            throw new NotMappedException("read.ruler", "unknown: Root's clearing ruler computation");
+            throw new NotMappedException("read.ruler", "tuber.canis.entities.TuberBoardNode.getRulingFaction(includeMercenaries, null)");
 
         /// <summary>read.warriors: A seat's warriors in a clearing, guards included (themed-win tests subtract hosted guards themselves).</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's per-clearing warrior count by faction</remarks>
+        /// <remarks>engineSymbol: tuber.canis.entities.TuberBoardNode.CountPieces(Factions, [PieceTypes.Warrior])</remarks>
         public int Warriors(SeatId seat, ClearingId c) =>
-            throw new NotMappedException("read.warriors", "unknown: Root's per-clearing warrior count by faction");
+            throw new NotMappedException("read.warriors", "tuber.canis.entities.TuberBoardNode.CountPieces(Factions, [PieceTypes.Warrior])");
 
         /// <summary>read.buildings: A seat's buildings of any type in a clearing.</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's per-clearing buildings by faction</remarks>
+        /// <remarks>engineSymbol: tuber.canis.entities.TuberBoardNode.CountPieces(Factions, [PieceTypes.Building])</remarks>
         public int Buildings(SeatId seat, ClearingId c) =>
-            throw new NotMappedException("read.buildings", "unknown: Root's per-clearing buildings by faction");
+            throw new NotMappedException("read.buildings", "tuber.canis.entities.TuberBoardNode.CountPieces(Factions, [PieceTypes.Building])");
 
         /// <summary>read.buildings-of-type: A seat's buildings of one type in a clearing. Type is a PieceTypes string; a bare type also matches its suited forms ('base' matches 'base.fox', 'waystation' matches 'waystation.tablet').</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's per-clearing buildings by faction and type</remarks>
+        /// <remarks>engineSymbol: tuber.canis.entities.TuberBoardNode.GetFactionPieces(Factions, [PieceTypes.Building]) by TuberEntityExtensions.BuildingType (tuber_canis.data.BuildingTypes)</remarks>
         public int BuildingsOfType(SeatId seat, ClearingId c, string type) =>
-            throw new NotMappedException("read.buildings-of-type", "unknown: Root's per-clearing buildings by faction and type");
+            throw new NotMappedException("read.buildings-of-type", "tuber.canis.entities.TuberBoardNode.GetFactionPieces(Factions, [PieceTypes.Building]) by TuberEntityExtensions.BuildingType (tuber_canis.data.BuildingTypes)");
 
         /// <summary>read.tokens: A seat's tokens of any type in a clearing.</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's per-clearing tokens by faction</remarks>
+        /// <remarks>engineSymbol: tuber.canis.entities.TuberBoardNode.CountPieces(Factions, [PieceTypes.Token])</remarks>
         public int Tokens(SeatId seat, ClearingId c) =>
-            throw new NotMappedException("read.tokens", "unknown: Root's per-clearing tokens by faction");
+            throw new NotMappedException("read.tokens", "tuber.canis.entities.TuberBoardNode.CountPieces(Factions, [PieceTypes.Token])");
 
         /// <summary>read.tokens-of-type: A seat's tokens of one type in a clearing (sympathy, wood, keep, tunnel, plot, mob...). Plots count face up and face down.</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's per-clearing tokens by faction and type</remarks>
+        /// <remarks>engineSymbol: tuber.canis.entities.TuberBoardNode.GetFactionPieces(Factions, [PieceTypes.Token]) by TuberEntityExtensions.TokenType (tuber_canis.data.TokenTypes)</remarks>
         public int TokensOfType(SeatId seat, ClearingId c, string type) =>
-            throw new NotMappedException("read.tokens-of-type", "unknown: Root's per-clearing tokens by faction and type");
+            throw new NotMappedException("read.tokens-of-type", "tuber.canis.entities.TuberBoardNode.GetFactionPieces(Factions, [PieceTypes.Token]) by TuberEntityExtensions.TokenType (tuber_canis.data.TokenTypes)");
 
         /// <summary>read.pawn-clearing: The clearing of a seat's pawn: a Vagabond pawn or the Hundreds' Warlord. Null when the pawn is in a forest, off the map, or the seat has none.</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's Vagabond pawn / Warlord location</remarks>
+        /// <remarks>engineSymbol: tuber.canis.entities.PlayableClasses.VagabondPlayer.VagabondNode (when IsClearing); Warlord: LordOfTheHundredsPlayer.GetWarlordClearing()</remarks>
         public ClearingId? PawnClearing(SeatId seat) =>
-            throw new NotMappedException("read.pawn-clearing", "unknown: Root's Vagabond pawn / Warlord location");
+            throw new NotMappedException("read.pawn-clearing", "tuber.canis.entities.PlayableClasses.VagabondPlayer.VagabondNode (when IsClearing); Warlord: LordOfTheHundredsPlayer.GetWarlordClearing()");
 
         /// <summary>read.pawn-forest: The forest a Vagabond pawn stands in, or null when it is in a clearing.</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's Vagabond pawn location</remarks>
+        /// <remarks>engineSymbol: tuber.canis.entities.PlayableClasses.VagabondPlayer.VagabondNode (when TuberBoardNode.IsForest)</remarks>
         public int? PawnForest(SeatId seat) =>
-            throw new NotMappedException("read.pawn-forest", "unknown: Root's Vagabond pawn location");
+            throw new NotMappedException("read.pawn-forest", "tuber.canis.entities.PlayableClasses.VagabondPlayer.VagabondNode (when TuberBoardNode.IsForest)");
 
         /// <summary>read.supply-warriors: Warriors left in a seat's supply (the Nevron host is chosen by this).</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's faction supply</remarks>
+        /// <remarks>engineSymbol (unverified): tuber.canis.entities.TuberPlayerEntity.WarriorArea (TuberPlayArea) children</remarks>
         public int SupplyWarriors(SeatId seat) =>
-            throw new NotMappedException("read.supply-warriors", "unknown: Root's faction supply");
+            throw new NotMappedException("read.supply-warriors", "tuber.canis.entities.TuberPlayerEntity.WarriorArea (TuberPlayArea) children");
 
         /// <summary>read.supply-pieces: Pieces of one building or token type left in a seat's supply (e.g. Duchy tunnels for the Cell Crack).</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's faction supply by piece type</remarks>
+        /// <remarks>engineSymbol: tuber.canis.entities.TuberPlayerEntity.SupplyForBuildingType(BuildingTypes); tokens: TuberPlayerEntity.TokensArea</remarks>
         public int SupplyPieces(SeatId seat, string type) =>
-            throw new NotMappedException("read.supply-pieces", "unknown: Root's faction supply by piece type");
+            throw new NotMappedException("read.supply-pieces", "tuber.canis.entities.TuberPlayerEntity.SupplyForBuildingType(BuildingTypes); tokens: TuberPlayerEntity.TokensArea");
 
         /// <summary>read.items: The items on a Vagabond's card with damaged and exhausted state.</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's Vagabond item satchel/track</remarks>
+        /// <remarks>engineSymbol: tuber.canis.entities.PlayableClasses.VagabondPlayer.AllItems() + TuberEntityExtensions.ItemType / IsDamaged / IsExhausted</remarks>
         public IReadOnlyList<ItemState> Items(SeatId seat) =>
-            throw new NotMappedException("read.items", "unknown: Root's Vagabond item satchel/track");
+            throw new NotMappedException("read.items", "tuber.canis.entities.PlayableClasses.VagabondPlayer.AllItems() + TuberEntityExtensions.ItemType / IsDamaged / IsExhausted");
 
         /// <summary>read.relationship: A Vagabond's relationship with a non-Vagabond faction.</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's Vagabond relationship markers</remarks>
+        /// <remarks>engineSymbol: tuber.canis.entities.PlayableClasses.VagabondPlayer.GetCurrentRelationshipZone(Factions) / IsHostileWith(Factions)</remarks>
         public Relationship RelationshipOf(SeatId vagabond, SeatId faction) =>
-            throw new NotMappedException("read.relationship", "unknown: Root's Vagabond relationship markers");
+            throw new NotMappedException("read.relationship", "tuber.canis.entities.PlayableClasses.VagabondPlayer.GetCurrentRelationshipZone(Factions) / IsHostileWith(Factions)");
 
         /// <summary>read.crafted-items: Items a faction has crafted and holds (a Vagabond may take one through Aid).</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's per-faction crafted items area</remarks>
+        /// <remarks>engineSymbol: tuber.canis.entities.TuberPlayerEntity.GetItemArea() (TuberItemArea)</remarks>
         public IReadOnlyList<ItemType> CraftedItems(SeatId seat) =>
-            throw new NotMappedException("read.crafted-items", "unknown: Root's per-faction crafted items area");
+            throw new NotMappedException("read.crafted-items", "tuber.canis.entities.TuberPlayerEntity.GetItemArea() (TuberItemArea)");
 
         /// <summary>read.eyrie-leader: The Eyrie's current leader: 'builder', 'charismatic', 'commander' or 'despot'.</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's Eyrie leader card</remarks>
+        /// <remarks>engineSymbol (unverified): tuber.canis.entities.PlayableClasses.EyrieDynastiesPlayer.CurrentLeader() (leader card entity, ArchID)</remarks>
         public string EyrieLeader(SeatId eyrie) =>
-            throw new NotMappedException("read.eyrie-leader", "unknown: Root's Eyrie leader card");
+            throw new NotMappedException("read.eyrie-leader", "tuber.canis.entities.PlayableClasses.EyrieDynastiesPlayer.CurrentLeader() (leader card entity, ArchID)");
 
         /// <summary>read.eyrie-decree: Suits of the cards in one Decree column ('recruit', 'move', 'battle', 'build'), viziers as Suit.Bird.</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's Eyrie Decree</remarks>
+        /// <remarks>engineSymbol: tuber.canis.entities.PlayableClasses.EyrieDynastiesPlayer.RecruitDecree / MoveDecree / BattleDecree / BuildDecree children + Suit; viziers VizierOne / VizierTwo</remarks>
         public IReadOnlyList<Suit> DecreeColumn(SeatId eyrie, string column) =>
-            throw new NotMappedException("read.eyrie-decree", "unknown: Root's Eyrie Decree");
+            throw new NotMappedException("read.eyrie-decree", "tuber.canis.entities.PlayableClasses.EyrieDynastiesPlayer.RecruitDecree / MoveDecree / BattleDecree / BuildDecree children + Suit; viziers VizierOne / VizierTwo");
 
         /// <summary>read.alliance-supporters: Suits of the Alliance's supporter cards. Only the Alliance seat's own bot may call it.</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's Alliance supporters stack</remarks>
+        /// <remarks>engineSymbol: tuber.canis.entities.PlayableClasses.WoodlandAlliancePlayer.Supporters children + Suit</remarks>
         public IReadOnlyList<Suit> Supporters(SeatId alliance) =>
-            throw new NotMappedException("read.alliance-supporters", "unknown: Root's Alliance supporters stack");
+            throw new NotMappedException("read.alliance-supporters", "tuber.canis.entities.PlayableClasses.WoodlandAlliancePlayer.Supporters children + Suit");
 
         /// <summary>read.alliance-officers: Number of Alliance officers.</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's Alliance officers box</remarks>
+        /// <remarks>engineSymbol: tuber.canis.entities.PlayableClasses.WoodlandAlliancePlayer.OfficerPile children</remarks>
         public int Officers(SeatId alliance) =>
-            throw new NotMappedException("read.alliance-officers", "unknown: Root's Alliance officers box");
+            throw new NotMappedException("read.alliance-officers", "tuber.canis.entities.PlayableClasses.WoodlandAlliancePlayer.OfficerPile children");
 
         /// <summary>read.relics-in-forest: Relic ids lying in a forest.</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's Keepers relic tokens by location</remarks>
+        /// <remarks>engineSymbol (unverified): forest TuberBoardNode pieces with TuberEntityExtensions.TokenType == TokenTypes.Relic</remarks>
         public IReadOnlyList<int> RelicsInForest(int forest) =>
-            throw new NotMappedException("read.relics-in-forest", "unknown: Root's Keepers relic tokens by location");
+            throw new NotMappedException("read.relics-in-forest", "forest TuberBoardNode pieces with TuberEntityExtensions.TokenType == TokenTypes.Relic");
 
         /// <summary>read.relic-type: A relic's type: 'tablet', 'figure' or 'jewelry', or null while face down if the engine hides it (week-1 spike).</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's relic token type</remarks>
+        /// <remarks>engineSymbol: tuber.canis.entities.TuberEntityExtensions.RelicType(relic) (tuber_canis.data.RelicTypes)</remarks>
         public string? RelicType(int relicId) =>
-            throw new NotMappedException("read.relic-type", "unknown: Root's relic token type");
+            throw new NotMappedException("read.relic-type", "tuber.canis.entities.TuberEntityExtensions.RelicType(relic) (tuber_canis.data.RelicTypes)");
 
         /// <summary>read.relic-value: A relic's value (1-3), or null while it is face down and hidden from the mod (to confirm in the week-1 spike). Bots may use it only for face-up relics (read.relic-face-up), since a face-down value is hidden from players.</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's relic token value</remarks>
+        /// <remarks>engineSymbol (unverified): unknown: no relic value member in Root's metadata</remarks>
         public int? RelicValue(int relicId) =>
-            throw new NotMappedException("read.relic-value", "unknown: Root's relic token value");
+            throw new NotMappedException("read.relic-value", "unknown: no relic value member in Root's metadata");
 
         /// <summary>read.relic-face-up: Whether a relic is face up.</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's relic token face state</remarks>
+        /// <remarks>engineSymbol: tuber.canis.entities.TuberEntityExtensions.TokenFace(relic) (tuber_canis.data.TokenFace)</remarks>
         public bool RelicFaceUp(int relicId) =>
-            throw new NotMappedException("read.relic-face-up", "unknown: Root's relic token face state");
+            throw new NotMappedException("read.relic-face-up", "tuber.canis.entities.TuberEntityExtensions.TokenFace(relic) (tuber_canis.data.TokenFace)");
 
         /// <summary>read.relic-forest: The forest a relic lies in, or null when it is carried or recovered.</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's relic token location</remarks>
+        /// <remarks>engineSymbol (unverified): relic entity Canis.entities.Entity.Parent (a TuberBoardNode with IsForest)</remarks>
         public int? RelicForest(int relicId) =>
-            throw new NotMappedException("read.relic-forest", "unknown: Root's relic token location");
+            throw new NotMappedException("read.relic-forest", "relic entity Canis.entities.Entity.Parent (a TuberBoardNode with IsForest)");
 
         /// <summary>read.relic-clearing: The clearing where a relic is being carried by a Keeper warrior, or null.</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's relic token location</remarks>
+        /// <remarks>engineSymbol (unverified): relic entity Canis.entities.Entity.Parent while carried (KeepersInIronPlayer.GetDelvedRelics())</remarks>
         public ClearingId? RelicClearing(int relicId) =>
-            throw new NotMappedException("read.relic-clearing", "unknown: Root's relic token location");
+            throw new NotMappedException("read.relic-clearing", "relic entity Canis.entities.Entity.Parent while carried (KeepersInIronPlayer.GetDelvedRelics())");
 
         /// <summary>read.recovered-relics: Relic ids in the Keepers' recovered-relic area.</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's Keepers recovered relics</remarks>
+        /// <remarks>engineSymbol: tuber.canis.entities.PlayableClasses.KeepersInIronPlayer.GetRecoveredRelics(RelicTypes) / Relics / RelicCounts</remarks>
         public IReadOnlyList<int> RecoveredRelics(SeatId keepers) =>
-            throw new NotMappedException("read.recovered-relics", "unknown: Root's Keepers recovered relics");
+            throw new NotMappedException("read.recovered-relics", "tuber.canis.entities.PlayableClasses.KeepersInIronPlayer.GetRecoveredRelics(RelicTypes) / Relics / RelicCounts");
 
         /// <summary>read.keepers-retinue: Suits of the cards in one Retinue column ('move', 'battle-delve', 'move-recover').</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's Keepers Retinue</remarks>
+        /// <remarks>engineSymbol: tuber.canis.entities.PlayableClasses.KeepersInIronPlayer.MoveRetinue / BattleDelveRetinue / MoveOrRecoverRetinue children + Suit</remarks>
         public IReadOnlyList<Suit> RetinueColumn(SeatId keepers, string column) =>
-            throw new NotMappedException("read.keepers-retinue", "unknown: Root's Keepers Retinue");
+            throw new NotMappedException("read.keepers-retinue", "tuber.canis.entities.PlayableClasses.KeepersInIronPlayer.MoveRetinue / BattleDelveRetinue / MoveOrRecoverRetinue children + Suit");
 
         /// <summary>read.duchy-burrow: Duchy warriors in the Burrow.</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's Duchy Burrow</remarks>
+        /// <remarks>engineSymbol: tuber.canis.entities.PlayableClasses.UndergroundDuchyPlayer.Burrow (TuberBoardNode) CountPieces(Factions.UndergroundDuchy, [Warrior])</remarks>
         public int BurrowWarriors(SeatId duchy) =>
-            throw new NotMappedException("read.duchy-burrow", "unknown: Root's Duchy Burrow");
+            throw new NotMappedException("read.duchy-burrow", "tuber.canis.entities.PlayableClasses.UndergroundDuchyPlayer.Burrow (TuberBoardNode) CountPieces(Factions.UndergroundDuchy, [Warrior])");
 
         /// <summary>read.duchy-ministers: Ids of the minister cards the Duchy has swayed (Root's own card ids; rank read from the card).</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's Duchy minister cards</remarks>
+        /// <remarks>engineSymbol: tuber.canis.entities.PlayableClasses.UndergroundDuchyPlayer.SwayedMinisters() (+ TuberEntityExtensions.MinisterType, ArchID)</remarks>
         public IReadOnlyList<string> SwayedMinisters(SeatId duchy) =>
-            throw new NotMappedException("read.duchy-ministers", "unknown: Root's Duchy minister cards");
+            throw new NotMappedException("read.duchy-ministers", "tuber.canis.entities.PlayableClasses.UndergroundDuchyPlayer.SwayedMinisters() (+ TuberEntityExtensions.MinisterType, ArchID)");
 
         /// <summary>read.corvid-face-up-plot: The type of a Corvid face-up plot in a clearing ('bomb', 'snare', 'extortion', 'raid'), or null when there is none or it is face down.</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's Corvid plot tokens</remarks>
+        /// <remarks>engineSymbol: tuber.canis.entities.PlayableClasses.CorvidConspiracyPlayer.GetActivePlots(TokenFace, PlotTypes); per piece TuberEntityExtensions.PlotType + TokenFace</remarks>
         public string? FaceUpPlot(SeatId corvids, ClearingId c) =>
-            throw new NotMappedException("read.corvid-face-up-plot", "unknown: Root's Corvid plot tokens");
+            throw new NotMappedException("read.corvid-face-up-plot", "tuber.canis.entities.PlayableClasses.CorvidConspiracyPlayer.GetActivePlots(TokenFace, PlotTypes); per piece TuberEntityExtensions.PlotType + TokenFace");
 
         /// <summary>read.corvid-hidden-plot: The type of a face-down Corvid plot in a clearing. Only the Corvid seat's own bot may call it.</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's Corvid plot tokens</remarks>
+        /// <remarks>engineSymbol: tuber.canis.entities.PlayableClasses.CorvidConspiracyPlayer.GetActivePlots(TokenFace, PlotTypes); per piece TuberEntityExtensions.PlotType + TokenFace</remarks>
         public string? HiddenPlotType(SeatId corvids, ClearingId c) =>
-            throw new NotMappedException("read.corvid-hidden-plot", "unknown: Root's Corvid plot tokens");
+            throw new NotMappedException("read.corvid-hidden-plot", "tuber.canis.entities.PlayableClasses.CorvidConspiracyPlayer.GetActivePlots(TokenFace, PlotTypes); per piece TuberEntityExtensions.PlotType + TokenFace");
 
         /// <summary>read.lizard-outcast: The Lizard Cult's Outcast suit, or null before one is set.</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's Lizard outcast marker</remarks>
+        /// <remarks>engineSymbol: tuber.canis.entities.PlayableClasses.LizardCultPlayer.OutcastSuit (Outcast tuple)</remarks>
         public Suit? OutcastSuit(SeatId lizards) =>
-            throw new NotMappedException("read.lizard-outcast", "unknown: Root's Lizard outcast marker");
+            throw new NotMappedException("read.lizard-outcast", "tuber.canis.entities.PlayableClasses.LizardCultPlayer.OutcastSuit (Outcast tuple)");
 
         /// <summary>read.lizard-hated: Whether the Outcast marker is on its Hated side.</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's Lizard outcast marker</remarks>
+        /// <remarks>engineSymbol: tuber.canis.entities.PlayableClasses.LizardCultPlayer.OutcastType (tuber_canis.data.OutcastTypes)</remarks>
         public bool OutcastHated(SeatId lizards) =>
-            throw new NotMappedException("read.lizard-hated", "unknown: Root's Lizard outcast marker");
+            throw new NotMappedException("read.lizard-hated", "tuber.canis.entities.PlayableClasses.LizardCultPlayer.OutcastType (tuber_canis.data.OutcastTypes)");
 
         /// <summary>read.lizard-acolytes: Acolytes in the Lizard Cult's box.</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's Lizard acolytes</remarks>
+        /// <remarks>engineSymbol: tuber.canis.entities.PlayableClasses.LizardCultPlayer.Acolytes children</remarks>
         public int Acolytes(SeatId lizards) =>
-            throw new NotMappedException("read.lizard-acolytes", "unknown: Root's Lizard acolytes");
+            throw new NotMappedException("read.lizard-acolytes", "tuber.canis.entities.PlayableClasses.LizardCultPlayer.Acolytes children");
 
         /// <summary>read.hundreds-mood: The Lord of the Hundreds' current mood card id.</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's Hundreds mood card</remarks>
+        /// <remarks>engineSymbol: tuber.canis.entities.PlayableClasses.LordOfTheHundredsPlayer.GetCurrentMood() (ArchID)</remarks>
         public string Mood(SeatId hundreds) =>
-            throw new NotMappedException("read.hundreds-mood", "unknown: Root's Hundreds mood card");
+            throw new NotMappedException("read.hundreds-mood", "tuber.canis.entities.PlayableClasses.LordOfTheHundredsPlayer.GetCurrentMood() (ArchID)");
 
         /// <summary>read.hundreds-hoard: The level of one Hoard (Gestral Stash) track of the Hundreds: 'command' (how many Command actions, which move rats along) or 'prowess' (how far the Warlord can Advance). The Monoco bot uses it to list the Warlord battles he can reach.</summary>
-        /// <remarks>engineSymbol (unverified): unknown</remarks>
+        /// <remarks>engineSymbol: tuber.canis.entities.PlayableClasses.LordOfTheHundredsPlayer.GetHoardCommandActions() / GetHoardProwessActions() (HoardCommand / HoardProwess)</remarks>
         public int HoardTrack(SeatId hundreds, string track) =>
-            throw new NotMappedException("read.hundreds-hoard", "unknown");
+            throw new NotMappedException("read.hundreds-hoard", "tuber.canis.entities.PlayableClasses.LordOfTheHundredsPlayer.GetHoardCommandActions() / GetHoardProwessActions() (HoardCommand / HoardProwess)");
 
         // ================================================================= IBoardActions (sheets/board_actions.json)
 
         /// <summary>do.place-warriors: Place warriors of any seat from that seat's supply into a clearing, outside that seat's turn. Used for Esquie's guards (Florrie's 2, Urrie's 3, from the Nevron host). Returns how many were actually placed when the supply runs short.</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's warrior placement from supply (as used by recruit/setup)
+        /// <remarks>engineSymbol (unverified): tuber.canis.actions.PlacePiecesAtTarget / PlacePieceAtTarget pushed on the match's action stack, warriors from TuberPlayerEntity.WarriorArea
         /// Fallback while unsupported: Esquie's no-spawn fallback becomes the v1 default (tune.esquie-guard-spawns = 0): no guards spawn, and Florrie and Urrie can be claimed only when no faction other than Esquie has warriors in their clearing.</remarks>
         public int PlaceWarriors(SeatId seat, ClearingId c, int count) =>
-            throw new NotMappedException("do.place-warriors", "unknown: Root's warrior placement from supply (as used by recruit/setup)");
+            throw new NotMappedException("do.place-warriors", "tuber.canis.actions.PlacePiecesAtTarget / PlacePieceAtTarget pushed on the match's action stack, warriors from TuberPlayerEntity.WarriorArea");
 
         /// <summary>do.move-warriors: Move warriors of a seat between two clearings outside that seat's normal move (the Paintress's Still Life: 1 warrior from an adjacent clearing into a Living Portrait clearing before the roll).</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's piece move execution
+        /// <remarks>engineSymbol (unverified): tuber.canis.actions.MovePieces (WithPreselectedDestination, WithMinAndMaxOverrides)
         /// Fallback while unsupported: Still Life is left out (it is v1.1 only); nothing replaces it.</remarks>
         public bool MoveWarriors(SeatId seat, ClearingId from, ClearingId to, int count) =>
-            throw new NotMappedException("do.move-warriors", "unknown: Root's piece move execution");
+            throw new NotMappedException("do.move-warriors", "tuber.canis.actions.MovePieces (WithPreselectedDestination, WithMinAndMaxOverrides)");
 
         /// <summary>do.place-tunnel: Place a Duchy tunnel token in a clearing from the Duchy's supply, or as a free extra token when all three are on the map (the Cell Crack opening at Act III).</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's Duchy tunnel placement (Dig)
+        /// <remarks>engineSymbol (unverified): tuber.canis.actions.UndergroundDuchyActions.DigPlaceTunnelAndDiscard, or PlacePieceAtTarget with a TokenTypes.Tunnel token
         /// Fallback while unsupported: The Curator's first Act III action is a free Dig into the Monolith (do.grant-free-dig); the crack overlay stays until he digs there.</remarks>
         public bool PlaceTunnel(SeatId duchy, ClearingId c, bool extraPiece) =>
-            throw new NotMappedException("do.place-tunnel", "unknown: Root's Duchy tunnel placement (Dig)");
+            throw new NotMappedException("do.place-tunnel", "tuber.canis.actions.UndergroundDuchyActions.DigPlaceTunnelAndDiscard, or PlacePieceAtTarget with a TokenTypes.Tunnel token");
 
         /// <summary>do.grant-free-dig: Grant the Duchy one free Dig into a given clearing as its first Act III action, without paying a card (the Cell Crack fallback when a tunnel cannot be placed directly).</summary>
-        /// <remarks>engineSymbol (unverified): unknown
+        /// <remarks>engineSymbol (unverified): unknown: no free-Dig entry point; candidate tuber.canis.actions.UndergroundDuchyActions.DigPlaceTunnelAndDiscard
         /// Fallback while unsupported: He Digs into the Monolith normally, paying the card, as the roster allows after a lost tunnel; the crack overlay stays until he does.</remarks>
         public bool GrantFreeDig(SeatId duchy, ClearingId c) =>
-            throw new NotMappedException("do.grant-free-dig", "unknown");
+            throw new NotMappedException("do.grant-free-dig", "unknown: no free-Dig entry point; candidate tuber.canis.actions.UndergroundDuchyActions.DigPlaceTunnelAndDiscard");
 
         /// <summary>do.move-relic: Move a relic token from one forest to another (the Parents' Journal moved into the forest beside Sirène at Act II).</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's relic token placement in forests
+        /// <remarks>engineSymbol (unverified): tuber.canis.actions.KeepersInIronActions.ReturnRelic / PlacePieceAtTarget with a relic token
         /// Fallback while unsupported: Tag the chosen relic where it lies; only the gold glow marks it.</remarks>
         public bool MoveRelicToForest(int relicId, int forest) =>
-            throw new NotMappedException("do.move-relic", "unknown: Root's relic token placement in forests");
+            throw new NotMappedException("do.move-relic", "tuber.canis.actions.KeepersInIronActions.ReturnRelic / PlacePieceAtTarget with a relic token");
 
         /// <summary>do.tag-relic: Keep a stable handle on one relic so its id survives being delved, carried, dropped face up by Prized Trophies and recovered (the Parents' Journal tag); the gold glow follows it.</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's relic token object/identifier
+        /// <remarks>engineSymbol: Canis.entities.Entity.EntityID of the relic entity
         /// Fallback while unsupported: If relic objects have no stable identity, the core re-finds the tagged relic after each hook.relic-moved by its type, value and last place.</remarks>
         public bool TagRelic(int relicId) =>
-            throw new NotMappedException("do.tag-relic", "unknown: Root's relic token object/identifier");
+            throw new NotMappedException("do.tag-relic", "Canis.entities.Entity.EntityID of the relic entity");
 
         /// <summary>do.declare-winner: End the game with a themed win for a seat (and its coalition partner, if any), showing that character's ending card.</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's game-over / victory trigger
+        /// <remarks>engineSymbol: TuberPlayerEntity.altWinCondition = WinConditionUtils.Or(current, AdHocWinCondition(check)), then tuber.canis.actions.CheckForWinner (TuberAttributes.Winner)
         /// Fallback while unsupported: Raise the winner's score to 30 through Root's own scoring so Root's 30 VP win ends the game, then show the ending card.</remarks>
         public void DeclareWinner(SeatId seat, string winConditionId) =>
-            throw new NotMappedException("do.declare-winner", "unknown: Root's game-over / victory trigger");
+            throw new NotMappedException("do.declare-winner", "TuberPlayerEntity.altWinCondition = WinConditionUtils.Or(current, AdHocWinCondition(check)), then tuber.canis.actions.CheckForWinner (TuberAttributes.Winner)");
 
         /// <summary>do.score-vp: Add VP to a seat outside the usual scoring (Verso's 1 VP when Soarrie passes to Esquie).</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's score track increment
+        /// <remarks>engineSymbol: tuber.canis.actions.GainVP(amount, cause) on the match's action stack
         /// Fallback while unsupported: If VP cannot be added outside the seat's own turn, queue it in state.global.pending-vp and add it at the start of that seat's next Birdsong.</remarks>
         public void ScoreVp(SeatId seat, int vp) =>
-            throw new NotMappedException("do.score-vp", "unknown: Root's score track increment");
+            throw new NotMappedException("do.score-vp", "tuber.canis.actions.GainVP(amount, cause) on the match's action stack");
 
         /// <summary>do.draw-cards: Make a seat draw cards from the deck outside its normal draw (the Curator's Quiet Helper; the campaign's last-expedition journal worth +1 card).</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's deck draw for a player
+        /// <remarks>engineSymbol: tuber.canis.actions.Draw on the match's action stack
         /// Fallback while unsupported: If a draw cannot happen outside the seat's own turn, queue it in state.global.pending-draws and add the cards to that seat's next Evening draw.</remarks>
         public void DrawCards(SeatId seat, int count) =>
-            throw new NotMappedException("do.draw-cards", "unknown: Root's deck draw for a player");
+            throw new NotMappedException("do.draw-cards", "tuber.canis.actions.Draw on the match's action stack");
 
         /// <summary>do.add-hits: Give a seat extra hits in the battle being fought, on top of its roll (Overcharge, Perfection, Twilight, Stains). Extra hits are not capped by a Vagabond's max hits, like Root's other extra hits.</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's battle hit totals (where Ambush and defenseless extra hits are added)
+        /// <remarks>engineSymbol: tuber.canis.entities.TuberPlayerEntity.GetExtraHits(isAttacker, warriorsInCombat, battleClearing) postfix
         /// Fallback while unsupported: After the roll, deal the extra hit as a separate one-hit removal through Root's own hit allocation (the owner of the hit pieces chooses), before hook.battle-resolved reads the result.</remarks>
         public void AddHits(SeatId seat, int hits) =>
-            throw new NotMappedException("do.add-hits", "unknown: Root's battle hit totals (where Ambush and defenseless extra hits are added)");
+            throw new NotMappedException("do.add-hits", "tuber.canis.entities.TuberPlayerEntity.GetExtraHits(isAttacker, warriorsInCombat, battleClearing) postfix");
 
         /// <summary>do.add-max-hits: Raise a Vagabond's max hits (normally its undamaged swords) for the battle being fought (Belly Bounce: the Bag counts as one undamaged sword).</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's Vagabond max-hits calculation
+        /// <remarks>engineSymbol (unverified): unknown: a Vagabond's roll cap, likely in tuber.canis.actions.BattleActions.StandardBattleResolution
         /// Fallback while unsupported: If max hits cannot be changed, give one extra hit (do.add-hits) only when his roll was higher than his undamaged swords, which has the same effect.</remarks>
         public void AddMaxHits(SeatId vagabond, int extra) =>
-            throw new NotMappedException("do.add-max-hits", "unknown: Root's Vagabond max-hits calculation");
+            throw new NotMappedException("do.add-max-hits", "unknown: a Vagabond's roll cap, likely in tuber.canis.actions.BattleActions.StandardBattleResolution");
 
         /// <summary>do.ignore-first-hit: Make a seat's warriors in the battle's clearing ignore the first hit they take, like the Keepers' Devout Knights (the White-Haired Man's Unbeatable in Act I).</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's Devout Knights hit-ignore logic
+        /// <remarks>engineSymbol: tuber.canis.entities.TuberPlayerEntity.GetIgnoredHits(isAttacker, warriorsInCombat, battleClearing) postfix (TuberAttributes.IgnoredHitThisBattle)
         /// Fallback while unsupported: After the battle, return one removed warrior of that seat to the clearing from its supply (do.place-warriors), which nets out the first hit. If do.place-warriors is also unavailable, Unbeatable in Act I is left out; it is flavour only, since no themed win is possible in Act I.</remarks>
         public void IgnoreFirstHit(SeatId seat) =>
-            throw new NotMappedException("do.ignore-first-hit", "unknown: Root's Devout Knights hit-ignore logic");
+            throw new NotMappedException("do.ignore-first-hit", "tuber.canis.entities.TuberPlayerEntity.GetIgnoredHits(isAttacker, warriorsInCombat, battleClearing) postfix (TuberAttributes.IgnoredHitThisBattle)");
 
         /// <summary>do.set-guard-floor: Keep at least this many of the host's warriors in a clearing: Root's move generator, its AI and the human UI may not move the host below the floor. 0 lifts it. Only a count: the host's other warriors come and go freely.</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's move legality / legal-move generator for warriors
+        /// <remarks>engineSymbol (unverified): tuber.canis.entities.TuberBoardNode.CanMoveOut(IHasBoardPieces) and tuber.canis.actions.MovePieces max override; removals: RemovePiece
         /// Fallback while unsupported: Esquie's no-spawn fallback (no guards, so no floor is needed).</remarks>
         public void SetGuardFloor(SeatId host, ClearingId c, int floor) =>
-            throw new NotMappedException("do.set-guard-floor", "unknown: Root's move legality / legal-move generator for warriors");
+            throw new NotMappedException("do.set-guard-floor", "tuber.canis.entities.TuberBoardNode.CanMoveOut(IHasBoardPieces) and tuber.canis.actions.MovePieces max override; removals: RemovePiece");
 
         /// <summary>do.block-placement: Forbid a seat from building, recruiting or placing any piece in a clearing (the Nevron host in a clearing with a guarded rock), for the AI and the human UI alike.</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's build/recruit/place legality checks
+        /// <remarks>engineSymbol: tuber.canis.entities.TuberPlayerEntity.CanPlacePieceAt(TuberBoardNode) and CanBuildAt(TuberBoardNode) postfix (false in the blocked clearing)
         /// Fallback while unsupported: Esquie's no-spawn fallback (no guards, so no host and nothing to block).</remarks>
         public void BlockPlacement(SeatId seat, ClearingId c, bool blocked) =>
-            throw new NotMappedException("do.block-placement", "unknown: Root's build/recruit/place legality checks");
+            throw new NotMappedException("do.block-placement", "tuber.canis.entities.TuberPlayerEntity.CanPlacePieceAt(TuberBoardNode) and CanBuildAt(TuberBoardNode) postfix (false in the blocked clearing)");
 
         /// <summary>do.restrict-home: Limit the clearings a seat may pick as its home during setup: the Paintress's first roost to the Monolith, Clea's home to the Flying Manor, the Curator's home to a free corner other than Lumière and the Monolith. On Autumn also Gustave's keep, to Lumière (autumn.01); on other maps his keep is free and the corner it goes in becomes Lumière.</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's setup home-clearing choice
+        /// <remarks>engineSymbol (unverified): filter the starting-clearing selection of tuber.canis.actions.*.SetStartingLocationFor&lt;Faction&gt; (Marquise, Eyrie, Cult, Corvid, Duchy, Hundreds; MarquisePlaceStartingBuildings)
         /// Fallback while unsupported: Highlight the required clearing for a human and steer a bot there with do.submit-action. Roles never move, so a human who picks another corner is warned that the character's rules still point at the role clearing (Clea still needs her atelier in the Flying Manor).</remarks>
         public void RestrictHomeChoice(SeatId seat, IReadOnlyList<ClearingId> allowed) =>
-            throw new NotMappedException("do.restrict-home", "unknown: Root's setup home-clearing choice");
+            throw new NotMappedException("do.restrict-home", "filter the starting-clearing selection of tuber.canis.actions.*.SetStartingLocationFor<Faction> (Marquise, Eyrie, Cult, Corvid, Duchy, Hundreds; MarquisePlaceStartingBuildings)");
 
         /// <summary>do.restrict-start-forest: Limit the forests a Vagabond may start in (Esquie starts in a forest next to Esquie's Nest).</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's Vagabond starting-forest choice
+        /// <remarks>engineSymbol (unverified): filter the forest selection of tuber.canis.actions.VagabondActions.PlaceInitialVagabondPawn
         /// Fallback while unsupported: Esquie starts wherever the player or AI puts him; nothing else depends on it.</remarks>
         public void RestrictStartForest(SeatId vagabond, IReadOnlyList<int> forests) =>
-            throw new NotMappedException("do.restrict-start-forest", "unknown: Root's Vagabond starting-forest choice");
+            throw new NotMappedException("do.restrict-start-forest", "filter the forest selection of tuber.canis.actions.VagabondActions.PlaceInitialVagabondPawn");
 
         /// <summary>do.grant-ability: Give a seat a movement ability for the rest of the game: 'rivers-as-paths' (Florrie), 'no-hostile-boot' (Dorrie), 'glide' (Soarrie: exhaust a torch once per turn to move to any clearing, the Harrier's Glide logic).</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's Riverboats/Swimmers path rules, Hostile boot cost, and the Harrier's Glide
+        /// <remarks>engineSymbol (unverified): rivers-as-paths: tuber.canis.entities.TuberPlayerEntity.CanMoveAlongRivers getter postfix; other abilities: unknown
         /// Fallback while unsupported: Leave the rock powers out (they are v1.1 only); the rocks still count for the win.</remarks>
         public void GrantAbility(SeatId seat, string abilityKey) =>
-            throw new NotMappedException("do.grant-ability", "unknown: Root's Riverboats/Swimmers path rules, Hostile boot cost, and the Harrier's Glide");
+            throw new NotMappedException("do.grant-ability", "rivers-as-paths: tuber.canis.entities.TuberPlayerEntity.CanMoveAlongRivers getter postfix; other abilities: unknown");
 
         /// <summary>do.show-banner: Show the public countdown banner for a seat's themed win (announced at the end of its turn).</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's HUD canvas to attach the banner to
+        /// <remarks>engineSymbol: none: drawn on the mod's own overlay (src/Root33.Plugin/Unity/Overlay.cs)
         /// Fallback while unsupported: Write the warning into Root's game log or notification area.</remarks>
         public void ShowBanner(SeatId seat, string winConditionId) =>
-            throw new NotMappedException("do.show-banner", "unknown: Root's HUD canvas to attach the banner to");
+            throw new NotMappedException("do.show-banner", "none: drawn on the mod's own overlay (src/Root33.Plugin/Unity/Overlay.cs)");
 
         /// <summary>do.clear-banner: Remove a seat's countdown banner (its confirmation failed, or it won).</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's HUD canvas
+        /// <remarks>engineSymbol: none: drawn on the mod's own overlay (src/Root33.Plugin/Unity/Overlay.cs)
         /// Fallback while unsupported: Write the cancellation into Root's game log.</remarks>
         public void ClearBanner(SeatId seat) =>
-            throw new NotMappedException("do.clear-banner", "unknown: Root's HUD canvas");
+            throw new NotMappedException("do.clear-banner", "none: drawn on the mod's own overlay (src/Root33.Plugin/Unity/Overlay.cs)");
 
         /// <summary>do.show-bubble: Show a speech bubble with a bark over a seat's portrait or pawn.</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's player portrait / pawn view to anchor the bubble
+        /// <remarks>engineSymbol (unverified): lotus.ViewManager.ViewFor(EntityID, viewLayer) for the seat's pawn or faction view
         /// Fallback while unsupported: Write the line into Root's game log.</remarks>
         public void ShowBubble(SeatId seat, string barkId) =>
-            throw new NotMappedException("do.show-bubble", "unknown: Root's player portrait / pawn view to anchor the bubble");
+            throw new NotMappedException("do.show-bubble", "lotus.ViewManager.ViewFor(EntityID, viewLayer) for the seat's pawn or faction view");
 
         /// <summary>do.show-overlay: Draw a mod overlay (token, badge, gauge, tracker, label or screen) anchored to a seat's board, a clearing, a forest, or the whole screen when all anchors are null.</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's clearing and faction-board view transforms
+        /// <remarks>engineSymbol (unverified): lotus.ViewManager.ViewFor(TuberBoardNode.EntityID, viewLayer) for clearing anchors
         /// Fallback while unsupported: If it cannot be anchored on Root's board, show it in the mod's side panel instead, naming the clearing or seat.</remarks>
         public void ShowOverlay(string overlayId, SeatId? seat, ClearingId? c, int? forest) =>
-            throw new NotMappedException("do.show-overlay", "unknown: Root's clearing and faction-board view transforms");
+            throw new NotMappedException("do.show-overlay", "lotus.ViewManager.ViewFor(TuberBoardNode.EntityID, viewLayer) for clearing anchors");
 
         /// <summary>do.hide-overlay: Remove a mod overlay from its anchor (a claimed rock, the removed François decoy, an opened Cell Crack).</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's clearing and faction-board view transforms
+        /// <remarks>engineSymbol (unverified): lotus.ViewManager.ViewFor(TuberBoardNode.EntityID, viewLayer) for clearing anchors
         /// Fallback while unsupported: Remove it from the mod's side panel.</remarks>
         public void HideOverlay(string overlayId, SeatId? seat, ClearingId? c, int? forest) =>
-            throw new NotMappedException("do.hide-overlay", "unknown: Root's clearing and faction-board view transforms");
+            throw new NotMappedException("do.hide-overlay", "lotus.ViewManager.ViewFor(TuberBoardNode.EntityID, viewLayer) for clearing anchors");
 
         /// <summary>do.set-seat-title: Change the name Root shows for a seat (character safe or finished names; the Faithful retitle of Gustave's seat to 'Expedition 33' from Act II).</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's player name/faction label text
+        /// <remarks>engineSymbol (unverified): Canis.entities.PlayerEntity.PlayerName
         /// Fallback while unsupported: Show the name on the mod's own seat label overlay over Root's.</remarks>
         public void SetSeatTitle(SeatId seat, string title) =>
-            throw new NotMappedException("do.set-seat-title", "unknown: Root's player name/faction label text");
+            throw new NotMappedException("do.set-seat-title", "Canis.entities.PlayerEntity.PlayerName");
 
         /// <summary>do.hide-clockwork: Hide the Clockwork bots (Mechanical Marquise 2.0, Electric Eyrie, Automated Alliance, Vagabot) from seat selection in E33 mode, so every bot seat uses the standard Dire Wolf AI.</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's AI type options on the setup screen
+        /// <remarks>engineSymbol (unverified): tuber.client.utils.AvailableFactions.getAvailableFactionsForClockwork postfix and the Clockwork entry of tuber.client.menus.behaviours.PlayerTypeToggle on ConfigureOfflineGamePromptBehaviour
         /// Fallback while unsupported: Refuse to start an E33 game while a Clockwork bot is seated and say why.</remarks>
         public void HideClockworkBots() =>
-            throw new NotMappedException("do.hide-clockwork", "unknown: Root's AI type options on the setup screen");
+            throw new NotMappedException("do.hide-clockwork", "tuber.client.utils.AvailableFactions.getAvailableFactionsForClockwork postfix and the Clockwork entry of tuber.client.menus.behaviours.PlayerTypeToggle on ConfigureOfflineGamePromptBehaviour");
 
         /// <summary>do.submit-action: Make a bot seat take one legal action chosen by its Goal Director, through the engine's legal-action API (the mod-owned policy path).</summary>
-        /// <remarks>engineSymbol (unverified): unknown: Root's action executor used by the UI and AI
+        /// <remarks>engineSymbol (unverified): return the chosen ISelectionCounter from a prefix on tuber.canis.entities.ai.AIProfile.MakeChoice
         /// Fallback while unsupported: Re-rank Root's own AI candidates instead (hook.bot-decision); if neither is possible, the seat plays Root's AI only and its themed win stays checkable for humans.</remarks>
         public bool SubmitAction(SeatId seat, string actionKey) =>
-            throw new NotMappedException("do.submit-action", "unknown: Root's action executor used by the UI and AI");
+            throw new NotMappedException("do.submit-action", "return the chosen ISelectionCounter from a prefix on tuber.canis.entities.ai.AIProfile.MakeChoice");
 
         /// <summary>do.native-ai-step: Hand the bot seat's next decision to Root's own AI (when nothing goal-relevant is legal, and for hit allocation, Ambush and discards).</summary>
-        /// <remarks>engineSymbol (unverified): unknown: the Dire Wolf AI per-faction decision entry point
+        /// <remarks>engineSymbol: tuber.canis.entities.ai.AIProfile.MakeChoice(SelectionMessage, TuberAIChoiceContext) (per-faction subclasses, e.g. MarquiseDeCatAIProfile)
         /// Fallback while unsupported: If Root's AI cannot be called one decision at a time, let it play the bot's whole turn whenever the Goal Director finds nothing goal-relevant at the start of that turn.</remarks>
         public void UseNativeAi(SeatId seat) =>
-            throw new NotMappedException("do.native-ai-step", "unknown: the Dire Wolf AI per-faction decision entry point");
+            throw new NotMappedException("do.native-ai-step", "tuber.canis.entities.ai.AIProfile.MakeChoice(SelectionMessage, TuberAIChoiceContext) (per-faction subclasses, e.g. MarquiseDeCatAIProfile)");
     }
 }

@@ -18,35 +18,35 @@ namespace Root33.Plugin.Adapter
         /// <summary>The core's Autumn clearing number -> Root's own clearing id.</summary>
         public static readonly IReadOnlyDictionary<int, string> AutumnClearings = new Dictionary<int, string>
         {
-            [1] = "unknown",   // autumn.01 Lumière (rabbit) - unverified
-            [2] = "unknown",   // autumn.02 Esquie's Nest (rabbit) - unverified
-            [3] = "unknown",   // autumn.03 The Monolith (mouse) - unverified
-            [4] = "unknown",   // autumn.04 Flying Manor (fox) - unverified
-            [5] = "unknown",   // autumn.05 Spring Meadows (fox) - unverified
-            [6] = "unknown",   // autumn.06 Stone Wave Cliffs (mouse) - unverified
-            [7] = "unknown",   // autumn.07 Gestral Village (mouse) - unverified
-            [8] = "unknown",   // autumn.08 Old Lumière (fox) - unverified
-            [9] = "unknown",   // autumn.09 Visages (fox) - unverified
-            [10] = "unknown",   // autumn.10 Sirène (rabbit) - unverified
-            [11] = "unknown",   // autumn.11 The Reacher (rabbit) - unverified
-            [12] = "unknown",   // autumn.12 Forgotten Battlefield (mouse) - unverified
+            [1] = "11",   // autumn.01 Lumière (rabbit) - confirmed
+            [2] = "8",   // autumn.02 Esquie's Nest (rabbit) - confirmed
+            [3] = "2",   // autumn.03 The Monolith (mouse) - confirmed
+            [4] = "0",   // autumn.04 Flying Manor (fox) - confirmed
+            [5] = "10",   // autumn.05 Spring Meadows (fox) - confirmed
+            [6] = "9",   // autumn.06 Stone Wave Cliffs (mouse) - confirmed
+            [7] = "6",   // autumn.07 Gestral Village (mouse) - confirmed
+            [8] = "5",   // autumn.08 Old Lumière (fox) - confirmed
+            [9] = "7",   // autumn.09 Visages (fox) - confirmed
+            [10] = "3",   // autumn.10 Sirène (rabbit) - confirmed
+            [11] = "1",   // autumn.11 The Reacher (rabbit) - confirmed
+            [12] = "4",   // autumn.12 Forgotten Battlefield (mouse) - confirmed
         };
 
         /// <summary>engines.json id -> Root's own type or id for that faction.</summary>
         public static readonly IReadOnlyDictionary<string, string> EngineTypes = new Dictionary<string, string>
         {
-            ["marquise"] = "unknown",   // Marquise de Cat - unverified
-            ["eyrie"] = "unknown",   // Eyrie Dynasties - unverified
-            ["alliance"] = "unknown",   // Woodland Alliance - unverified
-            ["vagabond-tinker"] = "unknown",   // Vagabond (Tinker) - unverified
-            ["vagabond-ranger"] = "unknown",   // Vagabond (Ranger) - unverified
-            ["vagabond-thief"] = "unknown",   // Vagabond (Thief) - unverified
-            ["riverfolk"] = "unknown",   // Riverfolk Company - unverified
-            ["lizards"] = "unknown",   // Lizard Cult - unverified
-            ["duchy"] = "unknown",   // Underground Duchy - unverified
-            ["corvids"] = "unknown",   // Corvid Conspiracy - unverified
-            ["hundreds"] = "unknown",   // Lord of the Hundreds - unverified
-            ["keepers"] = "unknown",   // Keepers in Iron - unverified
+            ["marquise"] = "tuber_canis.data.Factions.MarquiseDeCat (MarquiseDeCatPlayer, MarquiseDeCatAIProfile)",   // Marquise de Cat - confirmed
+            ["eyrie"] = "tuber_canis.data.Factions.EyrieDynasties (EyrieDynastiesPlayer, EyrieDynastiesAIProfile)",   // Eyrie Dynasties - confirmed
+            ["alliance"] = "tuber_canis.data.Factions.WoodlandAlliance (WoodlandAlliancePlayer, WoodlandAllianceAIProfile)",   // Woodland Alliance - confirmed
+            ["vagabond-tinker"] = "tuber_canis.data.Factions.Vagabond or SecondVagabond + tuber_canis.data.VagabondCharacters.Tinker (VagabondPlayer, VagabondAIProfile)",   // Vagabond (Tinker) - confirmed
+            ["vagabond-ranger"] = "tuber_canis.data.Factions.Vagabond or SecondVagabond + tuber_canis.data.VagabondCharacters.Ranger (VagabondPlayer, VagabondAIProfile)",   // Vagabond (Ranger) - confirmed
+            ["vagabond-thief"] = "tuber_canis.data.Factions.Vagabond or SecondVagabond + tuber_canis.data.VagabondCharacters.Thief (VagabondPlayer, VagabondAIProfile)",   // Vagabond (Thief) - confirmed
+            ["riverfolk"] = "tuber_canis.data.Factions.RiverfolkCompany (RiverfolkCompanyPlayer, RiverfolkCompanyAIProfile)",   // Riverfolk Company - confirmed
+            ["lizards"] = "tuber_canis.data.Factions.LizardCult (LizardCultPlayer, LizardCultAIProfile)",   // Lizard Cult - confirmed
+            ["duchy"] = "tuber_canis.data.Factions.UndergroundDuchy (UndergroundDuchyPlayer, UndergroundDuchyAIProfile)",   // Underground Duchy - confirmed
+            ["corvids"] = "tuber_canis.data.Factions.CorvidConspiracy (CorvidConspiracyPlayer, CorvidConspiracyAIProfile)",   // Corvid Conspiracy - confirmed
+            ["hundreds"] = "tuber_canis.data.Factions.LordOfTheHundreds (LordOfTheHundredsPlayer, LordOfTheHundredsAIProfile)",   // Lord of the Hundreds - confirmed
+            ["keepers"] = "tuber_canis.data.Factions.KeepersInIron (KeepersInIronPlayer, KeepersInIronAIProfile)",   // Keepers in Iron - confirmed
         };
 
         /// <summary>Whether every Autumn clearing's Root id is known.</summary>

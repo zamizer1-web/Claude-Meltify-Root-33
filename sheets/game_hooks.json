@@ -7,12 +7,9 @@
         "whether a spoiler choice is already saved (first launch or not)"
       ],
       "csHandler": "void OnTitleScreenShown(bool firstLaunch)",
-      "engineSymbol": "unknown: Root's main-menu scene or controller start",
+      "engineSymbol": "tuber.client.menus.prompts.LandingPromptBehaviour.initialize (seen on the menu by the F9 probe)",
       "patchKind": "postfix",
-      "_unverified": {
-        "engineSymbol": "confirm in Root's code on the creator's PC",
-        "patchKind": "confirm in Root's code on the creator's PC"
-      }
+      "_notes": "engineSymbol and patchKind from Root33.Discover over Root's interop assemblies (Root build 22238765, BepInEx 6.0.0-be.790), 2026-10-20."
     },
     {
       "id": "hook.character-select",
@@ -22,13 +19,9 @@
         "maximum seat count"
       ],
       "csHandler": "void OnCharacterSelectShown(IReadOnlyList<EngineId> ownedEngines, int maxSeats)",
-      "engineSymbol": "unknown: Root's faction-selection screen setup",
+      "engineSymbol": "tuber.client.menus.prompts.ConfigureOfflineGamePromptBehaviour.initialize",
       "patchKind": "postfix",
-      "_unverified": {
-        "engineSymbol": "confirm in Root's code on the creator's PC",
-        "patchKind": "confirm in Root's code on the creator's PC"
-      },
-      "_notes": "Owned engines come from Root's own entitlement list (DLC belongs to the Dire Wolf account and unlocks on every platform), with the Steam DLC app ids as the fallback (sys.dlc-detection). Two Vagabond characters may be seated without any DLC.",
+      "_notes": "Owned engines come from Root's own entitlement list (DLC belongs to the Dire Wolf account and unlocks on every platform), with the Steam DLC app ids as the fallback (sys.dlc-detection). Two Vagabond characters may be seated without any DLC. engineSymbol and patchKind from Root33.Discover over Root's interop assemblies (Root build 22238765, BepInEx 6.0.0-be.790), 2026-10-20.",
       "_source": "https://news.direwolfdigital.com/root-update-1-27-0-the-riverfolk-expansion/ ; https://news.direwolfdigital.com/root-the-underworld-expansion-now-available/ ; https://news.direwolfdigital.com/landmarks-in-root-digital/"
     },
     {
@@ -40,12 +33,9 @@
         "whether the seat is a bot"
       ],
       "csHandler": "void OnSeatAssigned(SeatId seat, EngineId engine, bool isBot)",
-      "engineSymbol": "unknown: Root's game-setup seat/faction assignment",
+      "engineSymbol": "tuber.canis.TuberMatch.createPlayers (advanced setup: createAdvancedPlayers)",
       "patchKind": "postfix",
-      "_unverified": {
-        "engineSymbol": "confirm in Root's code on the creator's PC",
-        "patchKind": "confirm in Root's code on the creator's PC"
-      }
+      "_notes": "engineSymbol and patchKind from Root33.Discover over Root's interop assemblies (Root build 22238765, BepInEx 6.0.0-be.790), 2026-10-20."
     },
     {
       "id": "hook.game-start",
@@ -56,12 +46,9 @@
         "spoiler mode"
       ],
       "csHandler": "void OnGameStart(IReadOnlyList<SeatId> turnOrder, Difficulty difficulty, SpoilerMode spoilers)",
-      "engineSymbol": "unknown: Root's new-game start (match/session creation)",
+      "engineSymbol": "tuber.canis.TuberMatch.SetupMatch(bool isResume) with isResume false",
       "patchKind": "postfix",
-      "_unverified": {
-        "engineSymbol": "confirm in Root's code on the creator's PC",
-        "patchKind": "confirm in Root's code on the creator's PC"
-      }
+      "_notes": "engineSymbol and patchKind from Root33.Discover over Root's interop assemblies (Root build 22238765, BepInEx 6.0.0-be.790), 2026-10-20."
     },
     {
       "id": "hook.map-loaded",
@@ -71,12 +58,9 @@
         "clearings with suits, paths, rivers, corners, ruins and slots (read through board_reads)"
       ],
       "csHandler": "void OnMapLoaded(string mapName)",
-      "engineSymbol": "unknown: Root's map/board construction for a new game",
+      "engineSymbol": "tuber.canis.entities.TuberBoard.Initialize",
       "patchKind": "postfix",
-      "_unverified": {
-        "engineSymbol": "confirm in Root's code on the creator's PC",
-        "patchKind": "confirm in Root's code on the creator's PC"
-      }
+      "_notes": "engineSymbol and patchKind from Root33.Discover over Root's interop assemblies (Root build 22238765, BepInEx 6.0.0-be.790), 2026-10-20."
     },
     {
       "id": "hook.setup-home",
@@ -85,12 +69,9 @@
         "seat about to choose"
       ],
       "csHandler": "void OnSetupChoice(SeatId seat)",
-      "engineSymbol": "unknown: Root's setup step that offers home clearings or starting forests",
+      "engineSymbol": "Canis.actions.continuations.ExecuteStack.PushSubAction(Match, Action action) when action is a SetStartingLocationFor<Faction> or VagabondActions.PlaceInitialVagabondPawn",
       "patchKind": "prefix",
-      "_unverified": {
-        "engineSymbol": "confirm in Root's code on the creator's PC",
-        "patchKind": "confirm in Root's code on the creator's PC"
-      }
+      "_notes": "engineSymbol and patchKind from Root33.Discover over Root's interop assemblies (Root build 22238765, BepInEx 6.0.0-be.790), 2026-10-20. Root runs the match on its own thread (Canis.Match.Run): hand core calls to the main thread."
     },
     {
       "id": "hook.setup-complete",
@@ -99,12 +80,9 @@
         "the board after setup"
       ],
       "csHandler": "void OnSetupComplete()",
-      "engineSymbol": "unknown: Root's end-of-setup / first-turn start",
+      "engineSymbol": "Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.SetupPlayers",
       "patchKind": "postfix",
-      "_unverified": {
-        "engineSymbol": "confirm in Root's code on the creator's PC",
-        "patchKind": "confirm in Root's code on the creator's PC"
-      }
+      "_notes": "engineSymbol and patchKind from Root33.Discover over Root's interop assemblies (Root build 22238765, BepInEx 6.0.0-be.790), 2026-10-20. Root runs the match on its own thread (Canis.Match.Run): hand core calls to the main thread."
     },
     {
       "id": "hook.round-start",
@@ -113,12 +91,9 @@
         "round number"
       ],
       "csHandler": "void OnRoundStart(int round)",
-      "engineSymbol": "unknown: Root's turn-order wrap to the first seat",
+      "engineSymbol": "Canis.actions.continuations.ExecuteStack.PushSubAction(Match, Action action) when action is tuber.canis.actions.PlayerTurnPhase and TuberMatch.CurrentTurnPlayer() is the first seat (TuberAttributes.FirstPlayer)",
       "patchKind": "postfix",
-      "_unverified": {
-        "engineSymbol": "confirm in Root's code on the creator's PC",
-        "patchKind": "confirm in Root's code on the creator's PC"
-      }
+      "_notes": "engineSymbol and patchKind from Root33.Discover over Root's interop assemblies (Root build 22238765, BepInEx 6.0.0-be.790), 2026-10-20. Root runs the match on its own thread (Canis.Match.Run): hand core calls to the main thread."
     },
     {
       "id": "hook.birdsong-start",
@@ -127,12 +102,9 @@
         "seat whose Birdsong it is"
       ],
       "csHandler": "void OnBirdsongStart(SeatId seat)",
-      "engineSymbol": "unknown: Root's phase change into Birdsong",
+      "engineSymbol": "Canis.actions.continuations.ExecuteStack.PushSubAction(Match, Action action) when action is tuber.canis.actions.BirdsongPhase",
       "patchKind": "prefix",
-      "_unverified": {
-        "engineSymbol": "confirm in Root's code on the creator's PC",
-        "patchKind": "confirm in Root's code on the creator's PC"
-      }
+      "_notes": "engineSymbol and patchKind from Root33.Discover over Root's interop assemblies (Root build 22238765, BepInEx 6.0.0-be.790), 2026-10-20. Root runs the match on its own thread (Canis.Match.Run): hand core calls to the main thread."
     },
     {
       "id": "hook.evening-start",
@@ -141,12 +113,9 @@
         "seat whose Evening it is"
       ],
       "csHandler": "void OnEveningStart(SeatId seat)",
-      "engineSymbol": "unknown: Root's phase change into Evening",
+      "engineSymbol": "Canis.actions.continuations.ExecuteStack.PushSubAction(Match, Action action) when action is tuber.canis.actions.EveningPhase",
       "patchKind": "postfix",
-      "_unverified": {
-        "engineSymbol": "confirm in Root's code on the creator's PC",
-        "patchKind": "confirm in Root's code on the creator's PC"
-      }
+      "_notes": "engineSymbol and patchKind from Root33.Discover over Root's interop assemblies (Root build 22238765, BepInEx 6.0.0-be.790), 2026-10-20. Root runs the match on its own thread (Canis.Match.Run): hand core calls to the main thread."
     },
     {
       "id": "hook.evening-end",
@@ -155,12 +124,9 @@
         "seat whose turn is ending"
       ],
       "csHandler": "void OnEveningEnd(SeatId seat)",
-      "engineSymbol": "unknown: Root's end of the Evening phase",
+      "engineSymbol": "Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.EveningPhase",
       "patchKind": "postfix",
-      "_unverified": {
-        "engineSymbol": "confirm in Root's code on the creator's PC",
-        "patchKind": "confirm in Root's code on the creator's PC"
-      }
+      "_notes": "engineSymbol and patchKind from Root33.Discover over Root's interop assemblies (Root build 22238765, BepInEx 6.0.0-be.790), 2026-10-20. Root runs the match on its own thread (Canis.Match.Run): hand core calls to the main thread."
     },
     {
       "id": "hook.turn-end",
@@ -169,12 +135,9 @@
         "seat whose turn just ended"
       ],
       "csHandler": "void OnTurnEnd(SeatId seat)",
-      "engineSymbol": "unknown: Root's advance to the next seat",
+      "engineSymbol": "Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.PlayerTurnPhase",
       "patchKind": "postfix",
-      "_unverified": {
-        "engineSymbol": "confirm in Root's code on the creator's PC",
-        "patchKind": "confirm in Root's code on the creator's PC"
-      }
+      "_notes": "engineSymbol and patchKind from Root33.Discover over Root's interop assemblies (Root build 22238765, BepInEx 6.0.0-be.790), 2026-10-20. Root runs the match on its own thread (Canis.Match.Run): hand core calls to the main thread."
     },
     {
       "id": "hook.act-change",
@@ -193,12 +156,9 @@
         "seat that acted"
       ],
       "csHandler": "void OnActionResolved(SeatId seat)",
-      "engineSymbol": "unknown: Root's action executor / action-complete callback",
+      "engineSymbol": "Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction)",
       "patchKind": "postfix",
-      "_unverified": {
-        "engineSymbol": "confirm in Root's code on the creator's PC",
-        "patchKind": "confirm in Root's code on the creator's PC"
-      }
+      "_notes": "engineSymbol and patchKind from Root33.Discover over Root's interop assemblies (Root build 22238765, BepInEx 6.0.0-be.790), 2026-10-20. Root runs the match on its own thread (Canis.Match.Run): hand core calls to the main thread."
     },
     {
       "id": "hook.piece-moved",
@@ -211,12 +171,9 @@
         "count"
       ],
       "csHandler": "void OnPieceMoved(SeatId owner, PieceKind kind, ClearingId? from, ClearingId? to, int count)",
-      "engineSymbol": "unknown: Root's piece-move execution",
+      "engineSymbol": "Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.MovePieces (SuccessfulMove, SuccessfulMoveInfo)",
       "patchKind": "postfix",
-      "_unverified": {
-        "engineSymbol": "confirm in Root's code on the creator's PC",
-        "patchKind": "confirm in Root's code on the creator's PC"
-      }
+      "_notes": "engineSymbol and patchKind from Root33.Discover over Root's interop assemblies (Root build 22238765, BepInEx 6.0.0-be.790), 2026-10-20. Root runs the match on its own thread (Canis.Match.Run): hand core calls to the main thread."
     },
     {
       "id": "hook.piece-placed",
@@ -228,12 +185,9 @@
         "clearing"
       ],
       "csHandler": "void OnPiecePlaced(SeatId owner, PieceKind kind, string type, ClearingId c)",
-      "engineSymbol": "unknown: Root's piece-placement method",
+      "engineSymbol": "Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.PlacePieceAtTarget / PlacePiecesAtTarget / PlaceSelectedPieceAtTarget / PlaceAllSelectedPiecesAtTarget",
       "patchKind": "postfix",
-      "_unverified": {
-        "engineSymbol": "confirm in Root's code on the creator's PC",
-        "patchKind": "confirm in Root's code on the creator's PC"
-      }
+      "_notes": "engineSymbol and patchKind from Root33.Discover over Root's interop assemblies (Root build 22238765, BepInEx 6.0.0-be.790), 2026-10-20. Root runs the match on its own thread (Canis.Match.Run): hand core calls to the main thread."
     },
     {
       "id": "hook.piece-removed",
@@ -244,12 +198,9 @@
         "clearing"
       ],
       "csHandler": "void OnPieceRemoved(SeatId? remover, RemovedPiece piece, ClearingId c)",
-      "engineSymbol": "unknown: Root's piece-removal method",
+      "engineSymbol": "Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.RemovePiece / RemoveThesePiecesAction / RemoveWarriors",
       "patchKind": "postfix",
-      "_unverified": {
-        "engineSymbol": "confirm in Root's code on the creator's PC",
-        "patchKind": "confirm in Root's code on the creator's PC"
-      }
+      "_notes": "engineSymbol and patchKind from Root33.Discover over Root's interop assemblies (Root build 22238765, BepInEx 6.0.0-be.790), 2026-10-20. Root runs the match on its own thread (Canis.Match.Run): hand core calls to the main thread."
     },
     {
       "id": "hook.battle-legal",
@@ -261,12 +212,9 @@
         "whether it is a Strike"
       ],
       "csHandler": "bool CanStartBattle(SeatId attacker, SeatId defender, ClearingId c, bool strike)",
-      "engineSymbol": "unknown: Root's battle/strike legality check used by the UI and AI",
-      "patchKind": "prefix",
-      "_unverified": {
-        "engineSymbol": "confirm in Root's code on the creator's PC",
-        "patchKind": "confirm in Root's code on the creator's PC"
-      }
+      "engineSymbol": "tuber.canis.entities.TuberPlayerEntity.GetTargetsToBattle / GetBattleTargetsAt(TuberBoardNode); Strike: VagabondPlayer.GetOpponentPiecesForStrike()",
+      "patchKind": "postfix",
+      "_notes": "engineSymbol and patchKind from Root33.Discover over Root's interop assemblies (Root build 22238765, BepInEx 6.0.0-be.790), 2026-10-20."
     },
     {
       "id": "hook.battle-start",
@@ -277,12 +225,9 @@
         "clearing"
       ],
       "csHandler": "void OnBattleStarting(SeatId attacker, SeatId defender, ClearingId c)",
-      "engineSymbol": "unknown: Root's battle start, before the ambush step",
+      "engineSymbol": "tuber.canis.actions.BattleActions.Battle.ChooseAmbush (Battle._attacker, _defender, _battleClearing set)",
       "patchKind": "prefix",
-      "_unverified": {
-        "engineSymbol": "confirm in Root's code on the creator's PC",
-        "patchKind": "confirm in Root's code on the creator's PC"
-      }
+      "_notes": "engineSymbol and patchKind from Root33.Discover over Root's interop assemblies (Root build 22238765, BepInEx 6.0.0-be.790), 2026-10-20."
     },
     {
       "id": "hook.battle-resolved",
@@ -296,12 +241,9 @@
         "the VP leader when the battle started (null on a tie)"
       ],
       "csHandler": "void OnBattleResolved(BattleResult r)",
-      "engineSymbol": "unknown: Root's battle resolution, after removals and item damage",
+      "engineSymbol": "Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.BattleActions.Battle",
       "patchKind": "postfix",
-      "_unverified": {
-        "engineSymbol": "confirm in Root's code on the creator's PC",
-        "patchKind": "confirm in Root's code on the creator's PC"
-      }
+      "_notes": "engineSymbol and patchKind from Root33.Discover over Root's interop assemblies (Root build 22238765, BepInEx 6.0.0-be.790), 2026-10-20. Root runs the match on its own thread (Canis.Match.Run): hand core calls to the main thread."
     },
     {
       "id": "hook.explore-resolved",
@@ -311,12 +253,9 @@
         "clearing explored"
       ],
       "csHandler": "void OnExploreResolved(SeatId vagabond, ClearingId c)",
-      "engineSymbol": "unknown: Root's Vagabond Explore action",
+      "engineSymbol": "Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.VagabondActions.ExploreResolution",
       "patchKind": "postfix",
-      "_unverified": {
-        "engineSymbol": "confirm in Root's code on the creator's PC",
-        "patchKind": "confirm in Root's code on the creator's PC"
-      }
+      "_notes": "engineSymbol and patchKind from Root33.Discover over Root's interop assemblies (Root build 22238765, BepInEx 6.0.0-be.790), 2026-10-20. Root runs the match on its own thread (Canis.Match.Run): hand core calls to the main thread."
     },
     {
       "id": "hook.aid-resolved",
@@ -327,12 +266,9 @@
         "clearing"
       ],
       "csHandler": "void OnAidResolved(SeatId vagabond, SeatId receiver, ClearingId c)",
-      "engineSymbol": "unknown: Root's Vagabond Aid action",
+      "engineSymbol": "Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.VagabondActions.AidActions.Aid",
       "patchKind": "postfix",
-      "_unverified": {
-        "engineSymbol": "confirm in Root's code on the creator's PC",
-        "patchKind": "confirm in Root's code on the creator's PC"
-      }
+      "_notes": "engineSymbol and patchKind from Root33.Discover over Root's interop assemblies (Root build 22238765, BepInEx 6.0.0-be.790), 2026-10-20. Root runs the match on its own thread (Canis.Match.Run): hand core calls to the main thread."
     },
     {
       "id": "hook.hostility-change",
@@ -343,12 +279,9 @@
         "clearing of the battle"
       ],
       "csHandler": "bool AllowHostile(SeatId vagabond, SeatId faction, ClearingId battleClearing)",
-      "engineSymbol": "unknown: Root's Vagabond relationship change to Hostile",
+      "engineSymbol": "Canis.actions.continuations.ExecuteStack.PushSubAction(Match, Action action) when action is tuber.canis.actions.VagabondActions.MarkHostile (field faction)",
       "patchKind": "prefix",
-      "_unverified": {
-        "engineSymbol": "confirm in Root's code on the creator's PC",
-        "patchKind": "confirm in Root's code on the creator's PC"
-      }
+      "_notes": "engineSymbol and patchKind from Root33.Discover over Root's interop assemblies (Root build 22238765, BepInEx 6.0.0-be.790), 2026-10-20. Root runs the match on its own thread (Canis.Match.Run): hand core calls to the main thread."
     },
     {
       "id": "hook.relationship-changed",
@@ -360,12 +293,9 @@
         "relationship after"
       ],
       "csHandler": "void OnRelationshipChanged(SeatId vagabond, SeatId faction, Relationship before, Relationship after)",
-      "engineSymbol": "unknown: Root's Vagabond relationship track setter",
+      "engineSymbol": "Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.VagabondActions.UpdateRelationshipStatus or MarkHostile",
       "patchKind": "postfix",
-      "_unverified": {
-        "engineSymbol": "confirm in Root's code on the creator's PC",
-        "patchKind": "confirm in Root's code on the creator's PC"
-      }
+      "_notes": "engineSymbol and patchKind from Root33.Discover over Root's interop assemblies (Root build 22238765, BepInEx 6.0.0-be.790), 2026-10-20. Root runs the match on its own thread (Canis.Match.Run): hand core calls to the main thread."
     },
     {
       "id": "hook.item-changed",
@@ -376,12 +306,12 @@
         "item after (null when lost)"
       ],
       "csHandler": "void OnItemChanged(SeatId vagabond, ItemState? before, ItemState? after)",
-      "engineSymbol": "unknown: Root's Vagabond item state change",
+      "engineSymbol": "Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.VagabondActions.DamageItem / CostActions.ExhaustItem / TakeItemFromRuinResolution",
       "patchKind": "postfix",
       "_unverified": {
-        "engineSymbol": "confirm in Root's code on the creator's PC",
-        "patchKind": "confirm in Root's code on the creator's PC"
-      }
+        "engineSymbol": "damage, exhaust and gain are found; repair and refresh actions are not identified yet"
+      },
+      "_notes": "engineSymbol and patchKind from Root33.Discover over Root's interop assemblies (Root build 22238765, BepInEx 6.0.0-be.790), 2026-10-20. Root runs the match on its own thread (Canis.Match.Run): hand core calls to the main thread."
     },
     {
       "id": "hook.warlord-removed",
@@ -391,12 +321,12 @@
         "clearing where the Warlord fell"
       ],
       "csHandler": "void OnWarlordRemoved(SeatId hundreds, ClearingId c)",
-      "engineSymbol": "unknown: Root's Warlord removal / anoint step",
+      "engineSymbol": "tuber.canis.abilities.LordOfTheHundredsAbilities.HundredsAnointAbility",
       "patchKind": "prefix",
       "_unverified": {
-        "engineSymbol": "confirm in Root's code on the creator's PC",
-        "patchKind": "confirm in Root's code on the creator's PC"
-      }
+        "engineSymbol": "the anoint state machine is found; the exact entry before a new Warlord is chosen needs a running Hundreds game"
+      },
+      "_notes": "engineSymbol and patchKind from Root33.Discover over Root's interop assemblies (Root build 22238765, BepInEx 6.0.0-be.790), 2026-10-20."
     },
     {
       "id": "hook.relic-recovered",
@@ -407,12 +337,12 @@
         "relic type (tablet, figure or jewelry)"
       ],
       "csHandler": "void OnRelicRecovered(SeatId keepers, int relicId, string relicType)",
-      "engineSymbol": "unknown: Root's Keepers Recover action",
+      "engineSymbol": "Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.KeepersInIronActions.RecoverAnotherRelic (ability KeepersMoveRecoverAbility)",
       "patchKind": "postfix",
       "_unverified": {
-        "engineSymbol": "confirm in Root's code on the creator's PC",
-        "patchKind": "confirm in Root's code on the creator's PC"
-      }
+        "engineSymbol": "the recover ability is found; which action marks the relic recovered needs a running Keepers game"
+      },
+      "_notes": "engineSymbol and patchKind from Root33.Discover over Root's interop assemblies (Root build 22238765, BepInEx 6.0.0-be.790), 2026-10-20. Root runs the match on its own thread (Canis.Match.Run): hand core calls to the main thread."
     },
     {
       "id": "hook.relic-moved",
@@ -421,12 +351,12 @@
         "relic id"
       ],
       "csHandler": "void OnRelicMoved(int relicId)",
-      "engineSymbol": "unknown: Root's relic token move/flip",
+      "engineSymbol": "Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.KeepersInIronActions.KeepersDelve / ReturnRelic / KeepersRelicDestroyed",
       "patchKind": "postfix",
       "_unverified": {
-        "engineSymbol": "confirm in Root's code on the creator's PC",
-        "patchKind": "confirm in Root's code on the creator's PC"
-      }
+        "engineSymbol": "delve and return are found; drops into a forest need a running Keepers game"
+      },
+      "_notes": "engineSymbol and patchKind from Root33.Discover over Root's interop assemblies (Root build 22238765, BepInEx 6.0.0-be.790), 2026-10-20. Root runs the match on its own thread (Canis.Match.Run): hand core calls to the main thread."
     },
     {
       "id": "hook.vp-changed",
@@ -437,12 +367,9 @@
         "VP after"
       ],
       "csHandler": "void OnVpChanged(SeatId seat, int before, int after)",
-      "engineSymbol": "unknown: Root's score track setter",
+      "engineSymbol": "Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.GainVP",
       "patchKind": "postfix",
-      "_unverified": {
-        "engineSymbol": "confirm in Root's code on the creator's PC",
-        "patchKind": "confirm in Root's code on the creator's PC"
-      }
+      "_notes": "engineSymbol and patchKind from Root33.Discover over Root's interop assemblies (Root build 22238765, BepInEx 6.0.0-be.790), 2026-10-20. Root runs the match on its own thread (Canis.Match.Run): hand core calls to the main thread."
     },
     {
       "id": "hook.turmoil",
@@ -451,12 +378,9 @@
         "Eyrie seat"
       ],
       "csHandler": "void OnTurmoil(SeatId eyrie)",
-      "engineSymbol": "unknown: Root's Eyrie Turmoil step",
+      "engineSymbol": "Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.EyrieDynastiesActions.TurmoilResolution",
       "patchKind": "postfix",
-      "_unverified": {
-        "engineSymbol": "confirm in Root's code on the creator's PC",
-        "patchKind": "confirm in Root's code on the creator's PC"
-      }
+      "_notes": "engineSymbol and patchKind from Root33.Discover over Root's interop assemblies (Root build 22238765, BepInEx 6.0.0-be.790), 2026-10-20. Root runs the match on its own thread (Canis.Match.Run): hand core calls to the main thread."
     },
     {
       "id": "hook.convert",
@@ -467,12 +391,12 @@
         "clearing"
       ],
       "csHandler": "void OnConvert(SeatId lizards, SeatId victim, ClearingId c)",
-      "engineSymbol": "unknown: Root's Lizard Convert conspiracy",
+      "engineSymbol": "tuber.canis.abilities.LizardCultAbilities.CultConvertAbility",
       "patchKind": "postfix",
       "_unverified": {
-        "engineSymbol": "confirm in Root's code on the creator's PC",
-        "patchKind": "confirm in Root's code on the creator's PC"
-      }
+        "engineSymbol": "the convert ability state machine is found; the step after the warrior is replaced needs a running Lizard game"
+      },
+      "_notes": "engineSymbol and patchKind from Root33.Discover over Root's interop assemblies (Root build 22238765, BepInEx 6.0.0-be.790), 2026-10-20."
     },
     {
       "id": "hook.ui-toggle",
@@ -494,12 +418,9 @@
         "legal action keys from the engine's legal-action API"
       ],
       "csHandler": "string? OnBotDecision(SeatId seat, IReadOnlyList<string> legalActions)",
-      "engineSymbol": "unknown: the Dire Wolf AI decision entry point for each faction",
+      "engineSymbol": "tuber.canis.entities.ai.AIProfile.MakeChoice(SelectionMessage, TuberAIChoiceContext)",
       "patchKind": "prefix",
-      "_unverified": {
-        "engineSymbol": "confirm in Root's code on the creator's PC",
-        "patchKind": "confirm in Root's code on the creator's PC"
-      }
+      "_notes": "engineSymbol and patchKind from Root33.Discover over Root's interop assemblies (Root build 22238765, BepInEx 6.0.0-be.790), 2026-10-20. Root runs the match on its own thread (Canis.Match.Run): hand core calls to the main thread."
     },
     {
       "id": "hook.game-over",
@@ -508,12 +429,9 @@
         "winning seats (a coalition gives two)"
       ],
       "csHandler": "void OnGameOver(IReadOnlyList<SeatId> winners)",
-      "engineSymbol": "unknown: Root's end-of-game / victory screen",
+      "engineSymbol": "tuber.canis.TuberMatch.GameOverCleanup(List<AccountID>, GameResults) (winner check: tuber.canis.actions.CheckForWinner)",
       "patchKind": "postfix",
-      "_unverified": {
-        "engineSymbol": "confirm in Root's code on the creator's PC",
-        "patchKind": "confirm in Root's code on the creator's PC"
-      }
+      "_notes": "engineSymbol and patchKind from Root33.Discover over Root's interop assemblies (Root build 22238765, BepInEx 6.0.0-be.790), 2026-10-20."
     },
     {
       "id": "hook.save",
@@ -522,13 +440,9 @@
         "the game's ID (to key the mod's file)"
       ],
       "csHandler": "string OnSave()",
-      "engineSymbol": "unknown: Root's save-game serializer",
+      "engineSymbol": "Canis.Match.SavePlayerTurn(...) (also CanisMatch.SaveGame, Match.SaveOnPause)",
       "patchKind": "postfix",
-      "_unverified": {
-        "engineSymbol": "confirm in Root's code on the creator's PC",
-        "patchKind": "confirm in Root's code on the creator's PC"
-      },
-      "_notes": "E33 mode is offline only (solo or pass-and-play, see sys.table-seating), so async online turns never carry Root 33 state. Research: the 1.x-to-2.0 update broke resuming saved games until 2.0.3, so the stored state also records Root's version (dlc base notes).",
+      "_notes": "E33 mode is offline only (solo or pass-and-play, see sys.table-seating), so async online turns never carry Root 33 state. Research: the 1.x-to-2.0 update broke resuming saved games until 2.0.3, so the stored state also records Root's version (dlc base notes). engineSymbol and patchKind from Root33.Discover over Root's interop assemblies (Root build 22238765, BepInEx 6.0.0-be.790), 2026-10-20.",
       "_source": "https://api.steampowered.com/ISteamNews/GetNewsForApp/v2/?appid=965580&count=40&maxlength=0&format=json ; https://steamcommunity.com/app/965580/discussions/0/603036300513310448/"
     },
     {
@@ -538,12 +452,9 @@
         "the mod's saved text for this game's ID (empty when the save has none)"
       ],
       "csHandler": "void OnLoad(string saved)",
-      "engineSymbol": "unknown: Root's save-game loader and undo/rollback restore",
+      "engineSymbol": "tuber.canis.TuberMatch.SetupMatch(bool isResume) with isResume true; undo: TuberMatch.RunUndoAbility()",
       "patchKind": "postfix",
-      "_unverified": {
-        "engineSymbol": "confirm in Root's code on the creator's PC",
-        "patchKind": "confirm in Root's code on the creator's PC"
-      }
+      "_notes": "engineSymbol and patchKind from Root33.Discover over Root's interop assemblies (Root build 22238765, BepInEx 6.0.0-be.790), 2026-10-20."
     }
   ]
 }

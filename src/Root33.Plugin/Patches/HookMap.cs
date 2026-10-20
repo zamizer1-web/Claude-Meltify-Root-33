@@ -46,42 +46,42 @@ namespace Root33.Plugin.Patches
 
         public static readonly Row[] Rows =
         {
-            new Row("hook.title-screen", "void OnTitleScreenShown(bool firstLaunch)", "postfix", "unknown: Root's main-menu scene or controller start", false, null),
-            new Row("hook.character-select", "void OnCharacterSelectShown(IReadOnlyList<EngineId> ownedEngines, int maxSeats)", "postfix", "unknown: Root's faction-selection screen setup", false, null),
-            new Row("hook.seat-assigned", "void OnSeatAssigned(SeatId seat, EngineId engine, bool isBot)", "postfix", "unknown: Root's game-setup seat/faction assignment", false, null),
-            new Row("hook.game-start", "void OnGameStart(IReadOnlyList<SeatId> turnOrder, Difficulty difficulty, SpoilerMode spoilers)", "postfix", "unknown: Root's new-game start (match/session creation)", false, null),
-            new Row("hook.map-loaded", "void OnMapLoaded(string mapName)", "postfix", "unknown: Root's map/board construction for a new game", false, null),
-            new Row("hook.setup-home", "void OnSetupChoice(SeatId seat)", "prefix", "unknown: Root's setup step that offers home clearings or starting forests", false, null),
-            new Row("hook.setup-complete", "void OnSetupComplete()", "postfix", "unknown: Root's end-of-setup / first-turn start", false, null),
-            new Row("hook.round-start", "void OnRoundStart(int round)", "postfix", "unknown: Root's turn-order wrap to the first seat", false, null),
-            new Row("hook.birdsong-start", "void OnBirdsongStart(SeatId seat)", "prefix", "unknown: Root's phase change into Birdsong", false, null),
-            new Row("hook.evening-start", "void OnEveningStart(SeatId seat)", "postfix", "unknown: Root's phase change into Evening", false, null),
-            new Row("hook.evening-end", "void OnEveningEnd(SeatId seat)", "postfix", "unknown: Root's end of the Evening phase", false, null),
-            new Row("hook.turn-end", "void OnTurnEnd(SeatId seat)", "postfix", "unknown: Root's advance to the next seat", false, null),
+            new Row("hook.title-screen", "void OnTitleScreenShown(bool firstLaunch)", "postfix", "tuber.client.menus.prompts.LandingPromptBehaviour.initialize (seen on the menu by the F9 probe)", true, null),
+            new Row("hook.character-select", "void OnCharacterSelectShown(IReadOnlyList<EngineId> ownedEngines, int maxSeats)", "postfix", "tuber.client.menus.prompts.ConfigureOfflineGamePromptBehaviour.initialize", true, null),
+            new Row("hook.seat-assigned", "void OnSeatAssigned(SeatId seat, EngineId engine, bool isBot)", "postfix", "tuber.canis.TuberMatch.createPlayers (advanced setup: createAdvancedPlayers)", true, null),
+            new Row("hook.game-start", "void OnGameStart(IReadOnlyList<SeatId> turnOrder, Difficulty difficulty, SpoilerMode spoilers)", "postfix", "tuber.canis.TuberMatch.SetupMatch(bool isResume) with isResume false", true, null),
+            new Row("hook.map-loaded", "void OnMapLoaded(string mapName)", "postfix", "tuber.canis.entities.TuberBoard.Initialize", true, null),
+            new Row("hook.setup-home", "void OnSetupChoice(SeatId seat)", "prefix", "Canis.actions.continuations.ExecuteStack.PushSubAction(Match, Action action) when action is a SetStartingLocationFor<Faction> or VagabondActions.PlaceInitialVagabondPawn", true, null),
+            new Row("hook.setup-complete", "void OnSetupComplete()", "postfix", "Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.SetupPlayers", true, null),
+            new Row("hook.round-start", "void OnRoundStart(int round)", "postfix", "Canis.actions.continuations.ExecuteStack.PushSubAction(Match, Action action) when action is tuber.canis.actions.PlayerTurnPhase and TuberMatch.CurrentTurnPlayer() is the first seat (TuberAttributes.FirstPlayer)", true, null),
+            new Row("hook.birdsong-start", "void OnBirdsongStart(SeatId seat)", "prefix", "Canis.actions.continuations.ExecuteStack.PushSubAction(Match, Action action) when action is tuber.canis.actions.BirdsongPhase", true, null),
+            new Row("hook.evening-start", "void OnEveningStart(SeatId seat)", "postfix", "Canis.actions.continuations.ExecuteStack.PushSubAction(Match, Action action) when action is tuber.canis.actions.EveningPhase", true, null),
+            new Row("hook.evening-end", "void OnEveningEnd(SeatId seat)", "postfix", "Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.EveningPhase", true, null),
+            new Row("hook.turn-end", "void OnTurnEnd(SeatId seat)", "postfix", "Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.PlayerTurnPhase", true, null),
             new Row("hook.act-change", "void OnActChanged(int act)", "event", "none: raised by the mod's core, not by Root", true, null),
-            new Row("hook.action-resolved", "void OnActionResolved(SeatId seat)", "postfix", "unknown: Root's action executor / action-complete callback", false, null),
-            new Row("hook.piece-moved", "void OnPieceMoved(SeatId owner, PieceKind kind, ClearingId? from, ClearingId? to, int count)", "postfix", "unknown: Root's piece-move execution", false, null),
-            new Row("hook.piece-placed", "void OnPiecePlaced(SeatId owner, PieceKind kind, string type, ClearingId c)", "postfix", "unknown: Root's piece-placement method", false, null),
-            new Row("hook.piece-removed", "void OnPieceRemoved(SeatId? remover, RemovedPiece piece, ClearingId c)", "postfix", "unknown: Root's piece-removal method", false, null),
-            new Row("hook.battle-legal", "bool CanStartBattle(SeatId attacker, SeatId defender, ClearingId c, bool strike)", "prefix", "unknown: Root's battle/strike legality check used by the UI and AI", false, null),
-            new Row("hook.battle-start", "void OnBattleStarting(SeatId attacker, SeatId defender, ClearingId c)", "prefix", "unknown: Root's battle start, before the ambush step", false, null),
-            new Row("hook.battle-resolved", "void OnBattleResolved(BattleResult r)", "postfix", "unknown: Root's battle resolution, after removals and item damage", false, null),
-            new Row("hook.explore-resolved", "void OnExploreResolved(SeatId vagabond, ClearingId c)", "postfix", "unknown: Root's Vagabond Explore action", false, null),
-            new Row("hook.aid-resolved", "void OnAidResolved(SeatId vagabond, SeatId receiver, ClearingId c)", "postfix", "unknown: Root's Vagabond Aid action", false, null),
-            new Row("hook.hostility-change", "bool AllowHostile(SeatId vagabond, SeatId faction, ClearingId battleClearing)", "prefix", "unknown: Root's Vagabond relationship change to Hostile", false, null),
-            new Row("hook.relationship-changed", "void OnRelationshipChanged(SeatId vagabond, SeatId faction, Relationship before, Relationship after)", "postfix", "unknown: Root's Vagabond relationship track setter", false, null),
-            new Row("hook.item-changed", "void OnItemChanged(SeatId vagabond, ItemState? before, ItemState? after)", "postfix", "unknown: Root's Vagabond item state change", false, null),
-            new Row("hook.warlord-removed", "void OnWarlordRemoved(SeatId hundreds, ClearingId c)", "prefix", "unknown: Root's Warlord removal / anoint step", false, null),
-            new Row("hook.relic-recovered", "void OnRelicRecovered(SeatId keepers, int relicId, string relicType)", "postfix", "unknown: Root's Keepers Recover action", false, null),
-            new Row("hook.relic-moved", "void OnRelicMoved(int relicId)", "postfix", "unknown: Root's relic token move/flip", false, null),
-            new Row("hook.vp-changed", "void OnVpChanged(SeatId seat, int before, int after)", "postfix", "unknown: Root's score track setter", false, null),
-            new Row("hook.turmoil", "void OnTurmoil(SeatId eyrie)", "postfix", "unknown: Root's Eyrie Turmoil step", false, null),
-            new Row("hook.convert", "void OnConvert(SeatId lizards, SeatId victim, ClearingId c)", "postfix", "unknown: Root's Lizard Convert conspiracy", false, null),
+            new Row("hook.action-resolved", "void OnActionResolved(SeatId seat)", "postfix", "Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction)", true, null),
+            new Row("hook.piece-moved", "void OnPieceMoved(SeatId owner, PieceKind kind, ClearingId? from, ClearingId? to, int count)", "postfix", "Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.MovePieces (SuccessfulMove, SuccessfulMoveInfo)", true, null),
+            new Row("hook.piece-placed", "void OnPiecePlaced(SeatId owner, PieceKind kind, string type, ClearingId c)", "postfix", "Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.PlacePieceAtTarget / PlacePiecesAtTarget / PlaceSelectedPieceAtTarget / PlaceAllSelectedPiecesAtTarget", true, null),
+            new Row("hook.piece-removed", "void OnPieceRemoved(SeatId? remover, RemovedPiece piece, ClearingId c)", "postfix", "Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.RemovePiece / RemoveThesePiecesAction / RemoveWarriors", true, null),
+            new Row("hook.battle-legal", "bool CanStartBattle(SeatId attacker, SeatId defender, ClearingId c, bool strike)", "postfix", "tuber.canis.entities.TuberPlayerEntity.GetTargetsToBattle / GetBattleTargetsAt(TuberBoardNode); Strike: VagabondPlayer.GetOpponentPiecesForStrike()", true, null),
+            new Row("hook.battle-start", "void OnBattleStarting(SeatId attacker, SeatId defender, ClearingId c)", "prefix", "tuber.canis.actions.BattleActions.Battle.ChooseAmbush (Battle._attacker, _defender, _battleClearing set)", true, null),
+            new Row("hook.battle-resolved", "void OnBattleResolved(BattleResult r)", "postfix", "Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.BattleActions.Battle", true, null),
+            new Row("hook.explore-resolved", "void OnExploreResolved(SeatId vagabond, ClearingId c)", "postfix", "Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.VagabondActions.ExploreResolution", true, null),
+            new Row("hook.aid-resolved", "void OnAidResolved(SeatId vagabond, SeatId receiver, ClearingId c)", "postfix", "Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.VagabondActions.AidActions.Aid", true, null),
+            new Row("hook.hostility-change", "bool AllowHostile(SeatId vagabond, SeatId faction, ClearingId battleClearing)", "prefix", "Canis.actions.continuations.ExecuteStack.PushSubAction(Match, Action action) when action is tuber.canis.actions.VagabondActions.MarkHostile (field faction)", true, null),
+            new Row("hook.relationship-changed", "void OnRelationshipChanged(SeatId vagabond, SeatId faction, Relationship before, Relationship after)", "postfix", "Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.VagabondActions.UpdateRelationshipStatus or MarkHostile", true, null),
+            new Row("hook.item-changed", "void OnItemChanged(SeatId vagabond, ItemState? before, ItemState? after)", "postfix", "Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.VagabondActions.DamageItem / CostActions.ExhaustItem / TakeItemFromRuinResolution", false, null),
+            new Row("hook.warlord-removed", "void OnWarlordRemoved(SeatId hundreds, ClearingId c)", "prefix", "tuber.canis.abilities.LordOfTheHundredsAbilities.HundredsAnointAbility", false, null),
+            new Row("hook.relic-recovered", "void OnRelicRecovered(SeatId keepers, int relicId, string relicType)", "postfix", "Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.KeepersInIronActions.RecoverAnotherRelic (ability KeepersMoveRecoverAbility)", false, null),
+            new Row("hook.relic-moved", "void OnRelicMoved(int relicId)", "postfix", "Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.KeepersInIronActions.KeepersDelve / ReturnRelic / KeepersRelicDestroyed", false, null),
+            new Row("hook.vp-changed", "void OnVpChanged(SeatId seat, int before, int after)", "postfix", "Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.GainVP", true, null),
+            new Row("hook.turmoil", "void OnTurmoil(SeatId eyrie)", "postfix", "Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.EyrieDynastiesActions.TurmoilResolution", true, null),
+            new Row("hook.convert", "void OnConvert(SeatId lizards, SeatId victim, ClearingId c)", "postfix", "tuber.canis.abilities.LizardCultAbilities.CultConvertAbility", false, null),
             new Row("hook.ui-toggle", "void OnToggle(SeatId seat, string toggleId, bool on)", "event", "none: the mod's own faction-board overlay button", true, null),
-            new Row("hook.bot-decision", "string? OnBotDecision(SeatId seat, IReadOnlyList<string> legalActions)", "prefix", "unknown: the Dire Wolf AI decision entry point for each faction", false, null),
-            new Row("hook.game-over", "void OnGameOver(IReadOnlyList<SeatId> winners)", "postfix", "unknown: Root's end-of-game / victory screen", false, null),
-            new Row("hook.save", "string OnSave()", "postfix", "unknown: Root's save-game serializer", false, null),
-            new Row("hook.load", "void OnLoad(string saved)", "postfix", "unknown: Root's save-game loader and undo/rollback restore", false, null),
+            new Row("hook.bot-decision", "string? OnBotDecision(SeatId seat, IReadOnlyList<string> legalActions)", "prefix", "tuber.canis.entities.ai.AIProfile.MakeChoice(SelectionMessage, TuberAIChoiceContext)", true, null),
+            new Row("hook.game-over", "void OnGameOver(IReadOnlyList<SeatId> winners)", "postfix", "tuber.canis.TuberMatch.GameOverCleanup(List<AccountID>, GameResults) (winner check: tuber.canis.actions.CheckForWinner)", true, null),
+            new Row("hook.save", "string OnSave()", "postfix", "Canis.Match.SavePlayerTurn(...) (also CanisMatch.SaveGame, Match.SaveOnPause)", true, null),
+            new Row("hook.load", "void OnLoad(string saved)", "postfix", "tuber.canis.TuberMatch.SetupMatch(bool isResume) with isResume true; undo: TuberMatch.RunUndoAbility()", true, null),
         };
 
         // ===== hook.title-screen · postfix · not patched yet
@@ -89,7 +89,7 @@ namespace Root33.Plugin.Patches
         // title with the 33 tearing out of a rift, and on first launch asks 'Spoiler-safe' or 'I've finished Clair Obscur:
         // Expedition 33', then offers the skippable prologue.
         // Core:  void OnTitleScreenShown(bool firstLaunch)
-        // Root:  unknown: Root's main-menu scene or controller start   (engineSymbol and patchKind unverified)
+        // Root:  tuber.client.menus.prompts.LandingPromptBehaviour.initialize (seen on the menu by the F9 probe)
         // Root provides: whether a spoiler choice is already saved (first launch or not)
         //
         // [HarmonyPatch(typeof(TODO_RootType), nameof(TODO_RootType.TODO_Method))]
@@ -107,7 +107,7 @@ namespace Root33.Plugin.Patches
         // When: Root's new-game faction selection screen is shown in E33 mode. The mod relabels factions as characters,
         // hides the Clockwork bots, and locks finished-only characters (Clea) in safe mode.
         // Core:  void OnCharacterSelectShown(IReadOnlyList<EngineId> ownedEngines, int maxSeats)
-        // Root:  unknown: Root's faction-selection screen setup   (engineSymbol and patchKind unverified)
+        // Root:  tuber.client.menus.prompts.ConfigureOfflineGamePromptBehaviour.initialize
         // Root provides: engines the player owns (base game plus DLC); maximum seat count
         //
         // [HarmonyPatch(typeof(TODO_RootType), nameof(TODO_RootType.TODO_Method))]
@@ -126,7 +126,7 @@ namespace Root33.Plugin.Patches
         // When: A seat is given a faction or Vagabond when the game is created, either by the human's pick or by a bot
         // filling an empty seat.
         // Core:  void OnSeatAssigned(SeatId seat, EngineId engine, bool isBot)
-        // Root:  unknown: Root's game-setup seat/faction assignment   (engineSymbol and patchKind unverified)
+        // Root:  tuber.canis.TuberMatch.createPlayers (advanced setup: createAdvancedPlayers)
         // Root provides: seat; engine; whether the seat is a bot
         //
         // [HarmonyPatch(typeof(TODO_RootType), nameof(TODO_RootType.TODO_Method))]
@@ -147,7 +147,7 @@ namespace Root33.Plugin.Patches
         // all mod state (act 1, round 1, empty flags, rank D, rocks not spawned) and copies difficulty and spoiler mode
         // into the game.
         // Core:  void OnGameStart(IReadOnlyList<SeatId> turnOrder, Difficulty difficulty, SpoilerMode spoilers)
-        // Root:  unknown: Root's new-game start (match/session creation)   (engineSymbol and patchKind unverified)
+        // Root:  tuber.canis.TuberMatch.SetupMatch(bool isResume) with isResume false
         // Root provides: seats in turn order; difficulty; spoiler mode
         //
         // [HarmonyPatch(typeof(TODO_RootType), nameof(TODO_RootType.TODO_Method))]
@@ -169,7 +169,7 @@ namespace Root33.Plugin.Patches
         // Lumière, Esquie's Nest, the Flying Manor, Stone Wave Cliffs, the Sacred River); when he is, it waits until his
         // keep is placed (hook.piece-placed).
         // Core:  void OnMapLoaded(string mapName)
-        // Root:  unknown: Root's map/board construction for a new game   (engineSymbol and patchKind unverified)
+        // Root:  tuber.canis.entities.TuberBoard.Initialize
         // Root provides: map name; clearings with suits, paths, rivers, corners, ruins and slots (read through
         // board_reads)
         //
@@ -189,7 +189,7 @@ namespace Root33.Plugin.Patches
         // starting roost, another faction's home corner (Lizards, Duchy and the rest), or a Vagabond's starting forest.
         // The core restricts the choice with do.restrict-home or do.restrict-start-forest.
         // Core:  void OnSetupChoice(SeatId seat)
-        // Root:  unknown: Root's setup step that offers home clearings or starting forests   (engineSymbol and patchKind unverified)
+        // Root:  Canis.actions.continuations.ExecuteStack.PushSubAction(Match, Action action) when action is a SetStartingLocationFor<Faction> or VagabondActions.PlaceInitialVagabondPawn
         // Root provides: seat about to choose
         //
         // [HarmonyPatch(typeof(TODO_RootType), nameof(TODO_RootType.TODO_Method))]
@@ -207,7 +207,7 @@ namespace Root33.Plugin.Patches
         // When: Every seat has finished setup, before the first Birdsong. The core places the Act I spawns (Florrie and
         // her guards, the François decoy, the Cell Crack overlay), flags Lumière for Gustave, and starts the prologue.
         // Core:  void OnSetupComplete()
-        // Root:  unknown: Root's end-of-setup / first-turn start   (engineSymbol and patchKind unverified)
+        // Root:  Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.SetupPlayers
         // Root provides: the board after setup
         //
         // [HarmonyPatch(typeof(TODO_RootType), nameof(TODO_RootType.TODO_Method))]
@@ -224,7 +224,7 @@ namespace Root33.Plugin.Patches
         // When: The first seat in turn order starts its turn, which begins a new round. If Root keeps no round counter,
         // the core counts rounds here.
         // Core:  void OnRoundStart(int round)
-        // Root:  unknown: Root's turn-order wrap to the first seat   (engineSymbol and patchKind unverified)
+        // Root:  Canis.actions.continuations.ExecuteStack.PushSubAction(Match, Action action) when action is tuber.canis.actions.PlayerTurnPhase and TuberMatch.CurrentTurnPlayer() is the first seat (TuberAttributes.FirstPlayer)
         // Root provides: round number
         //
         // [HarmonyPatch(typeof(TODO_RootType), nameof(TODO_RootType.TODO_Method))]
@@ -242,7 +242,7 @@ namespace Root33.Plugin.Patches
         // When: The start of a seat's Birdsong, before any Birdsong step. Countdown confirmation tests run here first
         // (dominance timing); bots plan their turn.
         // Core:  void OnBirdsongStart(SeatId seat)
-        // Root:  unknown: Root's phase change into Birdsong   (engineSymbol and patchKind unverified)
+        // Root:  Canis.actions.continuations.ExecuteStack.PushSubAction(Match, Action action) when action is tuber.canis.actions.BirdsongPhase
         // Root provides: seat whose Birdsong it is
         //
         // [HarmonyPatch(typeof(TODO_RootType), nameof(TODO_RootType.TODO_Method))]
@@ -260,7 +260,7 @@ namespace Root33.Plugin.Patches
         // When: The start of a seat's Evening, before any Evening step. Sciel's Twilight checks her Sun and Moon charges
         // here.
         // Core:  void OnEveningStart(SeatId seat)
-        // Root:  unknown: Root's phase change into Evening   (engineSymbol and patchKind unverified)
+        // Root:  Canis.actions.continuations.ExecuteStack.PushSubAction(Match, Action action) when action is tuber.canis.actions.EveningPhase
         // Root provides: seat whose Evening it is
         //
         // [HarmonyPatch(typeof(TODO_RootType), nameof(TODO_RootType.TODO_Method))]
@@ -280,7 +280,7 @@ namespace Root33.Plugin.Patches
         // hand-off and the early-Urrie check run, then the seat's themed-win test runs (countdown announce or quest win),
         // so Esquie wins on the turn Soarrie is handed over if it is his fourth rock.
         // Core:  void OnEveningEnd(SeatId seat)
-        // Root:  unknown: Root's end of the Evening phase   (engineSymbol and patchKind unverified)
+        // Root:  Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.EveningPhase
         // Root provides: seat whose turn is ending
         //
         // [HarmonyPatch(typeof(TODO_RootType), nameof(TODO_RootType.TODO_Method))]
@@ -303,7 +303,7 @@ namespace Root33.Plugin.Patches
         // threshold already met (for example one turn that crosses both 10 and 20 VP, or Act I ending at round 4 with a
         // seat already on 20+) advances the next act at the following turn end.
         // Core:  void OnTurnEnd(SeatId seat)
-        // Root:  unknown: Root's advance to the next seat   (engineSymbol and patchKind unverified)
+        // Root:  Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.PlayerTurnPhase
         // Root provides: seat whose turn just ended
         //
         // [HarmonyPatch(typeof(TODO_RootType), nameof(TODO_RootType.TODO_Method))]
@@ -331,7 +331,7 @@ namespace Root33.Plugin.Patches
         // recruit, dig, special action, and so on). Esquie claims loose rocks in his clearing after each of his actions;
         // the Urrie early spawn is checked.
         // Core:  void OnActionResolved(SeatId seat)
-        // Root:  unknown: Root's action executor / action-complete callback   (engineSymbol and patchKind unverified)
+        // Root:  Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction)
         // Root provides: seat that acted
         //
         // [HarmonyPatch(typeof(TODO_RootType), nameof(TODO_RootType.TODO_Method))]
@@ -349,7 +349,7 @@ namespace Root33.Plugin.Patches
         // When: One or more pieces of a seat moved (move, march, slip, advance, dig out of the Burrow, Crusade). Esquie
         // entering the Nest while the François decoy is up triggers the decoy joke.
         // Core:  void OnPieceMoved(SeatId owner, PieceKind kind, ClearingId? from, ClearingId? to, int count)
-        // Root:  unknown: Root's piece-move execution   (engineSymbol and patchKind unverified)
+        // Root:  Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.MovePieces (SuccessfulMove, SuccessfulMoveInfo)
         // Root provides: owner seat; piece kind; from clearing (null for a forest or the Burrow); to clearing (null for a
         // forest or the Burrow); count
         //
@@ -373,7 +373,7 @@ namespace Root33.Plugin.Patches
         // the mod's own spawns). When Gustave's keep is placed during setup, the core assigns every map role (Lumière is
         // the keep's corner) before any other faction sets up. Sciel gains a Sun charge when she places a Lantern.
         // Core:  void OnPiecePlaced(SeatId owner, PieceKind kind, string type, ClearingId c)
-        // Root:  unknown: Root's piece-placement method   (engineSymbol and patchKind unverified)
+        // Root:  Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.PlacePieceAtTarget / PlacePiecesAtTarget / PlaceSelectedPieceAtTarget / PlaceAllSelectedPiecesAtTarget
         // Root provides: owner seat; piece kind; building or token type; clearing
         //
         // [HarmonyPatch(typeof(TODO_RootType), nameof(TODO_RootType.TODO_Method))]
@@ -395,7 +395,7 @@ namespace Root33.Plugin.Patches
         // Curator's Quiet Helper fires when the Paintress's roost leaves the Monolith; guard counters drop for host
         // warriors removed outside a battle.
         // Core:  void OnPieceRemoved(SeatId? remover, RemovedPiece piece, ClearingId c)
-        // Root:  unknown: Root's piece-removal method   (engineSymbol and patchKind unverified)
+        // Root:  Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.RemovePiece / RemoveThesePiecesAction / RemoveWarriors
         // Root provides: seat that caused the removal (null when no seat did); removed piece (owner, kind, type); clearing
         //
         // [HarmonyPatch(typeof(TODO_RootType), nameof(TODO_RootType.TODO_Method))]
@@ -411,26 +411,24 @@ namespace Root33.Plugin.Patches
         //     }
         // }
 
-        // ===== hook.battle-legal · prefix · not patched yet
+        // ===== hook.battle-legal · postfix · not patched yet
         // When: Root (or its AI, or the human UI) asks whether a seat may start a battle or a Strike against another seat
         // in a clearing. Returning false hides the option. Used by Esquie's Never Mad and the v1.1 Monolith Barrier.
         // Core:  bool CanStartBattle(SeatId attacker, SeatId defender, ClearingId c, bool strike)
-        // Root:  unknown: Root's battle/strike legality check used by the UI and AI   (engineSymbol and patchKind unverified)
+        // Root:  tuber.canis.entities.TuberPlayerEntity.GetTargetsToBattle / GetBattleTargetsAt(TuberBoardNode); Strike: VagabondPlayer.GetOpponentPiecesForStrike()
         // Root provides: attacker seat; defender seat; clearing; whether it is a Strike
         //
         // [HarmonyPatch(typeof(TODO_RootType), nameof(TODO_RootType.TODO_Method))]
         // [RootHook("hook.battle-legal")]
         // internal static class BattleLegalPatch
         // {
-        //     private static bool Prefix(ref bool __result /*, TODO_RootType __instance, Root's arguments */)
+        //     private static void Postfix(ref bool __result /*, TODO_RootType __instance, Root's arguments */)
         //     {
         //         var attacker = default(SeatId); // TODO from Root: SeatId attacker
         //         var defender = default(SeatId); // TODO from Root: SeatId defender
         //         var c = default(ClearingId); // TODO from Root: ClearingId c
         //         var strike = default(bool); // TODO from Root: bool strike
-        //         if (Root33Runtime.Ask("hook.battle-legal", g => g.CanStartBattle(attacker, defender, c, strike), true)) return true;
-        //         __result = false;   // the core says no: skip Root's check and answer false
-        //         return false;
+        //         if (__result) __result = Root33Runtime.Ask("hook.battle-legal", g => g.CanStartBattle(attacker, defender, c, strike), true);
         //     }
         // }
 
@@ -439,7 +437,7 @@ namespace Root33.Plugin.Patches
         // Ambush cards. Pre-battle toggles (Overcharge, Stains) are read and hit modifiers are registered (Perfection,
         // Twilight, Belly Bounce, Unbeatable in Act I); Still Life may move a warrior in.
         // Core:  void OnBattleStarting(SeatId attacker, SeatId defender, ClearingId c)
-        // Root:  unknown: Root's battle start, before the ambush step   (engineSymbol and patchKind unverified)
+        // Root:  tuber.canis.actions.BattleActions.Battle.ChooseAmbush (Battle._attacker, _defender, _battleClearing set)
         // Root provides: attacker seat; defender seat; clearing
         //
         // [HarmonyPatch(typeof(TODO_RootType), nameof(TODO_RootType.TODO_Method))]
@@ -459,7 +457,7 @@ namespace Root33.Plugin.Patches
         // When: A battle has fully resolved: hits dealt, pieces removed, items damaged. Gustave's Arm, Verso's rank,
         // Monoco's feet, Esquie's guard counters, Sciel's Moon charge and Maelle's stance update here.
         // Core:  void OnBattleResolved(BattleResult r)
-        // Root:  unknown: Root's battle resolution, after removals and item damage   (engineSymbol and patchKind unverified)
+        // Root:  Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.BattleActions.Battle
         // Root provides: clearing; attacker and defender seats; every removed piece with owner, kind and type; each
         // Vagabond's damaged-item count before and after; whether the attacker's pawn or Warlord entered the clearing this
         // turn; the VP leader when the battle started (null on a tie)
@@ -479,7 +477,7 @@ namespace Root33.Plugin.Patches
         // When: A Vagabond's Explore action has resolved in a ruin clearing. Esquie claims Dorrie by Exploring Old Lumière
         // in Act II or later.
         // Core:  void OnExploreResolved(SeatId vagabond, ClearingId c)
-        // Root:  unknown: Root's Vagabond Explore action   (engineSymbol and patchKind unverified)
+        // Root:  Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.VagabondActions.ExploreResolution
         // Root provides: Vagabond seat; clearing explored
         //
         // [HarmonyPatch(typeof(TODO_RootType), nameof(TODO_RootType.TODO_Method))]
@@ -498,7 +496,7 @@ namespace Root33.Plugin.Patches
         // When: A Vagabond's Aid action has resolved. Esquie claims Soarrie by Aiding the Monolith's ruler while in the
         // Monolith; Maelle's stance turns Defensive.
         // Core:  void OnAidResolved(SeatId vagabond, SeatId receiver, ClearingId c)
-        // Root:  unknown: Root's Vagabond Aid action   (engineSymbol and patchKind unverified)
+        // Root:  Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.VagabondActions.AidActions.Aid
         // Root provides: Vagabond seat; faction seat aided; clearing
         //
         // [HarmonyPatch(typeof(TODO_RootType), nameof(TODO_RootType.TODO_Method))]
@@ -518,7 +516,7 @@ namespace Root33.Plugin.Patches
         // When: Root is about to make a faction Hostile to a Vagabond because the Vagabond removed that faction's warriors
         // in a battle. Returning false skips the change (Friends Not Foes in guarded-rock clearings).
         // Core:  bool AllowHostile(SeatId vagabond, SeatId faction, ClearingId battleClearing)
-        // Root:  unknown: Root's Vagabond relationship change to Hostile   (engineSymbol and patchKind unverified)
+        // Root:  Canis.actions.continuations.ExecuteStack.PushSubAction(Match, Action action) when action is tuber.canis.actions.VagabondActions.MarkHostile (field faction)
         // Root provides: Vagabond seat; faction seat; clearing of the battle
         //
         // [HarmonyPatch(typeof(TODO_RootType), nameof(TODO_RootType.TODO_Method))]
@@ -540,7 +538,7 @@ namespace Root33.Plugin.Patches
         // When: A Vagabond's relationship with a faction has changed (Aid steps, Hostile). Maelle's family row and barks
         // update.
         // Core:  void OnRelationshipChanged(SeatId vagabond, SeatId faction, Relationship before, Relationship after)
-        // Root:  unknown: Root's Vagabond relationship track setter   (engineSymbol and patchKind unverified)
+        // Root:  Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.VagabondActions.UpdateRelationshipStatus or MarkHostile
         // Root provides: Vagabond seat; faction seat; relationship before; relationship after
         //
         // [HarmonyPatch(typeof(TODO_RootType), nameof(TODO_RootType.TODO_Method))]
@@ -561,7 +559,7 @@ namespace Root33.Plugin.Patches
         // When: A Vagabond item was gained, lost, damaged, repaired, exhausted or refreshed. Verso's hit chord, Maelle's
         // undamaged-item count on the Goal Tracker, and bot gear checks use it.
         // Core:  void OnItemChanged(SeatId vagabond, ItemState? before, ItemState? after)
-        // Root:  unknown: Root's Vagabond item state change   (engineSymbol and patchKind unverified)
+        // Root:  Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.VagabondActions.DamageItem / CostActions.ExhaustItem / TakeItemFromRuinResolution   (engineSymbol unverified)
         // Root provides: Vagabond seat; item before (null when gained); item after (null when lost)
         //
         // [HarmonyPatch(typeof(TODO_RootType), nameof(TODO_RootType.TODO_Method))]
@@ -581,7 +579,7 @@ namespace Root33.Plugin.Patches
         // When: The Lord of the Hundreds' Warlord pawn has been removed, before Root anoints a new one. Monoco's Sacred
         // River Rebirth fires.
         // Core:  void OnWarlordRemoved(SeatId hundreds, ClearingId c)
-        // Root:  unknown: Root's Warlord removal / anoint step   (engineSymbol and patchKind unverified)
+        // Root:  tuber.canis.abilities.LordOfTheHundredsAbilities.HundredsAnointAbility   (engineSymbol unverified)
         // Root provides: Hundreds seat; clearing where the Warlord fell
         //
         // [HarmonyPatch(typeof(TODO_RootType), nameof(TODO_RootType.TODO_Method))]
@@ -600,7 +598,7 @@ namespace Root33.Plugin.Patches
         // When: The Keepers in Iron recovered a relic at a waystation. Lune gains a Stain; her win is checked at her end
         // of turn.
         // Core:  void OnRelicRecovered(SeatId keepers, int relicId, string relicType)
-        // Root:  unknown: Root's Keepers Recover action   (engineSymbol and patchKind unverified)
+        // Root:  Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.KeepersInIronActions.RecoverAnotherRelic (ability KeepersMoveRecoverAbility)   (engineSymbol unverified)
         // Root provides: Keepers seat; relic id; relic type (tablet, figure or jewelry)
         //
         // [HarmonyPatch(typeof(TODO_RootType), nameof(TODO_RootType.TODO_Method))]
@@ -620,7 +618,7 @@ namespace Root33.Plugin.Patches
         // When: A relic changed place: delved out of a forest, carried, dropped face up into a forest by Prized Trophies,
         // or moved by the mod. Lune's Parents' Journal tag is re-attached here.
         // Core:  void OnRelicMoved(int relicId)
-        // Root:  unknown: Root's relic token move/flip   (engineSymbol and patchKind unverified)
+        // Root:  Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.KeepersInIronActions.KeepersDelve / ReturnRelic / KeepersRelicDestroyed   (engineSymbol unverified)
         // Root provides: relic id
         //
         // [HarmonyPatch(typeof(TODO_RootType), nameof(TODO_RootType.TODO_Method))]
@@ -638,7 +636,7 @@ namespace Root33.Plugin.Patches
         // When: A seat's VP changed. The Monolith Number (33 minus the top score) and the Goal Tracker refresh; the act
         // clock notes that an act's VP limit was reached.
         // Core:  void OnVpChanged(SeatId seat, int before, int after)
-        // Root:  unknown: Root's score track setter   (engineSymbol and patchKind unverified)
+        // Root:  Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.GainVP
         // Root provides: seat; VP before; VP after
         //
         // [HarmonyPatch(typeof(TODO_RootType), nameof(TODO_RootType.TODO_Method))]
@@ -658,7 +656,7 @@ namespace Root33.Plugin.Patches
         // When: The Eyrie fell into Turmoil (the Paintress's Grief). The smeared-canvas bubble plays; the rules are
         // unchanged.
         // Core:  void OnTurmoil(SeatId eyrie)
-        // Root:  unknown: Root's Eyrie Turmoil step   (engineSymbol and patchKind unverified)
+        // Root:  Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.EyrieDynastiesActions.TurmoilResolution
         // Root provides: Eyrie seat
         //
         // [HarmonyPatch(typeof(TODO_RootType), nameof(TODO_RootType.TODO_Method))]
@@ -676,7 +674,7 @@ namespace Root33.Plugin.Patches
         // When: The Lizard Cult converted an enemy warrior. Clea's 'perfect specimen' bark plays on the first Convert of
         // each other faction.
         // Core:  void OnConvert(SeatId lizards, SeatId victim, ClearingId c)
-        // Root:  unknown: Root's Lizard Convert conspiracy   (engineSymbol and patchKind unverified)
+        // Root:  tuber.canis.abilities.LizardCultAbilities.CultConvertAbility   (engineSymbol unverified)
         // Root provides: Lizard seat; seat whose warrior was converted; clearing
         //
         // [HarmonyPatch(typeof(TODO_RootType), nameof(TODO_RootType.TODO_Method))]
@@ -705,7 +703,7 @@ namespace Root33.Plugin.Patches
         // the character's bot plan, or returns null to let Root's own AI decide (also used for hit allocation, Ambush and
         // discards).
         // Core:  string? OnBotDecision(SeatId seat, IReadOnlyList<string> legalActions)
-        // Root:  unknown: the Dire Wolf AI decision entry point for each faction   (engineSymbol and patchKind unverified)
+        // Root:  tuber.canis.entities.ai.AIProfile.MakeChoice(SelectionMessage, TuberAIChoiceContext)
         // Root provides: bot seat; legal action keys from the engine's legal-action API
         //
         // [HarmonyPatch(typeof(TODO_RootType), nameof(TODO_RootType.TODO_Method))]
@@ -727,7 +725,7 @@ namespace Root33.Plugin.Patches
         // When: The game ended (30 VP, dominance, a coalition partner's win, or a themed win declared by the mod). The
         // winner's ending card plays and campaign progress is saved.
         // Core:  void OnGameOver(IReadOnlyList<SeatId> winners)
-        // Root:  unknown: Root's end-of-game / victory screen   (engineSymbol and patchKind unverified)
+        // Root:  tuber.canis.TuberMatch.GameOverCleanup(List<AccountID>, GameResults) (winner check: tuber.canis.actions.CheckForWinner)
         // Root provides: winning seats (a coalition gives two)
         //
         // [HarmonyPatch(typeof(TODO_RootType), nameof(TODO_RootType.TODO_Method))]
@@ -745,7 +743,7 @@ namespace Root33.Plugin.Patches
         // When: Root writes a save (autosave or manual save). The core returns its state as text, stored beside the save
         // under the game's ID.
         // Core:  string OnSave()
-        // Root:  unknown: Root's save-game serializer   (engineSymbol and patchKind unverified)
+        // Root:  Canis.Match.SavePlayerTurn(...) (also CanisMatch.SaveGame, Match.SaveOnPause)
         // Root provides: the game's ID (to key the mod's file)
         //
         // [HarmonyPatch(typeof(TODO_RootType), nameof(TODO_RootType.TODO_Method))]
@@ -763,7 +761,7 @@ namespace Root33.Plugin.Patches
         // When: Root has loaded a save (resume, async turn, or an undo/rollback that restores a snapshot). The core
         // restores its state and re-checks every piece of it against the board.
         // Core:  void OnLoad(string saved)
-        // Root:  unknown: Root's save-game loader and undo/rollback restore   (engineSymbol and patchKind unverified)
+        // Root:  tuber.canis.TuberMatch.SetupMatch(bool isResume) with isResume true; undo: TuberMatch.RunUndoAbility()
         // Root provides: the mod's saved text for this game's ID (empty when the save has none)
         //
         // [HarmonyPatch(typeof(TODO_RootType), nameof(TODO_RootType.TODO_Method))]

@@ -70,7 +70,17 @@ internal sealed class Scanner
             catch (ReflectionTypeLoadException e) { types = e.Types.Where(t => t != null).ToArray()!; error = "some types could not be loaded"; }
             catch (Exception e) { types = Array.Empty<Type>(); error = e.GetType().Name + ": " + e.Message; }
             var count = 0;
-            foreach (var t in types.OrderBy(t => t.FullName, StringComparer.Ordinal))
+            // IL2CPP interop assemblies can hold nested-type rows MetadataLoadContext cannot place (FullName throws):
+            // leave those types out and say how many, rather than failing the whole scan.
+            var named = new List<(Type Type, string FullName)>();
+            var unnamed = 0;
+            foreach (var t in types)
+            {
+                try { named.Add((t, t.FullName ?? t.Name)); }
+                catch (Exception) { unnamed++; }
+            }
+            if (unnamed > 0) error = (error == null ? "" : error + "; ") + $"{unnamed} type(s) left out: their declaring type could not be read";
+            foreach (var t in named.OrderBy(n => n.FullName, StringComparer.Ordinal).Select(n => n.Type))
             {
                 if (Skip(t.Name) || Skip(t.FullName ?? "") || (PublicOnly && !IsVisible(t))) continue;
                 Types.Add(Read(t, name.Name ?? "", game));

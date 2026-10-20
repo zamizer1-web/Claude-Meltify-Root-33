@@ -13,11 +13,8 @@
         "ruler of each clearing"
       ],
       "digitalAi": "yes",
-      "engineType": "unknown",
-      "_unverified": {
-        "engineType": "Root's own class or id for this engine is unknown; confirm in Root's code on the creator's PC"
-      },
-      "_notes": "Gustave rides it.",
+      "engineType": "tuber_canis.data.Factions.MarquiseDeCat (MarquiseDeCatPlayer, MarquiseDeCatAIProfile)",
+      "_notes": "Gustave rides it. engineType from Root33.Discover over Root's interop assemblies (Root build 22238765, BepInEx 6.0.0-be.790), 2026-10-20.",
       "_source": "https://news.direwolfdigital.com/root-now-in-early-access-on-steam/ ; https://news.direwolfdigital.com/root-patch-1-27-3/"
     },
     {
@@ -33,11 +30,8 @@
         "Turmoil"
       ],
       "digitalAi": "yes",
-      "engineType": "unknown",
-      "_unverified": {
-        "engineType": "Root's own class or id for this engine is unknown; confirm in Root's code on the creator's PC"
-      },
-      "_notes": "The Paintress rides it.",
+      "engineType": "tuber_canis.data.Factions.EyrieDynasties (EyrieDynastiesPlayer, EyrieDynastiesAIProfile)",
+      "_notes": "The Paintress rides it. engineType from Root33.Discover over Root's interop assemblies (Root build 22238765, BepInEx 6.0.0-be.790), 2026-10-20.",
       "_source": "https://news.direwolfdigital.com/root-now-in-early-access-on-steam/ ; https://news.direwolfdigital.com/root-patch-1-27-3/"
     },
     {
@@ -53,11 +47,8 @@
         "supporters"
       ],
       "digitalAi": "yes",
-      "engineType": "unknown",
-      "_unverified": {
-        "engineType": "Root's own class or id for this engine is unknown; confirm in Root's code on the creator's PC"
-      },
-      "_notes": "Sciel rides it.",
+      "engineType": "tuber_canis.data.Factions.WoodlandAlliance (WoodlandAlliancePlayer, WoodlandAllianceAIProfile)",
+      "_notes": "Sciel rides it. engineType from Root33.Discover over Root's interop assemblies (Root build 22238765, BepInEx 6.0.0-be.790), 2026-10-20.",
       "_source": "https://news.direwolfdigital.com/root-now-in-early-access-on-steam/ ; https://news.direwolfdigital.com/root-patch-1-27-3/"
     },
     {
@@ -73,11 +64,8 @@
         "completed quests by suit"
       ],
       "digitalAi": "yes",
-      "engineType": "unknown",
-      "_unverified": {
-        "engineType": "Root's own class or id for this engine is unknown; confirm in Root's code on the creator's PC"
-      },
-      "_notes": "Esquie rides it (starting items Boots, Torch, Bag, Hammer). In a two-Vagabond game the Vagabonds share one hand of quests and each ruin holds 2 items to choose from (digital). Shared quests affect the Vagabond bots' VP play (Root's AI handles quests); the ruin rule affects Dorrie. Root digital allows two Vagabonds in any game without DLC (update 1.27.0).",
+      "engineType": "tuber_canis.data.Factions.Vagabond or SecondVagabond + tuber_canis.data.VagabondCharacters.Tinker (VagabondPlayer, VagabondAIProfile)",
+      "_notes": "Esquie rides it (starting items Boots, Torch, Bag, Hammer). In a two-Vagabond game the Vagabonds share one hand of quests and each ruin holds 2 items to choose from (digital). Shared quests affect the Vagabond bots' VP play (Root's AI handles quests); the ruin rule affects Dorrie. Root digital allows two Vagabonds in any game without DLC (update 1.27.0). engineType from Root33.Discover over Root's interop assemblies (Root build 22238765, BepInEx 6.0.0-be.790), 2026-10-20.",
       "_source": "https://news.direwolfdigital.com/root-now-in-early-access-on-steam/ ; https://news.direwolfdigital.com/root-patch-1-27-3/ ; https://news.direwolfdigital.com/whats-new-in-the-riverfolk-expansion/"
     },
     {
@@ -93,11 +81,8 @@
         "completed quests by suit"
       ],
       "digitalAi": "yes",
-      "engineType": "unknown",
-      "_unverified": {
-        "engineType": "Root's own class or id for this engine is unknown; confirm in Root's code on the creator's PC"
-      },
-      "_notes": "Verso rides it (starting items Boots, Torch, Crossbow, Sword). In a two-Vagabond game the Vagabonds share one hand of quests and each ruin holds 2 items to choose from (digital). Shared quests affect the Vagabond bots' VP play (Root's AI handles quests); the ruin rule affects Dorrie. Root digital allows two Vagabonds in any game without DLC (update 1.27.0).",
+      "engineType": "tuber_canis.data.Factions.Vagabond or SecondVagabond + tuber_canis.data.VagabondCharacters.Ranger (VagabondPlayer, VagabondAIProfile)",
+      "_notes": "Verso rides it (starting items Boots, Torch, Crossbow, Sword). In a two-Vagabond game the Vagabonds share one hand of quests and each ruin holds 2 items to choose from (digital). Shared quests affect the Vagabond bots' VP play (Root's AI handles quests); the ruin rule affects Dorrie. Root digital allows two Vagabonds in any game without DLC (update 1.27.0). engineType from Root33.Discover over Root's interop assemblies (Root build 22238765, BepInEx 6.0.0-be.790), 2026-10-20.",
       "_source": "https://news.direwolfdigital.com/root-now-in-early-access-on-steam/ ; https://news.direwolfdigital.com/root-patch-1-27-3/ ; https://news.direwolfdigital.com/whats-new-in-the-riverfolk-expansion/"
     },
     {
@@ -113,11 +98,8 @@
         "completed quests by suit"
       ],
       "digitalAi": "yes",
-      "engineType": "unknown",
-      "_unverified": {
-        "engineType": "Root's own class or id for this engine is unknown; confirm in Root's code on the creator's PC"
-      },
-      "_notes": "Maelle rides it (starting items Boots, Torch, Tea, Sword). With Exiles & Partisans & Vagabonds she may ride the Ronin instead; the Ronin has no row in the fixed engine list and maps to EngineId.VagabondOther in the core. In a two-Vagabond game the Vagabonds share one hand of quests and each ruin holds 2 items to choose from (digital). Shared quests affect the Vagabond bots' VP play (Root's AI handles quests); the ruin rule affects Dorrie. Root digital allows two Vagabonds in any game without DLC (update 1.27.0).",
+      "engineType": "tuber_canis.data.Factions.Vagabond or SecondVagabond + tuber_canis.data.VagabondCharacters.Thief (VagabondPlayer, VagabondAIProfile)",
+      "_notes": "Maelle rides it (starting items Boots, Torch, Tea, Sword). With Exiles & Partisans & Vagabonds she may ride the Ronin instead; the Ronin has no row in the fixed engine list and maps to EngineId.VagabondOther in the core. In a two-Vagabond game the Vagabonds share one hand of quests and each ruin holds 2 items to choose from (digital). Shared quests affect the Vagabond bots' VP play (Root's AI handles quests); the ruin rule affects Dorrie. Root digital allows two Vagabonds in any game without DLC (update 1.27.0). engineType from Root33.Discover over Root's interop assemblies (Root build 22238765, BepInEx 6.0.0-be.790), 2026-10-20.",
       "_source": "https://news.direwolfdigital.com/root-now-in-early-access-on-steam/ ; https://news.direwolfdigital.com/root-patch-1-27-3/ ; https://news.direwolfdigital.com/whats-new-in-the-riverfolk-expansion/"
     },
     {
@@ -132,11 +114,8 @@
         "services bought"
       ],
       "digitalAi": "yes",
-      "engineType": "unknown",
-      "_unverified": {
-        "engineType": "Root's own class or id for this engine is unknown; confirm in Root's code on the creator's PC"
-      },
-      "_notes": "No Root 33 character rides it yet; it is kept free for a later Golgra or Gestral character.",
+      "engineType": "tuber_canis.data.Factions.RiverfolkCompany (RiverfolkCompanyPlayer, RiverfolkCompanyAIProfile)",
+      "_notes": "No Root 33 character rides it yet; it is kept free for a later Golgra or Gestral character. engineType from Root33.Discover over Root's interop assemblies (Root build 22238765, BepInEx 6.0.0-be.790), 2026-10-20.",
       "_source": "https://api.steampowered.com/ISteamNews/GetNewsForApp/v2/?appid=965580&count=300&maxlength=0&format=json"
     },
     {
@@ -151,13 +130,9 @@
         "acolytes",
         "Lost Souls pile"
       ],
-      "digitalAi": "unknown",
-      "engineType": "unknown",
-      "_unverified": {
-        "digitalAi": "Dire Wolf patch notes name native AI for every other digital faction but never the Lizard Cult; confirm in Root's code on the creator's PC (week-1 spike)",
-        "engineType": "Root's own class or id for this engine is unknown; confirm in Root's code on the creator's PC"
-      },
-      "_notes": "Clea rides it. The Lizard Cult is the only digital faction no Dire Wolf patch note names as an AI opponent, so Clea is the only character that may need the fallback planner."
+      "digitalAi": "yes",
+      "engineType": "tuber_canis.data.Factions.LizardCult (LizardCultPlayer, LizardCultAIProfile)",
+      "_notes": "Clea rides it. The Lizard Cult is the only digital faction no Dire Wolf patch note names as an AI opponent, so Clea is the only character that may need the fallback planner. engineType from Root33.Discover over Root's interop assemblies (Root build 22238765, BepInEx 6.0.0-be.790), 2026-10-20."
     },
     {
       "id": "duchy",
@@ -172,11 +147,8 @@
         "swayed ministers"
       ],
       "digitalAi": "yes",
-      "engineType": "unknown",
-      "_unverified": {
-        "engineType": "Root's own class or id for this engine is unknown; confirm in Root's code on the creator's PC"
-      },
-      "_notes": "The Curator rides it.",
+      "engineType": "tuber_canis.data.Factions.UndergroundDuchy (UndergroundDuchyPlayer, UndergroundDuchyAIProfile)",
+      "_notes": "The Curator rides it. engineType from Root33.Discover over Root's interop assemblies (Root build 22238765, BepInEx 6.0.0-be.790), 2026-10-20.",
       "_source": "https://news.direwolfdigital.com/root-patch-4-14-2023/"
     },
     {
@@ -191,11 +163,8 @@
         "ruler of each clearing"
       ],
       "digitalAi": "yes",
-      "engineType": "unknown",
-      "_unverified": {
-        "engineType": "Root's own class or id for this engine is unknown; confirm in Root's code on the creator's PC"
-      },
-      "_notes": "The White-Haired Man rides it.",
+      "engineType": "tuber_canis.data.Factions.CorvidConspiracy (CorvidConspiracyPlayer, CorvidConspiracyAIProfile)",
+      "_notes": "The White-Haired Man rides it. engineType from Root33.Discover over Root's interop assemblies (Root build 22238765, BepInEx 6.0.0-be.790), 2026-10-20.",
       "_source": "https://news.direwolfdigital.com/root-patch-4-14-2023/ ; https://news.direwolfdigital.com/root-patch-1-34-0/"
     },
     {
@@ -212,11 +181,8 @@
         "current mood"
       ],
       "digitalAi": "yes",
-      "engineType": "unknown",
-      "_unverified": {
-        "engineType": "Root's own class or id for this engine is unknown; confirm in Root's code on the creator's PC"
-      },
-      "_notes": "Monoco rides it.",
+      "engineType": "tuber_canis.data.Factions.LordOfTheHundreds (LordOfTheHundredsPlayer, LordOfTheHundredsAIProfile)",
+      "_notes": "Monoco rides it. engineType from Root33.Discover over Root's interop assemblies (Root build 22238765, BepInEx 6.0.0-be.790), 2026-10-20.",
       "_source": "https://api.steampowered.com/ISteamNews/GetNewsForApp/v2/?appid=965580&count=300&maxlength=0&format=json"
     },
     {
@@ -233,11 +199,8 @@
         "Retinue cards"
       ],
       "digitalAi": "yes",
-      "engineType": "unknown",
-      "_unverified": {
-        "engineType": "Root's own class or id for this engine is unknown; confirm in Root's code on the creator's PC"
-      },
-      "_notes": "Lune rides it. Whether relic type and value are readable while face down is a week-1 spike item.",
+      "engineType": "tuber_canis.data.Factions.KeepersInIron (KeepersInIronPlayer, KeepersInIronAIProfile)",
+      "_notes": "Lune rides it. Whether relic type and value are readable while face down is a week-1 spike item. engineType from Root33.Discover over Root's interop assemblies (Root build 22238765, BepInEx 6.0.0-be.790), 2026-10-20.",
       "_source": "https://api.steampowered.com/ISteamNews/GetNewsForApp/v2/?appid=965580&count=300&maxlength=0&format=json"
     }
   ]

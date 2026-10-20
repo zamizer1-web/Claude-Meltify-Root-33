@@ -79,7 +79,7 @@ namespace Root33.Plugin.Unity
 
         private void Dump()
         {
-            var path = Path.Combine(Paths.BepInExRootPath, FileName);
+            var path = Path.Combine(BepInEx.Paths.BepInExRootPath, FileName);
             try
             {
                 var snap = new ProbeSnapshot(DateTime.Now, SceneManager.GetActiveScene().name);

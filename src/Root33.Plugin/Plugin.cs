@@ -89,7 +89,7 @@ namespace Root33.Plugin
     /// <summary>What both entries do at start, before their Unity components.</summary>
     internal static class PluginStart
     {
-        public static PluginSettings Run(ManualLogSource log, ConfigFile config, out Harmony harmony)
+        public static PluginSettings Run(ManualLogSource log, BepInEx.Configuration.ConfigFile config, out Harmony harmony)
         {
             log.LogInfo($"Root 33 loaded (core {SheetsInfo.CoreVersion}, sheets {SheetsInfo.RowCount} rows)");
             var settings = new PluginSettings(config);

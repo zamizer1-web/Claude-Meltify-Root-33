@@ -12,7 +12,7 @@ namespace Root33.Plugin
         public const string Safe = "safe";
         public const string Finished = "finished";
 
-        public PluginSettings(ConfigFile config)
+        public PluginSettings(BepInEx.Configuration.ConfigFile config)
         {
             Spoiler = config.Bind("Root 33", "SpoilerMode", Safe, new ConfigDescription(
                 "safe: names and story stay spoiler-free. finished: for players who have finished Clair Obscur: Expedition 33 " +
