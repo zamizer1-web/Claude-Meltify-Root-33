@@ -22,6 +22,8 @@ internal static class Names
         if (t.IsPointer) return Of(t.GetElementType()!) + "*";
         if (t.IsArray) return Of(t.GetElementType()!) + "[" + new string(',', t.GetArrayRank() - 1) + "]";
         if (t.IsGenericParameter) return t.Name;
+        if (t.IsGenericType && !t.IsGenericTypeDefinition && t.Namespace == "System" && t.Name == "Nullable`1")
+            return Of(t.GetGenericArguments()[0]) + "?";
         var name = t.Name;
         var tick = name.IndexOf('`');
         if (tick >= 0) name = name.Substring(0, tick);
@@ -55,11 +57,16 @@ internal static class Names
     /// <summary>What a reference to a missing assembly reads as: "&lt;unresolved Il2CppInterop.Runtime&gt;".</summary>
     public static string Unresolved(Exception e)
     {
-        var what = e is FileNotFoundException f && !string.IsNullOrEmpty(f.FileName) ? f.FileName : e.GetType().Name;
+        // MetadataLoadContext: "Could not find assembly 'Il2CppInterop.Runtime, Version=...'" (FileName is not set).
+        var m = MissingAssembly.Match(e.Message);
+        var what = m.Success ? m.Groups[1].Value
+            : e is FileNotFoundException f && !string.IsNullOrEmpty(f.FileName) ? f.FileName : e.GetType().Name;
         var comma = what.IndexOf(',');
         if (comma > 0) what = what.Substring(0, comma);
         return "<unresolved " + what + ">";
     }
+
+    private static readonly Regex MissingAssembly = new(@"assembly '([^',]+)", RegexOptions.Compiled);
 
     /// <summary>
     /// An identifier split into lower-case words: "BirdsongPhase" gives birdsong, phase; "AIPlayer" gives ai, player;

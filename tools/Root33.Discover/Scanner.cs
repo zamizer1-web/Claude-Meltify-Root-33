@@ -72,7 +72,7 @@ internal sealed class Scanner
             var count = 0;
             foreach (var t in types.OrderBy(t => t.FullName, StringComparer.Ordinal))
             {
-                if (Skip(t.Name) || (PublicOnly && !IsVisible(t))) continue;
+                if (Skip(t.Name) || Skip(t.FullName ?? "") || (PublicOnly && !IsVisible(t))) continue;
                 Types.Add(Read(t, name.Name ?? "", game));
                 count++;
             }
@@ -82,7 +82,8 @@ internal sealed class Scanner
 
     private static bool IsVisible(Type t) => t.IsPublic || t.IsNestedPublic;
 
-    /// <summary>Compiler-generated names (lambdas, iterators, backing fields, &lt;Module&gt;).</summary>
+    /// <summary>Compiler-generated names (lambdas, iterators, backing fields, &lt;Module&gt;, and types nested in them; a
+    /// reflection FullName writes generic arguments with [ ], so only generated names hold a &lt;).</summary>
     private static bool Skip(string name) => name.Contains('<');
 
     private string Try(Func<string> read)
@@ -99,7 +100,7 @@ internal sealed class Scanner
     private void Part(TypeEntry entry, string what, Action read)
     {
         try { read(); }
-        catch (Exception e) { entry.Errors.Add($"{what}: {Names.Unresolved(e)} {e.Message}"); }
+        catch (Exception e) { entry.Errors.Add($"{what}: {Names.Unresolved(e)}"); }
     }
 
     private TypeEntry Read(Type t, string assembly, bool game)
@@ -109,14 +110,19 @@ internal sealed class Scanner
             Assembly = assembly, Game = game, Namespace = t.Namespace ?? "", Name = t.Name,
             FullName = Try(() => Names.Of(t)),
         };
-        Part(e, "kind", () =>
-        {
-            e.Kind = t.IsEnum ? "enum" : t.IsInterface ? "interface" : t.IsValueType ? "struct"
-                : t.BaseType?.FullName == "System.MulticastDelegate" ? "delegate" : "class";
-            e.Visibility = t.IsPublic || t.IsNestedPublic ? "public" : t.IsNestedFamily ? "protected" : t.IsNestedPrivate ? "private" : "internal";
-            e.Abstract = t.IsAbstract;
-            e.Sealed = t.IsSealed;
-        });
+        // Visibility and modifiers are metadata flags; the kind of a non-interface needs its base type resolved.
+        e.Visibility = t.IsPublic || t.IsNestedPublic ? "public" : t.IsNestedFamily ? "protected" : t.IsNestedPrivate ? "private" : "internal";
+        e.Abstract = t.IsAbstract;
+        e.Sealed = t.IsSealed;
+        if (t.IsInterface) e.Kind = "interface";
+        else Part(e, "kind", () =>
+            e.Kind = t.BaseType?.FullName switch
+            {
+                "System.Enum" => "enum",
+                "System.ValueType" => "struct",
+                "System.MulticastDelegate" => "delegate",
+                _ => "class",
+            });
         if (t.IsNested) e.DeclaringType = Try(() => Names.Of(t.DeclaringType!));
         if (t.IsGenericTypeDefinition) Part(e, "generic parameters", () => e.GenericParameters.AddRange(t.GetGenericArguments().Select(a => a.Name)));
         Part(e, "base type", () => { if (t.BaseType != null) e.BaseType = Try(() => Names.Of(t.BaseType)); });
@@ -144,7 +150,10 @@ internal sealed class Scanner
                 var acc = getter ?? setter;
                 if (PublicOnly && (acc == null || !acc.IsPublic)) continue;
                 var index = new List<ParameterEntry>();
-                Part(e, "indexer " + p.Name, () => index.AddRange(p.GetIndexParameters().Select(x => new ParameterEntry(x.Name ?? "", Try(() => Names.Of(x.ParameterType))))));
+                // A property whose type is unresolved cannot be decoded far enough to read index parameters; its type
+                // already says so.
+                try { index.AddRange(p.GetIndexParameters().Select(x => new ParameterEntry(x.Name ?? "", Try(() => Names.Of(x.ParameterType))))); }
+                catch (Exception) { }
                 e.Properties.Add(new PropertyEntry(p.Name, Try(() => Names.Of(p.PropertyType)), getter != null, setter != null,
                     acc?.IsStatic ?? false, acc == null ? "private" : Visibility(acc), index));
             }

@@ -29,7 +29,7 @@ internal sealed class Report
 
     public string Build(string source, Scanner scan)
     {
-        var types = scan.Types.Where(t => AllAssemblies || t.Game).ToList();
+        var types = scan.Types.Where(t => (AllAssemblies || t.Game) && !Embedded(t)).ToList();
         var sb = new StringBuilder();
         sb.AppendLine("# Root 33 discovery report");
         sb.AppendLine();
@@ -98,7 +98,7 @@ internal sealed class Report
         More(sb, singletons.Count, 150);
         sb.AppendLine();
 
-        var flow = types.Where(t => t.Kind is "class" or "struct" && FlowSuffixes.Any(s => t.Name.EndsWith(s, StringComparison.Ordinal)))
+        var flow = types.Where(t => t.Kind == "class" && FlowSuffixes.Any(s => t.Name.EndsWith(s, StringComparison.Ordinal)))
             .OrderByDescending(t => Concept.All.Count(c => c.Matches(t.Name)) + (IsSingleton(t) ? 2 : 0))
             .ThenBy(t => t.FullName, StringComparer.Ordinal).ToList();
         sb.AppendLine($"### Managers, controllers, state machines ({flow.Count})");
@@ -119,6 +119,11 @@ internal sealed class Report
             sb.AppendLine($"- `{g.Key}` ({g.Count()}): {string.Join(", ", g.Take(8).Select(t => "`" + t.Name + "`"))}{(g.Count() > 8 ? ", ..." : "")}");
         sb.AppendLine();
     }
+
+    /// <summary>Attribute types the compiler embeds in every assembly it builds (NullableAttribute, EmbeddedAttribute...).</summary>
+    private static bool Embedded(TypeEntry t) =>
+        t.Namespace.StartsWith("Microsoft.CodeAnalysis", StringComparison.Ordinal) ||
+        t.Namespace.StartsWith("System.Runtime.CompilerServices", StringComparison.Ordinal);
 
     private static bool IsSingleton(TypeEntry t) =>
         (t.BaseType?.Contains("Singleton", StringComparison.OrdinalIgnoreCase) ?? false) ||
