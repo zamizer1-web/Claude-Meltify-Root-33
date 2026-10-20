@@ -1,6 +1,8 @@
 using Root33.Core;
 using Root33.Core.Engine;
 using Root33.Core.Sheets;
+using Root33.Host;
+using SharedText = Root33.Host.ModText;
 
 namespace Root33.Sim;
 
@@ -11,11 +13,13 @@ namespace Root33.Sim;
 /// the shared rules honour (ExtraHits, ExtraMaxHits, IgnoreFirstHit, GuardFloors, BlockedPlacements, Abilities,
 /// HomeRestrictions, StartForestRestrictions, DeclaredWinners) or only display (Banners, SeatTitles, Overlays).
 /// Root 33 never sees a sim seat number as anything but a SeatId with the same 0-based value; clearings are 1-12 on both sides.
+/// The lines it logs for the core's display actions are Root33.Host.ModText's, the same as in Root.
 /// </summary>
 public sealed class SimBoard : IBoardView, IBoardActions
 {
     private readonly SimGame _g;
-    public SimBoard(SimGame g) { _g = g; }
+    private readonly SimHost _host;
+    public SimBoard(SimGame g) { _g = g; _host = new SimHost(g); }
 
     /// <summary>Board actions the base-game tabletop cannot do (no Duchy, no Keepers): the core takes their sheet fallbacks.</summary>
     public static readonly string[] Unsupported =
@@ -216,21 +220,21 @@ public sealed class SimBoard : IBoardView, IBoardActions
         if (!St.Mod.Abilities.TryGetValue(seat.Value, out var l)) St.Mod.Abilities[seat.Value] = l = new List<string>();
         if (l.Contains(abilityKey)) return;
         l.Add(abilityKey);
-        Log($"{Who(seat.Value)} gains a new power: {ModText.AbilityText(abilityKey)}.");
+        Log(SharedText.AbilityGained(_host, seat, abilityKey));
     }
 
     public void ShowBanner(SeatId seat, string winConditionId)
     {
         var had = St.Mod.Banners.TryGetValue(seat.Value, out var old) && old == winConditionId;
         St.Mod.Banners[seat.Value] = winConditionId;
-        if (!had) Log(ModText.BannerAnnounced(_g, seat.Value, winConditionId));
+        if (!had) Log(SharedText.BannerAnnounced(_host, seat, winConditionId));
     }
 
     public void ClearBanner(SeatId seat)
     {
         if (Quiet) return; // a reload keeps the banner; the owner's next Birdsong decides it
         if (St.Mod.Banners.Remove(seat.Value, out var winId) && !St.GameOver)
-            Log($"the countdown banner of {Who(seat.Value)} ({ModText.WinTitle(winId)}) comes down.");
+            Log(SharedText.BannerCleared(_host, seat, winId));
     }
 
     public void ShowBubble(SeatId seat, string barkId)
@@ -251,8 +255,7 @@ public sealed class SimBoard : IBoardView, IBoardActions
     }
 
     public static string OverlayKey(string overlayId, SeatId? seat, ClearingId? c, int? forest) =>
-        overlayId + "@" + (seat.HasValue ? seat.Value.Value.ToString() : "") + "/" + (c.HasValue ? c.Value.Value.ToString() : "") +
-        "/" + (forest.HasValue ? "f" + forest.Value : "");
+        ModDisplay.OverlayKey(overlayId, seat, c, forest);
 
     public void SetSeatTitle(SeatId seat, string title)
     {

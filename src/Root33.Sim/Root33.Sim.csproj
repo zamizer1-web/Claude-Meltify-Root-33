@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Root33.Core\Root33.Core.csproj" />
+    <ProjectReference Include="..\Root33.Host\Root33.Host.csproj" />
   </ItemGroup>
 
 </Project>

@@ -2,12 +2,10 @@ using System.Reflection;
 using System.Text;
 using System.Text.Json;
 using Root33.Core;
-using Root33.Core.Characters.Esquie;
-using Root33.Core.Characters.Gustave;
-using Root33.Core.Characters.Paintress;
-using Root33.Core.Characters.Sciel;
 using Root33.Core.Engine;
 using Root33.Core.Sheets;
+using Root33.Host;
+using SharedText = Root33.Host.ModText;
 
 namespace Root33.Sim;
 
@@ -18,9 +16,11 @@ namespace Root33.Sim;
 /// tabletop's own (seats 0-based ints, clearings 1-12); the bridge turns them into Root33.Core types and forwards them to
 /// a <see cref="Root33Game"/> built over <see cref="SimBoard"/>, exactly as the in-game plugin will from its patches.
 ///
-/// Re-entrancy: the core changes the board through IBoardActions while it runs a hook, and the sim reports those changes
-/// back as hooks (a guard warrior placed, VP scored, the game ending). Such nested hooks are queued and delivered right
-/// after the hook that caused them, so the core never runs inside itself.
+/// The parts that do not depend on the tabletop are Root33.Host's, shared with the in-game plugin: the hook dispatch
+/// (<see cref="HookDispatcher"/>: nested hooks the core causes are queued and delivered right after the hook that caused
+/// them, and core exceptions are logged once per hook), the mod's feed (<see cref="ModFeed"/>: bubbles, story, act banners),
+/// the mod's view (<see cref="ModView"/>) and the character cards (<see cref="ModCards"/>). <see cref="SimHost"/> is what
+/// the tabletop supplies to them.
 ///
 /// What the core does not save (speech-bubble cooldowns, the story log, bubbles each seat has not seen yet) the bridge
 /// keeps in State.Mod.Extra["bridge"], because every CLI command reloads the game.
@@ -28,17 +28,13 @@ namespace Root33.Sim;
 public sealed class CoreBridge
 {
     private static readonly Lazy<ModuleRegistry> Registry = new(ModuleRegistry.Default);
-    private const int MaxBubbles = 120;
 
     private readonly SimGame _g;
     private readonly SimBoard _board;
     private readonly Root33Game _game;
+    private readonly HookDispatcher _hooks;
     private readonly BridgeData _data;
-    private readonly Queue<(string Hook, Action<Root33Game> Call)> _queued = new();
-    private readonly HashSet<string> _errorHooks = new();
-    private int _depth;
-    private int _storySeen;
-    private int _warningsSeen;
+    private readonly ModView _view;
     private bool _selectShown;
 
     public CoreBridge(SimGame g)
@@ -46,15 +42,24 @@ public sealed class CoreBridge
         _g = g;
         _board = new SimBoard(g) { BubbleShown = Bubble, WinnerDeclared = Declared };
         _game = new Root33Game(_board, _board, Registry.Value, new Capabilities().Unsupported(SimBoard.Unsupported));
+        _hooks = new HookDispatcher(_game)
+        {
+            FirstError = (hook, e) => _g.Log(SharedText.CoreErrorLine(hook, e.Message)),
+            AfterHook = AfterCore,
+        };
         _data = ReadData();
+        Host = new SimHost(g);
+        _view = new ModView(Ctx, Host, _data);
     }
 
     /// <summary>The core game (tests read its context: act, story log, barks, modules).</summary>
     public Root33Game Game => _game;
     public GameContext Ctx => _game.Context;
     public SimBoard Board => _board;
+    /// <summary>What the tabletop supplies to Root33.Host (seats, titles, banners, names).</summary>
+    public SimHost Host { get; }
     /// <summary>Exceptions the core threw (logged once per hook; the game goes on). Tests assert this stays empty.</summary>
-    public List<string> Errors { get; } = new();
+    public List<string> Errors => _hooks.Errors;
     /// <summary>Every speech bubble kept for the views (the last 120).</summary>
     public IReadOnlyList<BubbleRecord> Bubbles => _data.Bubbles;
     /// <summary>Story events fired this game, in order (kept across reloads).</summary>
@@ -67,71 +72,18 @@ public sealed class CoreBridge
     private bool IsVagabond(int seat) => _g.Seat(seat).Faction == "vagabond";
     private SpoilerMode Spoilers => St.Spoiler == "finished" ? SpoilerMode.Finished : SpoilerMode.Safe;
 
-    // ---------------------------------------------------------------- dispatch
+    // ---------------------------------------------------------------- dispatch (Root33.Host.HookDispatcher)
 
-    private void Call(string hook, Action<Root33Game> call)
-    {
-        if (_depth > 0) { _queued.Enqueue((hook, call)); return; }
-        _depth++;
-        try
-        {
-            Safe(hook, () => call(_game));
-            while (_queued.Count > 0)
-            {
-                var (h, c) = _queued.Dequeue();
-                Safe(h, () => c(_game));
-            }
-        }
-        finally { _depth--; }
-        AfterCore();
-    }
-
-    private T Ask<T>(string hook, Func<Root33Game, T> ask, T fallback)
-    {
-        T result = fallback;
-        if (_depth > 0) { Safe(hook, () => result = ask(_game)); return result; }
-        Call(hook, game => result = ask(game));
-        return result;
-    }
-
-    private void Safe(string hook, Action a)
-    {
-        try { a(); }
-        catch (Exception e)
-        {
-            Errors.Add($"{hook}: {e.GetType().Name}: {e.Message}");
-            if (_errorHooks.Add(hook)) _g.Log($"(Root 33 core error in {hook}: {e.Message}; the game goes on without it.)");
-        }
-    }
+    private void Call(string hook, Action<Root33Game> call) => _hooks.Call(hook, call);
+    private T Ask<T>(string hook, Func<Root33Game, T> ask, T fallback) => _hooks.Ask(hook, ask, fallback);
 
     /// <summary>After each hook: log the story events, act banners and core notes it produced.</summary>
-    private void AfterCore()
-    {
-        if (!Ctx.E33Mode) return;
-        var log = Ctx.StoryLog;
-        for (; _storySeen < log.Count; _storySeen++)
-        {
-            var e = log[_storySeen];
-            if (St.SetupDone && Ctx.Act > _data.LastAct) ActBanner();
-            _data.Story.Add(new StoryRecord { EventId = e.EventId, Act = e.Act, Round = St.Round });
-            _g.Log($"Root 33 story ({ModText.ActTitle(e.Act)}): {ModText.StoryText(e.EventId)}");
-        }
-        if (St.SetupDone && Ctx.Act > _data.LastAct) ActBanner();
-        for (; _warningsSeen < Ctx.Warnings.Count; _warningsSeen++) _g.Log("(Root 33 note: " + Ctx.Warnings[_warningsSeen] + ")");
-    }
-
-    private void ActBanner()
-    {
-        _data.LastAct = Ctx.Act;
-        _g.Log($"=== Root 33 · {ModText.ActTitle(Ctx.Act)} === {ModText.ActLine(Ctx.Act)}");
-    }
+    private void AfterCore() => _data.CatchUp(Ctx, St.Round, St.SetupDone, line => _g.Log(line));
 
     private void Bubble(int seat, string barkId)
     {
-        var n = ++_data.BubbleCount;
-        _data.Bubbles.Add(new BubbleRecord { N = n, Seat = seat, BarkId = barkId, Round = St.Round });
-        if (_data.Bubbles.Count > MaxBubbles) _data.Bubbles.RemoveAt(0);
-        _g.Log($"{Render.Who(_g, seat)} says: \"{ModText.BarkText(barkId)}\"");
+        _data.AddBubble(S(seat), barkId, St.Round);
+        _g.Log(SharedText.BubbleLine(Render.Who(_g, seat), barkId));
     }
 
     private void Declared(int seat, string winId)
@@ -140,16 +92,7 @@ public sealed class CoreBridge
         _g.EndGame(St.Mod.DeclaredWinners.ToList(), WinText());
     }
 
-    private string WinText()
-    {
-        var winners = St.Mod.DeclaredWinners;
-        if (winners.Count == 0) return "";
-        int seat = winners[0];
-        var who = Render.Who(_g, seat);
-        var partners = winners.Skip(1).Select(s => Render.Who(_g, s)).ToList();
-        return $"{who} wins with {ModText.WinTitle(St.Mod.DeclaredWinId)}, the Root 33 themed win of {ModText.SeatTitle(_g, seat)}" +
-               (partners.Count > 0 ? $" (with {string.Join(" and ", partners)} in coalition)" : "");
-    }
+    private string WinText() => SharedText.WinLine(Host, St.Mod.DeclaredWinners.Select(S).ToList(), St.Mod.DeclaredWinId);
 
     // ---------------------------------------------------------------- one method per game_hooks.json row
 
@@ -198,7 +141,7 @@ public sealed class CoreBridge
     public void OnTurnEnd(int seat)
     {
         Call("hook.turn-end", g => g.OnTurnEnd(S(seat)));
-        _data.BubbleMark[seat] = _data.BubbleCount;
+        _data.TurnEnded(S(seat));
     }
 
     /// <summary>hook.act-change (raised by the core itself from hook.turn-end).</summary>
@@ -284,7 +227,7 @@ public sealed class CoreBridge
         _data.Barks = BarkMemory.Take(Ctx.Barks);
         St.Mod.Extra["bridge"] = JsonSerializer.Serialize(_data, SimJson.Options);
         string text = "";
-        Safe("hook.save", () => text = _game.OnSave());
+        _hooks.Safe("hook.save", () => text = _game.OnSave());
         Canonical();
         return text;
     }
@@ -310,14 +253,12 @@ public sealed class CoreBridge
         _selectShown = true;
         var banners = St.Mod.Banners.ToList();
         _board.Quiet = true;
-        _depth++;
-        try { Safe("hook.load", () => _game.OnLoad(saved)); }
-        finally { _depth--; _board.Quiet = false; }
-        _queued.Clear();
+        try { _hooks.RunAlone("hook.load", g => g.OnLoad(saved)); }
+        finally { _board.Quiet = false; }
         if (!Ctx.E33Mode) return;
         // The CLI reloads on every command, so a reload must not change the game: the core ran its load-time re-checks
         // above (on the very board it saved), and now gets back exactly the state it saved, bot plans included.
-        Safe("hook.load", () => Ctx.State.Load(ModState.FromText(saved)));
+        _hooks.Safe("hook.load", () => Ctx.State.Load(ModState.FromText(saved)));
         var announced = new Dictionary<SeatId, string>();
         foreach (var s in Ctx.State.GlobalCountdowns)
         {
@@ -328,8 +269,7 @@ public sealed class CoreBridge
         }
         Ctx.Countdown.Restore(announced);
         _data.Barks?.Restore(Ctx.Barks);
-        _storySeen = Ctx.StoryLog.Count;
-        _warningsSeen = Ctx.Warnings.Count;
+        _data.SkipSeen(Ctx);
     }
 
     // ---------------------------------------------------------------- tabletop reads
@@ -352,219 +292,22 @@ public sealed class CoreBridge
     }
 
     /// <summary>The character select screen as text (works without a game): each base-game character as a player reads
-    /// its card (name, pitch, how it wins, which Root faction it plays).</summary>
-    public static string SelectCards(string spoiler)
-    {
-        var sb = new StringBuilder();
-        sb.AppendLine($"ROOT 33 · choose your characters (spoiler mode: {spoiler}). Each character plays a base-game Root faction.");
-        foreach (var id in ModText.BaseCharacters)
-        {
-            if (!Data.Characters.TryGetValue(id, out var c)) continue;
-            if (spoiler != "finished" && !c.SafeModeSelectable) continue;
-            sb.AppendLine();
-            sb.AppendLine($"[{id}] {ModText.CharacterName(id, spoiler)} · plays the {FactionRegistry.EngineName(c.Engine)}");
-            sb.AppendLine("  " + c.SummarySafe);
-            if (Data.WinConditions.TryGetValue(c.WinCondition, out var w))
-            {
-                var kind = w.Kind == "quest" ? "quest win" : "countdown win";
-                sb.AppendLine($"  How they win: {w.Title} ({kind}). {ModText.Plain(w.PlayerText)}");
-            }
-        }
-        sb.AppendLine();
-        sb.AppendLine("Every character can also win the Root way: 30 VP, or a dominance card.");
-        sb.Append("Seat 2-4 of them, at most two Vagabonds: new --seats \"gustave:human,paintress:human,sciel:human,esquie:human\"");
-        return sb.ToString();
-    }
+    /// its card (name, pitch, how it wins, which Root faction it plays), then how to seat them here.</summary>
+    public static string SelectCards(string spoiler) =>
+        ModCards.SelectCards(SimHost.SpoilersOf(spoiler), ModText.BaseCharacters) +
+        "Seat 2-4 of them, at most two Vagabonds: new --seats \"gustave:human,paintress:human,sciel:human,esquie:human\"";
 
     /// <summary>The seat's character card: who it is, its themed win, and its Root 33 rule changes in plain words.</summary>
-    public string CharacterCard(int seat)
-    {
-        var id = _g.Seat(seat).Character;
-        if (!Data.Characters.TryGetValue(id, out var c)) return "";
-        var sb = new StringBuilder();
-        sb.AppendLine($"ROOT 33 CHARACTER: {ModText.SeatTitle(_g, seat)}, playing the {FactionRegistry.EngineName(c.Engine)}.");
-        sb.AppendLine("  " + c.SummarySafe);
-        if (Data.WinConditions.TryGetValue(c.WinCondition, out var w))
-        {
-            sb.AppendLine($"THEMED WIN · {w.Title}: {ModText.Plain(w.PlayerText)}");
-            var counter = ModText.Plain(w.Counterplay);
-            if (counter.Length > 0) sb.AppendLine($"  How the table stops it: {counter}");
-        }
-        sb.AppendLine("You can also win the Root way: 30 VP, or a dominance card.");
-        var tweaks = Data.RuleTweaks.Values.Where(t => t.Character == id && RuleOn(t.Id)).ToList();
-        if (tweaks.Count > 0)
-        {
-            sb.AppendLine("ROOT 33 RULE CHANGES:");
-            foreach (var t in tweaks) sb.AppendLine($"  - {t.Name}: {ModText.Plain(t.Rule)}");
-        }
-        return sb.ToString().TrimEnd();
-    }
+    public string CharacterCard(int seat) => ModCards.CharacterCard(Ctx, Host, S(seat));
 
-    private bool RuleOn(string tweakId)
-    {
-        try { return Ctx.E33Mode ? Ctx.RuleOn(tweakId) : Data.RuleTweaks[tweakId].Version != "v1.1"; }
-        catch { return Data.RuleTweaks[tweakId].Version != "v1.1"; }
-    }
-
-    // ---------------------------------------------------------------- the mod's view
+    // ---------------------------------------------------------------- the mod's view (Root33.Host.ModView)
 
     /// <summary>What the mod shows this seat: act banner, countdown banners, the public Goal Tracker with each character's
     /// tracker or gauge, the story so far and the speech bubbles since its last turn. Only public information.</summary>
-    public string ModView(int seat)
-    {
-        if (!Ctx.E33Mode) return "";
-        var sb = new StringBuilder();
-        try { WriteModView(sb, seat); }
-        catch (Exception e) { sb.AppendLine($"(Root 33 view unavailable: {e.Message})"); }
-        return sb.ToString().TrimEnd();
-    }
+    public string ModView(int seat) => _view.Text(S(seat));
 
     /// <summary>The mod's public view for a spectator (the live watch page): like ModView, with the last 12 speech bubbles.</summary>
-    public string SpectatorModView()
-    {
-        if (!Ctx.E33Mode) return "";
-        var sb = new StringBuilder();
-        try { WriteModView(sb, -1); }
-        catch (Exception e) { sb.AppendLine($"(Root 33 view unavailable: {e.Message})"); }
-        return sb.ToString().TrimEnd();
-    }
-
-    private void WriteModView(StringBuilder sb, int seat)
-    {
-        sb.AppendLine($"ROOT 33 · {ModText.ActTitle(Ctx.Act)} · Monolith Number {Ctx.MonolithNumber} (33 minus the top score of players not on a dominance card)");
-        sb.AppendLine("  " + ModText.ActLine(Ctx.Act));
-        foreach (var kv in St.Mod.Banners.OrderBy(k => k.Key))
-            sb.AppendLine("  " + ModText.BannerAnnounced(_g, kv.Key, kv.Value));
-
-        sb.AppendLine("GOAL TRACKER (public)");
-        foreach (var s in _g.TurnOrder())
-        {
-            var ch = Ctx.CharacterOf(S(s));
-            if (ch == null) continue;
-            sb.AppendLine($"  {Render.Who(_g, s)} · {GoalLine(s, ch)}");
-            var detail = Tracker(s, ch);
-            if (detail.Length > 0) sb.AppendLine("      " + detail);
-        }
-
-        if (_data.Story.Count > 0)
-        {
-            sb.AppendLine("STORY SO FAR");
-            foreach (var e in _data.Story.TakeLast(6)) sb.AppendLine($"  {ModText.ActTitle(e.Act)}: {ModText.StoryText(e.EventId)}");
-        }
-
-        var mark = _data.BubbleMark.TryGetValue(seat, out var m) ? m : 0;
-        var bubbles = seat < 0 ? _data.Bubbles.TakeLast(12).ToList() : _data.Bubbles.Where(b => b.N > mark).ToList();
-        if (bubbles.Count > 0)
-        {
-            sb.AppendLine(seat < 0 ? "LATEST SPEECH BUBBLES" : "SPEECH BUBBLES SINCE YOUR LAST TURN");
-            foreach (var b in bubbles) sb.AppendLine($"  r{b.Round} {Render.Who(_g, b.Seat)}: \"{ModText.BarkText(b.BarkId)}\"");
-        }
-    }
-
-    /// <summary>One Goal Tracker row: the win's title and how far the seat is (gates, then the themed test's missing steps).</summary>
-    private string GoalLine(int seat, string ch)
-    {
-        var win = Ctx.WinOf(S(seat));
-        if (win == null || !Data.WinConditions.TryGetValue(win.WinId, out var row)) return "no themed win";
-        var parts = new List<string>();
-        if (Ctx.Act < row.ActMin) parts.Add($"locked until Act {ModText.Roman(row.ActMin)}");
-        if (row.VpMin > 0 && _g.Seat(seat).Vp < row.VpMin) parts.Add($"needs {row.VpMin}+ VP");
-        if (row.OffWithDominance && _g.Seat(seat).Dominance != null) parts.Add("off while a dominance card is active");
-        if (row.OffInCoalition && _g.Seat(seat).CoalitionWith != null) parts.Add("off while in a coalition");
-        if (win is IGoalProgress p)
-        {
-            var missing = p.UnitsMissing(Ctx, S(seat));
-            parts.Add(missing switch { 0 => "themed test met", 1 => "ONE STEP AWAY", _ => $"{missing} steps missing" });
-        }
-        if (St.Mod.Banners.ContainsKey(seat)) parts.Add("COUNTDOWN ANNOUNCED");
-        return $"{row.Title} ({(row.Kind == "quest" ? "quest" : "countdown")}): {string.Join(", ", parts)}";
-    }
-
-    private string Where(ClearingId c) => _g.ClearingName(c.Value);
-    private string Where(int c) => _g.ClearingName(c);
-    private static string Suits(IEnumerable<Suit> suits)
-    {
-        var l = suits.Where(s => s != Suit.Bird).OrderBy(s => s).Select(s => s.ToString().ToLowerInvariant()).ToList();
-        return l.Count == 0 ? "none" : string.Join(", ", l);
-    }
-
-    /// <summary>The character's own public tracker or gauge (overlays.json: ui.gustave.road/arm, ui.paintress.portrait-tracker,
-    /// ui.sciel.gauges, ui.verso.rank, ui.maelle.family/stance, ui.esquie.rock-ring/rocks).</summary>
-    private string Tracker(int seat, string ch)
-    {
-        var st = Ctx.State;
-        var me = S(seat);
-        var monolith = Ctx.Role(Ids.MapRoles.Monolith);
-        var lumiere = Ctx.Role(Ids.MapRoles.Lumiere);
-        switch (ch)
-        {
-            case "gustave":
-            {
-                var chain = GustaveChain.Chain(_board, st, me, lumiere);
-                var beach = GustaveChain.ChainBeachhead(_board, me, chain, monolith);
-                var flags = st.GustaveFlags.OrderBy(c => c.Value).Select(c => "c" + c.Value + (_board.Ruler(c) == me ? "" : " (faded)"));
-                return $"Arm {st.GustaveArm}/{Tuning.GustaveArmMax}{(st.GustaveOverchargeArmed ? ", Overcharge armed" : "")} · " +
-                       $"flags: {(st.GustaveFlags.Count == 0 ? "none" : string.Join(", ", flags))} · " +
-                       $"Chain from Lumière: {(chain.Count == 0 ? "none" : string.Join(", ", chain.OrderBy(c => c.Value).Select(c => "c" + c.Value)))} " +
-                       $"covering {Suits(GustaveChain.ChainSuits(_board, chain))} · Beachhead: {(beach is ClearingId b ? Where(b) : "not reached")}";
-            }
-            case "paintress":
-            {
-                var portraits = Spoilers == SpoilerMode.Finished
-                    ? PaintressPortraits.LabelledPortraits(_board, st, me, monolith).Select(kv => $"{kv.Key} at {Where(kv.Value)}")
-                    : PaintressPortraits.LivingPortraits(_board, st, me, monolith).Select(c => Where(c));
-                var missing = PaintressPortraits.MissingSuits(_board, st, me, monolith);
-                return $"Portraits {3 - missing.Count}/3: {string.Join("; ", portraits.DefaultIfEmpty("none"))} · missing: {Suits(missing)} · " +
-                       $"holds the Monolith with an easel: {(PaintressPortraits.HoldsMonolith(_board, me, monolith) ? "yes" : "no")}";
-            }
-            case "sciel":
-            {
-                var sanct = ScielBoard.Sanctuaries(_board, me);
-                return $"Sun: {sanct.Count}/5 Sanctuaries ({Suits(ScielBoard.SuitsCovered(_board, sanct))}) · Moon: {ScielBoard.Aquafarms(_board, me)} Aquafarm(s) on the map";
-            }
-            case "verso":
-            {
-                var rank = "DCBAS"[Math.Clamp(st.VersoRank, 0, 4)];
-                var inMono = monolith.HasValue && _g.Seat(seat).PawnClearing == monolith.Value.Value;
-                return $"Perfection rank {rank} · pawn in the Monolith: {(inMono ? "yes" : "no")}";
-            }
-            case "maelle":
-            {
-                var rels = _g.TurnOrder().Where(o => o != seat && !IsVagabond(o))
-                    .Select(o => $"{Render.Who(_g, o)} {_board.RelationshipOf(me, S(o))}{(st.MaelleFamily != null && st.MaelleFamily.Contains(S(o)) ? " (her chosen family)" : "")}");
-                var stance = string.IsNullOrEmpty(st.MaelleStance) ? "" : $" · stance {st.MaelleStance}";
-                return $"family: {string.Join("; ", rels.DefaultIfEmpty("no non-Vagabond faction"))}{stance}";
-            }
-            case "esquie":
-            {
-                var names = new[] { "Florrie", "Dorrie", "Soarrie", "Urrie" };
-                var rocks = st.EsquieRocks ?? Array.Empty<RockState>();
-                int home = rocks.Count(r => r != null && r.Status == RockStatus.Held);
-                var parts = new List<string>();
-                for (int i = 0; i < rocks.Length && i < names.Length; i++) parts.Add($"{names[i]} {RockText(rocks[i], i)}");
-                return $"rocks home {home}/4 · {string.Join("; ", parts)}";
-            }
-            default:
-                return "";
-        }
-    }
-
-    private string RockText(RockState? r, int i)
-    {
-        if (r == null) return "unknown";
-        var at = r.Clearing is ClearingId c ? Where(c) : "?";
-        return r.Status switch
-        {
-            RockStatus.NotSpawned => i switch { 1 or 2 => "appears in Act II", 3 => "appears in Act III", _ => "not on the map" },
-            RockStatus.Hidden => $"hidden in the ruin of {at}",
-            RockStatus.Guarded => $"at {at}, guarded by {r.GuardsLeft} {(r.HostSeat is SeatId h ? Render.Who(_g, h.Value) : "host")} warrior{(r.GuardsLeft == 1 ? "" : "s")}",
-            RockStatus.Loose => $"loose at {at} (Esquie picks it up after any of his actions there)",
-            RockStatus.HeldByRuler => $"held by whoever rules {at}",
-            RockStatus.WithVerso => "on Verso's card",
-            RockStatus.Held => "home",
-            _ => r.Status,
-        };
-    }
+    public string SpectatorModView() => _view.Text(null);
 
     // ---------------------------------------------------------------- the bridge's saved record
 
@@ -579,32 +322,11 @@ public sealed class CoreBridge
     }
 }
 
-/// <summary>What the bridge keeps across reloads (State.Mod.Extra["bridge"]).</summary>
-public sealed class BridgeData
+/// <summary>What the bridge keeps across reloads (State.Mod.Extra["bridge"]): the mod's feed (Root33.Host.ModFeed: bubbles,
+/// each seat's 'seen up to' mark, story, last act banner) and the bark director's cooldowns.</summary>
+public sealed class BridgeData : ModFeed
 {
-    public List<BubbleRecord> Bubbles { get; set; } = new();
-    public int BubbleCount { get; set; }
-    /// <summary>For each seat, the last bubble number it has seen (set at the end of its turn).</summary>
-    public Dictionary<int, int> BubbleMark { get; set; } = new();
-    public List<StoryRecord> Story { get; set; } = new();
-    /// <summary>The last act whose banner was logged.</summary>
-    public int LastAct { get; set; }
     public BarkMemory? Barks { get; set; }
-}
-
-public sealed class BubbleRecord
-{
-    public int N { get; set; }
-    public int Seat { get; set; }
-    public string BarkId { get; set; } = "";
-    public int Round { get; set; }
-}
-
-public sealed class StoryRecord
-{
-    public string EventId { get; set; } = "";
-    public int Act { get; set; }
-    public int Round { get; set; }
 }
 
 /// <summary>

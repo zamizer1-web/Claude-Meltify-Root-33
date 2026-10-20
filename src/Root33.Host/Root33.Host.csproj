@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- netstandard2.0 like Root33.Core: the same texts load in the tabletop (net8.0), in Root under BepInEx 6 IL2CPP
+         (net6.0) and, if Root turns out to be a Mono build, under BepInEx 5. -->
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>9.0</LangVersion>
+    <!-- 'enable' here (Root33.Core uses 'annotations'): this project has no generated code, so the nullable warnings
+         are on and TreatWarningsAsErrors keeps them out. -->
+    <Nullable>enable</Nullable>
+    <RootNamespace>Root33.Host</RootNamespace>
+    <AssemblyName>Root33.Host</AssemblyName>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Root33.Core\Root33.Core.csproj" />
+  </ItemGroup>
+
+</Project>
