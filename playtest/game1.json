@@ -1,0 +1,521 @@
+{
+  "Version": 1,
+  "Seed": 33,
+  "Spoiler": "safe",
+  "Rng": 11486447283568528975,
+  "BotRng": 7178804445147116692,
+  "Seats": [
+    {
+      "Seat": 0,
+      "Character": "esquie",
+      "Engine": "vagabond-tinker",
+      "Faction": "vagabond",
+      "Human": true,
+      "Vp": 0,
+      "Hand": [
+        25,
+        21,
+        30
+      ],
+      "PlayArea": [],
+      "CraftedItems": [],
+      "Dominance": null,
+      "CoalitionWith": null,
+      "SupplyWarriors": 0,
+      "Supply": {},
+      "PawnClearing": null,
+      "PawnForest": null,
+      "FactionData": {
+        "Items": [
+          {
+            "Type": "Boots",
+            "Exhausted": false,
+            "Damaged": false
+          },
+          {
+            "Type": "Torch",
+            "Exhausted": false,
+            "Damaged": false
+          },
+          {
+            "Type": "Bag",
+            "Exhausted": false,
+            "Damaged": false
+          },
+          {
+            "Type": "Hammer",
+            "Exhausted": false,
+            "Damaged": false
+          }
+        ],
+        "Relations": {
+          "1": "Indifferent",
+          "2": "Indifferent",
+          "3": "Indifferent"
+        },
+        "Completed": [],
+        "QuestDeck": [
+          7,
+          3,
+          8,
+          14,
+          4,
+          2,
+          5,
+          13,
+          11,
+          10,
+          0,
+          12
+        ],
+        "QuestsUp": [
+          1,
+          6,
+          9
+        ],
+        "BattleAlly": null,
+        "AllyHits": 0,
+        "ItemHits": 0
+      }
+    },
+    {
+      "Seat": 1,
+      "Character": "gustave",
+      "Engine": "marquise",
+      "Faction": "marquise",
+      "Human": true,
+      "Vp": 0,
+      "Hand": [
+        28,
+        51,
+        41
+      ],
+      "PlayArea": [],
+      "CraftedItems": [],
+      "Dominance": null,
+      "CoalitionWith": null,
+      "SupplyWarriors": 14,
+      "Supply": {
+        "sawmill": 6,
+        "workshop": 6,
+        "recruiter": 6,
+        "wood": 8,
+        "keep": 0
+      },
+      "PawnClearing": null,
+      "PawnForest": null,
+      "FactionData": null
+    },
+    {
+      "Seat": 2,
+      "Character": "paintress",
+      "Engine": "eyrie",
+      "Faction": "eyrie",
+      "Human": true,
+      "Vp": 0,
+      "Hand": [
+        15,
+        7,
+        50
+      ],
+      "PlayArea": [],
+      "CraftedItems": [],
+      "Dominance": null,
+      "CoalitionWith": null,
+      "SupplyWarriors": 20,
+      "Supply": {
+        "roost": 7
+      },
+      "PawnClearing": null,
+      "PawnForest": null,
+      "FactionData": {
+        "Leader": "",
+        "FaceDown": [],
+        "Decree": {
+          "recruit": [],
+          "move": [],
+          "battle": [],
+          "build": []
+        }
+      }
+    },
+    {
+      "Seat": 3,
+      "Character": "sciel",
+      "Engine": "alliance",
+      "Faction": "alliance",
+      "Human": true,
+      "Vp": 0,
+      "Hand": [
+        53,
+        11,
+        24
+      ],
+      "PlayArea": [],
+      "CraftedItems": [],
+      "Dominance": null,
+      "CoalitionWith": null,
+      "SupplyWarriors": 10,
+      "Supply": {
+        "sympathy": 10,
+        "base.fox": 1,
+        "base.rabbit": 1,
+        "base.mouse": 1
+      },
+      "PawnClearing": null,
+      "PawnForest": null,
+      "FactionData": {
+        "Supporters": [],
+        "Officers": 0
+      }
+    }
+  ],
+  "FirstSeat": 3,
+  "Round": 0,
+  "Clearings": {
+    "1": {
+      "Id": 1,
+      "Warriors": {
+        "1": 1
+      },
+      "Buildings": [],
+      "Tokens": [
+        {
+          "Seat": 1,
+          "Type": "keep"
+        }
+      ],
+      "Ruin": false,
+      "RuinItem": null
+    },
+    "2": {
+      "Id": 2,
+      "Warriors": {
+        "1": 1
+      },
+      "Buildings": [],
+      "Tokens": [],
+      "Ruin": false,
+      "RuinItem": null
+    },
+    "3": {
+      "Id": 3,
+      "Warriors": {},
+      "Buildings": [],
+      "Tokens": [],
+      "Ruin": false,
+      "RuinItem": null
+    },
+    "4": {
+      "Id": 4,
+      "Warriors": {
+        "1": 1
+      },
+      "Buildings": [],
+      "Tokens": [],
+      "Ruin": false,
+      "RuinItem": null
+    },
+    "5": {
+      "Id": 5,
+      "Warriors": {
+        "1": 1
+      },
+      "Buildings": [],
+      "Tokens": [],
+      "Ruin": false,
+      "RuinItem": null
+    },
+    "6": {
+      "Id": 6,
+      "Warriors": {
+        "1": 1
+      },
+      "Buildings": [],
+      "Tokens": [],
+      "Ruin": false,
+      "RuinItem": null
+    },
+    "7": {
+      "Id": 7,
+      "Warriors": {
+        "1": 1
+      },
+      "Buildings": [],
+      "Tokens": [],
+      "Ruin": false,
+      "RuinItem": null
+    },
+    "8": {
+      "Id": 8,
+      "Warriors": {
+        "1": 1
+      },
+      "Buildings": [],
+      "Tokens": [],
+      "Ruin": true,
+      "RuinItem": "Bag"
+    },
+    "9": {
+      "Id": 9,
+      "Warriors": {
+        "1": 1
+      },
+      "Buildings": [],
+      "Tokens": [],
+      "Ruin": true,
+      "RuinItem": "Sword"
+    },
+    "10": {
+      "Id": 10,
+      "Warriors": {
+        "1": 1
+      },
+      "Buildings": [],
+      "Tokens": [],
+      "Ruin": true,
+      "RuinItem": "Hammer"
+    },
+    "11": {
+      "Id": 11,
+      "Warriors": {
+        "1": 1
+      },
+      "Buildings": [],
+      "Tokens": [],
+      "Ruin": false,
+      "RuinItem": null
+    },
+    "12": {
+      "Id": 12,
+      "Warriors": {
+        "1": 1
+      },
+      "Buildings": [],
+      "Tokens": [],
+      "Ruin": true,
+      "RuinItem": "Boots"
+    }
+  },
+  "Deck": [
+    33,
+    10,
+    32,
+    52,
+    37,
+    45,
+    40,
+    26,
+    3,
+    17,
+    38,
+    48,
+    14,
+    4,
+    0,
+    35,
+    42,
+    18,
+    47,
+    19,
+    29,
+    8,
+    36,
+    23,
+    9,
+    6,
+    5,
+    34,
+    27,
+    46,
+    13,
+    22,
+    20,
+    39,
+    44,
+    16,
+    12,
+    1,
+    31,
+    43,
+    49,
+    2
+  ],
+  "Discard": [],
+  "AvailableDominance": [],
+  "ItemSupply": [
+    "Boots",
+    "Boots",
+    "Bag",
+    "Bag",
+    "Crossbow",
+    "Hammer",
+    "Sword",
+    "Sword",
+    "Tea",
+    "Tea",
+    "Coins",
+    "Coins"
+  ],
+  "SetupDone": false,
+  "SetupQueue": [
+    2,
+    0,
+    3
+  ],
+  "SetupSeat": 1,
+  "Turn": {
+    "Seat": 0,
+    "Phase": "Birdsong",
+    "Step": 0,
+    "UsedCraftPieces": [],
+    "UsedOnce": [],
+    "Counters": {}
+  },
+  "Stack": [
+    {
+      "Kind": "marquise.setup",
+      "Seat": 1,
+      "Step": 1,
+      "I": {
+        "keep": 1
+      },
+      "S": {},
+      "L": []
+    }
+  ],
+  "Pending": {
+    "Seat": 1,
+    "Kind": "marquise.setup",
+    "Prompt": "Marquise setup: place your starting sawmill in the keep\u0027s clearing or an adjacent one",
+    "Options": [
+      {
+        "Key": "sawmill:1",
+        "Text": "sawmill in Lumi\u00E8re [c1, rabbit] (1 free slot(s))"
+      },
+      {
+        "Key": "sawmill:5",
+        "Text": "sawmill in Spring Meadows [c5, fox] (2 free slot(s))"
+      },
+      {
+        "Key": "sawmill:8",
+        "Text": "sawmill in Old Lumi\u00E8re [c8, fox] (1 free slot(s))"
+      },
+      {
+        "Key": "sawmill:12",
+        "Text": "sawmill in Forgotten Battlefield [c12, mouse] (1 free slot(s))"
+      }
+    ],
+    "DefaultKey": null,
+    "Open": false
+  },
+  "Battle": null,
+  "Log": [
+    {
+      "N": 1,
+      "Round": 0,
+      "Only": null,
+      "Text": "New game, seed 33, spoiler mode safe. Seats (clockwise): seat 1 (Esquie) Vagabond (Tinker), seat 2 (Gustave) Marquise de Cat, seat 3 (The Paintress) Eyrie Dynasties, seat 4 (Sciel) Woodland Alliance. seat 4 (Sciel) takes the first turn."
+    },
+    {
+      "N": 2,
+      "Round": 0,
+      "Only": null,
+      "Text": "seat 4 (Sciel) draws 3 cards (hand 3)."
+    },
+    {
+      "N": 3,
+      "Round": 0,
+      "Only": 3,
+      "Text": "You drew: [53] Sappers (bird), [11] Tax Collector (fox), [24] Cobbler (rabbit)."
+    },
+    {
+      "N": 4,
+      "Round": 0,
+      "Only": null,
+      "Text": "seat 1 (Esquie) draws 3 cards (hand 3)."
+    },
+    {
+      "N": 5,
+      "Round": 0,
+      "Only": 0,
+      "Text": "You drew: [25] Cobbler (rabbit), [21] Command Warren (rabbit), [30] Root Tea (mouse)."
+    },
+    {
+      "N": 6,
+      "Round": 0,
+      "Only": null,
+      "Text": "seat 2 (Gustave) draws 3 cards (hand 3)."
+    },
+    {
+      "N": 7,
+      "Round": 0,
+      "Only": 1,
+      "Text": "You drew: [28] Mouse Dominance (mouse), [51] Royal Claim (bird), [41] Ambush! (bird)."
+    },
+    {
+      "N": 8,
+      "Round": 0,
+      "Only": null,
+      "Text": "seat 3 (The Paintress) draws 3 cards (hand 3)."
+    },
+    {
+      "N": 9,
+      "Round": 0,
+      "Only": 2,
+      "Text": "You drew: [15] Rabbit Dominance (rabbit), [7] Anvil (fox), [50] Brutal Tactics (bird)."
+    },
+    {
+      "N": 10,
+      "Round": 0,
+      "Only": null,
+      "Text": "Setup: seat 2 (Gustave) sets up the Marquise de Cat."
+    },
+    {
+      "N": 11,
+      "Round": 0,
+      "Only": null,
+      "Text": "seat 2 (Gustave) places a keep token in Lumi\u00E8re [c1, rabbit]."
+    },
+    {
+      "N": 12,
+      "Round": 0,
+      "Only": null,
+      "Text": "seat 2 (Gustave) garrisons a warrior in every clearing except The Monolith [c3, mouse]."
+    }
+  ],
+  "DecisionsTaken": 1,
+  "GameOver": false,
+  "Winners": [],
+  "GameOverText": null,
+  "Mod": {
+    "ExtraHits": {},
+    "ExtraMaxHits": {},
+    "IgnoreFirstHit": [],
+    "GuardFloors": [],
+    "BlockedPlacements": [],
+    "HomeRestrictions": {
+      "1": [
+        1
+      ]
+    },
+    "StartForestRestrictions": {},
+    "Abilities": {},
+    "Banners": {},
+    "SeatTitles": {
+      "0": "Esquie",
+      "1": "Gustave",
+      "2": "The Paintress",
+      "3": "Sciel"
+    },
+    "Overlays": [
+      "ui.global.character-select@//"
+    ],
+    "DeclaredWinners": [],
+    "DeclaredWinId": null,
+    "CoreState": "root33-state 1\nstate.clea.covered=\nstate.curator.cell-crack=none\nstate.esquie.decoy=false\nstate.esquie.rocks=notSpawned|~|~|0;notSpawned|~|~|0;notSpawned|~|~|0;notSpawned|~|~|0\nstate.esquie.target=~\nstate.global.act=1\nstate.global.campaign-game=0\nstate.global.campaign-journal=false\nstate.global.countdowns=\nstate.global.difficulty=Normal\nstate.global.e33-mode=true\nstate.global.faithful-gustave=false\nstate.global.monolith-barrier=false\nstate.global.pending-draws=\nstate.global.pending-vp=\nstate.global.roles=role.esquies-nest=2;role.flying-manor=4;role.lumiere=1;role.monolith=3;role.old-lumiere=8;role.sacred-river=1,6,7,10,11;role.sirene=10;role.stone-wave-cliffs=6;role.the-reacher=11;role.visages=9\nstate.global.round=1\nstate.global.seat-characters=0=esquie;1=gustave;2=paintress;3=sciel\nstate.global.spoiler-mode=Safe\nstate.gustave.arm=0\nstate.gustave.flags=1\nstate.gustave.overcharge-armed=false\nstate.gustave.route=\nstate.lune.stain-armed=~\nstate.lune.stains=fire=0;ice=0;lightning=0\nstate.lune.tagged-relic=~\nstate.maelle.family=\nstate.maelle.stance=none\nstate.maelle.stance-turn=\nstate.monoco.feet=false|~|0;false|~|0;false|~|0;false|~|0;false|~|0\nstate.paintress.repaint-avoid=\nstate.paintress.still-life-used=false\nstate.sciel.moon=false\nstate.sciel.sun=false\nstate.sciel.twilight-armed=false\nstate.verso.rank=0\nstate.white-haired-man.barrier-down=false\n",
+    "Extra": {
+      "bridge": "{\n  \u0022Bubbles\u0022: [],\n  \u0022BubbleCount\u0022: 0,\n  \u0022BubbleMark\u0022: {},\n  \u0022Story\u0022: [],\n  \u0022LastAct\u0022: 0,\n  \u0022Barks\u0022: {\n    \u0022Turns\u0022: {},\n    \u0022ByTrigger\u0022: [],\n    \u0022LastAny\u0022: {},\n    \u0022LineUsed\u0022: {},\n    \u0022Said\u0022: 0\n  }\n}"
+    }
+  }
+}
