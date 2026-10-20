@@ -4,14 +4,14 @@
 # sheet source. Usage: tools/sim.sh <command> [options]   (tools/sim.sh help lists the commands)
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-export PATH="/root/.dotnet:$PATH" DOTNET_CLI_TELEMETRY_OPTOUT=1 DOTNET_NOLOGO=1
+export PATH="/root/.dotnet:$PATH" DOTNET_CLI_TELEMETRY_OPTOUT=1 DOTNET_NOLOGO=1 MSBUILDDISABLENODEREUSE=1
 DLL="$ROOT/src/Root33.Sim/bin/Release/net8.0/Root33.Sim.dll"
 LOCK="${ROOT33_DOTNET_LOCK:-/tmp/claude-0/-home-user-Claude-Meltify-Root-33/3b274f29-fe85-5a34-842a-3b19381a363a/scratchpad/dotnet.lock}"
 mkdir -p "$(dirname "$LOCK")"
 
 stale() {
   [ ! -f "$DLL" ] && return 0
-  [ -n "$(find "$ROOT/src/Root33.Sim" "$ROOT/src/Root33.Core" "$ROOT/sheets" \
+  [ -n "$(find "$ROOT/src/Root33.Sim" "$ROOT/src/Root33.Core" "$ROOT/src/Root33.Host" "$ROOT/sheets" \
       -path '*/bin' -prune -o -path '*/obj' -prune -o \
       \( -name '*.cs' -o -name '*.csproj' -o -name '*.json' \) -newer "$DLL" -print -quit)" ]
 }
