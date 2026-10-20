@@ -1,55 +1,53 @@
 # Root 33 playtest · live
 
-Updated 2026-10-20 21:26:21 UTC after every move. Reopen this file to see the latest.
+Updated 2026-10-20 21:29:14 UTC after every move. Reopen this file to see the latest.
 
-**STATUS: round 2 · seat 2 (Gustave) to act · How many warriors move from Spring Meadows [c5, fox] to Stone Wave Cliffs [c6, mouse]?**
+**STATUS: round 3 · seat 4 (Sciel) to act · Birdsong, Revolt: revolt in a sympathetic clearing (any number of times), or go on to Spread Sympathy**
 
 ## Recent moves (public log)
 ```text
-  118 [r2] seat 4 (Sciel) places 1 warrior in Esquie's Nest [c2, rabbit].
-  119 [r2] seat 4 (Sciel) places a warrior in the Officers box (revolt): 1 officer(s).
-  120 [r2] seat 2 (Gustave) (not their turn, decided by the default): Field Hospitals: 1 warrior(s) were removed from Esquie's Nest [c2, rabbit]. Spend a rabbit card to place them at the keep in Lumière [c1, rabbit]? -> Do not use Field Hospitals
-  121 [r2] seat 4 (Sciel) spends 1 fox supporter to spread sympathy to Visages [c9, fox]: [11] Tax Collector (fox).
-  122 [r2] seat 4 (Sciel) places a sympathy token in Visages [c9, fox].
-  123 [r2] seat 4 (Sciel) scores 1 VP (sympathy track): now 3 VP.
-  124 [r2] --- seat 4 (Sciel): Daylight ---
-  125 [r2] seat 4 (Sciel) crafts [31] Travel Gear (mouse) (activating rabbit).
-  126 [r2] seat 4 (Sciel) scores 1 VP (crafted Boots): now 4 VP.
-  127 [r2] --- seat 4 (Sciel): Evening ---
-  128 [r2] seat 4 (Sciel) places 1 warrior in Esquie's Nest [c2, rabbit].
-  129 [r2] seat 4 (Sciel) draws 1 card plus 1 bonus (one per base on the map).
-  130 [r2] seat 4 (Sciel) draws 2 cards (hand 2).
-  132 [r2] --- seat 1 (Esquie) (Vagabond): Birdsong ---
-  133 [r2] seat 1 (Esquie) refreshes (up to 5): flips torch, hammer face up.
-  134 [r2] seat 1 (Esquie) slips from Stone Wave Cliffs [c6, mouse] to Esquie's Nest [c2, rabbit].
-  135 [r2] seat 1 (Esquie) says: "Hmm! This rock is much too grumpy to be Florrie. Florrie is never grumpy."
-  136 [r2] --- seat 1 (Esquie): Daylight ---
-  137 [r2] seat 1 (Esquie) moves (exhausting 1 boot) from Esquie's Nest [c2, rabbit] to Visages [c9, fox].
-  138 [r2] seat 1 (Esquie) exhausts a torch to explore the ruin in Visages [c9, fox]; the emptied ruin is removed.
-  139 [r2] seat 1 (Esquie) finds in the ruin: a sword, placed face up in the Satchel.
-  140 [r2] seat 1 (Esquie) scores 1 VP (explored a ruin): now 3 VP.
-  141 [r2] seat 1 (Esquie) exhausts a hammer to Aid seat 4 (Sciel), giving them [1] Fox Dominance (fox).
-  142 [r2] seat 1 (Esquie) takes from seat 4 (Sciel)'s Crafted Items: a boots, placed face up in the Satchel.
-  143 [r2] seat 1 (Esquie)'s relationship with seat 4 (Sciel) (Woodland Alliance) goes from Indifferent to Amiable (aided 1 time this turn).
-  144 [r2] seat 1 (Esquie) scores 1 VP (relationship with seat 4 (Sciel) improved to Amiable): now 4 VP.
-  145 [r2] seat 1 (Esquie) completes the quest [q1] Errand (fox: tea + boots) in Visages [c9, fox], exhausting a tea and a boots.
-  146 [r2] seat 1 (Esquie) scores 1 VP (quest Errand): now 5 VP.
-  147 [r2] New face-up quest: [q12] Fend Off a Bear (mouse: torch + crossbow).
-  148 [r2] --- seat 1 (Esquie): Evening ---
-  149 [r2] seat 1 (Esquie) draws 1 card (hand 4).
-  151 [r2] --- seat 2 (Gustave) (Marquise de Cat): Birdsong ---
   152 [r2] seat 2 (Gustave) places a wood token in Lumière [c1, rabbit].
   153 [r2] --- seat 2 (Gustave): Daylight ---
   154 [r2] seat 2 (Gustave)'s wood is removed from Lumière [c1, rabbit] (spent to build).
   155 [r2] seat 2 (Gustave) places a sawmill in Spring Meadows [c5, fox].
   156 [r2] seat 2 (Gustave) scores 1 VP (built a sawmill): now 4 VP.
   157 [r2] seat 2 (Gustave) places 1 warrior in Spring Meadows [c5, fox].
+  158 [r2] seat 2 (Gustave) moves 2 warriors from Spring Meadows [c5, fox] to Stone Wave Cliffs [c6, mouse].
+  159 [r2] --- seat 2 (Gustave): Evening ---
+  160 [r2] seat 2 (Gustave) draws 1 card plus 0 bonus (uncovered on the recruiter track).
+  161 [r2] seat 2 (Gustave) draws 1 card (hand 4).
+  163 [r2] --- seat 3 (The Paintress) (Eyrie Dynasties): Birdsong ---
+  164 [r2] seat 3 (The Paintress) adds [44] Woodland Runners (bird) to the Decree's Battle column.
+  165 [r2] seat 3 (The Paintress) adds [15] Rabbit Dominance (rabbit) to the Decree's Recruit column.
+  166 [r2] --- seat 3 (The Paintress): Daylight ---
+  167 [r2] seat 3 (The Paintress) crafts [16] Smuggler's Trail (rabbit) (activating mouse).
+  168 [r2] seat 3 (The Paintress) scores 1 VP (crafted Bag): now 3 VP.
+  169 [r2] seat 3 (The Paintress) places 1 warrior in The Reacher [c11, rabbit].
+  170 [r2] seat 3 (The Paintress) moves 1 warrior from The Reacher [c11, rabbit] to Flying Manor [c4, fox].
+  171 [r2] seat 3 (The Paintress) moves 1 warrior from The Monolith [c3, mouse] to Sirène [c10, rabbit].
+  172 [r2] seat 3 (The Paintress) battles seat 4 (Sciel) in Visages [c9, fox].
+  173 [r2] Dice: 2 and 0. seat 3 (The Paintress) (attacker) takes 0, seat 4 (Sciel) (defender) takes 2.
+  174 [r2] Hits: seat 3 (The Paintress) deals 1 (incl. +1, defender defenseless), seat 4 (Sciel) deals 0.
+  175 [r2] seat 4 (Sciel)'s sympathy is removed from Visages [c9, fox] (hit).
+  176 [r2] seat 3 (The Paintress) scores 1 VP (removed an enemy token): now 4 VP.
+  177 [r2] Outrage in Visages [c9, fox]: seat 3 (The Paintress) has no fox card (nor bird), shows their hand to seat 4 (Sciel), and the Alliance draws a supporter from the deck.
+  179 [r2] seat 4 (Sciel) gains a supporter (Outrage); 2 supporter(s).
+  181 [r2] seat 3 (The Paintress) scores 1 VP (Despot: removed an enemy building or token in battle): now 5 VP.
+  182 [r2] seat 3 (The Paintress) places a roost in Flying Manor [c4, fox].
+  183 [r2] seat 3 (The Paintress) places a roost in Sirène [c10, rabbit].
+  184 [r2] seat 3 (The Paintress) has resolved the whole Decree.
+  185 [r2] --- seat 3 (The Paintress): Evening ---
+  186 [r2] seat 3 (The Paintress) scores 4 VP (Roosts track, 5 roosts on the map): now 9 VP.
+  187 [r2] seat 3 (The Paintress) draws 1 card plus 1 bonus (uncovered on the Roosts track).
+  188 [r2] seat 3 (The Paintress) draws 2 cards (hand 2).
+  190 [r3] === Round 3 ===
+  191 [r3] --- seat 4 (Sciel) (Woodland Alliance): Birdsong ---
 ```
 
 ## Board, scores and the Root 33 trackers
 ```text
 === Root 33 tabletop · Autumn map (the Continent) · seed 33 · spoiler safe · spectator view ===
-Round 2 · seat 2 (Gustave)'s turn · Daylight
+Round 3 · seat 4 (Sciel)'s turn · Birdsong
 
 CLEARINGS (number, name, suit, slots: pieces · ruler)
    1 Lumière (rabbit corner river, 1 slot, 0 free) - paths to 5,8,12
@@ -57,21 +55,21 @@ CLEARINGS (number, name, suit, slots: pieces · ruler)
    2 Esquie's Nest (rabbit corner, 1 slot, 0 free) - paths to 6,7,9
        seat 4: 2 warriors, rabbit base, sympathy · ruled by seat 4 (Sciel)
    3 The Monolith (mouse corner, 2 slots, 1 free) - paths to 9,10,11
-       seat 3: 2 warriors, roost · ruled by seat 3 (The Paintress)
-   4 Flying Manor (fox corner, 1 slot, 1 free) - paths to 10,11,12
-       seat 2: 1 warrior · ruled by seat 2 (Gustave)
+       seat 3: 1 warrior, roost · ruled by seat 3 (The Paintress)
+   4 Flying Manor (fox corner, 1 slot, 0 free) - paths to 10,11,12
+       seat 2: 1 warrior | seat 3: 1 warrior, roost · ruled by seat 3 (The Paintress)
    5 Spring Meadows (fox, 2 slots, 0 free) - paths to 1,6
-       seat 2: 3 warriors, recruiter, sawmill · ruled by seat 2 (Gustave)
+       seat 2: 1 warrior, recruiter, sawmill · ruled by seat 2 (Gustave)
    6 Stone Wave Cliffs (mouse river, 2 slots, 2 free) - paths to 2,5,8
-       seat 2: 1 warrior | seat 3: 2 warriors · ruled by seat 3 (The Paintress)
+       seat 2: 3 warriors | seat 3: 2 warriors · ruled by seat 2 (Gustave)
    7 Gestral Village (mouse river, 3 slots, 3 free) - paths to 2,8,9
        seat 2: 1 warrior | seat 4: sympathy · ruled by seat 2 (Gustave)
    8 Old Lumière (fox, 2 slots, 0 free) - paths to 1,6,7,10,12
        seat 2: 1 warrior, workshop | ruin · ruled by seat 2 (Gustave)
    9 Visages (fox, 2 slots, 1 free) - paths to 2,3,7
-       seat 1: pawn | seat 2: 1 warrior | seat 3: 2 warriors, roost | seat 4: sympathy · ruled by seat 3 (The Paintress)
-  10 Sirène (rabbit river, 2 slots, 1 free) - paths to 3,4,8
-       seat 2: 1 warrior | ruin · ruled by seat 2 (Gustave)
+       seat 1: pawn | seat 2: 1 warrior | seat 3: 2 warriors, roost · ruled by seat 3 (The Paintress)
+  10 Sirène (rabbit river, 2 slots, 0 free) - paths to 3,4,8
+       seat 2: 1 warrior | seat 3: 1 warrior, roost | ruin · ruled by seat 3 (The Paintress)
   11 The Reacher (rabbit river, 2 slots, 1 free) - paths to 3,4
        seat 2: 1 warrior | seat 3: 2 warriors, roost · ruled by seat 3 (The Paintress)
   12 Forgotten Battlefield (mouse, 2 slots, 0 free) - paths to 1,4,8
@@ -88,33 +86,34 @@ FACTIONS
       relationships: seat 2 (Gustave) Indifferent; seat 3 (The Paintress) Indifferent; seat 4 (Sciel) Amiable
       completed quests: fox 1
       face-up quests: [q6] Errand (rabbit: tea + boots); [q9] Expel Bandits (rabbit: sword + sword); [q12] Fend Off a Bear (mouse: torch + crossbow) (quest deck 11)
-  seat 2 (Gustave) Marquise de Cat: 4 VP · 3 cards in hand
+  seat 2 (Gustave) Marquise de Cat: 4 VP · 4 cards in hand
     Marquise de Cat board:
       sawmills: 4 on the track; next costs 2 wood and scores 2 VP
       workshops: 4 on the track; next costs 2 wood and scores 2 VP
       recruiters: 5 on the track; next costs 1 wood and scores 1 VP
       keep: Lumière [c1, rabbit]
       wood in supply: 8/8; warriors in supply: 13/25; evening draw: 1
-  seat 3 (The Paintress) Eyrie Dynasties: 2 VP · 3 cards in hand
+  seat 3 (The Paintress) Eyrie Dynasties: 9 VP · 2 cards in hand
+    crafted items: Bag
     Eyrie Dynasties board:
       leader: Despot: viziers on Move and Build; when you remove at least one enemy building or token in a battle, score one extra VP
       other leaders face up: Builder, Charismatic, Commander; deposed (face down): none
-      Decree: Recruit: - | Move: Loyal Vizier (bird), [50] Brutal Tactics (bird) | Battle: - | Build: Loyal Vizier (bird), [7] Anvil (fox)
-      bird cards in the Decree: 3 (VP lost in Turmoil)
-      roosts: 3 on the map, 4 on the track; Evening scores 2 VP and draws 2 card(s)
-      warriors in supply: 12/20
+      Decree: Recruit: [15] Rabbit Dominance (rabbit) | Move: Loyal Vizier (bird), [50] Brutal Tactics (bird) | Battle: [44] Woodland Runners (bird) | Build: Loyal Vizier (bird), [7] Anvil (fox)
+      bird cards in the Decree: 4 (VP lost in Turmoil)
+      roosts: 5 on the map, 2 on the track; Evening scores 4 VP and draws 2 card(s)
+      warriors in supply: 11/20
   seat 4 (Sciel) Woodland Alliance: 4 VP · 3 cards in hand
     Woodland Alliance board:
-      supporters: 1 card(s), face down (no limit: a base is on the map); officers: 1
+      supporters: 2 card(s), face down (no limit: a base is on the map); officers: 1
       bases: fox base on the board, rabbit base in c2, mouse base on the board
-      sympathy: 3 on the map, 7 on the track; the next costs 2 matching supporter(s) (+1 under martial law) and scores 1 VP
+      sympathy: 2 on the map, 8 on the track; the next costs 1 matching supporter(s) (+1 under martial law) and scores 1 VP
       warriors in supply: 7/10; evening draw: 2
 
-Item supply: Boots x1, Bag x2, Crossbow x1, Hammer x1, Sword x2, Tea x1, Coins x2
+Item supply: Boots x1, Bag x1, Crossbow x1, Hammer x1, Sword x2, Tea x1, Coins x2
 Ruins (items face down): c8, c10, c12
-Deck: 31 cards · discard pile: 7 (top: [31] Travel Gear (mouse))
+Deck: 27 cards · discard pile: 8 (top: [16] Smuggler's Trail (rabbit))
 
-ROOT 33 · Act I: The Landing · Monolith Number 28 (33 minus the top score of players not on a dominance card)
+ROOT 33 · Act I: The Landing · Monolith Number 24 (33 minus the top score of players not on a dominance card)
   Themed wins are locked until Act II. Act II: The Monolith begins at the end of a turn once anyone has 10+ VP, or after round 4.
 GOAL TRACKER (public)
   seat 4 (Sciel) · Twilight Harvest (countdown): locked until Act II, needs 10+ VP, 4 steps missing

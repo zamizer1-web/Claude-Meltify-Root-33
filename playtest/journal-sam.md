@@ -93,3 +93,17 @@ What the others did: Sciel (4) spread seedlings (sympathy) and Gustave (2) fough
 My own scoreboard: Paintress 2, Esquie 2, Gustave 3, Sciel 2. Monolith Number is 30 (33 minus top score of non-dominance players). I don't know what that number does yet.
 
 Confusion: "Monolith Number 33 minus top score". Does it do anything? Does the Paintress get something when it hits zero? It's on every screen and I can't tell why.
+
+## Round 2
+
+Now 9 VP (from 2). Hand was Rabbit Dominance, Smuggler's Trail, Woodland Runners. Plan: Dominance is un-craftable so it became Decree fodder (Recruit, a rabbit warrior at the Reacher). Runners (bird) went into Battle so I always have a legal battle anywhere. Crafted the Trail with my mouse roost for 1 VP (Disdain doesn't hurt a 1 VP card).
+Moves: 1 warrior from the Reacher to Flying Manor, 1 from the Monolith to Sirene. Battle: bird card at Visages against Sciel, who had only a sympathy token there. Defenseless, no dice risk. I scored 1 for the token and 1 more from the Despot. Outrage: I had no fox or bird card so I showed my hand (empty) and she drew a supporter from the deck. That is the Root rule as I know it. Fine.
+Build: Anvil (fox) at Flying Manor, vizier at Sirene. Five roosts on the map, evening scored 4, drew 2 (3rd-roost bonus). I did all of that exactly the way I would in a real game; the digital table did what I expected every time.
+
+What the others did: Sciel revolted at Esquie's Nest, put a rabbit base there and then spread a token into Visages, my fox roost clearing. Esquie walked into Visages, explored the ruin (+1), aided Sciel for a swap (boots for a fox dominance) and finished a quest. He's at 5 VP and nobody is paying attention to him. Gustave built a sawmill and then moved three warriors into Stone Wave Cliffs on top of my two "guards". Speech bubbles: Esquie said "this rock is much too grumpy to be Florrie". That one actually made me smile, because I did not know the lore but I understood he was checking a rock and being wrong.
+
+Board state: The Goal Tracker says my Portraits are 2/3 (fox Visages, rabbit Reacher) and mouse is the only thing missing. "ONE STEP AWAY". I like this display. It tells me what to do. But hold on: I have 9 VP and the 10 VP floor, and Act II begins at the end of a turn once anyone has 10. So my own evening is probably what opens Act II next turn. The table is warned at the end of my turn only if the Act is already on. Odd interaction I need to watch next round: does Act II start before or after the warning check at the end of my turn?
+
+Rules question: my two warriors in Stone Wave Cliffs are Florrie's guards. The Move list never offers me c6 as a source. Gustave now has 3 warriors there and rules it. If Esquie attacks the guards, I lose pieces from MY supply for HIS goal. Seems unfair, but it also means I'm a gatekeeper. Hmm.
+
+Next-turn worry: Anvil (fox) sits in my Build column. Fox clearings with a free slot that I can rule: none left after Flying Manor, so next turn is likely Turmoil unless something opens. I walked into that on purpose, trading it for a fast 3-to-5 roost start.

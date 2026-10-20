@@ -2,7 +2,7 @@
   "Version": 1,
   "Seed": 33,
   "Spoiler": "safe",
-  "Rng": 6621648940919117934,
+  "Rng": 16493107346886985752,
   "BotRng": 7178804445147116692,
   "Seats": [
     {
@@ -105,7 +105,8 @@
       "Hand": [
         28,
         51,
-        12
+        12,
+        13
       ],
       "PlayArea": [],
       "CraftedItems": [],
@@ -129,19 +130,20 @@
       "Engine": "eyrie",
       "Faction": "eyrie",
       "Human": true,
-      "Vp": 2,
+      "Vp": 9,
       "Hand": [
-        15,
-        16,
-        44
+        27,
+        34
       ],
       "PlayArea": [],
-      "CraftedItems": [],
+      "CraftedItems": [
+        "Bag"
+      ],
       "Dominance": null,
       "CoalitionWith": null,
-      "SupplyWarriors": 12,
+      "SupplyWarriors": 11,
       "Supply": {
-        "roost": 4
+        "roost": 2
       },
       "PawnClearing": null,
       "PawnForest": null,
@@ -149,12 +151,16 @@
         "Leader": "despot",
         "FaceDown": [],
         "Decree": {
-          "recruit": [],
+          "recruit": [
+            15
+          ],
           "move": [
             -1,
             50
           ],
-          "battle": [],
+          "battle": [
+            44
+          ],
           "build": [
             -2,
             7
@@ -180,7 +186,7 @@
       "CoalitionWith": null,
       "SupplyWarriors": 7,
       "Supply": {
-        "sympathy": 7,
+        "sympathy": 8,
         "base.fox": 1,
         "base.rabbit": 0,
         "base.mouse": 1
@@ -189,14 +195,15 @@
       "PawnForest": null,
       "FactionData": {
         "Supporters": [
-          41
+          41,
+          46
         ],
         "Officers": 1
       }
     }
   ],
   "FirstSeat": 3,
-  "Round": 2,
+  "Round": 3,
   "Clearings": {
     "1": {
       "Id": 1,
@@ -241,7 +248,7 @@
     "3": {
       "Id": 3,
       "Warriors": {
-        "2": 2
+        "2": 1
       },
       "Buildings": [
         {
@@ -256,9 +263,15 @@
     "4": {
       "Id": 4,
       "Warriors": {
-        "1": 1
+        "1": 1,
+        "2": 1
       },
-      "Buildings": [],
+      "Buildings": [
+        {
+          "Seat": 2,
+          "Type": "roost"
+        }
+      ],
       "Tokens": [],
       "Ruin": false,
       "RuinItem": null
@@ -266,7 +279,7 @@
     "5": {
       "Id": 5,
       "Warriors": {
-        "1": 3
+        "1": 1
       },
       "Buildings": [
         {
@@ -285,7 +298,7 @@
     "6": {
       "Id": 6,
       "Warriors": {
-        "1": 1,
+        "1": 3,
         "2": 2
       },
       "Buildings": [],
@@ -335,21 +348,22 @@
           "Type": "roost"
         }
       ],
-      "Tokens": [
-        {
-          "Seat": 3,
-          "Type": "sympathy"
-        }
-      ],
+      "Tokens": [],
       "Ruin": false,
       "RuinItem": null
     },
     "10": {
       "Id": 10,
       "Warriors": {
-        "1": 1
+        "1": 1,
+        "2": 1
       },
-      "Buildings": [],
+      "Buildings": [
+        {
+          "Seat": 2,
+          "Type": "roost"
+        }
+      ],
       "Tokens": [],
       "Ruin": true,
       "RuinItem": "Hammer"
@@ -413,11 +427,7 @@
     23,
     9,
     6,
-    5,
-    34,
-    27,
-    46,
-    13
+    5
   ],
   "Discard": [
     2,
@@ -426,12 +436,12 @@
     24,
     53,
     11,
-    31
+    31,
+    16
   ],
   "AvailableDominance": [],
   "ItemSupply": [
     "Boots",
-    "Bag",
     "Bag",
     "Crossbow",
     "Hammer",
@@ -445,69 +455,35 @@
   "SetupQueue": [],
   "SetupSeat": -1,
   "Turn": {
-    "Seat": 1,
-    "Phase": "Daylight",
-    "Step": 5,
+    "Seat": 3,
+    "Phase": "Birdsong",
+    "Step": 2,
     "UsedCraftPieces": [],
     "UsedOnce": [],
-    "Counters": {
-      "marquise.recruited": 1
-    }
+    "Counters": {}
   },
   "Stack": [
     {
-      "Kind": "marquise.daylight",
-      "Seat": 1,
-      "Step": 2,
-      "I": {
-        "actions": 0
-      },
-      "S": {
-        "pending": "march"
-      },
-      "L": []
-    },
-    {
-      "Kind": "marquise.march",
-      "Seat": 1,
-      "Step": 1,
+      "Kind": "alliance.birdsong",
+      "Seat": 3,
+      "Step": 0,
       "I": {},
       "S": {},
-      "L": []
-    },
-    {
-      "Kind": "move",
-      "Seat": 1,
-      "Step": 1,
-      "I": {
-        "optional": 1,
-        "fromSuit": -1,
-        "fixedFrom": -1,
-        "from": 5,
-        "to": 6
-      },
-      "S": {
-        "label": "March, move 1 of 2"
-      },
       "L": []
     }
   ],
   "Pending": {
-    "Seat": 1,
-    "Kind": "move",
-    "Prompt": "How many warriors move from Spring Meadows [c5, fox] to Stone Wave Cliffs [c6, mouse]?",
+    "Seat": 3,
+    "Kind": "alliance.birdsong",
+    "Prompt": "Birdsong, Revolt: revolt in a sympathetic clearing (any number of times), or go on to Spread Sympathy",
     "Options": [
       {
-        "Key": "count:3",
-        "Text": "3 warriors"
+        "Key": "revolt:7",
+        "Text": "Revolt in Gestral Village [c7, mouse]: spend 2 mouse supporters, remove every enemy piece there, place the mouse base, 1 warrior(s) and an officer (your supporters: bird x2)"
       },
       {
-        "Key": "count:2",
-        "Text": "2 warriors"
-      },
-      {
-        "Key": "count:1",
-        "Text": "1 warrior"
+        "Key": "done",
+        "Text": "Stop revolting: go on to Spread Sympathy"
       }
     ],
     "DefaultKey": null,
@@ -1456,9 +1432,213 @@
       "Round": 2,
       "Only": null,
       "Text": "seat 2 (Gustave) places 1 warrior in Spring Meadows [c5, fox]."
+    },
+    {
+      "N": 158,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 2 (Gustave) moves 2 warriors from Spring Meadows [c5, fox] to Stone Wave Cliffs [c6, mouse]."
+    },
+    {
+      "N": 159,
+      "Round": 2,
+      "Only": null,
+      "Text": "--- seat 2 (Gustave): Evening ---"
+    },
+    {
+      "N": 160,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 2 (Gustave) draws 1 card plus 0 bonus (uncovered on the recruiter track)."
+    },
+    {
+      "N": 161,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 2 (Gustave) draws 1 card (hand 4)."
+    },
+    {
+      "N": 162,
+      "Round": 2,
+      "Only": 1,
+      "Text": "You drew: [13] Favor of the Foxes (fox)."
+    },
+    {
+      "N": 163,
+      "Round": 2,
+      "Only": null,
+      "Text": "--- seat 3 (The Paintress) (Eyrie Dynasties): Birdsong ---"
+    },
+    {
+      "N": 164,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 3 (The Paintress) adds [44] Woodland Runners (bird) to the Decree\u0027s Battle column."
+    },
+    {
+      "N": 165,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 3 (The Paintress) adds [15] Rabbit Dominance (rabbit) to the Decree\u0027s Recruit column."
+    },
+    {
+      "N": 166,
+      "Round": 2,
+      "Only": null,
+      "Text": "--- seat 3 (The Paintress): Daylight ---"
+    },
+    {
+      "N": 167,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 3 (The Paintress) crafts [16] Smuggler\u0027s Trail (rabbit) (activating mouse)."
+    },
+    {
+      "N": 168,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 3 (The Paintress) scores 1 VP (crafted Bag): now 3 VP."
+    },
+    {
+      "N": 169,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 3 (The Paintress) places 1 warrior in The Reacher [c11, rabbit]."
+    },
+    {
+      "N": 170,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 3 (The Paintress) moves 1 warrior from The Reacher [c11, rabbit] to Flying Manor [c4, fox]."
+    },
+    {
+      "N": 171,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 3 (The Paintress) moves 1 warrior from The Monolith [c3, mouse] to Sir\u00E8ne [c10, rabbit]."
+    },
+    {
+      "N": 172,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 3 (The Paintress) battles seat 4 (Sciel) in Visages [c9, fox]."
+    },
+    {
+      "N": 173,
+      "Round": 2,
+      "Only": null,
+      "Text": "Dice: 2 and 0. seat 3 (The Paintress) (attacker) takes 0, seat 4 (Sciel) (defender) takes 2."
+    },
+    {
+      "N": 174,
+      "Round": 2,
+      "Only": null,
+      "Text": "Hits: seat 3 (The Paintress) deals 1 (incl. \u002B1, defender defenseless), seat 4 (Sciel) deals 0."
+    },
+    {
+      "N": 175,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 4 (Sciel)\u0027s sympathy is removed from Visages [c9, fox] (hit)."
+    },
+    {
+      "N": 176,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 3 (The Paintress) scores 1 VP (removed an enemy token): now 4 VP."
+    },
+    {
+      "N": 177,
+      "Round": 2,
+      "Only": null,
+      "Text": "Outrage in Visages [c9, fox]: seat 3 (The Paintress) has no fox card (nor bird), shows their hand to seat 4 (Sciel), and the Alliance draws a supporter from the deck."
+    },
+    {
+      "N": 178,
+      "Round": 2,
+      "Only": 3,
+      "Text": "seat 3 (The Paintress)\u0027s hand (Outrage): empty."
+    },
+    {
+      "N": 179,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 4 (Sciel) gains a supporter (Outrage); 2 supporter(s)."
+    },
+    {
+      "N": 180,
+      "Round": 2,
+      "Only": 3,
+      "Text": "Supporter gained: [46] Crossbow (bird)."
+    },
+    {
+      "N": 181,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 3 (The Paintress) scores 1 VP (Despot: removed an enemy building or token in battle): now 5 VP."
+    },
+    {
+      "N": 182,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 3 (The Paintress) places a roost in Flying Manor [c4, fox]."
+    },
+    {
+      "N": 183,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 3 (The Paintress) places a roost in Sir\u00E8ne [c10, rabbit]."
+    },
+    {
+      "N": 184,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 3 (The Paintress) has resolved the whole Decree."
+    },
+    {
+      "N": 185,
+      "Round": 2,
+      "Only": null,
+      "Text": "--- seat 3 (The Paintress): Evening ---"
+    },
+    {
+      "N": 186,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 3 (The Paintress) scores 4 VP (Roosts track, 5 roosts on the map): now 9 VP."
+    },
+    {
+      "N": 187,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 3 (The Paintress) draws 1 card plus 1 bonus (uncovered on the Roosts track)."
+    },
+    {
+      "N": 188,
+      "Round": 2,
+      "Only": null,
+      "Text": "seat 3 (The Paintress) draws 2 cards (hand 2)."
+    },
+    {
+      "N": 189,
+      "Round": 2,
+      "Only": 2,
+      "Text": "You drew: [27] Ambush! (mouse), [34] Crossbow (mouse)."
+    },
+    {
+      "N": 190,
+      "Round": 3,
+      "Only": null,
+      "Text": "=== Round 3 ==="
+    },
+    {
+      "N": 191,
+      "Round": 3,
+      "Only": null,
+      "Text": "--- seat 4 (Sciel) (Woodland Alliance): Birdsong ---"
     }
   ],
-  "DecisionsTaken": 55,
+  "DecisionsTaken": 71,
   "GameOver": false,
   "Winners": [],
   "GameOverText": null,
@@ -1524,9 +1704,9 @@
     ],
     "DeclaredWinners": [],
     "DeclaredWinId": null,
-    "CoreState": "root33-state 1\nstate.clea.covered=\nstate.curator.cell-crack=none\nstate.esquie.decoy=false\nstate.esquie.rocks=guarded|6|2|2;notSpawned|~|~|0;notSpawned|~|~|0;notSpawned|~|~|0\nstate.esquie.target=~\nstate.global.act=1\nstate.global.campaign-game=0\nstate.global.campaign-journal=false\nstate.global.countdowns=\nstate.global.difficulty=Normal\nstate.global.e33-mode=true\nstate.global.faithful-gustave=false\nstate.global.monolith-barrier=false\nstate.global.pending-draws=\nstate.global.pending-vp=\nstate.global.roles=role.esquies-nest=2;role.flying-manor=4;role.lumiere=1;role.monolith=3;role.old-lumiere=8;role.sacred-river=1,6,7,10,11;role.sirene=10;role.stone-wave-cliffs=6;role.the-reacher=11;role.visages=9\nstate.global.round=2\nstate.global.seat-characters=0=esquie;1=gustave;2=paintress;3=sciel\nstate.global.spoiler-mode=Safe\nstate.gustave.arm=1\nstate.gustave.flags=1,5,8,12\nstate.gustave.overcharge-armed=false\nstate.gustave.route=\nstate.lune.stain-armed=~\nstate.lune.stains=fire=0;ice=0;lightning=0\nstate.lune.tagged-relic=~\nstate.maelle.family=\nstate.maelle.stance=none\nstate.maelle.stance-turn=\nstate.monoco.feet=false|~|0;false|~|0;false|~|0;false|~|0;false|~|0\nstate.paintress.repaint-avoid=\nstate.paintress.still-life-used=false\nstate.sciel.moon=false\nstate.sciel.sun=false\nstate.sciel.twilight-armed=false\nstate.verso.rank=0\nstate.white-haired-man.barrier-down=false\n",
+    "CoreState": "root33-state 1\nstate.clea.covered=\nstate.curator.cell-crack=none\nstate.esquie.decoy=false\nstate.esquie.rocks=guarded|6|2|2;notSpawned|~|~|0;notSpawned|~|~|0;notSpawned|~|~|0\nstate.esquie.target=~\nstate.global.act=1\nstate.global.campaign-game=0\nstate.global.campaign-journal=false\nstate.global.countdowns=\nstate.global.difficulty=Normal\nstate.global.e33-mode=true\nstate.global.faithful-gustave=false\nstate.global.monolith-barrier=false\nstate.global.pending-draws=\nstate.global.pending-vp=\nstate.global.roles=role.esquies-nest=2;role.flying-manor=4;role.lumiere=1;role.monolith=3;role.old-lumiere=8;role.sacred-river=1,6,7,10,11;role.sirene=10;role.stone-wave-cliffs=6;role.the-reacher=11;role.visages=9\nstate.global.round=3\nstate.global.seat-characters=0=esquie;1=gustave;2=paintress;3=sciel\nstate.global.spoiler-mode=Safe\nstate.gustave.arm=1\nstate.gustave.flags=1,5,8,12\nstate.gustave.overcharge-armed=false\nstate.gustave.route=\nstate.lune.stain-armed=~\nstate.lune.stains=fire=0;ice=0;lightning=0\nstate.lune.tagged-relic=~\nstate.maelle.family=\nstate.maelle.stance=none\nstate.maelle.stance-turn=\nstate.monoco.feet=false|~|0;false|~|0;false|~|0;false|~|0;false|~|0\nstate.paintress.repaint-avoid=\nstate.paintress.still-life-used=false\nstate.sciel.moon=false\nstate.sciel.sun=false\nstate.sciel.twilight-armed=false\nstate.verso.rank=0\nstate.white-haired-man.barrier-down=false\n",
     "Extra": {
-      "bridge": "{\n  \u0022Bubbles\u0022: [\n    {\n      \u0022N\u0022: 1,\n      \u0022Seat\u0022: 3,\n      \u0022BarkId\u0022: \u0022bark.sciel.04\u0022,\n      \u0022Round\u0022: 0\n    },\n    {\n      \u0022N\u0022: 2,\n      \u0022Seat\u0022: 0,\n      \u0022BarkId\u0022: \u0022bark.esquie.01\u0022,\n      \u0022Round\u0022: 0\n    },\n    {\n      \u0022N\u0022: 3,\n      \u0022Seat\u0022: 1,\n      \u0022BarkId\u0022: \u0022bark.gustave.01\u0022,\n      \u0022Round\u0022: 0\n    },\n    {\n      \u0022N\u0022: 4,\n      \u0022Seat\u0022: 2,\n      \u0022BarkId\u0022: \u0022bark.paintress.03\u0022,\n      \u0022Round\u0022: 0\n    },\n    {\n      \u0022N\u0022: 5,\n      \u0022Seat\u0022: 3,\n      \u0022BarkId\u0022: \u0022bark.sciel.03\u0022,\n      \u0022Round\u0022: 1\n    },\n    {\n      \u0022N\u0022: 6,\n      \u0022Seat\u0022: 1,\n      \u0022BarkId\u0022: \u0022bark.gustave.05\u0022,\n      \u0022Round\u0022: 1\n    },\n    {\n      \u0022N\u0022: 7,\n      \u0022Seat\u0022: 3,\n      \u0022BarkId\u0022: \u0022bark.sciel.08\u0022,\n      \u0022Round\u0022: 1\n    },\n    {\n      \u0022N\u0022: 8,\n      \u0022Seat\u0022: 0,\n      \u0022BarkId\u0022: \u0022bark.esquie.02\u0022,\n      \u0022Round\u0022: 2\n    }\n  ],\n  \u0022BubbleCount\u0022: 8,\n  \u0022BubbleMark\u0022: {\n    \u00223\u0022: 7,\n    \u00220\u0022: 8,\n    \u00221\u0022: 7,\n    \u00222\u0022: 7\n  },\n  \u0022Story\u0022: [\n    {\n      \u0022EventId\u0022: \u0022story.act1.landing\u0022,\n      \u0022Act\u0022: 1,\n      \u0022Round\u0022: 0\n    },\n    {\n      \u0022EventId\u0022: \u0022story.act1.florrie\u0022,\n      \u0022Act\u0022: 1,\n      \u0022Round\u0022: 0\n    },\n    {\n      \u0022EventId\u0022: \u0022story.act1.francois-decoy\u0022,\n      \u0022Act\u0022: 1,\n      \u0022Round\u0022: 0\n    }\n  ],\n  \u0022LastAct\u0022: 1,\n  \u0022Barks\u0022: {\n    \u0022Turns\u0022: {\n      \u00220\u0022: 2,\n      \u00221\u0022: 1,\n      \u00222\u0022: 1,\n      \u00223\u0022: 2\n    },\n    \u0022ByTrigger\u0022: [\n      {\n        \u0022Seat\u0022: 0,\n        \u0022Trigger\u0022: \u0022trigger.game-start\u0022,\n        \u0022Turn\u0022: 0\n      },\n      {\n        \u0022Seat\u0022: 1,\n        \u0022Trigger\u0022: \u0022trigger.game-start\u0022,\n        \u0022Turn\u0022: 0\n      },\n      {\n        \u0022Seat\u0022: 1,\n        \u0022Trigger\u0022: \u0022trigger.turn-start\u0022,\n        \u0022Turn\u0022: 0\n      },\n      {\n        \u0022Seat\u0022: 2,\n        \u0022Trigger\u0022: \u0022trigger.game-start\u0022,\n        \u0022Turn\u0022: 0\n      },\n      {\n        \u0022Seat\u0022: 3,\n        \u0022Trigger\u0022: \u0022trigger.attacked\u0022,\n        \u0022Turn\u0022: 1\n      },\n      {\n        \u0022Seat\u0022: 3,\n        \u0022Trigger\u0022: \u0022trigger.game-start\u0022,\n        \u0022Turn\u0022: 0\n      },\n      {\n        \u0022Seat\u0022: 3,\n        \u0022Trigger\u0022: \u0022trigger.turn-start\u0022,\n        \u0022Turn\u0022: 0\n      }\n    ],\n    \u0022LastAny\u0022: {\n      \u00220\u0022: 0,\n      \u00221\u0022: 0,\n      \u00222\u0022: 0,\n      \u00223\u0022: 1\n    },\n    \u0022LineUsed\u0022: {\n      \u0022bark.esquie.01\u0022: 1,\n      \u0022bark.gustave.01\u0022: 2,\n      \u0022bark.gustave.05\u0022: 5,\n      \u0022bark.paintress.03\u0022: 3,\n      \u0022bark.sciel.03\u0022: 4,\n      \u0022bark.sciel.04\u0022: 0,\n      \u0022bark.sciel.08\u0022: 6\n    },\n    \u0022Said\u0022: 7\n  }\n}"
+      "bridge": "{\n  \u0022Bubbles\u0022: [\n    {\n      \u0022N\u0022: 1,\n      \u0022Seat\u0022: 3,\n      \u0022BarkId\u0022: \u0022bark.sciel.04\u0022,\n      \u0022Round\u0022: 0\n    },\n    {\n      \u0022N\u0022: 2,\n      \u0022Seat\u0022: 0,\n      \u0022BarkId\u0022: \u0022bark.esquie.01\u0022,\n      \u0022Round\u0022: 0\n    },\n    {\n      \u0022N\u0022: 3,\n      \u0022Seat\u0022: 1,\n      \u0022BarkId\u0022: \u0022bark.gustave.01\u0022,\n      \u0022Round\u0022: 0\n    },\n    {\n      \u0022N\u0022: 4,\n      \u0022Seat\u0022: 2,\n      \u0022BarkId\u0022: \u0022bark.paintress.03\u0022,\n      \u0022Round\u0022: 0\n    },\n    {\n      \u0022N\u0022: 5,\n      \u0022Seat\u0022: 3,\n      \u0022BarkId\u0022: \u0022bark.sciel.03\u0022,\n      \u0022Round\u0022: 1\n    },\n    {\n      \u0022N\u0022: 6,\n      \u0022Seat\u0022: 1,\n      \u0022BarkId\u0022: \u0022bark.gustave.05\u0022,\n      \u0022Round\u0022: 1\n    },\n    {\n      \u0022N\u0022: 7,\n      \u0022Seat\u0022: 3,\n      \u0022BarkId\u0022: \u0022bark.sciel.08\u0022,\n      \u0022Round\u0022: 1\n    },\n    {\n      \u0022N\u0022: 8,\n      \u0022Seat\u0022: 0,\n      \u0022BarkId\u0022: \u0022bark.esquie.02\u0022,\n      \u0022Round\u0022: 2\n    }\n  ],\n  \u0022BubbleCount\u0022: 8,\n  \u0022BubbleMark\u0022: {\n    \u00223\u0022: 7,\n    \u00220\u0022: 8,\n    \u00221\u0022: 8,\n    \u00222\u0022: 8\n  },\n  \u0022Story\u0022: [\n    {\n      \u0022EventId\u0022: \u0022story.act1.landing\u0022,\n      \u0022Act\u0022: 1,\n      \u0022Round\u0022: 0\n    },\n    {\n      \u0022EventId\u0022: \u0022story.act1.florrie\u0022,\n      \u0022Act\u0022: 1,\n      \u0022Round\u0022: 0\n    },\n    {\n      \u0022EventId\u0022: \u0022story.act1.francois-decoy\u0022,\n      \u0022Act\u0022: 1,\n      \u0022Round\u0022: 0\n    }\n  ],\n  \u0022LastAct\u0022: 1,\n  \u0022Barks\u0022: {\n    \u0022Turns\u0022: {\n      \u00220\u0022: 2,\n      \u00221\u0022: 2,\n      \u00222\u0022: 2,\n      \u00223\u0022: 2\n    },\n    \u0022ByTrigger\u0022: [\n      {\n        \u0022Seat\u0022: 0,\n        \u0022Trigger\u0022: \u0022trigger.game-start\u0022,\n        \u0022Turn\u0022: 0\n      },\n      {\n        \u0022Seat\u0022: 1,\n        \u0022Trigger\u0022: \u0022trigger.game-start\u0022,\n        \u0022Turn\u0022: 0\n      },\n      {\n        \u0022Seat\u0022: 1,\n        \u0022Trigger\u0022: \u0022trigger.turn-start\u0022,\n        \u0022Turn\u0022: 0\n      },\n      {\n        \u0022Seat\u0022: 2,\n        \u0022Trigger\u0022: \u0022trigger.game-start\u0022,\n        \u0022Turn\u0022: 0\n      },\n      {\n        \u0022Seat\u0022: 3,\n        \u0022Trigger\u0022: \u0022trigger.attacked\u0022,\n        \u0022Turn\u0022: 1\n      },\n      {\n        \u0022Seat\u0022: 3,\n        \u0022Trigger\u0022: \u0022trigger.game-start\u0022,\n        \u0022Turn\u0022: 0\n      },\n      {\n        \u0022Seat\u0022: 3,\n        \u0022Trigger\u0022: \u0022trigger.turn-start\u0022,\n        \u0022Turn\u0022: 0\n      }\n    ],\n    \u0022LastAny\u0022: {\n      \u00220\u0022: 0,\n      \u00221\u0022: 0,\n      \u00222\u0022: 0,\n      \u00223\u0022: 1\n    },\n    \u0022LineUsed\u0022: {\n      \u0022bark.esquie.01\u0022: 1,\n      \u0022bark.gustave.01\u0022: 2,\n      \u0022bark.gustave.05\u0022: 5,\n      \u0022bark.paintress.03\u0022: 3,\n      \u0022bark.sciel.03\u0022: 4,\n      \u0022bark.sciel.04\u0022: 0,\n      \u0022bark.sciel.08\u0022: 6\n    },\n    \u0022Said\u0022: 7\n  }\n}"
     }
   }
 }

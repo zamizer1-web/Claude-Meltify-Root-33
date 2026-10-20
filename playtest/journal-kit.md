@@ -110,3 +110,24 @@ Also: the craft step. The rules say craft first in Daylight, but there was no cr
 Other confusion: tokens do not take up slots (Esquie's Nest says "1 slot, 1 free" with a sympathy token in it). I guessed it, the game does not say so.
 
 Feels like Root with Expedition 33 flavour: the speech bubbles and the names. The Arm charge, flags and Road are all there in the goal tracker but nothing has happened with them yet since it is Act I. I do not feel like an engineer yet, I feel like I am doing bookkeeping.
+
+## Round 2
+
+Things happened to me before my turn this time, and the log taught me more than the rules did.
+
+What the others did (from the log): Sciel REVOLTED in Esquie's Nest. "Every enemy piece there is removed." My lonely warrior there was wiped out and she dropped a rabbit base and warriors in, so I lost a clearing I ruled. Nobody warned me that spending two supporters could do that. I also saw this line: "seat 2 (Gustave) (not their turn, decided by the default): Field Hospitals ... Spend a rabbit card to place them at the keep? -> Do not use Field Hospitals". So the game asked me a question during somebody else's turn, answered it for me ("no"), and I only learned about it from the log. I would have liked to be asked, even if the answer would have been no. It also finally explained Field Hospitals to me: you can spend a card to save the warriors you lost. That is pretty Gustave, actually: you never leave anybody behind, you bring them home.
+The Paintress marched warriors out of the Monolith and built roosts in Visages and The Reacher. Her goal tracker now says "ONE STEP AWAY" (Portraits 2/3, needs mouse). That scared me for half a second until I noticed she is at 2 VP and the card says she needs 10+. Esquie explored a ruin, finished a quest (the Errand) and "aided" Sciel by handing her a Fox Dominance card. That seems like a very friendly thing to do. Esquie is on 5 VP, the leader.
+
+Speech bubbles: Esquie "This rock is much too grumpy to be Florrie. Florrie is never grumpy." That one made me grin, because it is exactly him, and it is a rare case where I was reading a mod line and hearing the voice. I did not speak this turn (no bubble from Gustave). I missed it a little.
+
+My turn: I had one wood. I built a sawmill in Spring Meadows (1 VP, I am at 4 VP now) because "more sawmills = more wood" is my best guess, then recruited, then marched two warriors from Spring Meadows into Stone Wave Cliffs to take back the clearing from the Paintress (3 of mine vs her 2). I want three mouse clearings (Stone Wave Cliffs, Gestral Village, Forgotten Battlefield) for the Mouse Dominance card, plus 10 VP. I am not sure that plan works but it is the first idea in this game that I came up with myself.
+
+The goal tracker is truly useful for me. "Arm 1/3, flags c1 c5 c8 c12, Chain covering fox, rabbit, mouse, Beachhead not reached" tells me exactly what my win needs. I have flags already (the log never said flags were planted, they are just on the tracker). It looks like I am about halfway to my own win on paper: I need 10+ VP, Arm 3/3 and a building next to the Monolith. That is clear! It is the one place where this game teaches me better than the base rules would.
+
+Confusion/bugs:
+1. SAME AS ROUND 1: Royal Claim says "In Birdsong, you may discard this card to score one point per clearing you rule." I was never offered it. Now I rule 7 clearings. I looked at the log for any trace of Royal Claim and found none. Either it is not implemented, or it is a Birdsong prompt that does not appear. I will keep the card and keep watching.
+2. Typing `do ... move:5>6` made the shell eat the `>` as a redirect. Result: `error: 'move:5' is not one of the 27 options` written to a stray file named "6" in the repo folder (I deleted it). The numbered option works fine, so I used the number. Anyone using the move keys needs to quote them. Not a game bug but a gotcha for the way the options are presented ("[move:5>6]").
+3. Marching asked me which two clearings and then how many warriors; that part was nice. But the move list has 27 entries, which is a lot to scan on a phone-sized terminal.
+
+Does Gustave feel like Gustave? A bit more now. Walking soldiers out to take a clearing back is leadership. Giving up a card to Sciel in round 1 felt like the world taxing me for trying to help.
+Root vs Expedition 33: still 90/10 Root for me. The numbers are doing the talking and the characters are doing the greetings.
