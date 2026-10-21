@@ -94,6 +94,10 @@ namespace Root33.Core
         /// <remarks>Sheet row: state.esquie.decoy (owner esquie); initial: false; true at setup when Esquie is seated</remarks>
         public bool EsquieDecoy;
 
+        /// true once Esquie has held tune.esquie-guards-after-rocks rocks and the neutral guards have taken post (it never goes back to false)
+        /// <remarks>Sheet row: state.esquie.guards-active (owner esquie); initial: false</remarks>
+        public bool EsquieGuardsActive;
+
         /// index (0-3) of the rock the bot is chasing this turn, or null
         /// <remarks>Sheet row: state.esquie.target (owner esquie); initial: null</remarks>
         public int? EsquieTarget;

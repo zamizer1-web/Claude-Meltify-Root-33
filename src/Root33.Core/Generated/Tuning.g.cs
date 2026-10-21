@@ -74,6 +74,9 @@ namespace Root33.Core.Sheets
         /// Guard warriors spawned with Urrie at Esquie's Nest.
         public const int EsquieGuardsUrrie = 3;
 
+        /// Rocks Esquie must hold before the neutral guards take post. Until then Florrie and Urrie sit unguarded; when he collects this many, guards appear on the ones still on the map, and a rock that spawns later comes guarded.
+        public const int EsquieGuardsAfterRocks = 2;
+
         /// 1 = neutral guards spawn with Florrie and Urrie (do.place-guards); 0 = the no-spawn fallback (no guards; Florrie and Urrie are claimable only when no other faction has warriors in their clearing). Set to 0 if the mod cannot place neutral guards in Root.
         public const int EsquieGuardSpawns = 1;
 

@@ -20,7 +20,7 @@ namespace Root33.Core.Characters.Esquie
         public override bool CanBattleGuards(SeatId attacker, ClearingId c) => EsquieTweaks.CanBattleGuards(Ctx, Seat, attacker, c);
         public override void OnGuardBattleStarting(SeatId attacker, ClearingId c) => EsquieTweaks.GuardBattleStarting(Ctx, Seat, attacker, c);
         /// <summary>Guards are counted only here (spawn.florrie / spawn.urrie claimRule): the guards still standing.</summary>
-        public override void OnGuardBattleResolved(SeatId attacker, ClearingId c) => EsquieTweaks.GuardBattleResolved(Ctx, Seat, c);
+        public override void OnGuardBattleResolved(SeatId attacker, ClearingId c) => EsquieTweaks.GuardBattleResolved(Ctx, Seat, attacker, c);
         public override void OnActionResolved(SeatId seat) => EsquieTweaks.AfterAction(Ctx, Seat, seat);
         public override void OnExploreResolved(SeatId vagabond, ClearingId c) => EsquieTweaks.ExploreResolved(Ctx, Seat, vagabond, c);
         public override void OnAidResolved(SeatId vagabond, SeatId receiver, ClearingId c) => EsquieTweaks.AidResolved(Ctx, Seat, vagabond, receiver, c);

@@ -153,12 +153,14 @@ public class CoreBridgeTests
         Assert.True(g.State.SetupDone);
         var st = g.Bridge.Ctx.State;
         var florrie = st.EsquieRocks[0];
-        Assert.Equal(RockStatus.Guarded, florrie.Status);
         int c = florrie.Clearing!.Value.Value;
         Assert.Equal(g.Bridge.Ctx.Role(Ids.MapRoles.StoneWaveCliffs)!.Value.Value, c);
-        // neutral guards: on the board, nobody's warriors, and they block no one
+        // no guards before Esquie holds two rocks; then neutral guards on the board, nobody's warriors, blocking no one
+        Assert.Equal(RockStatus.Loose, florrie.Status);
+        Assert.Equal(0, g.Clearing(c).Guards);
+        Root33.Core.Characters.Esquie.EsquieTweaks.GuardsTakePost(g.Bridge.Ctx, new SeatId(1));
+        Assert.Equal(RockStatus.Guarded, florrie.Status);
         Assert.Null(florrie.HostSeat);
-        Assert.True(florrie.GuardsLeft > 0);
         Assert.Equal(florrie.GuardsLeft, g.Clearing(c).Guards);
         Assert.True(g.CanPlace(0, c));
         Assert.Contains("Florrie at", g.Bridge.ModView(1));

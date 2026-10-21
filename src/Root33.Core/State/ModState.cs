@@ -51,6 +51,7 @@ namespace Root33.Core
             GustaveRoute = new ClearingId[0];
             EsquieRocks = Enumerable.Range(0, Tuning.EsquieRocks).Select(_ => new RockState()).ToArray();
             EsquieDecoy = false;
+            EsquieGuardsActive = false;
             EsquieTarget = null;
             PaintressStillLifeUsed = false;
             PaintressRepaintAvoid = new Dictionary<ClearingId, int>();
@@ -148,6 +149,7 @@ namespace Root33.Core
             F(Ids.State.EsquieRocks, m => string.Join(";", m.EsquieRocks.Select(Rock)),
                 (m, s) => m.EsquieRocks = FixedArray(s, Tuning.EsquieRocks, ParseRock)),
             F(Ids.State.EsquieDecoy, m => C.Bool(m.EsquieDecoy), (m, s) => m.EsquieDecoy = C.ParseBool(s)),
+            F(Ids.State.EsquieGuardsActive, m => C.Bool(m.EsquieGuardsActive), (m, s) => m.EsquieGuardsActive = C.ParseBool(s)),
             F(Ids.State.EsquieTarget, m => C.NInt(m.EsquieTarget), (m, s) => m.EsquieTarget = C.ParseNInt(s)),
             F(Ids.State.PaintressStillLifeUsed, m => C.Bool(m.PaintressStillLifeUsed), (m, s) => m.PaintressStillLifeUsed = C.ParseBool(s)),
             F(Ids.State.PaintressRepaintAvoid, m => C.Map(m.PaintressRepaintAvoid, C.Clearing, C.Int),

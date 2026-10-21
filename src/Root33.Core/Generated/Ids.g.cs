@@ -204,6 +204,7 @@ namespace Root33.Core.Sheets
             public const string GustaveRoute = "state.gustave.route";
             public const string EsquieRocks = "state.esquie.rocks";
             public const string EsquieDecoy = "state.esquie.decoy";
+            public const string EsquieGuardsActive = "state.esquie.guards-active";
             public const string EsquieTarget = "state.esquie.target";
             public const string PaintressStillLifeUsed = "state.paintress.still-life-used";
             public const string PaintressRepaintAvoid = "state.paintress.repaint-avoid";
@@ -863,6 +864,7 @@ namespace Root33.Core.Sheets
             public const string EsquieRocks = "tune.esquie-rocks";
             public const string EsquieGuardsFlorrie = "tune.esquie-guards-florrie";
             public const string EsquieGuardsUrrie = "tune.esquie-guards-urrie";
+            public const string EsquieGuardsAfterRocks = "tune.esquie-guards-after-rocks";
             public const string EsquieGuardSpawns = "tune.esquie-guard-spawns";
             public const string EsquieBellyBounceSwords = "tune.esquie-belly-bounce-swords";
             public const string EsquieBotGuardWeight = "tune.esquie-bot-guard-weight";

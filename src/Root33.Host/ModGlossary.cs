@@ -77,8 +77,9 @@ namespace Root33.Host
                     $"Florrie, Dorrie, Soarrie and Urrie, which {Name("esquie")} collects to win. The Goal Tracker counts the collected " +
                     "ones as 'home'; a collected rock is never lost."),
                 new GlossaryEntry("Guards",
-                    $"neutral pieces sitting on Florrie or Urrie. They belong to no player: every other faction ignores them and they " +
-                    $"block nobody. Only {Name("esquie")} fights them, with an undamaged sword, and they hit back. With none left the rock is loose."),
+                    $"neutral pieces that take post on Florrie or Urrie once {Name("esquie")} has collected {Tuning.EsquieGuardsAfterRocks} rocks. " +
+                    $"They belong to no player, never move or attack, block nobody, and no other faction can fight or remove them. " +
+                    $"Only {Name("esquie")} fights them, with an undamaged sword, and they hit back. With none left the rock is loose."),
                 new GlossaryEntry("Perfection rank",
                     $"{Name("verso")}'s public rank D, C, B, A, S (starting at D). After a battle he is in: up one if he removed an enemy " +
                     $"piece with no item damaged, down one or two if items were damaged. At A or S he deals +{Tuning.VersoPerfectionHits} hit when attacking."),

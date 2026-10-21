@@ -238,8 +238,10 @@ public class VagabondTests
     public void Daylight_EsquieAloneBattlesTheNeutralGuards_AndTheCoreFollowsTheGuardsLeft()
     {
         var g = Kit.Table(1, "gustave", "esquie");
-        g.Bridge.OnSetupComplete();                                        // Florrie spawns under her neutral guards
+        g.Bridge.OnSetupComplete();                                        // Florrie spawns, unguarded
         int cliffs = g.Bridge.Ctx.Role(Ids.MapRoles.StoneWaveCliffs)!.Value.Value;
+        Assert.Equal(0, g.Clearing(cliffs).Guards);
+        Root33.Core.Characters.Esquie.EsquieTweaks.GuardsTakePost(g.Bridge.Ctx, new SeatId(1));   // as at his second rock
         Assert.Equal(Tuning.EsquieGuardsFlorrie, g.Clearing(cliffs).Guards);
         Assert.All(Enumerable.Range(0, g.SeatCount), s => Assert.Equal(0, g.Warriors(s, cliffs)));
         Assert.Contains("2 neutral guards", Render.Spectator(g));

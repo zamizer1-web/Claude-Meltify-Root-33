@@ -61,7 +61,7 @@ namespace Root33.Core.Characters.Esquie
         /// <summary>hook.setup-complete: Florrie under her guards, the François decoy at the Nest.</summary>
         public static void Setup(GameContext ctx, SeatId me)
         {
-            SpawnGuarded(ctx, me, Florrie, Ids.MapRoles.StoneWaveCliffs, Tuning.EsquieGuardsFlorrie);
+            SpawnGuarded(ctx, me, Florrie, Ids.MapRoles.StoneWaveCliffs);
             var nest = ctx.Role(Ids.MapRoles.EsquiesNest);
             if (ctx.Act <= 1 && nest.HasValue)
             {
@@ -94,10 +94,12 @@ namespace Root33.Core.Characters.Esquie
                     s.Status = verso.HasValue ? RockStatus.WithVerso : RockStatus.HeldByRuler;
                 }
             }
-            if (act >= 3) SpawnGuarded(ctx, me, Urrie, Ids.MapRoles.EsquiesNest, Tuning.EsquieGuardsUrrie);
+            if (act >= 3) SpawnGuarded(ctx, me, Urrie, Ids.MapRoles.EsquiesNest);
         }
 
-        private static void SpawnGuarded(GameContext ctx, SeatId me, int i, string roleId, int guards)
+        /// <summary>spawn.florrie / spawn.urrie: the rock appears loose; its guards take post now if they are active
+        /// (<see cref="ActivateGuards"/>), otherwise when he collects his second rock.</summary>
+        private static void SpawnGuarded(GameContext ctx, SeatId me, int i, string roleId)
         {
             var r = ctx.State.EsquieRocks[i];
             var c = ctx.Role(roleId);
@@ -107,12 +109,35 @@ namespace Root33.Core.Characters.Esquie
             r.GuardsLeft = 0;
             r.Status = RockStatus.Loose;
             ctx.Actions.ShowOverlay(Ids.Overlays.EsquieRocks, me, c, null);
-            if (NoSpawnFallback(ctx)) return;
-            var placed = ctx.Actions.PlaceGuards(c.Value, guards);
+            if (ctx.State.EsquieGuardsActive) PostGuards(ctx, me, i);
+        }
+
+        /// <summary>Neutral guards take post on a loose Florrie or Urrie (none under the no-spawn fallback).</summary>
+        private static void PostGuards(GameContext ctx, SeatId me, int i)
+        {
+            var r = ctx.State.EsquieRocks[i];
+            if (r.Status != RockStatus.Loose || !r.Clearing.HasValue || NoSpawnFallback(ctx)) return;
+            var guards = i == Florrie ? Tuning.EsquieGuardsFlorrie : Tuning.EsquieGuardsUrrie;
+            var placed = ctx.Actions.PlaceGuards(r.Clearing.Value, guards);
             if (placed <= 0) return;
             r.GuardsLeft = Math.Min(placed, guards);
             r.Status = RockStatus.Guarded;
-            ctx.Actions.ShowOverlay(Badge(i), me, c, null);
+            ctx.Actions.ShowOverlay(Badge(i), me, r.Clearing, null);
+        }
+
+        /// <summary>tune.esquie-guards-after-rocks: once he holds that many rocks the guards take post, once, on every Florrie
+        /// or Urrie still on the map (state.esquie.guards-active).</summary>
+        public static void ActivateGuards(GameContext ctx, SeatId me)
+        {
+            if (ctx.State.EsquieGuardsActive || HeldCount(ctx.State) < Tuning.EsquieGuardsAfterRocks) return;
+            GuardsTakePost(ctx, me);
+        }
+
+        /// <summary>The guards take post now: state.esquie.guards-active, and guards on every Florrie or Urrie still loose.</summary>
+        public static void GuardsTakePost(GameContext ctx, SeatId me)
+        {
+            ctx.State.EsquieGuardsActive = true;
+            foreach (var i in new[] { Florrie, Urrie }) PostGuards(ctx, me, i);
         }
 
         private static string Badge(int i) => i == Florrie ? Ids.Overlays.EsquieLampmasterBadge : Ids.Overlays.EsquieFrancoisBadge;
@@ -146,6 +171,7 @@ namespace Root33.Core.Characters.Esquie
             r.HostSeat = null;
             r.GuardsLeft = 0;
             GrantPower(ctx, me, i);
+            ActivateGuards(ctx, me);
             CheckEarlyUrrie(ctx, me);
         }
 
@@ -171,14 +197,14 @@ namespace Root33.Core.Characters.Esquie
             var rocks = ctx.State.EsquieRocks;
             if (rocks[Urrie].Status == RockStatus.NotSpawned && rocks[Florrie].Status == RockStatus.Held &&
                 rocks[Dorrie].Status == RockStatus.Held && rocks[Soarrie].Status == RockStatus.Held)
-                SpawnGuarded(ctx, me, Urrie, Ids.MapRoles.EsquiesNest, Tuning.EsquieGuardsUrrie);
+                SpawnGuarded(ctx, me, Urrie, Ids.MapRoles.EsquiesNest);
         }
 
         /// <summary>A loose rock in clearing c may be picked up now (Corvid block on Dorrie; no-spawn fallback needs a free clearing).</summary>
         public static bool CanPickUp(GameContext ctx, SeatId me, int i, ClearingId c)
         {
             if (i == Dorrie && CorvidWarriorsIn(ctx.Board, c)) return false;
-            if ((i == Florrie || i == Urrie) && NoSpawnFallback(ctx) && OtherWarriorsIn(ctx.Board, me, c)) return false;
+            if ((i == Florrie || i == Urrie) && NoSpawnFallback(ctx) && ctx.State.EsquieGuardsActive && OtherWarriorsIn(ctx.Board, me, c)) return false;
             return true;
         }
 
@@ -253,10 +279,11 @@ namespace Root33.Core.Characters.Esquie
 
         // ------------------------------------------------------------ battle tweaks
 
-        /// <summary>Under the no-spawn fallback: index of an unclaimed (loose) Florrie or Urrie in a clearing, or -1.</summary>
+        /// <summary>Under the no-spawn fallback, once the guards would be active: index of an unclaimed (loose) Florrie or Urrie in
+        /// a clearing, or -1.</summary>
         public static int FallbackRockAt(GameContext ctx, ClearingId c)
         {
-            if (!NoSpawnFallback(ctx)) return -1;
+            if (!NoSpawnFallback(ctx) || !ctx.State.EsquieGuardsActive) return -1;
             foreach (var i in new[] { Florrie, Urrie })
             {
                 var r = ctx.State.EsquieRocks[i];
@@ -300,10 +327,11 @@ namespace Root33.Core.Characters.Esquie
             if (HasUndamagedBag(ctx.Board, me)) ctx.Actions.AddMaxHits(me, Tuning.EsquieBellyBounceSwords);
         }
 
-        /// <summary>hook.guard-battle-resolved: GuardsLeft of the rock there becomes the guards still standing (read.guards),
-        /// never more than before; at 0 the rock is loose.</summary>
-        public static void GuardBattleResolved(GameContext ctx, SeatId me, ClearingId c)
+        /// <summary>hook.guard-battle-resolved, his own guard battles only: GuardsLeft of the rock there becomes the guards still
+        /// standing (read.guards), never more than before; at 0 the rock is loose.</summary>
+        public static void GuardBattleResolved(GameContext ctx, SeatId me, SeatId attacker, ClearingId c)
         {
+            if (attacker != me) return;   // nobody else may fight them, so nobody else can clear them for him
             var i = GuardedRockAt(ctx.State, c);
             if (i >= 0) SyncGuards(ctx, me, i);
         }
@@ -326,6 +354,7 @@ namespace Root33.Core.Characters.Esquie
                 if (rocks[i].Status == RockStatus.Held) GrantPower(ctx, me, i);
                 if (rocks[i].Status == RockStatus.Guarded) SyncGuards(ctx, me, i);
             }
+            if (HeldCount(ctx.State) >= Tuning.EsquieGuardsAfterRocks) ctx.State.EsquieGuardsActive = true;
             if (ctx.Act >= 2) ctx.State.EsquieDecoy = false;
             ctx.State.EsquieTarget = null;
         }

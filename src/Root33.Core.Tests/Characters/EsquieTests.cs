@@ -32,11 +32,14 @@ namespace Root33.Core.Tests.Characters
             .Supply(1, 25).Supply(2, 20)
             .Pawn(0, "autumn.05");
 
+        /// <summary>Starts the table. <paramref name="guardsUp"/>: the guards have taken post as if he had collected his second
+        /// rock (the rock counts stay as the test sets them); false keeps the real start, with no guards before two rocks.</summary>
         private static TestTable Start(FakeBoard b, int act = 1, Difficulty d = Difficulty.Normal, ModuleRegistry registry = null,
-            bool updateRules = false)
+            bool updateRules = false, bool guardsUp = true)
         {
             var t = TestTable.Start(b, registry ?? Registry(), d, updateRules: updateRules);
             if (act > 1) t.Game.OnActChanged(act);
+            if (guardsUp) EsquieTweaks.GuardsTakePost(t.Ctx, S(0));
             return t;
         }
 
@@ -135,6 +138,32 @@ namespace Root33.Core.Tests.Characters
             // Esquie picks it up after his next action there.
             ActIn(t, Cliffs);
             Assert.Equal(RockStatus.Held, R(t, Florrie).Status);
+        }
+
+        [Fact]
+        public void EsquieWin_GuardsTakePostWithTheSecondRock()
+        {
+            var b = Table().Pawn(0, A(Cliffs));
+            var t = Start(b, act: 2, guardsUp: false);
+            Assert.Equal(RockStatus.Loose, R(t, Florrie).Status);
+
+            // First rock: Florrie, unguarded. Still no guards.
+            ActIn(t, Cliffs);
+            Assert.Equal(RockStatus.Held, R(t, Florrie).Status);
+            Assert.False(t.State.EsquieGuardsActive);
+
+            // Second rock: Dorrie from the Old Lumière ruin. The guards are now active; Urrie (Act III) comes guarded.
+            b.Pawn(0, A(OldLumiere)).RuinEmptied(A(OldLumiere));
+            t.Game.OnExploreResolved(S(0), C(OldLumiere));
+            Assert.Equal(RockStatus.Held, R(t, Dorrie).Status);
+            Assert.True(t.State.EsquieGuardsActive);
+            t.Game.OnActChanged(3);
+            Assert.Equal(RockStatus.Guarded, R(t, Urrie).Status);
+            Assert.Equal(Tuning.EsquieGuardsUrrie, b.Guards(C(Nest)));
+
+            // A save keeps them active.
+            var loaded = t.SaveAndLoad(Registry());
+            Assert.True(loaded.State.EsquieGuardsActive);
         }
 
         [Fact]
@@ -357,6 +386,39 @@ namespace Root33.Core.Tests.Characters
         }
 
         [Fact]
+        public void NeutralGuards_OtherFactionsCannotTargetOrRemoveThem()
+        {
+            var b = Table().Item(0, ItemType.Sword).Seat(3, EngineId.VagabondThief, CharacterIds.Maelle).Item(3, ItemType.Sword)
+                .Warriors(1, A(Cliffs), 3);
+            var t = Start(b);
+            Assert.All(new[] { 1, 2, 3 }, s => Assert.False(t.Game.CanBattleGuards(S(s), C(Cliffs))));
+
+            // Whatever another seat does there (a battle, a removal, even a guard battle reported for it), the guards stay.
+            t.Game.OnBattleResolved(Battle(Cliffs, 1, 2, 2));
+            t.Game.OnPieceRemoved(S(1), new RemovedPiece(S(2), PieceKind.Warrior, null), C(Cliffs));
+            b.Guards(A(Cliffs), 0);
+            t.Game.OnGuardBattleResolved(S(3), C(Cliffs));
+            Assert.Equal(RockStatus.Guarded, R(t, Florrie).Status);
+            Assert.Equal(Tuning.EsquieGuardsFlorrie, R(t, Florrie).GuardsLeft);
+            Assert.False(t.Game.CanBattleGuards(S(1), C(Cliffs)));
+        }
+
+        [Fact]
+        public void NeutralGuards_NeverStartABattle()
+        {
+            // Esquie stands on the guards with everything undamaged; Gustave's warriors stand there too. Full rounds pass.
+            var b = Table().Item(0, ItemType.Sword).Item(0, ItemType.Boots).Pawn(0, A(Cliffs)).Warriors(1, A(Cliffs), 2);
+            var t = Start(b, act: 2);
+            for (var round = 0; round < 3; round++) t.PlayTurn(0).PlayTurn(1).PlayTurn(2);
+            Assert.Equal(Tuning.EsquieGuardsFlorrie, b.Guards(C(Cliffs)));   // never moved or lost
+            Assert.Equal(Tuning.EsquieGuardsFlorrie, R(t, Florrie).GuardsLeft);
+            Assert.All(b.Items(S(0)), i => Assert.False(i.Damaged));       // they never hit him unless he attacks
+            Assert.Equal(2, b.Warriors(S(1), C(Cliffs)));
+            Assert.Empty(b.ExtraHits);
+            Assert.Single(b.Log.Where(l => l.StartsWith("PlaceGuards", StringComparison.Ordinal)));
+        }
+
+        [Fact]
         public void NeutralGuards_GuardsLeftFollowsTheBoardAfterHisBattle()
         {
             var b = Table().Item(0, ItemType.Sword);
@@ -469,6 +531,57 @@ namespace Root33.Core.Tests.Characters
             Assert.True(b.OverlayShown(Ids.Overlays.EsquieRocks));
             Assert.True(b.OverlayShown(Ids.Overlays.EsquieLampmasterBadge));
             Assert.All(new[] { Dorrie, Soarrie, Urrie }, i => Assert.Equal(RockStatus.NotSpawned, R(t, i).Status));
+        }
+
+        [Fact]
+        public void FlorrieSpawn_UnguardedUntilEsquieHoldsTwoRocks()
+        {
+            var b = Table().Item(0, ItemType.Sword);
+            var t = Start(b, guardsUp: false);
+            Assert.Equal(RockStatus.Loose, R(t, Florrie).Status);
+            Assert.Equal(C(Cliffs), R(t, Florrie).Clearing);
+            Assert.Equal(0, b.Guards(C(Cliffs)));
+            Assert.False(t.State.EsquieGuardsActive);
+            Assert.False(b.OverlayShown(Ids.Overlays.EsquieLampmasterBadge));
+            Assert.DoesNotContain(b.Log, l => l.StartsWith("PlaceGuards", StringComparison.Ordinal));
+            Assert.False(t.Game.CanBattleGuards(S(0), C(Cliffs)));
+
+            // He just picks it up, even beside other warriors; one rock does not wake the guards.
+            b.Warriors(1, A(Cliffs), 2);
+            ActIn(t, Cliffs);
+            Assert.Equal(RockStatus.Held, R(t, Florrie).Status);
+            Assert.False(t.State.EsquieGuardsActive);
+
+            // The no-spawn fallback's clearing rule stands in for the guards, so it waits for two rocks too.
+            var f = Table().Unsupported(Ids.BoardActions.PlaceGuards).Warriors(1, A(Cliffs), 1);
+            var tf = Start(f, guardsUp: false);
+            ActIn(tf, Cliffs);
+            Assert.Equal(RockStatus.Held, R(tf, Florrie).Status);
+        }
+
+        [Fact]
+        public void FlorrieSpawn_GuardsAppearWithTheSecondRock()
+        {
+            var b = Table().Pawn(0, A(Monolith));
+            var t = Start(b, act: 3, guardsUp: false);
+            Assert.Equal(RockStatus.Loose, R(t, Florrie).Status);
+            Assert.Equal(RockStatus.Loose, R(t, Urrie).Status);
+            Hold(t, Dorrie);
+
+            // Soarrie in the unruled Monolith is his second rock: guards take post on Florrie and Urrie at once.
+            ActIn(t, Monolith);
+            Assert.Equal(RockStatus.Held, R(t, Soarrie).Status);
+            Assert.True(t.State.EsquieGuardsActive);
+            Assert.Equal(RockStatus.Guarded, R(t, Florrie).Status);
+            Assert.Equal(Tuning.EsquieGuardsFlorrie, b.Guards(C(Cliffs)));
+            Assert.Equal(RockStatus.Guarded, R(t, Urrie).Status);
+            Assert.Equal(Tuning.EsquieGuardsUrrie, b.Guards(C(Nest)));
+            Assert.True(b.OverlayShown(Ids.Overlays.EsquieLampmasterBadge));
+            Assert.True(b.OverlayShown(Ids.Overlays.EsquieFrancoisBadge));
+
+            // Now he can no longer just pick Florrie up.
+            ActIn(t, Cliffs);
+            Assert.Equal(RockStatus.Guarded, R(t, Florrie).Status);
         }
 
         [Fact]
@@ -688,6 +801,23 @@ namespace Root33.Core.Tests.Characters
             Assert.Equal(RockStatus.Guarded, R(t, Urrie).Status);
             Assert.Equal(Tuning.EsquieGuardsUrrie, R(t, Urrie).GuardsLeft);
             Assert.Equal(2, t.Ctx.Act);
+        }
+
+        [Fact]
+        public void UrrieSpawn_UnguardedInActThreeBeforeTwoRocks()
+        {
+            var b = Table();
+            var t = Start(b, act: 3, guardsUp: false);
+            Assert.Equal(RockStatus.Loose, R(t, Urrie).Status);
+            Assert.Equal(0, b.Guards(C(Nest)));
+
+            // He takes Urrie free, then Florrie: his second rock wakes the guards, but no Florrie or Urrie is left for them.
+            ActIn(t, Nest);
+            ActIn(t, Cliffs);
+            Assert.Equal(2, EsquieTweaks.HeldCount(t.State));
+            Assert.True(t.State.EsquieGuardsActive);
+            Assert.Equal(0, b.Guards(C(Nest)) + b.Guards(C(Cliffs)));
+            Assert.DoesNotContain(b.Log, l => l.StartsWith("PlaceGuards", StringComparison.Ordinal));
         }
 
         [Fact]
