@@ -50,14 +50,17 @@ namespace Root33.DevMatch
         }
     }
 
-    /// <summary>Waits for the title screen, then lists the templates or starts the match (main thread).</summary>
+    /// <summary>Waits for the title screen, then lists the templates or starts the match (main thread). Gives up for
+    /// good after one failure or after StartTimeout seconds without a command queue, instead of retrying every frame.</summary>
     public sealed class DevMatchDriver : MonoBehaviour
     {
         public DevMatchDriver(IntPtr ptr) : base(ptr) { }
 
+        internal const float StartDelay = 5f, StartTimeout = 60f, RetryEvery = 1f;
         internal static float TitleShownAt = -1f;
         internal static volatile bool QuitRequested;
         private bool _done;
+        private float _nextTry;
 
         public void Update()
         {
@@ -67,14 +70,24 @@ namespace Root33.DevMatch
                 DevMatchPlugin.L.LogInfo("Root 33 dev match: done, quitting Root");
                 Application.Quit();
             }
-            if (_done || TitleShownAt < 0 || Time.unscaledTime < TitleShownAt + 5f) return;
-            _done = true;
+            var now = Time.unscaledTime;
+            if (_done || TitleShownAt < 0 || now < TitleShownAt + StartDelay || now < _nextTry) return;
+            _nextTry = now + RetryEvery;
             try
             {
-                if (DevMatchPlugin.Mode.Value == "list") Templates.Write();
-                else Starter.Start();
+                if (DevMatchPlugin.Mode.Value == "list") { Templates.Write(); _done = true; }
+                else if (Starter.TryStart()) _done = true;
+                else if (now > TitleShownAt + StartDelay + StartTimeout)
+                {
+                    _done = true;
+                    DevMatchPlugin.L.LogError($"Root 33 dev match failed: no command queue after {StartTimeout}s on the title screen; giving up");
+                }
             }
-            catch (Exception e) { DevMatchPlugin.L.LogError("Root 33 dev match failed: " + e); }
+            catch (Exception e)
+            {
+                _done = true;
+                DevMatchPlugin.L.LogError("Root 33 dev match failed, driver stopped: " + e);
+            }
         }
     }
 
@@ -134,7 +147,26 @@ namespace Root33.DevMatch
 
     internal static class Starter
     {
-        public static void Start()
+        private static tuber.canis.TuberMatchInitData? _data;
+
+        /// <summary>Queues Root's own offline start once a command queue exists; false means "not ready yet, try again".
+        /// On the title screen there is no MatchModel yet, so Root's PlayOfflineMatch command (what the offline menus run)
+        /// is queued directly; MatchModel.StartOfflineMatch is used only if a MatchModel happens to exist.</summary>
+        public static bool TryStart()
+        {
+            var data = _data ??= Build();
+            var queue = UnityEngine.Object.FindObjectOfType<dwd.core.commands.CommandQueue>();
+            if (queue == null) { Templates.Step("no CommandQueue yet, waiting"); return false; }
+            var model = dwd.core.Finder.TryFind<MatchModel>();
+            dwd.core.commands.Command command;
+            if (model != null) command = model.StartOfflineMatch(data) ?? throw new InvalidOperationException("StartOfflineMatch returned null");
+            else command = new tuber.client.match.commands.PlayOfflineMatch(data, false);
+            queue.Enqueue(command);
+            DevMatchPlugin.L.LogInfo($"Root 33 dev match: start command {command.GetIl2CppType().FullName} queued on {queue.GetIl2CppType().FullName} (MatchModel {(model == null ? "absent" : "found")})");
+            return true;
+        }
+
+        private static tuber.canis.TuberMatchInitData Build()
         {
             var all = Templates.All();
             var key = DevMatchPlugin.Template.Value.TrimStart('#');
@@ -162,15 +194,7 @@ namespace Root33.DevMatch
             }
             data.ChosenMap = tuber_canis.data.MapLayout.Fall;
             DevMatchPlugin.L.LogInfo($"Root 33 dev match: starting '{key}' with {players.Count} AI seats ({string.Join(", ", Il2.Each(players).Select(p => p.Faction))}) on Fall; base players list {data.players?.Count}");
-            var model = MatchModel.Find() ?? throw new InvalidOperationException("MatchModel.Find() returned null");
-            var command = model.StartOfflineMatch(data) ?? throw new InvalidOperationException("StartOfflineMatch returned null");
-            var queue = UnityEngine.Object.FindObjectOfType<dwd.core.commands.CommandQueue>();
-            if (queue != null)
-            {
-                queue.Enqueue(command);
-                DevMatchPlugin.L.LogInfo("Root 33 dev match: start command queued on " + queue.GetIl2CppType().FullName);
-            }
-            else throw new InvalidOperationException("no CommandQueue in the scene to run the start command");
+            return data;
         }
     }
 
