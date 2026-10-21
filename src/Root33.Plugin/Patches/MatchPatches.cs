@@ -122,12 +122,38 @@ namespace Root33.Plugin.Patches
     [RootHook("hook.character-select")]
     internal static class CharacterSelectPatch
     {
-        /// <summary>The base game's engines, which every copy of Root owns; DLC ownership is not read from Root yet.</summary>
+        /// <summary>The base game's engines, which every copy of Root owns.</summary>
         private static readonly EngineId[] BaseGame =
             { EngineId.Marquise, EngineId.Eyrie, EngineId.Alliance, EngineId.VagabondTinker, EngineId.VagabondRanger, EngineId.VagabondThief };
 
         private static void Postfix() => PatchGuard.Run("character-select", () =>
-            Root33Runtime.Hook("hook.character-select", g => g.OnCharacterSelectShown(BaseGame, 4)));
+        {
+            var owned = Owned();
+            Root33Runtime.Hook("hook.character-select", g => g.OnCharacterSelectShown(owned, 4));
+        });
+
+        /// <summary>The base game plus the factions Root says this account owns (tuber_canis.data.TuberIAPUtilities.OwnedFactions).</summary>
+        private static List<EngineId> Owned()
+        {
+            var owned = new List<EngineId>(BaseGame);
+            var dlc = PatchGuard.Run("owned-factions", () => RootGame.Each(tuber_canis.data.TuberIAPUtilities.OwnedFactions()),
+                new List<tuber_canis.data.Factions>());
+            foreach (var f in dlc)
+            {
+                EngineId? e = f switch
+                {
+                    tuber_canis.data.Factions.RiverfolkCompany => EngineId.Riverfolk,
+                    tuber_canis.data.Factions.LizardCult => EngineId.Lizards,
+                    tuber_canis.data.Factions.UndergroundDuchy => EngineId.Duchy,
+                    tuber_canis.data.Factions.CorvidConspiracy => EngineId.Corvids,
+                    tuber_canis.data.Factions.LordOfTheHundreds => EngineId.Hundreds,
+                    tuber_canis.data.Factions.KeepersInIron => EngineId.Keepers,
+                    _ => null,
+                };
+                if (e.HasValue && !owned.Contains(e.Value)) owned.Add(e.Value);
+            }
+            return owned;
+        }
     }
 
     [HarmonyPatch(typeof(TuberMatch), nameof(TuberMatch.SetupMatch))]
