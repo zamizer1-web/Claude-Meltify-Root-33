@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Dev copy only, never shipped: a BepInEx 6 plugin that starts an offline Autumn match with every seat played by Root's
+    own AI, records each Root 33 hook and snapshots the board reads at key moments (BepInEx\runs), then quits Root.
+    Off unless BepInEx\config\gg.root33.devmatch.cfg says Mode = list or play. Build after src/Root33.Plugin:
+
+      dotnet build tools\Root33.DevMatch -c Release -p:RootDir=D:\Mods\Root33-dev\Root
+      copy bin\Release\Root33.DevMatch.dll to <game>\BepInEx\plugins\Root33-dev-only\
+  -->
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <LangVersion>10.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <AssemblyName>Root33.DevMatch</AssemblyName>
+    <GenerateDependencyFile>false</GenerateDependencyFile>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <UseSharedCompilation>false</UseSharedCompilation>
+    <RootDir Condition="'$(RootDir)' == ''">D:\Mods\Root33-dev\Root</RootDir>
+    <PluginOut>..\..\src\Root33.Plugin\bin\Release</PluginOut>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Root33.Plugin" HintPath="$(PluginOut)\Root33.Plugin.dll" Private="false" />
+    <Reference Include="Root33.Core" HintPath="$(PluginOut)\Root33.Core.dll" Private="false" />
+    <Reference Include="Root33.Host" HintPath="$(PluginOut)\Root33.Host.dll" Private="false" />
+    <Reference Include="BepInEx.Core" HintPath="$(RootDir)\BepInEx\core\BepInEx.Core.dll" Private="false" />
+    <Reference Include="BepInEx.Unity.IL2CPP" HintPath="$(RootDir)\BepInEx\core\BepInEx.Unity.IL2CPP.dll" Private="false" />
+    <Reference Include="Il2CppInterop.Runtime" HintPath="$(RootDir)\BepInEx\core\Il2CppInterop.Runtime.dll" Private="false" />
+    <Reference Include="0Harmony" HintPath="$(RootDir)\BepInEx\core\0Harmony.dll" Private="false" />
+    <Reference Include="$(RootDir)\BepInEx\interop\*.dll" Private="false" />
+  </ItemGroup>
+
+</Project>

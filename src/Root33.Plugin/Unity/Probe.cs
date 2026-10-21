@@ -36,6 +36,11 @@ namespace Root33.Plugin.Unity
         private readonly HashSet<string> _seen = new HashSet<string>(StringComparer.Ordinal);
         private float _nextSceneCheck;
 
+        private static readonly System.Collections.Concurrent.ConcurrentQueue<string> Requests = new System.Collections.Concurrent.ConcurrentQueue<string>();
+
+        /// <summary>Asks for a probe file named root33-probe-&lt;name&gt;.json at the next frame (dev runs; any thread).</summary>
+        public static void Request(string name) => Requests.Enqueue(name);
+
         public void Update()
         {
             if (Time.unscaledTime >= _nextSceneCheck)
@@ -43,12 +48,13 @@ namespace Root33.Plugin.Unity
                 _nextSceneCheck = Time.unscaledTime + 0.5f;
                 WatchScenes();
             }
-            if (_f9.PressedInUpdate()) Dump();
+            if (_f9.PressedInUpdate()) Dump(FileName);
+            while (Requests.TryDequeue(out var name)) Dump("root33-probe-" + name + ".json");
         }
 
         public void OnGUI()
         {
-            if (_f9.PressedInGui()) Dump();
+            if (_f9.PressedInGui()) Dump(FileName);
         }
 
         private void WatchScenes()
@@ -77,9 +83,9 @@ namespace Root33.Plugin.Unity
             }
         }
 
-        private void Dump()
+        private void Dump(string fileName)
         {
-            var path = Path.Combine(BepInEx.Paths.BepInExRootPath, FileName);
+            var path = Path.Combine(BepInEx.Paths.BepInExRootPath, fileName);
             try
             {
                 var snap = new ProbeSnapshot(DateTime.Now, SceneManager.GetActiveScene().name);
