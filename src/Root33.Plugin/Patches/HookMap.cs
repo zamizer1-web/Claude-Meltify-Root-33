@@ -22,7 +22,7 @@ namespace Root33.Plugin.Patches
     /// Root33Runtime.Hook queues hooks the core raises while it runs and logs a core exception once per hook (the game goes
     /// on); Root33Runtime.Ask answers questions (battle legality, bot decisions) with a fallback. Plugin.Load applies every
     /// [HarmonyPatch] class in this assembly. Mark each patch [RootHook("row id")] and rerun tools/gen_plugin_stubs.py.
-    /// Patched so far: 24/34 rows that need a patch (2 are raised by the mod itself).
+    /// Patched so far: 26/34 rows that need a patch (2 are raised by the mod itself).
     /// </summary>
     public static class HookMap
     {
@@ -62,10 +62,10 @@ namespace Root33.Plugin.Patches
             new Row("hook.action-resolved", "void OnActionResolved(SeatId seat)", "postfix", "Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction)", true, "StackPatches.cs"),
             new Row("hook.piece-moved", "void OnPieceMoved(SeatId owner, PieceKind kind, ClearingId? from, ClearingId? to, int count)", "postfix", "Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.MovePieces (SuccessfulMove, SuccessfulMoveInfo)", true, "StackPatches.cs"),
             new Row("hook.piece-placed", "void OnPiecePlaced(SeatId owner, PieceKind kind, string type, ClearingId c)", "postfix", "Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.PlacePieceAtTarget / PlacePiecesAtTarget / PlaceSelectedPieceAtTarget / PlaceAllSelectedPiecesAtTarget", true, "StackPatches.cs"),
-            new Row("hook.piece-removed", "void OnPieceRemoved(SeatId? remover, RemovedPiece piece, ClearingId c)", "postfix", "Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.RemovePiece / RemoveThesePiecesAction / RemoveWarriors", true, null),
+            new Row("hook.piece-removed", "void OnPieceRemoved(SeatId? remover, RemovedPiece piece, ClearingId c)", "postfix", "Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.RemovePiece / RemoveThesePiecesAction / RemoveWarriors", true, "StackPatches.cs"),
             new Row("hook.battle-legal", "bool CanStartBattle(SeatId attacker, SeatId defender, ClearingId c, bool strike)", "postfix", "tuber.canis.entities.TuberPlayerEntity.GetTargetsToBattle / GetBattleTargetsAt(TuberBoardNode); Strike: VagabondPlayer.GetOpponentPiecesForStrike()", true, null),
             new Row("hook.battle-start", "void OnBattleStarting(SeatId attacker, SeatId defender, ClearingId c)", "prefix", "tuber.canis.actions.BattleActions.Battle.ChooseAmbush (Battle._attacker, _defender, _battleClearing set)", true, "RulePatches.cs"),
-            new Row("hook.battle-resolved", "void OnBattleResolved(BattleResult r)", "postfix", "Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.BattleActions.Battle", true, null),
+            new Row("hook.battle-resolved", "void OnBattleResolved(BattleResult r)", "postfix", "Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.BattleActions.Battle", true, "StackPatches.cs"),
             new Row("hook.explore-resolved", "void OnExploreResolved(SeatId vagabond, ClearingId c)", "postfix", "Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.VagabondActions.ExploreResolution", true, "StackPatches.cs"),
             new Row("hook.aid-resolved", "void OnAidResolved(SeatId vagabond, SeatId receiver, ClearingId c)", "postfix", "Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.VagabondActions.AidActions.Aid", true, "StackPatches.cs"),
             new Row("hook.hostility-change", "bool AllowHostile(SeatId vagabond, SeatId faction, ClearingId battleClearing)", "prefix", "Canis.actions.continuations.ExecuteStack.PushSubAction(Match, Action action) when action is tuber.canis.actions.VagabondActions.MarkHostile (field faction)", true, null),
@@ -390,7 +390,7 @@ namespace Root33.Plugin.Patches
         //     }
         // }
 
-        // ===== hook.piece-removed · postfix · not patched yet
+        // ===== hook.piece-removed · postfix · patched in StackPatches.cs
         // When: A piece leaves the map by any means: battle hit, Strike, Bomb, Revolt, mob, Sanctify, Convert. The
         // Curator's Quiet Helper fires when the Paintress's roost leaves the Monolith; guard counters drop for host
         // warriors removed outside a battle.
@@ -453,7 +453,7 @@ namespace Root33.Plugin.Patches
         //     }
         // }
 
-        // ===== hook.battle-resolved · postfix · not patched yet
+        // ===== hook.battle-resolved · postfix · patched in StackPatches.cs
         // When: A battle has fully resolved: hits dealt, pieces removed, items damaged. Gustave's Arm, Verso's rank,
         // Monoco's feet, Esquie's guard counters, Sciel's Moon charge and Maelle's stance update here.
         // Core:  void OnBattleResolved(BattleResult r)

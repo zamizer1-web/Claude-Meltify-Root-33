@@ -47,10 +47,31 @@ namespace Root33.Plugin.Patches
             public Dictionary<(int, int), Relationship>? Relations;
         }
 
+        private static readonly HashSet<string> Removals = new HashSet<string>
+        {
+            A + "RemovePiece", A + "RemoveThesePiecesAction", A + "RemoveWarriors",
+        };
+
+        /// <summary>A battle from hook.battle-start until it pops: who fights where, and the board as it was.</summary>
+        private sealed class OpenBattle
+        {
+            public IntPtr Battle;
+            public SeatId Attacker, Defender;
+            public ClearingId Clearing;
+            public PieceCensus Before = null!;
+            public Dictionary<SeatId, int> DamagedBefore = new Dictionary<SeatId, int>();
+            public bool AttackerMovedIn;
+            public SeatId? VpLeader;
+        }
+
         private static readonly object Gate = new object();
         private static readonly Dictionary<IntPtr, Started> Open = new Dictionary<IntPtr, Started>();
         private static SeatId? _roundLeader;
         private static int _round;
+        private static int _removalDepth;
+        private static PieceCensus? _beforeRemoval;
+        private static SeatId? _remover;
+        private static OpenBattle? _battle;
 
         /// <summary>A new or loaded game: nothing open, rounds counted afresh.</summary>
         public static void Reset()
@@ -60,7 +81,43 @@ namespace Root33.Plugin.Patches
                 Open.Clear();
                 _roundLeader = null;
                 _round = 0;
+                _removalDepth = 0;
+                _beforeRemoval = null;
+                _battle = null;
             }
+        }
+
+        /// <summary>hook.battle-start fixed the sides: count the board now for hook.battle-resolved.</summary>
+        public static void BattleStarted(tuber.canis.actions.BattleActions.Battle battle, SeatId attacker, SeatId defender, ClearingId at)
+        {
+            var open = new OpenBattle { Battle = battle.Pointer, Attacker = attacker, Defender = defender, Clearing = at, Before = PieceCensus.Take() };
+            foreach (var s in new[] { attacker, defender })
+                if (RootGame.Player(s).TryCast<VagabondPlayer>() != null) open.DamagedBefore[s] = Damaged(s);
+            open.AttackerMovedIn = battle._attacker != null && battle._battleClearing != null && battle._battleClearing.MovedHereThisTurn(battle._attacker);
+            open.VpLeader = VpLeader();
+            lock (Gate) _battle = open;
+        }
+
+        private static int Damaged(SeatId seat)
+        {
+            var n = 0;
+            foreach (var item in RootReads.Items(seat)) if (item.Damaged) n++;
+            return n;
+        }
+
+        /// <summary>The seat with the most VP, or null on a tie.</summary>
+        private static SeatId? VpLeader()
+        {
+            SeatId? best = null;
+            int top = int.MinValue;
+            var tie = false;
+            for (var i = 0; i < RootGame.SeatCount; i++)
+            {
+                var vp = RootReads.Vp(new SeatId(i));
+                if (vp > top) { top = vp; best = new SeatId(i); tie = false; }
+                else if (vp == top) tie = true;
+            }
+            return tie ? null : best;
         }
 
         private static string NameOf(RAction action) => action.GetIl2CppType().FullName;
@@ -73,6 +130,16 @@ namespace Root33.Plugin.Patches
         {
             if (RootGame.Track(match) == null || action == null) return;
             var name = NameOf(action);
+            if (Removals.Contains(name))
+            {
+                // Removals nest (RemoveThesePiecesAction runs RemovePiece): count the board at the outermost one only.
+                if (_removalDepth++ == 0)
+                {
+                    _beforeRemoval = PieceCensus.Take();
+                    _remover = RootGame.SeatOfPieces(action.TryCast<tuber.canis.actions.RemovePiece>()?.source) ?? Current();
+                }
+                return;
+            }
             switch (name)
             {
                 case PlayerTurn:
@@ -130,6 +197,17 @@ namespace Root33.Plugin.Patches
         {
             if (RootGame.Track(match) == null || completed == null) return;
             var name = NameOf(completed);
+            if (Removals.Contains(name))
+            {
+                if (_removalDepth > 0 && --_removalDepth == 0 && _beforeRemoval != null)
+                {
+                    var remover = _remover;
+                    foreach (var (at, piece) in PieceCensus.Take().GoneSince(_beforeRemoval))
+                        Root33Runtime.Hook("hook.piece-removed", g => g.OnPieceRemoved(remover, piece, at));
+                    _beforeRemoval = null;
+                }
+                return;
+            }
             var started = Forget(completed);
             var seat = started?.Seat;
             switch (name)
@@ -148,6 +226,7 @@ namespace Root33.Plugin.Patches
                     if (seat.HasValue) Resolved(seat.Value);
                     break;
                 case Battle:
+                    BattleResolved(completed);
                     ModRules.BattleOver();
                     if (seat.HasValue) Resolved(seat.Value);
                     break;
@@ -182,6 +261,30 @@ namespace Root33.Plugin.Patches
                     if (RootGame.SeatOfFaction(RFactions.EyrieDynasties) is { } eyrie) Root33Runtime.Hook("hook.turmoil", g => g.OnTurmoil(eyrie));
                     break;
             }
+        }
+
+        /// <summary>hook.battle-resolved: what left the board since hook.battle-start, damaged items, the VP leader then.</summary>
+        private static void BattleResolved(RAction battle)
+        {
+            OpenBattle? open;
+            lock (Gate)
+            {
+                open = _battle;
+                _battle = null;
+            }
+            if (open == null || open.Battle != battle.Pointer) return;   // a skipped battle never reached hook.battle-start
+            var r = new BattleResult
+            {
+                Clearing = open.Clearing, Attacker = open.Attacker, Defender = open.Defender,
+                AttackerMovedInThisTurn = open.AttackerMovedIn, VpLeaderAtStart = open.VpLeader,
+            };
+            foreach (var (_, piece) in PieceCensus.Take().GoneSince(open.Before)) r.Removed.Add(piece);
+            foreach (var kv in open.DamagedBefore)
+            {
+                r.DamagedItemsBefore[kv.Key] = kv.Value;
+                r.DamagedItemsAfter[kv.Key] = Damaged(kv.Key);
+            }
+            Root33Runtime.Hook("hook.battle-resolved", g => g.OnBattleResolved(r));
         }
 
         private static void Resolved(SeatId seat) => Root33Runtime.Hook("hook.action-resolved", g => g.OnActionResolved(seat));
@@ -306,6 +409,8 @@ namespace Root33.Plugin.Patches
     [RootHook("hook.relationship-changed")]
     [RootHook("hook.vp-changed")]
     [RootHook("hook.turmoil")]
+    [RootHook("hook.piece-removed")]
+    [RootHook("hook.battle-resolved")]
     internal static class PopToParentPatch
     {
         private static void Postfix(Canis.Match match, RAction completedAction) =>

@@ -130,7 +130,10 @@ namespace Root33.Plugin.Patches
             var defender = RootGame.SeatOfPieces(battle._defender);
             var at = RootGame.ClearingOf(battle._battleClearing);
             if (attacker.HasValue && defender.HasValue && at.HasValue)
+            {
+                StackPatches.BattleStarted(battle, attacker.Value, defender.Value, at.Value);
                 Root33Runtime.Hook("hook.battle-start", g => g.OnBattleStarting(attacker.Value, defender.Value, at.Value));
+            }
         });
     }
 
