@@ -130,13 +130,16 @@ Found on the PC (see each row's `_notes` for the source):
 `assets.json` (Clair Obscur paths) and `reskins.json` (localisation keys) belong to HANDOFF step 5 and M5.
 
 Esquie's rock guards (the creator decided on 2026-10-21): they belong to no player. They are neutral guardians of his
-rock, hostile only to Esquie and ignored by every other faction; they count as nobody's warriors and block nobody's
-building or placement; only Esquie fights them, and he needs a sword (tweak.esquie.neutral-guards). The route chosen from
+rock, hostile only to Esquie and ignored by every other faction; they never move or attack, count as nobody's warriors
+and block nobody's building or placement; no other faction can battle, Strike or remove them; only Esquie fights them,
+and he needs a sword; and they take post only once he holds 2 rocks (tune.esquie-guards-after-rocks,
+tweak.esquie.neutral-guards). The route chosen from
 the M1 listing, without running Root, and kept `_unverified` until M4: the guards are the warriors of an unhired hireling
 the match does not use (`TuberMatch.GetHirelingForFaction(Factions.HighwayBandits)`, a `BanditGangHireling` with no
 `ControllingPlayer`), placed from its `WarriorArea` (do.place-guards) and counted with `TuberBoardNode.CountPieces`
 (read.guards). `TuberHirelingEntity.IsEnemy(Factions)` and `PieceCanBeBattled(Entity)` get postfixes so only Esquie's faction
-may battle them, `TuberBoardNode.GetBattleTargetsForFaction` drops them for everyone else (hook.guard-battle-legal), and
+may battle them, `PieceCanBeRemoved(Entity)` keeps every other faction's removals (Strike, Bomb, Revolt, Sanctify,
+Convert) off them, `TuberBoardNode.GetBattleTargetsForFaction` drops them for everyone else (hook.guard-battle-legal), and
 `Battle.ChooseAmbush`/`DiceRoll` and `PopToParent` raise hook.guard-battle-start and hook.guard-battle-resolved when the
 defender is that hireling. Check in the same game that Root's rule (`getRulingFaction`, `factionCounts(includeMercenaries,
 includeHirelings)`) leaves them out; if not, patch it too. Until do.place-guards is mapped the core plays the no-spawn

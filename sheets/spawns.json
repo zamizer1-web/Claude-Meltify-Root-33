@@ -6,7 +6,7 @@
       "appearsInAct": "act1",
       "placeAt": "role.stone-wave-cliffs",
       "guards": 2,
-      "claimRule": "Guarded rock (spawned at setup when Esquie is seated). tune.esquie-guards-florrie neutral guards are placed in its clearing under a Lampmaster badge (do.place-guards); GuardsLeft = the number actually placed (0 placed makes it loose at once). The guards belong to no player (tweak.esquie.neutral-guards): only Esquie fights them, and GuardsLeft follows the guards still standing (read.guards) after each of his guard battles; at 0 the rock is loose. After each of Esquie's actions he claims every loose rock in his pawn's clearing. A claimed rock is never lost.",
+      "claimRule": "Guarded rock (spawned at setup when Esquie is seated). It starts unguarded and loose: the neutral guards take post only once Esquie holds tune.esquie-guards-after-rocks rocks. At that moment, if Florrie is still on the map, tune.esquie-guards-florrie neutral guards are placed in its clearing under a Lampmaster badge (do.place-guards); GuardsLeft = the number actually placed (0 placed leaves it loose). The guards belong to no player (tweak.esquie.neutral-guards): they never move or attack, nobody but Esquie can battle or remove them, and GuardsLeft follows the guards still standing after each of his guard battles; at 0 the rock is loose. After each of Esquie's actions he claims every loose rock in his pawn's clearing. A claimed rock is never lost.",
       "state": "state.esquie.rocks",
       "overlay": "ui.esquie.rocks",
       "actions": [
@@ -14,14 +14,15 @@
         "do.show-overlay",
         "do.hide-overlay"
       ],
-      "fallback": "No-spawn fallback (the v1 default if the mod cannot place neutral guards in Root): no guards; Florrie can be claimed only when no faction other than Esquie has warriors at Stone Wave Cliffs.",
+      "fallback": "No-spawn fallback (the v1 default if the mod cannot place neutral guards in Root): no guards; Florrie can be claimed, once he holds tune.esquie-guards-after-rocks rocks, only when no faction other than Esquie has warriors at Stone Wave Cliffs.",
       "tests": [
-        "FlorrieSpawn_PlacedAtCliffsWithTwoGuards",
+        "FlorrieSpawn_UnguardedUntilEsquieHoldsTwoRocks",
+        "FlorrieSpawn_GuardsAppearWithTheSecondRock",
         "FlorrieSpawn_GuardsBelongToNoSeat",
         "FlorrieSpawn_ShortPlacementSetsGuardsLeftToPlaced",
         "FlorrieSpawn_NoSpawnFallbackClaimsWhenClearingFree"
       ],
-      "_notes": "Decided by the creator on 2026-10-21: the guards are neutral guardians of the rock, hostile only to Esquie and ignored by every other faction. They replace the earlier 'Nevron host' design, where the guards were another seat's warriors. Confirmed by research: Florrie is recovered at Stone Wave Cliffs after the Lampmaster fight at the end of Act I, so the roster's fallback of moving Florrie to the Nest is not needed.",
+      "_notes": "Refined by the creator on 2026-10-21: the guards are neutral guardians of the rock, hostile only to Esquie and ignored by every other faction, and they only take post once he holds 2 rocks. They replace the earlier 'Nevron host' design, where the guards were another seat's warriors. Confirmed by research: Florrie is recovered at Stone Wave Cliffs after the Lampmaster fight at the end of Act I, so the roster's fallback of moving Florrie to the Nest is not needed.",
       "_source": "https://expedition33.wiki.fextralife.com/Stone_Wave_Cliffs ; https://expedition33.wiki.fextralife.com/Esquie's+Nest"
     },
     {
@@ -78,7 +79,7 @@
       "appearsInAct": "act3",
       "placeAt": "role.esquies-nest",
       "guards": 3,
-      "claimRule": "Guarded rock: spawns at the start of Act III, or as soon as Esquie holds the other three rocks if that comes first. tune.esquie-guards-urrie neutral guards are placed under a François badge (do.place-guards); GuardsLeft = the number actually placed. Only Esquie fights them (tweak.esquie.neutral-guards), and GuardsLeft follows the guards still standing after each of his guard battles; at 0 it is loose and Esquie claims it after any of his actions in the Nest. Never lost once claimed.",
+      "claimRule": "Guarded rock: spawns at the start of Act III, or as soon as Esquie holds the other three rocks if that comes first. If he already holds tune.esquie-guards-after-rocks rocks it spawns under tune.esquie-guards-urrie neutral guards with a François badge (do.place-guards); otherwise it spawns loose and the guards take post when he collects his second rock, if Urrie is still on the map. GuardsLeft = the number actually placed. Only Esquie fights them (tweak.esquie.neutral-guards), and GuardsLeft follows the guards still standing after each of his guard battles; at 0 it is loose and Esquie claims it after any of his actions in the Nest. Never lost once claimed.",
       "state": "state.esquie.rocks",
       "overlay": "ui.esquie.rocks",
       "actions": [
@@ -86,10 +87,11 @@
         "do.show-overlay",
         "do.hide-overlay"
       ],
-      "fallback": "No-spawn fallback: no guards; Urrie can be claimed only when no faction other than Esquie has warriors at Esquie's Nest.",
+      "fallback": "No-spawn fallback: no guards; Urrie can be claimed, once he holds tune.esquie-guards-after-rocks rocks, only when no faction other than Esquie has warriors at Esquie's Nest.",
       "tests": [
         "UrrieSpawn_AppearsAtActThreeWithThreeGuards",
         "UrrieSpawn_AppearsEarlyWhenOtherThreeHeld",
+        "UrrieSpawn_UnguardedInActThreeBeforeTwoRocks",
         "UrrieSpawn_NoSpawnFallbackClaimsWhenNestFree"
       ],
       "_source": "https://expedition33.wiki.fextralife.com/Esquie ; https://expedition33.wiki.fextralife.com/Thank_You_Update"

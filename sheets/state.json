@@ -255,7 +255,7 @@
         "hook.evening-end",
         "hook.load"
       ],
-      "onLoad": "Restored from the save. Held rocks stay held. For each guarded rock, GuardsLeft = min(saved GuardsLeft, read.guards of its clearing), and it becomes loose at 0. Rocks whose act has not come yet stay notSpawned.",
+      "onLoad": "Restored from the save. Held rocks stay held. A loose Florrie or Urrie stays loose (state.esquie.guards-active says whether guards have taken post). For each guarded rock, GuardsLeft = min(saved GuardsLeft, read.guards of its clearing), and it becomes loose at 0. Rocks whose act has not come yet stay notSpawned.",
       "_notes": "The roster's status list is hidden | guarded | loose | heldByRuler | held; notSpawned (a rock before its act) and withVerso (Soarrie on Verso's card) were added because the roster describes both states without naming them."
     },
     {
@@ -271,6 +271,21 @@
         "hook.load"
       ],
       "onLoad": "Restored; forced false if the loaded act is 2 or later."
+    },
+    {
+      "id": "state.esquie.guards-active",
+      "owner": "esquie",
+      "csType": "bool",
+      "range": "true once Esquie has held tune.esquie-guards-after-rocks rocks and the neutral guards have taken post (it never goes back to false)",
+      "initial": "false",
+      "writtenBy": [
+        "hook.action-resolved",
+        "hook.explore-resolved",
+        "hook.aid-resolved",
+        "hook.evening-end",
+        "hook.load"
+      ],
+      "onLoad": "Restored from the save; set true if the save holds tune.esquie-guards-after-rocks or more held rocks."
     },
     {
       "id": "state.esquie.target",

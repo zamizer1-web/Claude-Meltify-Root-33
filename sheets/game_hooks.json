@@ -253,10 +253,10 @@
         "clearing"
       ],
       "csHandler": "bool CanBattleGuards(SeatId attacker, ClearingId c)",
-      "engineSymbol": "tuber.canis.entities.TuberHirelingEntity.IsEnemy(Factions) and PieceCanBeBattled(Entity) on the guard hireling (do.place-guards), with tuber.canis.entities.TuberBoardNode.GetBattleTargetsForFaction(IHasBoardPieces) and TuberPlayerEntity.GetBattleTargetsAt(TuberBoardNode) dropping the guards for every other seat",
+      "engineSymbol": "tuber.canis.entities.TuberHirelingEntity.IsEnemy(Factions) and PieceCanBeBattled(Entity) / PieceCanBeRemoved(Entity) on the guard hireling (do.place-guards): true only for Esquie's faction, so Root's battle, Strike and removal target checks skip the guards for every other faction; tuber.canis.entities.TuberBoardNode.GetBattleTargetsForFaction(IHasBoardPieces) and TuberPlayerEntity.GetBattleTargetsAt(TuberBoardNode) drop them for every other seat as a second guard",
       "patchKind": "postfix",
       "_unverified": {
-        "engineSymbol": "follows the do.place-guards route (the guard hireling); the patch needs a running game (M4)"
+        "engineSymbol": "follows the do.place-guards route (the guard hireling); whether these checks cover every way Root targets pieces (battle, Strike, Bomb, Revolt, Sanctify, Convert) needs a running game (M4)"
       },
       "_notes": "Route chosen on 2026-10-21 from the M1 discovery listing, without running Root. Whether Root's rule count leaves hireling warriors out (TuberBoardNode.getRulingFaction, factionCounts(includeMercenaries, includeHirelings)) is checked in the same game; if it counts them, getRulingFaction gets a postfix too."
     },

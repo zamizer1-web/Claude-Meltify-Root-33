@@ -71,24 +71,26 @@
       "kind": "quest",
       "actMin": 2,
       "vpMin": 0,
-      "playerText": "Collect all four of Esquie's lost rocks and he wins at the end of any of his turns, no VP needed (not while in a coalition). Florrie: at Stone Wave Cliffs under 2 neutral guards from the start. Dorrie: from Act II, hidden in the Old Lumière ruin; explore the Old Lumière ruin to find it (if the White-Haired Man is playing, not while his warriors stand there). Soarrie: from Act II, on Verso's card if Verso is playing (end a turn in Verso's clearing to take it), otherwise with whoever rules the Monolith (Aid that faction while in the Monolith, or finish any action in the Monolith while nobody rules it). Urrie: at Esquie's Nest under 3 neutral guards from Act III, or as soon as he holds the other three. The guards belong to no player: every other faction ignores them and they block nobody. Only Esquie fights them, which, like every Vagabond battle, needs an undamaged sword, and they hit back. Once a rock has no guards left, Esquie picks it up after any of his actions in that clearing. Collected rocks are never lost.",
+      "playerText": "Collect all four of Esquie's lost rocks and he wins at the end of any of his turns, no VP needed (not while in a coalition). Florrie: at Stone Wave Cliffs from the start. Dorrie: from Act II, hidden in the Old Lumière ruin; explore the Old Lumière ruin to find it (if the White-Haired Man is playing, not while his warriors stand there). Soarrie: from Act II, on Verso's card if Verso is playing (end a turn in Verso's clearing to take it), otherwise with whoever rules the Monolith (Aid that faction while in the Monolith, or finish any action in the Monolith while nobody rules it). Urrie: at Esquie's Nest from Act III, or as soon as he holds the other three. Once he holds 2 rocks, neutral guards take post on Florrie (2) and Urrie (3) while they are still on the map. The guards belong to no player: they never move or attack, every other faction ignores them, they block nobody, and nobody can clear them for him. Only Esquie fights them, which, like every Vagabond battle, needs an undamaged sword, and they hit back. Once a rock has no guards left, Esquie picks it up after any of his actions in that clearing. Collected rocks are never lost.",
       "announceTest": "At hook.evening-end for the seat playing Esquie: act >= 2 and CoalitionPartner(seat) == null, and the number of entries in state.esquie.rocks with Status == held is >= tune.esquie-rocks. Pass: do.declare-winner at once. Claims that feed it: after every Esquie action (hook.action-resolved), each loose rock whose Clearing == PawnClearing(seat) becomes held, except Dorrie while some seat s with EngineOf(s) == Corvids has Warriors(s, Old Lumière) >= 1; so does Soarrie while heldByRuler if Ruler(Monolith) == null and he stands in the Monolith; Explore of Old Lumière with act >= 2 makes Dorrie held unless Corvid warriors are there; Aiding Ruler(Monolith) while in the Monolith makes a heldByRuler Soarrie held; ending his turn in Verso's clearing makes a withVerso Soarrie held.",
       "confirmTest": "None: a quest win takes effect at the end of the owner's turn, with no Birdsong confirmation.",
-      "counterplay": "Attack his pawn to damage items so he cannot fight the guards (nobody can reinforce them); keep Corvid warriors in Old Lumière; hold the Monolith so he must Aid you for Soarrie. With the no-spawn fallback, keep any warriors in a rock's clearing.",
+      "counterplay": "Attack his pawn to damage items so he cannot fight the guards (nobody can reinforce or remove them); keep Corvid warriors in Old Lumière; hold the Monolith so he must Aid you for Soarrie. With the no-spawn fallback, keep any warriors in a rock's clearing.",
       "offWithDominance": true,
       "offInCoalition": true,
       "params": {
         "tune.esquie-rocks": 4,
         "tune.esquie-guards-florrie": 2,
         "tune.esquie-guards-urrie": 3,
-        "tune.esquie-guard-spawns": 1
+        "tune.esquie-guard-spawns": 1,
+        "tune.esquie-guards-after-rocks": 2
       },
       "state": [
         "state.esquie.rocks",
         "state.esquie.decoy",
         "state.global.act",
         "state.global.roles",
-        "state.global.seat-characters"
+        "state.global.seat-characters",
+        "state.esquie.guards-active"
       ],
       "hooks": [
         "hook.setup-complete",
@@ -124,6 +126,7 @@
       "tests": [
         "EsquieWin_WinsAtTurnEndWithFourRocks",
         "EsquieWin_GuardsLeftDropsAsEsquieDefeatsGuards",
+        "EsquieWin_GuardsTakePostWithTheSecondRock",
         "EsquieWin_OffInCoalition",
         "EsquieWin_DorrieBlockedByCorvidWarriors",
         "EsquieWin_WinsSameTurnSoarrieHandedOver"

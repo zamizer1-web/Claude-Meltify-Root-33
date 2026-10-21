@@ -85,12 +85,16 @@
       "id": "tweak.esquie.neutral-guards",
       "character": "esquie",
       "name": "Neutral guards",
-      "rule": "The guards on Esquie's rocks belong to no player: they are neutral guardians of his rock, hostile only to Esquie and ignored by every other faction. They are nobody's warriors: they never count toward any seat's warriors, rule or themed win, take no building slot, and never block anyone's moving, building, recruiting or placing. No faction but Esquie may battle, Strike or remove them. Esquie fights them in a battle, which needs an undamaged sword like every Vagabond battle: the guards defend as warriors do (they roll, deal hits up to their number and can damage his items, but never Ambush), and fighting them changes no relationship. After each of his guard battles that rock's GuardsLeft is the number of guards still standing; at 0 the rock is loose.",
+      "rule": "The guards on Esquie's rocks belong to no player: they are neutral guardians of his rock, hostile only to Esquie and ignored by every other faction. They take post only once he holds tune.esquie-guards-after-rocks rocks (before that his rocks have no guards). They never move and never start a battle, against him or anyone. They are nobody's warriors: they never count toward any seat's warriors, rule or themed win, take no building slot, and never block anyone's moving, building, recruiting or placing. No faction but Esquie may battle, Strike or remove them in any way, so nobody can clear them for him. Esquie fights them in a battle, which needs an undamaged sword like every Vagabond battle: the guards defend as warriors do (they roll, deal hits up to their number and can damage his items, but never Ambush), and fighting them changes no relationship. After each of his guard battles that rock's GuardsLeft is the number of guards still standing; at 0 the rock is loose.",
       "version": "v1",
       "hooks": [
         "hook.guard-battle-legal",
         "hook.guard-battle-start",
         "hook.guard-battle-resolved",
+        "hook.action-resolved",
+        "hook.explore-resolved",
+        "hook.aid-resolved",
+        "hook.evening-end",
         "hook.load"
       ],
       "actions": [
@@ -100,10 +104,12 @@
         "NeutralGuards_OnlyEsquieMayBattleThem",
         "NeutralGuards_NeedAnUndamagedSword",
         "NeutralGuards_NeverCountAsAnySeatsWarriors",
+        "NeutralGuards_OtherFactionsCannotTargetOrRemoveThem",
+        "NeutralGuards_NeverStartABattle",
         "NeutralGuards_GuardsLeftFollowsTheBoardAfterHisBattle",
         "NeutralGuards_RockLooseWhenLastGuardFalls"
       ],
-      "_notes": "Decided by the creator on 2026-10-21; it replaces tweak.esquie.guard-floor, guard-no-placement, guards-never-count, friends-not-foes and tweak.clea.nevron-host: no seat hosts the guards, so nothing has to be subtracted, kept in place, blocked or kept friendly. Strike is not offered against them, because the creator's rule is that fighting them needs a sword. GuardsLeft is read back from the board (read.guards) after each guard battle, so Root's board is the one count."
+      "_notes": "Decided by the creator on 2026-10-21 and refined the same day (never move or attack; nobody else can remove them; active only from his second rock); it replaces tweak.esquie.guard-floor, guard-no-placement, guards-never-count, friends-not-foes and tweak.clea.nevron-host: no seat hosts the guards, so nothing has to be subtracted, kept in place, blocked or kept friendly. Strike is not offered against them, because the creator's rule is that fighting them needs a sword. GuardsLeft is read back from the board (read.guards) after each guard battle, so Root's board is the one count."
     },
     {
       "id": "tweak.esquie.start-near-nest",
