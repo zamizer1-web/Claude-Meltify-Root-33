@@ -213,6 +213,12 @@ namespace Root33.Plugin
 
         private string _lastPanel = Waiting;
 
+#if !NOUNITY && !ROOT_MONO
+        private static bool InOnlineGame => RootGame.Inactive && RootGame.Match != null;
+#else
+        private static bool InOnlineGame => false;
+#endif
+
         private string PanelTextLocked()
         {
             var progress = $"board adapter: {RootBoard.MappedReads}/{RootBoard.ReadRows} reads, {RootBoard.MappedActions}/{RootBoard.ActionRows} actions mapped" +
@@ -220,6 +226,7 @@ namespace Root33.Plugin
             if (!Game.Context.E33Mode)
             {
                 var head = RootBoard.MappedReads == 0 ? Waiting
+                    : InOnlineGame ? "Root 33 loaded · online game: the mod stays inactive (plain Root)"
                     : _settings.E33Mode.Value ? "Root 33 loaded · start a new game to play Root 33"
                     : "Root 33 loaded · E33 mode is off (plain Root)";
                 return head + "\n" + progress;

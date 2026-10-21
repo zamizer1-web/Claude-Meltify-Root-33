@@ -41,6 +41,9 @@ namespace Root33.Plugin.Adapter
 
         public static void Forget() => _match = null;
 
+        /// <summary>The match is an online public or ranked game: every patch leaves it alone (set at TuberMatch.SetupMatch).</summary>
+        public static volatile bool Inactive;
+
         public static TuberMatch Live => _match ?? throw new InvalidOperationException("Root 33: no Root game is running");
 
         public static TuberBoard Board => Live.TuberPlaymat.Board;

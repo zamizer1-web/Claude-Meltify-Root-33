@@ -32,6 +32,24 @@ namespace Root33.Core.Tests.Engine
         }
 
         [Fact]
+        public void Engine_ForgottenCharacterSelectStartsPlainRoot()
+        {
+            var board = FakeBoard.Autumn().Seat(0, EngineId.Marquise).Seat(1, EngineId.Eyrie);
+            var gustave = new StubModule("gustave");
+            var game = new Root33Game(board, board, Stubs(gustave));
+            game.OnCharacterSelectShown(new[] { EngineId.Marquise, EngineId.Eyrie }, 4);   // the offline setup screen was opened...
+            game.ForgetCharacterSelect();                                                    // ...but the game is online
+            game.OnSeatAssigned(S(0), EngineId.Marquise, false);
+            game.OnGameStart(board.Seats(), Difficulty.Normal, SpoilerMode.Safe);
+            game.OnMapLoaded("autumn");
+            game.OnSetupComplete();
+            game.OnBirdsongStart(S(0));
+            Assert.False(game.Context.E33Mode);
+            Assert.Empty(game.Modules);
+            Assert.Empty(gustave.Seen);
+        }
+
+        [Fact]
         public void Engine_PlainRootGameIgnoresEveryHook()
         {
             var board = FakeBoard.Autumn().Seat(0, EngineId.Marquise).Seat(1, EngineId.Eyrie);

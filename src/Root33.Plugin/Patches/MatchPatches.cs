@@ -23,11 +23,18 @@ namespace Root33.Plugin.Patches
 
         public static void Begin(TuberMatch match, bool isResume)
         {
+            RootGame.Inactive = true;   // fail closed: a match Root 33 cannot classify stays plain Root
             RootGame.Track(match);
             _resuming = isResume;
             _started = false;
             _pendingMap = null;
             StackPatches.Reset();
+            // Root 33 plays only on this PC: a solo game against Root's bots, pass-and-play or an all-AI game. In an online
+            // public or ranked game the mod stays inactive (no Root 33 game, no rule change, no save file).
+            RootGame.Inactive = !(match.IsSolo || match.IsPassAndPlay || match.IsAIOnly);
+            if (!RootGame.Inactive) return;
+            ModRules.Reset();
+            PatchGuard.Once("online:" + match.Pointer, "Root 33: online game, the mod stays inactive");
         }
 
         /// <summary>Seats are known (after TuberMatch.createPlayers, or at the end of SetupMatch at the latest).</summary>
@@ -55,7 +62,12 @@ namespace Root33.Plugin.Patches
             var level = bots.Count == 0 ? 1 : bots.Max();
             var difficulty = level <= 0 ? Difficulty.Easy : level == 1 ? Difficulty.Normal : Difficulty.Hard;
             var spoilers = Root33Runtime.Current?.Game.NextGameOptions.Spoilers ?? SpoilerMode.Safe;
-            Root33Runtime.Hook("hook.game-start", g => g.OnGameStart(seats, difficulty, spoilers));
+            var online = RootGame.Inactive;
+            Root33Runtime.Hook("hook.game-start", g =>
+            {
+                if (online) g.ForgetCharacterSelect();
+                g.OnGameStart(seats, difficulty, spoilers);
+            });
             if (_pendingMap != null)
             {
                 var map = _pendingMap;
@@ -73,8 +85,8 @@ namespace Root33.Plugin.Patches
 
         public static void SetupDone(TuberMatch match)
         {
-            if (_resuming) SaveFiles.Load(match);
-            else SeatsReady();
+            if (!_resuming) SeatsReady();
+            else if (!RootGame.Inactive) SaveFiles.Load(match);
         }
     }
 
@@ -213,7 +225,7 @@ namespace Root33.Plugin.Patches
         private static void Postfix(Canis.Match __instance) => PatchGuard.Run("save", () =>
         {
             var match = RootGame.Track(__instance);
-            if (match != null) SaveFiles.Save(match);
+            if (match != null && !RootGame.Inactive) SaveFiles.Save(match);
         });
     }
 }

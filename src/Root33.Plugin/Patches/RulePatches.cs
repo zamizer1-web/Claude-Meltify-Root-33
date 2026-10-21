@@ -61,7 +61,7 @@ namespace Root33.Plugin.Patches
 
         private static void Postfix(TuberPlayerEntity __instance, Il2CppSystem.ValueTuple<int, Il2CppInterop.Runtime.InteropTypes.Arrays.Il2CppStringArray> __result)
         {
-            if (!Guard.Leave()) return;
+            if (!Guard.Leave() || RootGame.Inactive) return;
             PatchGuard.Run("extra-hits", () =>
             {
                 if (RootGame.SeatOf(__instance) is { } seat && ModRules.HitsFor(seat) is var n && n != 0) __result.Item1 += n;
@@ -82,7 +82,7 @@ namespace Root33.Plugin.Patches
 
         private static void Postfix(TuberPlayerEntity __instance, Il2CppSystem.ValueTuple<int, Il2CppInterop.Runtime.InteropTypes.Arrays.Il2CppStringArray> __result)
         {
-            if (!Guard.Leave()) return;
+            if (!Guard.Leave() || RootGame.Inactive) return;
             PatchGuard.Run("ignored-hits", () =>
             {
                 if (RootGame.SeatOf(__instance) is { } seat && ModRules.IgnoresFirstHit(seat)) __result.Item1 += 1;
@@ -96,7 +96,7 @@ namespace Root33.Plugin.Patches
     {
         private static void Postfix(TuberPlayerEntity __instance, TuberBoardNode destination, ref bool __result)
         {
-            if (!__result) return;
+            if (!__result || RootGame.Inactive) return;
             var blocked = PatchGuard.Run("can-place", () =>
                 RootGame.SeatOf(__instance) is { } seat && RootGame.ClearingOf(destination) is { } c && ModRules.IsBlocked(seat, c), false);
             if (blocked) __result = false;
@@ -108,7 +108,7 @@ namespace Root33.Plugin.Patches
     {
         private static void Postfix(TuberPlayerEntity __instance, TuberBoardNode area, ref bool __result)
         {
-            if (!__result) return;
+            if (!__result || RootGame.Inactive) return;
             var blocked = PatchGuard.Run("can-build", () =>
                 RootGame.SeatOf(__instance) is { } seat && RootGame.ClearingOf(area) is { } c && ModRules.IsBlocked(seat, c), false);
             if (blocked) __result = false;
@@ -123,7 +123,7 @@ namespace Root33.Plugin.Patches
 
         public static void Raise(Battle battle) => PatchGuard.Run("battle-start", () =>
         {
-            if (battle.Pointer == _last) return;
+            if (battle.Pointer == _last || RootGame.Inactive) return;
             _last = battle.Pointer;
             RootGame.Track(battle.Match);
             var attacker = RootGame.SeatOfPieces(battle._attacker);

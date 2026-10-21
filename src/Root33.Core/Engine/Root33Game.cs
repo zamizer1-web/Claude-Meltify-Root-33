@@ -120,6 +120,15 @@ namespace Root33.Core.Engine
             Actions.ShowOverlay(Ids.Overlays.GlobalCharacterSelect, null, null, null);
         }
 
+        /// <summary>The next game is not a Root 33 game whatever the character select said (an online public or ranked game,
+        /// where the mod stays inactive): hook.game-start then sets up plain Root.</summary>
+        public void ForgetCharacterSelect()
+        {
+            _pendingE33 = false;
+            _selected.Clear();
+            _pendingSeats.Clear();
+        }
+
         public void OnSeatAssigned(SeatId seat, EngineId engine, bool isBot)
         {
             if (!_pendingE33) return;

@@ -128,7 +128,7 @@ namespace Root33.Plugin.Patches
 
         public static void Starting(Canis.Match match, RAction action)
         {
-            if (RootGame.Track(match) == null || action == null) return;
+            if (RootGame.Track(match) == null || action == null || RootGame.Inactive) return;
             var name = NameOf(action);
             if (Removals.Contains(name))
             {
@@ -195,7 +195,7 @@ namespace Root33.Plugin.Patches
 
         public static void Finished(Canis.Match match, RAction completed)
         {
-            if (RootGame.Track(match) == null || completed == null) return;
+            if (RootGame.Track(match) == null || completed == null || RootGame.Inactive) return;
             var name = NameOf(completed);
             if (Removals.Contains(name))
             {
