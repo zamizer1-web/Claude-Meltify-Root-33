@@ -192,10 +192,20 @@
     },
     {
       "id": "read.warriors",
-      "description": "A seat's warriors in a clearing, guards included (themed-win tests subtract hosted guards themselves).",
+      "description": "A seat's warriors in a clearing. Esquie's neutral rock guards belong to no seat and are never counted here (read.guards counts them).",
       "csSignature": "int Warriors(SeatId seat, ClearingId c)",
       "engineSymbol": "tuber.canis.entities.TuberBoardNode.CountPieces(Factions, [PieceTypes.Warrior])",
       "_notes": "engineSymbol from Root33.Discover over Root's interop assemblies (Root build 22238765, BepInEx 6.0.0-be.790), 2026-10-20."
+    },
+    {
+      "id": "read.guards",
+      "description": "Esquie's neutral rock guards in a clearing (pieces of no seat; 0 when there are none).",
+      "csSignature": "int Guards(ClearingId c)",
+      "engineSymbol": "tuber.canis.entities.TuberBoardNode.CountPieces(Factions.HighwayBandits, [PieceTypes.Warrior]): the guard hireling's warriors (do.place-guards)",
+      "_unverified": {
+        "engineSymbol": "follows the do.place-guards route (which hireling holds the guards), which needs a running game (M4)"
+      },
+      "_notes": "Route chosen on 2026-10-21 from the M1 discovery listing, without running Root (see do.place-guards)."
     },
     {
       "id": "read.buildings",
@@ -241,7 +251,7 @@
     },
     {
       "id": "read.supply-warriors",
-      "description": "Warriors left in a seat's supply (the Nevron host is chosen by this).",
+      "description": "Warriors left in a seat's supply.",
       "csSignature": "int SupplyWarriors(SeatId seat)",
       "engineSymbol": "tuber.canis.entities.TuberPlayerEntity.WarriorArea (TuberPlayArea) children",
       "_unverified": {

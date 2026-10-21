@@ -111,7 +111,7 @@
     {
       "id": "sys.spawns",
       "name": "Story spawns",
-      "description": "Things the mod puts on the board or tags, only when their owner is seated: Esquie's four rocks (Florrie at Stone Wave Cliffs with 2 guards from setup; Dorrie hidden in Old Lumière and Soarrie on Verso's card or with the Monolith's ruler from Act II; Urrie at the Nest with 3 guards from Act III), the cosmetic François decoy at the Nest during Act I, Lune's Parents' Journal tag beside Sirène from Act II, and the Curator's Cell Crack, inert in the Monolith until Act III. Rocks are mod overlay tokens; guards are real warriors of a 'Nevron host' seat, counted by a mod guard counter. If the week-1 spike shows the mod cannot place another seat's warriors, the no-spawn fallback becomes the v1 default.",
+      "description": "Things the mod puts on the board or tags, only when their owner is seated: Esquie's four rocks (Florrie at Stone Wave Cliffs with 2 guards from setup; Dorrie hidden in Old Lumière and Soarrie on Verso's card or with the Monolith's ruler from Act II; Urrie at the Nest with 3 guards from Act III), the cosmetic François decoy at the Nest during Act I, Lune's Parents' Journal tag beside Sirène from Act II, and the Curator's Cell Crack, inert in the Monolith until Act III. Rocks are mod overlay tokens; guards are neutral pieces of no seat, hostile only to Esquie (in Root, the warriors of an unhired hireling), counted by a mod guard counter. If the mod cannot place them, the no-spawn fallback becomes the v1 default.",
       "sheets": [
         "spawns",
         "story_events",

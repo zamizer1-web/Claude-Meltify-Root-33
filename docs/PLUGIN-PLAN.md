@@ -129,6 +129,19 @@ Found on the PC (see each row's `_notes` for the source):
 
 `assets.json` (Clair Obscur paths) and `reskins.json` (localisation keys) belong to HANDOFF step 5 and M5.
 
+Esquie's rock guards (the creator decided on 2026-10-21): they belong to no player. They are neutral guardians of his
+rock, hostile only to Esquie and ignored by every other faction; they count as nobody's warriors and block nobody's
+building or placement; only Esquie fights them, and he needs a sword (tweak.esquie.neutral-guards). The route chosen from
+the M1 listing, without running Root, and kept `_unverified` until M4: the guards are the warriors of an unhired hireling
+the match does not use (`TuberMatch.GetHirelingForFaction(Factions.HighwayBandits)`, a `BanditGangHireling` with no
+`ControllingPlayer`), placed from its `WarriorArea` (do.place-guards) and counted with `TuberBoardNode.CountPieces`
+(read.guards). `TuberHirelingEntity.IsEnemy(Factions)` and `PieceCanBeBattled(Entity)` get postfixes so only Esquie's faction
+may battle them, `TuberBoardNode.GetBattleTargetsForFaction` drops them for everyone else (hook.guard-battle-legal), and
+`Battle.ChooseAmbush`/`DiceRoll` and `PopToParent` raise hook.guard-battle-start and hook.guard-battle-resolved when the
+defender is that hireling. Check in the same game that Root's rule (`getRulingFaction`, `factionCounts(includeMercenaries,
+includeHirelings)`) leaves them out; if not, patch it too. Until do.place-guards is mapped the core plays the no-spawn
+fallback (no guards; Florrie and Urrie claimable when no other faction has warriors there).
+
 Acceptance:
 - `python -I tools\preflight.py --target plugin` lists no UNVERIFIED cell in board_reads, board_actions, game_hooks, map_autumn
   or engines (the rows Root cannot support say so in `_notes` and keep a fallback).
@@ -183,15 +196,17 @@ Acceptance, in a game against bots:
 ## M4: the actions
 
 Map the board actions that change Root's game: do.restrict-home and do.restrict-start-forest (forced homes: Gustave's keep in
-Lumière, the Paintress's first roost in the Monolith, Esquie's start forest next to his Nest), do.place-warriors,
-do.set-guard-floor and do.block-placement (Esquie's rocks and their guards), do.set-seat-title on Root's own seat labels,
+Lumière, the Paintress's first roost in the Monolith, Esquie's start forest next to his Nest), do.place-guards with
+read.guards and the three guard-battle hooks (Esquie's neutral rock guards, below), do.place-warriors, do.set-seat-title on
+Root's own seat labels,
 do.score-vp, do.draw-cards, do.add-hits, do.add-max-hits, do.ignore-first-hit, do.move-warriors, do.grant-ability,
 do.hide-clockwork, do.declare-winner. A row Root cannot do stays unmapped: the core takes its sheet fallback.
 
 Acceptance, new games with Gustave, the Paintress and Esquie:
 - Setup offers only Lumière for the keep, the Monolith for the first roost and the forests next to Esquie's Nest.
-- Florrie appears at Stone Wave Cliffs with her guards; the host cannot move them below the floor or build there; Esquie
-  claims her as the rules say.
+- Florrie appears at Stone Wave Cliffs under her neutral guards: no faction but Esquie is offered a battle or a Strike
+  against them, they rule nothing and block nobody's moving or building, Esquie (with a sword) battles them and they hit
+  back, and he claims her as the rules say.
 - Seats show the characters' names on Root's own HUD; a declared themed win ends the game with that character's win.
 
 ## M5: the reskins

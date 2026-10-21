@@ -210,10 +210,10 @@
       "character": "esquie",
       "trigger": "trigger.guards-attacked",
       "tier": "safe",
-      "text": "My friends are here! Thank you, thank you! Please be gentle with the guards.",
+      "text": "Sorry, sorry! I only need my rock back.",
       "safeSibling": null,
       "original": true,
-      "_notes": "The roster's 'Esquie's friends are here!' bubble, put in the first person because the roster keeps Esquie speaking in the first person until his in-game speech pattern is checked."
+      "_notes": "Rewritten on 2026-10-21 when the guards became neutral and only Esquie fights them. It replaces the roster's 'Esquie's friends are here!' bubble, which needed other factions to fight his guards. First person, as the roster keeps Esquie until his in-game speech pattern is checked."
     },
     {
       "id": "bark.esquie.08",

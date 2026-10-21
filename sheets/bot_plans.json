@@ -24,18 +24,17 @@
       "id": "bot.esquie",
       "character": "esquie",
       "goalModeTrigger": "Always target-driven: from his first Birdsong he chases the cheapest claimable rock within tune.esquie-bot-rock-range (3) moves, and plays normal Vagabond VP only when none is in range. Endgame at tune.esquie-endgame-rocks (3) rocks held: straight for the last one, whatever its distance.",
-      "beatable": "The rock ring is public, he barks every new target, and he never takes a risky fight. When he holds 3 rocks, the Nevron host stacks extra warriors on the last rock (more defenders deal more hits to him) and the other bots attack his pawn to damage items (both through the spoiler layer).",
-      "easy": "Never asks friends for help (step 3 is skipped) and walks to the François decoy at the Nest once in Act I while it is up. Spoiler layer: answers only a banner that is up, and only with actions the plan leaves free.",
-      "normal": "Layer 1: the legal Vagabond (Tinker) actions from Root's legal-action API (read.legal-actions); Root's own AI keeps hit allocation, Ambush and discards and plays any decision no step claims. Never Mad already hides every battle and Strike except against host guards. Layer 2, in priority order: each Birdsong pick the cheapest claimable rock; keep gear ready (repair at 2+ damaged items, get a sword if he could deal no hits); Aid a Friendly or Allied non-host faction next to a guard stack; hunt guards only with every item undamaged and when his hits can finish or nearly finish them, one guard battle per turn; with 3 rocks go straight for the last; with no rock within 3 moves play normal Vagabond VP. Layer 3: the spoiler layer, which can only move his pawn.",
+      "beatable": "The rock ring is public, he barks every new target, and he never takes a risky fight. When he holds 3 rocks the other bots attack his pawn to damage items so he cannot fight the last guards (through the spoiler layer); nobody can reinforce the neutral guards.",
+      "easy": "Walks to the François decoy at the Nest once in Act I while it is up. Spoiler layer: answers only a banner that is up, and only with actions the plan leaves free.",
+      "normal": "Layer 1: the legal Vagabond (Tinker) actions from Root's legal-action API (read.legal-actions); Root's own AI keeps hit allocation, Ambush and discards and plays any decision no step claims. Never Mad already hides every battle and Strike except his battles against the neutral guards on his rocks. Layer 2, in priority order: each Birdsong pick the cheapest claimable rock; keep gear ready (repair at 2+ damaged items, get a sword if he has no undamaged one for his guarded target); hunt guards only with every item undamaged and when his hits can finish or nearly finish them, one guard battle per turn; with 3 rocks go straight for the last; with no rock within 3 moves play normal Vagabond VP. Layer 3: the spoiler layer, which can only move his pawn.",
       "hard": "Crafts a sword early (as soon as one is craftable) and fights two guard battles per turn (tune.esquie-hard-guard-battles). Spoiler layer: also answers a seat one step from a win ahead of the goal steps, except on its own announce turn.",
       "rules": [
         "bot.esquie.01-target",
         "bot.esquie.02-gear",
-        "bot.esquie.03-friends",
-        "bot.esquie.04-hunt",
-        "bot.esquie.05-endgame",
-        "bot.esquie.06-vp",
-        "bot.esquie.07-spoiler"
+        "bot.esquie.03-hunt",
+        "bot.esquie.04-endgame",
+        "bot.esquie.05-vp",
+        "bot.esquie.06-spoiler"
       ],
       "_notes": "Steps are asked in order and the first that claims the decision takes it (Root's own AI plays any decision no step claims). The spoiler step is listed last, as in the roster; its text says when it pre-empts the steps above. The roster names no single goal-mode trigger for Esquie: his plan is target-driven from the start, with VP play as the fallback when no rock is in range (step 6) and the 3-rock endgame (step 5). That is what goalModeTrigger records."
     },
@@ -175,10 +174,10 @@
     {
       "id": "bot.clea",
       "character": "clea",
-      "goalModeTrigger": "Goal mode at tune.clea-goal-coverage (6) covered clearings (her warriors minus hosted guards, as in win.clea).",
+      "goalModeTrigger": "Goal mode at tune.clea-goal-coverage (6) covered clearings (clearings holding her warriors, as in win.clea).",
       "beatable": "Lone warriors fall to any battle, coverage shows on the public tracker, and conspiracies only work in the Outcast suit, which the other players shape with their discards.",
       "easy": "Half the time places warriors where she already has some, and never Sanctifies. Spoiler layer: answers only a banner that is up, and only with actions the plan leaves free.",
-      "normal": "Layer 1: the legal Lizard Cult (rituals, conspiracies) actions from Root's legal-action API (read.legal-actions), with Root's own Lizard AI if the digital game has one (unconfirmed, a week-1 spike item), otherwise the mod's fallback planner with the same priorities; that AI keeps hit allocation, Ambush and discards and plays any decision no step claims. The Lizards have no normal Move, so coverage comes from placing and converting. Layer 2, in priority order: recruit into uncovered clearings; convert in Outcast-suit clearings without her warriors and sanctify the VP leader's buildings; keep a bird card for the Monolith; keep the Flying Manor atelier and a warrior there (rebuilding pre-empts); keep Outcast cards for conspiracies; from 6 covered clearings re-cover losses first (pre-empts); never move or count guard stacks. Layer 3: the spoiler layer.",
+      "normal": "Layer 1: the legal Lizard Cult (rituals, conspiracies) actions from Root's legal-action API (read.legal-actions), with Root's own Lizard AI if the digital game has one (unconfirmed, a week-1 spike item), otherwise the mod's fallback planner with the same priorities; that AI keeps hit allocation, Ambush and discards and plays any decision no step claims. The Lizards have no normal Move, so coverage comes from placing and converting. Layer 2, in priority order: recruit into uncovered clearings; convert in Outcast-suit clearings without her warriors and sanctify the VP leader's buildings; keep a bird card for the Monolith; keep the Flying Manor atelier and a warrior there (rebuilding pre-empts); keep Outcast cards for conspiracies; from 6 covered clearings re-cover losses first (pre-empts). Layer 3: the spoiler layer.",
       "hard": "As Normal: the roster sets no Hard change to this plan's own steps. Spoiler layer: also answers a seat one step from a win ahead of the goal steps, except on its own announce turn.",
       "rules": [
         "bot.clea.01-recruit",
@@ -187,8 +186,7 @@
         "bot.clea.04-home",
         "bot.clea.05-hand",
         "bot.clea.06-goal-mode",
-        "bot.clea.07-guards",
-        "bot.clea.08-spoiler"
+        "bot.clea.07-spoiler"
       ],
       "_notes": "Steps are asked in order and the first that claims the decision takes it (Root's own AI plays any decision no step claims). The spoiler step is listed last, as in the roster; its text says when it pre-empts the steps above. Two roster steps say they come first ('rebuilding it comes first', 're-cover ... before anything else'); they keep their roster position and their text says they pre-empt the steps above while their condition holds."
     },

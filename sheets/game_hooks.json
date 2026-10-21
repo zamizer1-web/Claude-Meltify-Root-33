@@ -191,7 +191,7 @@
     },
     {
       "id": "hook.piece-removed",
-      "when": "A piece leaves the map by any means: battle hit, Strike, Bomb, Revolt, mob, Sanctify, Convert. The Curator's Quiet Helper fires when the Paintress's roost leaves the Monolith; guard counters drop for host warriors removed outside a battle.",
+      "when": "A piece leaves the map by any means: battle hit, Strike, Bomb, Revolt, mob, Sanctify, Convert. The Curator's Quiet Helper fires when the Paintress's roost leaves the Monolith.",
       "provides": [
         "seat that caused the removal (null when no seat did)",
         "removed piece (owner, kind, type)",
@@ -204,7 +204,7 @@
     },
     {
       "id": "hook.battle-legal",
-      "when": "Root (or its AI, or the human UI) asks whether a seat may start a battle or a Strike against another seat in a clearing. Returning false hides the option. Used by Esquie's Never Mad and the v1.1 Monolith Barrier.",
+      "when": "Root (or its AI, or the human UI) asks whether a seat may start a battle or a Strike against another seat in a clearing. Returning false hides the option. Used by Esquie's Never Mad (he may battle no faction) and the v1.1 Monolith Barrier.",
       "provides": [
         "attacker seat",
         "defender seat",
@@ -231,7 +231,7 @@
     },
     {
       "id": "hook.battle-resolved",
-      "when": "A battle has fully resolved: hits dealt, pieces removed, items damaged. Gustave's Arm, Verso's rank, Monoco's feet, Esquie's guard counters, Sciel's Moon charge and Maelle's stance update here.",
+      "when": "A battle has fully resolved: hits dealt, pieces removed, items damaged. Gustave's Arm, Verso's rank, Monoco's feet, Sciel's Moon charge and Maelle's stance update here.",
       "provides": [
         "clearing",
         "attacker and defender seats",
@@ -244,6 +244,51 @@
       "engineSymbol": "Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.BattleActions.Battle",
       "patchKind": "postfix",
       "_notes": "engineSymbol and patchKind from Root33.Discover over Root's interop assemblies (Root build 22238765, BepInEx 6.0.0-be.790), 2026-10-20. Root runs the match on its own thread (Canis.Match.Run): hand core calls to the main thread."
+    },
+    {
+      "id": "hook.guard-battle-legal",
+      "when": "Root (its AI or the human UI) asks whether a seat may battle the neutral guards on one of Esquie's rocks. Returning false hides the option: only Esquie may, and only with an undamaged sword (tweak.esquie.neutral-guards).",
+      "provides": [
+        "attacker seat",
+        "clearing"
+      ],
+      "csHandler": "bool CanBattleGuards(SeatId attacker, ClearingId c)",
+      "engineSymbol": "tuber.canis.entities.TuberHirelingEntity.IsEnemy(Factions) and PieceCanBeBattled(Entity) on the guard hireling (do.place-guards), with tuber.canis.entities.TuberBoardNode.GetBattleTargetsForFaction(IHasBoardPieces) and TuberPlayerEntity.GetBattleTargetsAt(TuberBoardNode) dropping the guards for every other seat",
+      "patchKind": "postfix",
+      "_unverified": {
+        "engineSymbol": "follows the do.place-guards route (the guard hireling); the patch needs a running game (M4)"
+      },
+      "_notes": "Route chosen on 2026-10-21 from the M1 discovery listing, without running Root. Whether Root's rule count leaves hireling warriors out (TuberBoardNode.getRulingFaction, factionCounts(includeMercenaries, includeHirelings)) is checked in the same game; if it counts them, getRulingFaction gets a postfix too."
+    },
+    {
+      "id": "hook.guard-battle-start",
+      "when": "Esquie has declared a battle against a rock's neutral guards and nothing has been rolled yet. Belly Bounce registers its max hit here, and Esquie apologises to the guards.",
+      "provides": [
+        "attacker seat",
+        "clearing"
+      ],
+      "csHandler": "void OnGuardBattleStarting(SeatId attacker, ClearingId c)",
+      "engineSymbol": "tuber.canis.actions.BattleActions.Battle.ChooseAmbush / DiceRoll when Battle._defender is the guard hireling (do.place-guards)",
+      "patchKind": "prefix",
+      "_unverified": {
+        "engineSymbol": "follows the do.place-guards route (the guard hireling); the patch needs a running game (M4)"
+      },
+      "_notes": "Route chosen on 2026-10-21 from the M1 discovery listing, without running Root."
+    },
+    {
+      "id": "hook.guard-battle-resolved",
+      "when": "A battle against a rock's neutral guards has fully resolved (guards removed, his items damaged). That rock's GuardsLeft becomes the guards still standing (read.guards); at 0 the rock is loose.",
+      "provides": [
+        "attacker seat",
+        "clearing"
+      ],
+      "csHandler": "void OnGuardBattleResolved(SeatId attacker, ClearingId c)",
+      "engineSymbol": "Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.BattleActions.Battle and Battle._defender is the guard hireling (do.place-guards)",
+      "patchKind": "postfix",
+      "_unverified": {
+        "engineSymbol": "follows the do.place-guards route (the guard hireling); the patch needs a running game (M4)"
+      },
+      "_notes": "Route chosen on 2026-10-21 from the M1 discovery listing, without running Root. Root runs the match on its own thread (Canis.Match.Run): hand core calls to the main thread."
     },
     {
       "id": "hook.explore-resolved",
@@ -272,7 +317,7 @@
     },
     {
       "id": "hook.hostility-change",
-      "when": "Root is about to make a faction Hostile to a Vagabond because the Vagabond removed that faction's warriors in a battle. Returning false skips the change (Friends Not Foes in guarded-rock clearings).",
+      "when": "Root is about to make a faction Hostile to a Vagabond because the Vagabond removed that faction's warriors in a battle. Returning false skips the change.",
       "provides": [
         "Vagabond seat",
         "faction seat",

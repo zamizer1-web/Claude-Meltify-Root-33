@@ -242,21 +242,20 @@
       "id": "state.esquie.rocks",
       "owner": "esquie",
       "csType": "RockState[]",
-      "range": "4 entries in order Florrie, Dorrie, Soarrie, Urrie. RockState fields: string Status (notSpawned | hidden | guarded | loose | heldByRuler | withVerso | held); ClearingId? Clearing (null while withVerso, heldByRuler or held); SeatId? HostSeat (the Nevron host for guarded rocks, Verso's seat for withVerso, null otherwise); int GuardsLeft (0-3). Soarrie's holder is HostSeat while withVerso, and the Monolith's current ruler while heldByRuler.",
+      "range": "4 entries in order Florrie, Dorrie, Soarrie, Urrie. RockState fields: string Status (notSpawned | hidden | guarded | loose | heldByRuler | withVerso | held); ClearingId? Clearing (null while withVerso, heldByRuler or held); SeatId? HostSeat (Verso's seat while withVerso, null otherwise: a guarded rock's guards are neutral and belong to no seat); int GuardsLeft (0-3, the neutral guards left on a guarded rock). Soarrie's holder is HostSeat while withVerso, and the Monolith's current ruler while heldByRuler.",
       "initial": "all notSpawned",
       "writtenBy": [
         "hook.game-start",
         "hook.setup-complete",
         "hook.act-change",
-        "hook.battle-resolved",
-        "hook.piece-removed",
+        "hook.guard-battle-resolved",
         "hook.action-resolved",
         "hook.explore-resolved",
         "hook.aid-resolved",
         "hook.evening-end",
         "hook.load"
       ],
-      "onLoad": "Restored from the save. Held rocks stay held. For each guarded rock, GuardsLeft = min(saved GuardsLeft, host warriors now in its clearing), and it becomes loose at 0. Guard floors and placement blocks are re-sent to the plugin (do.set-guard-floor, do.block-placement). Rocks whose act has not come yet stay notSpawned.",
+      "onLoad": "Restored from the save. Held rocks stay held. For each guarded rock, GuardsLeft = min(saved GuardsLeft, read.guards of its clearing), and it becomes loose at 0. Rocks whose act has not come yet stay notSpawned.",
       "_notes": "The roster's status list is hidden | guarded | loose | heldByRuler | held; notSpawned (a rock before its act) and withVerso (Soarrie on Verso's card) were added because the roster describes both states without naming them."
     },
     {
@@ -475,7 +474,7 @@
       "id": "state.clea.covered",
       "owner": "clea",
       "csType": "HashSet<ClearingId>",
-      "range": "clearings holding 1+ of her warriors at the end of her last turn, not counting guard warriors she hosts on Esquie's rocks (the same count as win.clea); empty when Clea is not seated",
+      "range": "clearings holding 1+ of her warriors at the end of her last turn (the same count as win.clea); empty when Clea is not seated",
       "initial": "empty",
       "writtenBy": [
         "hook.evening-end",

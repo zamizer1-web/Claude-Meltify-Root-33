@@ -224,19 +224,18 @@
     {
       "id": "tune.esquie-guard-spawns",
       "value": 1,
-      "description": "1 = guards spawn from the Nevron host; 0 = the no-spawn fallback (no guards; Florrie and Urrie are claimable only when no other faction has warriors in their clearing). Set to 0 if the week-1 spike shows the mod cannot place another seat's warriors.",
+      "description": "1 = neutral guards spawn with Florrie and Urrie (do.place-guards); 0 = the no-spawn fallback (no guards; Florrie and Urrie are claimable only when no other faction has warriors in their clearing). Set to 0 if the mod cannot place neutral guards in Root.",
       "usedBy": [
-        "do.place-warriors",
-        "tweak.esquie.guard-floor",
-        "tweak.esquie.guard-no-placement",
+        "do.place-guards",
+        "tweak.esquie.neutral-guards",
         "win.esquie"
       ],
-      "_notes": "Week-1 spike: placing another seat's warriors outside its turn; set to 0 if it fails (the roster makes the no-spawn fallback the v1 default then)."
+      "_notes": "M4 check: placing the neutral guards (do.place-guards) in a running game; set to 0 if it fails."
     },
     {
       "id": "tune.esquie-belly-bounce-swords",
       "value": 1,
-      "description": "Undamaged swords his Bag counts as for max hits in a clearing with a guarded rock.",
+      "description": "Undamaged swords his Bag counts as for max hits in a battle against a rock's neutral guards.",
       "usedBy": [
         "tweak.esquie.belly-bounce",
         "bot.esquie"
@@ -285,7 +284,7 @@
     {
       "id": "tune.esquie-endgame-rocks",
       "value": 3,
-      "description": "Rocks held at which Esquie's bot goes straight for the last one (and the host and other bots start defending it).",
+      "description": "Rocks held at which Esquie's bot goes straight for the last one (and the other bots start attacking his pawn).",
       "usedBy": [
         "bot.esquie"
       ]
@@ -394,14 +393,6 @@
       "id": "tune.paintress-site-enemy-warrior",
       "value": -1,
       "description": "Site score per enemy warrior in a candidate clearing.",
-      "usedBy": [
-        "bot.paintress"
-      ]
-    },
-    {
-      "id": "tune.paintress-site-guarded-rock",
-      "value": -3,
-      "description": "Site score for a candidate holding a guarded rock (the host may not build there).",
       "usedBy": [
         "bot.paintress"
       ]
@@ -848,7 +839,7 @@
     {
       "id": "tune.clea-coverage",
       "value": 8,
-      "description": "Different clearings her (non-guard) warriors must stand in. Lower to 7 if the Lizard Recruit ritual proves narrower.",
+      "description": "Different clearings her warriors must stand in.",
       "usedBy": [
         "win.clea"
       ]

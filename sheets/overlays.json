@@ -739,17 +739,15 @@
       "id": "ui.clea.coverage",
       "owner": "clea",
       "kind": "tracker",
-      "shows": "The public coverage tracker: the clearings holding her Nevrons (out of 8, each marked on the map; guard warriors she hosts on Esquie's rocks do not count), whether the Monolith is one of them, and whether the Flying Manor has her atelier.",
+      "shows": "The public coverage tracker: the clearings holding her Nevrons (out of 8, each marked on the map), whether the Monolith is one of them, and whether the Flying Manor has her atelier.",
       "public": true,
       "art": [
         "asset.tracker-frame",
         "asset.nevron-mark"
       ],
-      "state": [
-        "state.esquie.rocks"
-      ],
+      "state": [],
       "v1": false,
-      "_notes": "v1 is false because this character ships after the mod's first version; the overlay ships with the character's first build. state.esquie.rocks is listed because hosted guards are subtracted from her count."
+      "_notes": "v1 is false because this character ships after the mod's first version; the overlay ships with the character's first build."
     },
     {
       "id": "ui.clea.ending",

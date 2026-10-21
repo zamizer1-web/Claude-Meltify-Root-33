@@ -47,53 +47,63 @@
       "id": "tweak.esquie.belly-bounce",
       "character": "esquie",
       "name": "Belly Bounce",
-      "rule": "Automatic, no prompt: in a clearing with a guarded rock, his Bag counts as tune.esquie-belly-bounce-swords undamaged sword for his max hits.",
+      "rule": "Automatic, no prompt: in a battle against a rock's neutral guards, his Bag counts as tune.esquie-belly-bounce-swords undamaged sword for his max hits.",
       "version": "v1",
       "hooks": [
+        "hook.guard-battle-start",
         "hook.battle-start"
       ],
       "actions": [
         "do.add-max-hits"
       ],
       "tests": [
-        "BellyBounce_BagAddsMaxHitInGuardedRockClearing",
+        "BellyBounce_BagAddsMaxHitAgainstGuards",
         "BellyBounce_NoEffectOutsideRockClearings",
         "BellyBounce_DamagedBagDoesNotCount"
       ],
-      "_notes": "Needs at least one undamaged Bag (a damaged Bag cannot stand in for an undamaged sword) and gives one sword however many Bags he has. Under the no-spawn fallback it applies in a clearing with an unclaimed Florrie or Urrie."
+      "_notes": "Needs at least one undamaged Bag (a damaged Bag cannot stand in for an undamaged sword) and gives one sword however many Bags he has. It only adds hits: he still needs a real undamaged sword to start the battle. Under the no-spawn fallback (no guards) it applies to his battles in a clearing with an unclaimed Florrie or Urrie."
     },
     {
       "id": "tweak.esquie.never-mad",
       "character": "esquie",
       "name": "Never Mad",
-      "rule": "He may start a battle or Strike only against the Nevron host's warriors in a clearing with a guarded rock. Every other battle or Strike is not offered to him (AI and human UI alike).",
+      "rule": "His only battles are against the neutral guards on his rocks (tweak.esquie.neutral-guards), and only with an undamaged sword. Every battle or Strike against a faction is not offered to him (AI and human UI alike).",
       "version": "v1",
       "hooks": [
-        "hook.battle-legal"
+        "hook.battle-legal",
+        "hook.guard-battle-legal"
       ],
       "actions": [],
       "tests": [
-        "NeverMad_AllowsBattleAgainstHostGuards",
-        "NeverMad_BlocksBattleOutsideGuardedRockClearing",
-        "NeverMad_BlocksStrikeOnNonHostPieces"
+        "NeverMad_AllowsBattleAgainstGuards",
+        "NeverMad_BlocksEveryBattleAgainstAFaction",
+        "NeverMad_BlocksStrike"
       ],
-      "_notes": "Read literally: guard fights are his only battles. Under the no-spawn fallback there is no host, so he may battle only in a clearing with an unclaimed Florrie or Urrie, against any faction's warriors there."
+      "_notes": "Read literally: guard fights are his only battles. Under the no-spawn fallback there are no guards, so he may battle only in a clearing with an unclaimed Florrie or Urrie, against any faction's warriors there."
     },
     {
-      "id": "tweak.esquie.friends-not-foes",
+      "id": "tweak.esquie.neutral-guards",
       "character": "esquie",
-      "name": "Friends Not Foes",
-      "rule": "Removing guard warriors never moves the host toward Hostile: one prefix patch skips Root's hostility change for battles in a clearing with a guarded rock.",
+      "name": "Neutral guards",
+      "rule": "The guards on Esquie's rocks belong to no player: they are neutral guardians of his rock, hostile only to Esquie and ignored by every other faction. They are nobody's warriors: they never count toward any seat's warriors, rule or themed win, take no building slot, and never block anyone's moving, building, recruiting or placing. No faction but Esquie may battle, Strike or remove them. Esquie fights them in a battle, which needs an undamaged sword like every Vagabond battle: the guards defend as warriors do (they roll, deal hits up to their number and can damage his items, but never Ambush), and fighting them changes no relationship. After each of his guard battles that rock's GuardsLeft is the number of guards still standing; at 0 the rock is loose.",
       "version": "v1",
       "hooks": [
-        "hook.hostility-change"
+        "hook.guard-battle-legal",
+        "hook.guard-battle-start",
+        "hook.guard-battle-resolved",
+        "hook.load"
       ],
-      "actions": [],
+      "actions": [
+        "do.place-guards"
+      ],
       "tests": [
-        "FriendsNotFoes_HostNotMadeHostileInGuardedRockClearing",
-        "FriendsNotFoes_HostilityNormalElsewhere"
+        "NeutralGuards_OnlyEsquieMayBattleThem",
+        "NeutralGuards_NeedAnUndamagedSword",
+        "NeutralGuards_NeverCountAsAnySeatsWarriors",
+        "NeutralGuards_GuardsLeftFollowsTheBoardAfterHisBattle",
+        "NeutralGuards_RockLooseWhenLastGuardFalls"
       ],
-      "_notes": "The patch is keyed to the clearing, so it applies to any Vagabond battling there, as the roster's 'for battles in guarded-rock clearings' says."
+      "_notes": "Decided by the creator on 2026-10-21; it replaces tweak.esquie.guard-floor, guard-no-placement, guards-never-count, friends-not-foes and tweak.clea.nevron-host: no seat hosts the guards, so nothing has to be subtracted, kept in place, blocked or kept friendly. Strike is not offered against them, because the creator's rule is that fighting them needs a sword. GuardsLeft is read back from the board (read.guards) after each guard battle, so Root's board is the one count."
     },
     {
       "id": "tweak.esquie.start-near-nest",
@@ -111,74 +121,6 @@
         "EsquieSetup_StartsInForestTouchingNest"
       ],
       "_notes": "If several forests touch the Nest, all of them are allowed and the bot picks the one closest to Stone Wave Cliffs."
-    },
-    {
-      "id": "tweak.esquie.guard-floor",
-      "character": "esquie",
-      "name": "Guards hold their post",
-      "rule": "While a rock is guarded in a clearing, the host's move generator (Root's AI and the human UI too) keeps at least GuardsLeft of its warriors there. It is a count floor: the host's other warriors come and go. The floor lifts when the rock becomes loose. Applies to any host, a human Clea included. With tune.esquie-guard-spawns at 0 (the no-spawn fallback) no rock is ever guarded, so this floor never applies.",
-      "version": "v1",
-      "hooks": [
-        "hook.setup-complete",
-        "hook.act-change",
-        "hook.battle-resolved",
-        "hook.piece-removed",
-        "hook.action-resolved",
-        "hook.aid-resolved",
-        "hook.evening-end",
-        "hook.load"
-      ],
-      "actions": [
-        "do.set-guard-floor"
-      ],
-      "tests": [
-        "GuardFloor_HostCannotMoveBelowGuardsLeft",
-        "GuardFloor_ExtraHostWarriorsMoveFreely",
-        "GuardFloor_LiftsWhenRockLoose"
-      ]
-    },
-    {
-      "id": "tweak.esquie.guard-no-placement",
-      "character": "esquie",
-      "name": "No building at a guarded rock",
-      "rule": "While a rock is guarded in a clearing, the host may not build, recruit or place pieces there (AI and human UI alike). The block lifts when the rock becomes loose. With tune.esquie-guard-spawns at 0 (the no-spawn fallback) no rock is ever guarded, so this block never applies.",
-      "version": "v1",
-      "hooks": [
-        "hook.setup-complete",
-        "hook.act-change",
-        "hook.battle-resolved",
-        "hook.piece-removed",
-        "hook.action-resolved",
-        "hook.aid-resolved",
-        "hook.evening-end",
-        "hook.load"
-      ],
-      "actions": [
-        "do.block-placement"
-      ],
-      "tests": [
-        "GuardRules_HostCannotBuildRecruitOrPlaceInRockClearing",
-        "GuardRules_PlacementBlockLiftsWhenRockLoose"
-      ]
-    },
-    {
-      "id": "tweak.esquie.guards-never-count",
-      "character": "esquie",
-      "name": "Guards are not the host's",
-      "rule": "Guard warriors never count toward the host's own themed win. Wherever a themed-win test counts the host's own warriors toward the host's win (Clea's coverage, the White-Haired Man's Ring, the Paintress's Portraits), it first subtracts GuardsLeft of the guarded rocks it hosts there. Other seats' tests still see guards as enemy warriors (for example in Sciel's Sanctuaries or Verso's Monolith test).",
-      "version": "v1",
-      "hooks": [
-        "hook.evening-end",
-        "hook.birdsong-start"
-      ],
-      "actions": [],
-      "tests": [
-        "GuardRules_HostedGuardsExcludedFromCleaCoverage",
-        "GuardRules_HostedGuardsExcludedFromRingPresence",
-        "GuardRules_HostedGuardsExcludedFromPortraitWarriors",
-        "GuardRules_OtherSeatsStillSeeGuardsAsEnemyWarriors"
-      ],
-      "_notes": "Root's own rule (read.ruler) still counts guards, because it is Root's computation; only the mod's direct warrior counts subtract them. The Paintress's 2-warrior Portrait count is included as 'any themed win'."
     },
     {
       "id": "tweak.esquie.florrie-swim",
@@ -461,25 +403,6 @@
       ],
       "tests": [
         "CleaSetup_HomeIsFlyingManor"
-      ],
-      "_notes": "v1 here means it ships with Clea's first build."
-    },
-    {
-      "id": "tweak.clea.nevron-host",
-      "character": "clea",
-      "name": "Nevron host",
-      "rule": "When Clea is seated, Esquie's rock guards always come from her supply, and she follows the guard host rules (count floor, no building, recruiting or placing at a guarded rock) through the human UI too.",
-      "version": "v1",
-      "hooks": [
-        "hook.setup-complete",
-        "hook.act-change"
-      ],
-      "actions": [
-        "do.place-warriors"
-      ],
-      "tests": [
-        "GuardHost_CleaHostsWhenSeated",
-        "GuardHost_HumanCleaUiRespectsFloor"
       ],
       "_notes": "v1 here means it ships with Clea's first build."
     },

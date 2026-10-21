@@ -118,8 +118,8 @@
     },
     {
       "id": "trigger.guards-attacked",
-      "description": "Any seat starts a battle against a guard stack on one of Esquie's rocks while Esquie is seated: Esquie cheers the attacker on (the roster's 'Esquie's friends are here!' moment).",
-      "hook": "hook.battle-start",
+      "description": "Esquie starts a battle against the neutral guards on one of his rocks: he apologises to them (he never gets angry).",
+      "hook": "hook.guard-battle-start",
       "cooldownTurns": 1
     },
     {

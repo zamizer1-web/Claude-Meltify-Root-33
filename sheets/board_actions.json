@@ -2,15 +2,27 @@
   "rows": [
     {
       "id": "do.place-warriors",
-      "description": "Place warriors of any seat from that seat's supply into a clearing, outside that seat's turn. Used for Esquie's guards (Florrie's 2, Urrie's 3, from the Nevron host). Returns how many were actually placed when the supply runs short.",
+      "description": "Place warriors of any seat from that seat's supply into a clearing, outside that seat's turn. Returns how many were actually placed when the supply runs short.",
       "csSignature": "int PlaceWarriors(SeatId seat, ClearingId c, int count)",
       "v1": true,
-      "fallback": "Esquie's no-spawn fallback becomes the v1 default (tune.esquie-guard-spawns = 0): no guards spawn, and Florrie and Urrie can be claimed only when no faction other than Esquie has warriors in their clearing.",
+      "fallback": "The tweaks that would place them (the do.ignore-first-hit fallback) are left out.",
       "engineSymbol": "tuber.canis.actions.PlacePiecesAtTarget / PlacePieceAtTarget pushed on the match's action stack, warriors from TuberPlayerEntity.WarriorArea",
       "_unverified": {
         "engineSymbol": "running a placement outside the seat's own turn needs a running game (M4); Root runs the match on its own thread (Canis.Match.Run): hand core calls to the main thread"
       },
       "_notes": "engineSymbol from Root33.Discover over Root's interop assemblies (Root build 22238765, BepInEx 6.0.0-be.790), 2026-10-20."
+    },
+    {
+      "id": "do.place-guards",
+      "description": "Place neutral guards (pieces of no seat, hostile only to Esquie) into a clearing: Florrie's 2 and Urrie's 3. Returns how many were actually placed.",
+      "csSignature": "int PlaceGuards(ClearingId c, int count)",
+      "v1": true,
+      "fallback": "Esquie's no-spawn fallback becomes the v1 default (tune.esquie-guard-spawns = 0): no guards spawn, and Florrie and Urrie can be claimed only when no faction other than Esquie has warriors in their clearing.",
+      "engineSymbol": "warriors of an unhired hireling the match does not use: TuberMatch.GetHirelingForFaction(Factions.HighwayBandits) (tuber.canis.entities.HirelingClasses.BanditGangHireling, a TuberHirelingEntity with no ControllingPlayer), placed from its WarriorArea with tuber.canis.actions.PlacePiecesAtTarget pushed on the match's action stack",
+      "_unverified": {
+        "engineSymbol": "a hireling is in a match only when Root's hireling setup dealt it; adding an unused one to a match without hirelings, keeping it uncontrolled and drawing its warriors on the board need a running game (M4). If the match already uses the Bandit Gangs, another unused warrior hireling (ForestPatrol, SpringUprising) takes its place"
+      },
+      "_notes": "Route chosen on 2026-10-21 from the M1 discovery listing, without running Root: Root's hirelings own board pieces without being a seat (IHasBoardPieces is a player or a hireling, and Battle._defender may be a hireling), and TuberHirelingEntity has what neutral guards need: ControllingPlayer, IsEnemy(Factions), IsHostile, PieceCanBeBattled(Entity) and its own WarriorArea. Rule counts take an includeHirelings flag (TuberBoardNode.factionCounts(includeMercenaries, includeHirelings)). hook.guard-battle-legal lists the patches that keep them hostile only to Esquie."
     },
     {
       "id": "do.move-warriors",
@@ -124,27 +136,6 @@
       "v1": false,
       "fallback": "After the battle, return one removed warrior of that seat to the clearing from its supply (do.place-warriors), which nets out the first hit. If do.place-warriors is also unavailable, Unbeatable in Act I is left out; it is flavour only, since no themed win is possible in Act I.",
       "engineSymbol": "tuber.canis.entities.TuberPlayerEntity.GetIgnoredHits(isAttacker, warriorsInCombat, battleClearing) postfix (TuberAttributes.IgnoredHitThisBattle)",
-      "_notes": "engineSymbol from Root33.Discover over Root's interop assemblies (Root build 22238765, BepInEx 6.0.0-be.790), 2026-10-20."
-    },
-    {
-      "id": "do.set-guard-floor",
-      "description": "Keep at least this many of the host's warriors in a clearing: Root's move generator, its AI and the human UI may not move the host below the floor. 0 lifts it. Only a count: the host's other warriors come and go freely.",
-      "csSignature": "void SetGuardFloor(SeatId host, ClearingId c, int floor)",
-      "v1": true,
-      "fallback": "Esquie's no-spawn fallback (no guards, so no floor is needed).",
-      "engineSymbol": "tuber.canis.entities.TuberBoardNode.CanMoveOut(IHasBoardPieces) and tuber.canis.actions.MovePieces max override; removals: RemovePiece",
-      "_unverified": {
-        "engineSymbol": "a per-clearing minimum has no single Root check; the move cap and removal guard need a running game (M4)"
-      },
-      "_notes": "engineSymbol from Root33.Discover over Root's interop assemblies (Root build 22238765, BepInEx 6.0.0-be.790), 2026-10-20."
-    },
-    {
-      "id": "do.block-placement",
-      "description": "Forbid a seat from building, recruiting or placing any piece in a clearing (the Nevron host in a clearing with a guarded rock), for the AI and the human UI alike.",
-      "csSignature": "void BlockPlacement(SeatId seat, ClearingId c, bool blocked)",
-      "v1": true,
-      "fallback": "Esquie's no-spawn fallback (no guards, so no host and nothing to block).",
-      "engineSymbol": "tuber.canis.entities.TuberPlayerEntity.CanPlacePieceAt(TuberBoardNode) and CanBuildAt(TuberBoardNode) postfix (false in the blocked clearing)",
       "_notes": "engineSymbol from Root33.Discover over Root's interop assemblies (Root build 22238765, BepInEx 6.0.0-be.790), 2026-10-20."
     },
     {
