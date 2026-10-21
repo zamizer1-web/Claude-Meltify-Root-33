@@ -37,7 +37,8 @@ The plugin, file by file:
   `[RootHook("hook.evening-end")]`.
 - `Unity/Probe.cs`: logs every scene load; F9 writes `BepInEx\root33-probe.json` (each scene's objects, depth-limited, with
   their components' type names, and how often each component type occurs). `Unity/Overlay.cs`: the F8 panel (plain IMGUI:
-  `GUI.Box` and `GUI.Label`, no GUILayout). `Unity/KeyWatch.cs`: F8/F9 through legacy Input or, if the game strips it, IMGUI events.
+  `GUI.Box` and `GUI.Label`, no GUILayout); F7 switches it between the game and the mod's word list (Root33.Host's
+  `ModGlossary`, in the game's spoiler mode, or the configured one between games). `Unity/KeyWatch.cs`: F7/F8/F9 through legacy Input or, if the game strips it, IMGUI events.
 
 Workflow for every mapped member or patch: confirm Root's symbol (report.md, the probe, UnityExplorer), write it into the
 sheet's `engineSymbol` (or `engineClearingId`, `engineType`, `patchKind`) and remove that column from the row's `_unverified`,

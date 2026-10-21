@@ -213,6 +213,19 @@ namespace Root33.Plugin
 
         private string _lastPanel = Waiting;
 
+        /// <summary>The mod's word list (Root33.Host's ModGlossary) in this game's spoiler mode, or the configured one between
+        /// games. The panel shows it on F7.</summary>
+        public string GlossaryText()
+        {
+            var spoilers = _settings.Spoilers;
+            if (System.Threading.Monitor.TryEnter(Sync))
+            {
+                try { if (Game.Context.E33Mode && Game.Context.Options != null) spoilers = Game.Context.Options.Spoilers; }
+                finally { System.Threading.Monitor.Exit(Sync); }
+            }
+            return "ROOT 33 · WORDS\n" + ModGlossary.Text(spoilers);
+        }
+
 #if !NOUNITY && !ROOT_MONO
         private static bool InOnlineGame => RootGame.Inactive && RootGame.Match != null;
 #else
