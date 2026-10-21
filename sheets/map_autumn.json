@@ -155,9 +155,9 @@
       "engineClearingId": "6",
       "suit": "mouse",
       "corner": false,
-      "ruin": false,
+      "ruin": true,
       "_source": "Board facts from design/autumn-map-verified.json (printed board art, cross-checked with Learning to Play). ; https://expedition33.wiki.fextralife.com/Game_Progress_Route ; https://expedition33.wiki.fextralife.com/Walkthrough",
-      "_notes": "engineClearingId is Root's FallBoardLayout node index, matched by suit, slots, paths, river links and opposite corners against a dump of Root's own layout (2026-10-20)."
+      "_notes": "engineClearingId is Root's FallBoardLayout node index, matched by suit, slots, paths, river links and opposite corners against a dump of Root's own layout (2026-10-20). ruin follows Root's own Fall layout (ruins at Root clearings 3, 5, 6, 7 = autumn.10, .08, .07, .09), 2026-10-21."
     },
     {
       "id": "autumn.08",
@@ -270,9 +270,9 @@
       "engineClearingId": "4",
       "suit": "mouse",
       "corner": false,
-      "ruin": true,
+      "ruin": false,
       "_source": "Board facts from design/autumn-map-verified.json (printed board art, cross-checked with Learning to Play). ; https://expedition33.wiki.fextralife.com/Game_Progress_Route ; https://expedition33.wiki.fextralife.com/Walkthrough",
-      "_notes": "engineClearingId is Root's FallBoardLayout node index, matched by suit, slots, paths, river links and opposite corners against a dump of Root's own layout (2026-10-20)."
+      "_notes": "engineClearingId is Root's FallBoardLayout node index, matched by suit, slots, paths, river links and opposite corners against a dump of Root's own layout (2026-10-20). ruin follows Root's own Fall layout (ruins at Root clearings 3, 5, 6, 7 = autumn.10, .08, .07, .09), 2026-10-21."
     }
   ]
 }

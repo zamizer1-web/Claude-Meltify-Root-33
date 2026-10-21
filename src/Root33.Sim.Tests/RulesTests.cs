@@ -27,7 +27,7 @@ public class DeckTests
         var g = SimGame.New(new[] { new SimGame.SeatSpec("gustave", true), new SimGame.SeatSpec("paintress", true), new SimGame.SeatSpec("sciel", true) }, 5);
         Assert.Equal(12, g.State.ItemSupply.Count);
         var ruins = g.State.Clearings.Values.Where(c => c.Ruin).OrderBy(c => c.Id).ToList();
-        Assert.Equal(new[] { 8, 9, 10, 12 }, ruins.Select(c => c.Id));
+        Assert.Equal(new[] { 7, 8, 9, 10 }, ruins.Select(c => c.Id));   // Root's own Fall layout
         Assert.Equal(new[] { ItemType.Bag, ItemType.Boots, ItemType.Hammer, ItemType.Sword }.OrderBy(x => x), ruins.Select(c => c.RuinItem!.Value).OrderBy(x => x));
         Assert.All(g.State.Seats, s => Assert.Equal(3, s.Hand.Count));
         Assert.Equal(54 - 9, g.State.Deck.Count);
