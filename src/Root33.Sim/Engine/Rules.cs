@@ -431,6 +431,15 @@ public static class Crafting
         }
     }
 
+    /// <summary>The one line a seat reads when its crafting step finds nothing it can craft (private: it speaks of the hand).</summary>
+    public static string NothingToCraft(SimGame g, int seat)
+    {
+        var free = FreePieces(g, seat).GroupBy(p => p.Suit).OrderBy(x => x.Key).Select(x => $"{x.Count()} {Cards.SuitName(x.Key)}").ToList();
+        var pieces = free.Count == 0 ? "no free crafting pieces" : "free crafting pieces: " + string.Join(", ", free);
+        var hand = g.Seat(seat).Hand.Count == 0 ? "your hand is empty" : "nothing in your hand can be crafted now";
+        return $"Crafting: {hand} ({pieces}), so crafting is skipped this turn.";
+    }
+
     /// <summary>A "craft" frame: craft cards one at a time until done. once=1 crafts at most one card (an action).</summary>
     public static Frame Frame(int seat, bool once = false) => new Frame("craft", seat).Set("once", once ? 1 : 0);
 
@@ -439,9 +448,15 @@ public static class Crafting
         r.Add("craft", (g, f) =>
         {
             var list = Craftable(g, f.Seat).ToList();
-            if (list.Count == 0) { g.Pop(f); return null; }
+            if (list.Count == 0)
+            {
+                // A crafting step (not the Vagabond's one-card action) with nothing craftable says so instead of passing silently.
+                if (f.Get("once") == 0 && f.Get("crafted") == 0) g.Log(NothingToCraft(g, f.Seat), f.Seat);
+                g.Pop(f);
+                return null;
+            }
             var d = new Decision(f.Seat, "Craft: choose a card to craft") { Open = true };
-            foreach (var c in list) d.Add($"craft:{c}", $"Craft {Cards.Describe(c)}");
+            foreach (var c in list) d.Add($"craft:{c}", $"Craft {Cards.DescribeToCraft(c)}");
             d.Add("done", f.Get("once") == 1 ? "Do not craft" : "Stop crafting");
             return d;
         }, (g, f, o) =>

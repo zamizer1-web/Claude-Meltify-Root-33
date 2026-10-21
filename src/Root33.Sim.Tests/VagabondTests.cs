@@ -234,6 +234,37 @@ public class VagabondTests
     }
 
     [Fact]
+    public void Daylight_WhereItCouldFight_WithoutAnUndamagedSword_ThePromptSaysBattleNeedsOne()
+    {
+        var g = Kit.Table(1, "gustave", "maelle");
+        Pawn(g, 1, 5);
+        Kit.Warriors(g, 0, 5, 2);
+        SetItems(g, 1, Boots, Torch, Tea);
+        AddItem(g, 1, Sword, damaged: true);
+        Daylight(g, 1);
+        Assert.DoesNotContain(g.Pending!.Options, o => o.Key.StartsWith("battle:"));
+        Assert.EndsWith("(battle needs an undamaged sword)", g.Pending.Prompt);
+        Assert.Equal(" (battle needs an undamaged sword)", Vagabond.NoSwordHint);
+
+        var sword = D(g, 1).Items.First(i => i.Type == Sword);
+        sword.Damaged = false; sword.Exhausted = true;                     // undamaged but used this turn
+        Refresh(g);
+        Assert.EndsWith("(battle needs a face-up sword: yours are exhausted)", g.Pending!.Prompt);
+
+        sword.Exhausted = false;                                           // ready: the battle is offered, no hint
+        Refresh(g);
+        Assert.True(Offered(g, "battle:5:0"));
+        Assert.DoesNotContain("battle needs", g.Pending!.Prompt);
+
+        var alone = Kit.Table(1, "gustave", "maelle");                    // nobody to fight here: no hint
+        Pawn(alone, 1, 5);
+        SetItems(alone, 1, Boots, Torch);
+        AddItem(alone, 1, Sword, damaged: true);
+        Daylight(alone, 1);
+        Assert.DoesNotContain("battle needs", alone.Pending!.Prompt);
+    }
+
+    [Fact]
     public void Defender_WithoutUndamagedSwordIsDefenseless_DefaultDamagesFaceDownThenCheapItems_ExtraHitsIgnored()
     {
         var g = Kit.Table(1, "gustave", "maelle");

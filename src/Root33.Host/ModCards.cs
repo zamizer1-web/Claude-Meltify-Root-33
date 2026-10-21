@@ -33,7 +33,7 @@ namespace Root33.Host
                 if (Data.WinConditions.TryGetValue(c.WinCondition, out var w))
                 {
                     var kind = w.Kind == "quest" ? "quest win" : "countdown win";
-                    sb.AppendLine($"  How they win: {w.Title} ({kind}). {ModText.Plain(w.PlayerText)}");
+                    sb.AppendLine($"  How they win: {ModText.WinTitle(w.Id, mode)} ({kind}). {ModText.Plain(w.PlayerText)}");
                 }
             }
             sb.AppendLine();
@@ -52,7 +52,7 @@ namespace Root33.Host
             sb.AppendLine("  " + c.SummarySafe);
             if (Data.WinConditions.TryGetValue(c.WinCondition, out var w))
             {
-                sb.AppendLine($"THEMED WIN · {w.Title}: {ModText.Plain(w.PlayerText)}");
+                sb.AppendLine($"THEMED WIN · {ModText.WinTitle(w.Id, host.Spoilers)}: {ModText.Plain(w.PlayerText)}");
                 var counter = ModText.Plain(w.Counterplay);
                 if (counter.Length > 0) sb.AppendLine($"  How the table stops it: {counter}");
             }

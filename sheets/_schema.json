@@ -366,6 +366,14 @@
             "core"
           ]
         },
+        "titleSafe": {
+          "type": "string",
+          "required": false,
+          "neededBy": [
+            "core"
+          ],
+          "description": "the win's title in safe mode when 'title' would spoil the story; null to use 'title' in both modes"
+        },
         "kind": {
           "type": "enum:countdown|quest",
           "required": true,
@@ -894,6 +902,14 @@
             "core"
           ]
         },
+        "nameSafe": {
+          "type": "string",
+          "required": false,
+          "neededBy": [
+            "core"
+          ],
+          "description": "the act's name in safe mode when 'name' would spoil the story; null to use 'name' in both modes"
+        },
         "endsAtVp": {
           "type": "int",
           "required": true,
@@ -957,6 +973,22 @@
           "neededBy": [
             "core"
           ]
+        },
+        "playerText": {
+          "type": "text",
+          "required": true,
+          "neededBy": [
+            "core"
+          ],
+          "description": "the line players read in the story so far, in safe mode (and in finished mode when playerTextFinished is empty); short, in-world, no designer notes ('what' is the design description and is never shown to players)"
+        },
+        "playerTextFinished": {
+          "type": "text",
+          "required": false,
+          "neededBy": [
+            "core"
+          ],
+          "description": "the line players read in finished mode, when it differs from playerText (it may name finished-mode spoilers); null to use playerText"
         },
         "spawn": {
           "type": "ref:spawns",

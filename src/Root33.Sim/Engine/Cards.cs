@@ -121,20 +121,32 @@ public static class Cards
     /// <summary>Short label: "[12] Tax Collector (fox)".</summary>
     public static string Label(int id) => $"[{id}] {All[id].Name} ({SuitName(All[id].Suit)})";
 
-    /// <summary>Full description for a hand listing.</summary>
+    /// <summary>Full description of a card in hand (or about to be: discard, Day Labor). An effect card (persistent or
+    /// immediate) does nothing from the hand, so its text says "craft it first (cost: ...)" before the effect.</summary>
     public static string Describe(int id)
+    {
+        var c = All[id];
+        return c.Kind switch
+        {
+            CardKind.Item => $"{Label(id)} - item {c.Item}, {c.Vp} VP; craft: {CostText(c)}. {c.Text}",
+            CardKind.Persistent => $"{Label(id)} - persistent effect; craft it first (cost: {CostText(c)}), then it stays in front of you: {c.Text}",
+            CardKind.Immediate => $"{Label(id)} - one-time effect; craft it first (cost: {CostText(c)}): {c.Text}",
+            CardKind.Ambush => $"{Label(id)} - ambush. {c.Text}",
+            _ => $"{Label(id)} - dominance. {c.Text}",
+        };
+    }
+
+    /// <summary>A card as a crafting option ("Craft ..."): its cost and what crafting it does.</summary>
+    public static string DescribeToCraft(int id)
     {
         var c = All[id];
         var what = c.Kind switch
         {
             CardKind.Item => $"item {c.Item}, {c.Vp} VP",
-            CardKind.Persistent => "persistent",
-            CardKind.Immediate => "immediate",
-            CardKind.Ambush => "ambush",
-            _ => "dominance",
+            CardKind.Persistent => "persistent effect",
+            _ => "one-time effect",
         };
-        var craft = c.Craftable ? $"; craft: {CostText(c)}" : "";
-        return $"{Label(id)} - {what}{craft}. {c.Text}";
+        return $"{Label(id)} - {what}; cost: {CostText(c)}. {c.Text}";
     }
 
     /// <summary>Whether a card may be spent or discarded as the given suit (birds are wild, Law 2.1.1).</summary>

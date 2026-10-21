@@ -21,7 +21,8 @@ public static class ModText
     /// <summary>A character's name on the select screen and before the core names the seat.</summary>
     public static string CharacterName(string characterId, string spoiler) => H.ModText.CharacterName(characterId, SimHost.SpoilersOf(spoiler));
 
-    public static string WinTitle(string? winId) => H.ModText.WinTitle(winId);
+    /// <summary>A themed win's title in this game's spoiler mode ("The Living Portraits" in safe mode).</summary>
+    public static string WinTitle(SimGame g, string? winId) => H.ModText.WinTitle(winId, Spoilers(g));
     public static string BarkText(string barkId) => H.ModText.BarkText(barkId);
     public static string AbilityText(string ability) => H.ModText.AbilityText(ability);
 
@@ -29,15 +30,20 @@ public static class ModText
     public static string BannerAnnounced(SimGame g, int seat, string winId) => H.ModText.BannerAnnounced(new SimHost(g), new SeatId(seat), winId);
 
     public static string Roman(int n) => H.ModText.Roman(n);
-    /// <summary>"Act II: The Monolith".</summary>
-    public static string ActTitle(int act) => H.ModText.ActTitle(act);
+    /// <summary>"Act II: The Monolith", in this game's spoiler mode.</summary>
+    public static string ActTitle(SimGame g, int act) => H.ModText.ActTitle(act, Spoilers(g));
     /// <summary>The act banner's line (ui.global.act-banner): what unlocks now and when the next act begins.</summary>
-    public static string ActLine(int act) => H.ModText.ActLine(act);
-    public static string StoryText(string eventId) => H.ModText.StoryText(eventId);
+    public static string ActLine(SimGame g, int act) => H.ModText.ActLine(act, Spoilers(g));
+    /// <summary>A story event as players read it in this game's spoiler mode (never the sheet's design notes).</summary>
+    public static string StoryText(SimGame g, string eventId) => H.ModText.StoryText(eventId, Spoilers(g));
+    /// <summary>The mod's own words, one line each, in this game's spoiler mode (Root33.Host.ModGlossary).</summary>
+    public static string Glossary(SimGame g) => H.ModGlossary.Text(Spoilers(g));
     /// <summary>Root's printed name for a character's engine ("Marquise de Cat").</summary>
     public static string EngineName(string characterId) => H.ModText.CharacterEngineName(characterId);
     /// <summary>A tuning value as text; rank tunings (Verso) as their letter.</summary>
     public static string TuneValue(string tuneId) => H.ModText.TuneValue(tuneId);
     /// <summary>A sheet's rule text as a player reads it (H.ModText.Plain).</summary>
     public static string Plain(string? text) => H.ModText.Plain(text);
+
+    static SpoilerMode Spoilers(SimGame g) => SimHost.SpoilersOf(g.State.Spoiler);
 }

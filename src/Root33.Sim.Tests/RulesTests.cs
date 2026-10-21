@@ -269,6 +269,82 @@ public class CraftingTests
     }
 }
 
+public class CardTextTests
+{
+    [Fact]
+    public void Describe_RoyalClaimInHand_SaysCraftItFirst_BeforeItsEffect()
+    {
+        // Kit held Royal Claim all game and was never offered it: a persistent card works only once crafted.
+        int claim = Kit.Card("royal-claim");
+        Assert.Equal($"{Cards.Label(claim)} - persistent effect; craft it first (cost: any+any+any+any), then it stays in front of you: " +
+                     "In Birdsong, you may discard this card to score one point per clearing you rule.", Cards.Describe(claim));
+        foreach (var c in Cards.All.Where(c => c.Kind is CardKind.Persistent or CardKind.Immediate))
+        {
+            var d = Cards.Describe(c.Id);
+            var craft = d.IndexOf($"craft it first (cost: {Cards.CostText(c)})", StringComparison.Ordinal);
+            Assert.True(craft > 0, d);
+            Assert.True(craft < d.IndexOf(c.Text, StringComparison.Ordinal), d);
+        }
+        Assert.Contains("one-time effect; craft it first (cost: fox+fox+fox): Immediately upon crafting", Cards.Describe(Kit.Card("favor-of-the-foxes")));
+        // items, ambushes and dominance cards are not effect cards
+        Assert.Equal($"{Cards.Label(Kit.Card("anvil"))} - item Hammer, 2 VP; craft: fox. Craft a Hammer.", Cards.Describe(Kit.Card("anvil")));
+        foreach (var c in Cards.All.Where(c => c.Kind is CardKind.Item or CardKind.Ambush or CardKind.Dominance))
+            Assert.DoesNotContain("craft it first", Cards.Describe(c.Id));
+
+        // the hand in 'view' reads the same; the crafting option names the cost without repeating "craft it first"
+        var g = Kit.Table();
+        g.Seat(0).Hand.Add(claim);
+        Assert.Contains("  " + Cards.Describe(claim), Render.View(g, 0));
+        Assert.DoesNotContain("craft it first", Cards.DescribeToCraft(claim));
+        Assert.Contains("cost: any+any+any+any", Cards.DescribeToCraft(claim));
+    }
+}
+
+public class CraftingStepTests
+{
+    [Fact]
+    public void CraftingStep_WithNothingCraftable_SaysSoInOnePrivateLine()
+    {
+        var g = Kit.Table();
+        Kit.Building(g, 0, 5, PieceTypes.Workshop);            // one fox workshop
+        g.Seat(0).Hand.Add(Kit.Card("foxfolk-steel"));           // needs fox+fox
+        Kit.Hold(g, 0);
+        g.Push(Crafting.Frame(0));
+        g.Advance();
+        Assert.Equal("test.hold", g.Pending!.Kind);
+        Assert.Contains(g.LogFor(0), e => e.Text == "Crafting: nothing in your hand can be crafted now (free crafting pieces: 1 fox), so crafting is skipped this turn.");
+        Assert.DoesNotContain(g.LogFor(null), e => e.Text.StartsWith("Crafting:"));   // it speaks of the hand: only that seat reads it
+
+        var empty = Kit.Table();
+        Kit.Hold(empty, 0);
+        empty.Push(Crafting.Frame(0));
+        empty.Advance();
+        Assert.Contains(empty.LogFor(0), e => e.Text == "Crafting: your hand is empty (no free crafting pieces), so crafting is skipped this turn.");
+    }
+
+    [Fact]
+    public void CraftingStep_AfterCraftingOrAsTheVagabondsAction_StaysQuiet()
+    {
+        var g = Kit.Table();
+        Kit.Building(g, 0, 5, PieceTypes.Workshop);
+        int anvil = Kit.Card("anvil");
+        g.Seat(0).Hand.Add(anvil);
+        Kit.Hold(g, 0);
+        g.Push(Crafting.Frame(0));
+        g.Advance();
+        Assert.Equal("craft", g.Pending!.Kind);
+        g.Choose(0, "craft:" + anvil);
+        Assert.Equal("test.hold", g.Pending!.Kind);             // crafted: nothing more to say
+        Assert.DoesNotContain(g.LogFor(0), e => e.Text.StartsWith("Crafting:"));
+
+        var once = Kit.Table();
+        Kit.Hold(once, 0);
+        once.Push(Crafting.Frame(0, once: true));
+        once.Advance();
+        Assert.DoesNotContain(once.LogFor(0), e => e.Text.StartsWith("Crafting:"));
+    }
+}
+
 public class DominanceTests
 {
     [Fact]

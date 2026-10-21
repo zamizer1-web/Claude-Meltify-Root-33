@@ -69,8 +69,13 @@ namespace Root33.Host
 
         // ------------------------------------------------------------------ wins, barks, abilities
 
-        public static string WinTitle(string? winId) =>
-            winId != null && Data.WinConditions.TryGetValue(winId, out var w) ? w.Title : winId ?? "a themed win";
+        /// <summary>A themed win's title in the spoiler mode's words: safe mode shows win_conditions.titleSafe when the row has
+        /// one ("The Living Portraits"), finished mode always the title ("The Family Portrait").</summary>
+        public static string WinTitle(string? winId, SpoilerMode spoilers)
+        {
+            if (winId == null || !Data.WinConditions.TryGetValue(winId, out var w)) return winId ?? "a themed win";
+            return spoilers != SpoilerMode.Finished && !string.IsNullOrEmpty(w.TitleSafe) ? w.TitleSafe : w.Title;
+        }
 
         public static string BarkText(string barkId) =>
             Data.Barks.TryGetValue(barkId, out var b) ? b.Text : barkId;
@@ -87,13 +92,13 @@ namespace Root33.Host
         public static string BannerAnnounced(IModHost host, SeatId seat, string winId)
         {
             var counter = Data.WinConditions.TryGetValue(winId, out var w) ? Plain(w.Counterplay) : "";
-            return $"COUNTDOWN! {host.Who(seat)} announces {WinTitle(winId)}. They win at the start of their next Birdsong " +
+            return $"COUNTDOWN! {host.Who(seat)} announces {WinTitle(winId, host.Spoilers)}. They win at the start of their next Birdsong " +
                    $"if it still holds.{(counter.Length > 0 ? " To stop it: " + counter : "")}";
         }
 
         /// <summary>do.clear-banner while the game goes on.</summary>
         public static string BannerCleared(IModHost host, SeatId seat, string? winId) =>
-            $"the countdown banner of {host.Who(seat)} ({WinTitle(winId)}) comes down.";
+            $"the countdown banner of {host.Who(seat)} ({WinTitle(winId, host.Spoilers)}) comes down.";
 
         /// <summary>do.grant-ability.</summary>
         public static string AbilityGained(IModHost host, SeatId seat, string ability) =>
@@ -108,7 +113,7 @@ namespace Root33.Host
             if (winners.Count == 0) return "";
             var seat = winners[0];
             var partners = winners.Skip(1).Select(host.Who).ToList();
-            return $"{host.Who(seat)} wins with {WinTitle(winId)}, the Root 33 themed win of {SeatTitle(host, seat)}" +
+            return $"{host.Who(seat)} wins with {WinTitle(winId, host.Spoilers)}, the Root 33 themed win of {SeatTitle(host, seat)}" +
                    (partners.Count > 0 ? $" (with {string.Join(" and ", partners)} in coalition)" : "");
         }
 
@@ -116,15 +121,20 @@ namespace Root33.Host
 
         public static string Roman(int n) => n switch { 1 => "I", 2 => "II", 3 => "III", _ => n.ToString(CultureInfo.InvariantCulture) };
 
-        /// <summary>"Act II: The Monolith".</summary>
-        public static string ActTitle(int act)
+        /// <summary>"Act II: The Monolith", in the spoiler mode's words: safe mode shows acts.nameSafe when the row has one
+        /// ("Act III: The Final Battlefield"), finished mode always the name ("Act III: The Canvas").</summary>
+        public static string ActTitle(int act, SpoilerMode spoilers)
         {
             var row = Data.Acts.Values.FirstOrDefault(a => a.Number == act);
-            return $"Act {Roman(act)}" + (row != null ? ": " + row.Name : "");
+            if (row == null) return $"Act {Roman(act)}";
+            var name = spoilers != SpoilerMode.Finished && !string.IsNullOrEmpty(row.NameSafe) ? row.NameSafe : row.Name;
+            return $"Act {Roman(act)}: {name}";
         }
 
-        /// <summary>The act banner's line (ui.global.act-banner): what unlocks now and when the next act begins.</summary>
-        public static string ActLine(int act)
+        /// <summary>The act banner's line (ui.global.act-banner): what unlocks now and when the next act begins. In Act I it also
+        /// says when the first warning can come: the win checks at the end of a turn run before the act check, so the turn that
+        /// opens Act II cannot raise a banner.</summary>
+        public static string ActLine(int act, SpoilerMode spoilers)
         {
             var row = Data.Acts.Values.FirstOrDefault(a => a.Number == act);
             var unlock = act switch
@@ -135,19 +145,30 @@ namespace Root33.Host
                 _ => "",
             };
             var next = row != null && (row.EndsAtVp > 0 || row.EndsAfterRound > 0)
-                ? $" {ActTitle(act + 1)} begins at the end of a turn once anyone has {row.EndsAtVp}+ VP, or after round {row.EndsAfterRound}."
+                ? $" {ActTitle(act + 1, spoilers)} begins at the end of a turn once anyone has {row.EndsAtVp}+ VP, or after round {row.EndsAfterRound}."
                 : "";
-            return (unlock + next).Trim();
+            var timing = act == 1 && row != null && row.EndsAtVp > 0
+                ? $" Win checks come before the act check, so a player who reaches {row.EndsAtVp} VP opens Act II at the end of that turn, " +
+                  "and their countdown banner can go up at the end of their next turn at the earliest."
+                : "";
+            return (unlock + next + timing).Trim();
         }
 
         /// <summary>The act banner as one log line: "=== Root 33 · Act II: The Monolith === ...".</summary>
-        public static string ActBannerLine(int act) => $"=== Root 33 · {ActTitle(act)} === {ActLine(act)}";
+        public static string ActBannerLine(int act, SpoilerMode spoilers) => $"=== Root 33 · {ActTitle(act, spoilers)} === {ActLine(act, spoilers)}";
 
-        public static string StoryText(string eventId) =>
-            Data.StoryEvents.TryGetValue(eventId, out var e) ? Plain(e.What) : eventId;
+        /// <summary>A story event as players read it (story_events.playerText, or playerTextFinished in finished mode when the
+        /// row has one). The 'what' column is the design description and is never shown.</summary>
+        public static string StoryText(string eventId, SpoilerMode spoilers)
+        {
+            if (!Data.StoryEvents.TryGetValue(eventId, out var e)) return eventId;
+            var text = spoilers == SpoilerMode.Finished && !string.IsNullOrEmpty(e.PlayerTextFinished) ? e.PlayerTextFinished : e.PlayerText;
+            return Plain(text);
+        }
 
         /// <summary>A story event as one log line: "Root 33 story (Act I: The Landing): ...".</summary>
-        public static string StoryLine(int act, string eventId) => $"Root 33 story ({ActTitle(act)}): {StoryText(eventId)}";
+        public static string StoryLine(int act, string eventId, SpoilerMode spoilers) =>
+            $"Root 33 story ({ActTitle(act, spoilers)}): {StoryText(eventId, spoilers)}";
 
         /// <summary>A core warning for the player (GameContext.Warnings) as one log line.</summary>
         public static string NoteLine(string warning) => "(Root 33 note: " + warning + ")";

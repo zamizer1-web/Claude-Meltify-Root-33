@@ -6,10 +6,13 @@ namespace Root33.Sim.Tests;
 /// <summary>Builds bare tables for rule tests: setup skipped, empty board, a chosen active seat, and a hold frame.</summary>
 public static class Kit
 {
-    public static SimGame Table(int seed = 1, params string[] characters)
+    public static SimGame Table(int seed = 1, params string[] characters) => TableIn("safe", seed, characters);
+
+    /// <summary>The same bare table in a chosen spoiler mode ("safe" or "finished").</summary>
+    public static SimGame TableIn(string spoiler, int seed, params string[] characters)
     {
         if (characters.Length == 0) characters = new[] { "gustave", "paintress" };
-        var g = SimGame.New(characters.Select(c => new SimGame.SeatSpec(c, true)).ToList(), seed);
+        var g = SimGame.New(characters.Select(c => new SimGame.SeatSpec(c, true)).ToList(), seed, spoiler);
         g.State.SetupDone = true;
         g.State.SetupQueue.Clear();
         g.State.Stack.Clear();

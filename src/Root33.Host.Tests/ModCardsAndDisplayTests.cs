@@ -26,6 +26,79 @@ public class ModCardsAndDisplayTests
     }
 
     [Fact]
+    public void ModCards_SelectCards_ShowTheWinTitlesInTheSpoilerModesWords()
+    {
+        var safe = ModCards.SelectCards(SpoilerMode.Safe, Data.Characters.Keys);
+        Assert.Contains("  How they win: The Living Portraits (countdown win). ", safe);
+        Assert.Contains("  How they win: A Place to Belong (countdown win). ", safe);
+        Assert.DoesNotContain("The Family Portrait", safe);
+        Assert.DoesNotContain("A Home in the Canvas", safe);
+        var finished = ModCards.SelectCards(SpoilerMode.Finished, Data.Characters.Keys);
+        Assert.Contains("  How they win: The Family Portrait (countdown win). ", finished);
+        Assert.Contains("  How they win: A Home in the Canvas (countdown win). ", finished);
+        Assert.DoesNotContain("The Living Portraits (countdown win)", finished);
+    }
+
+    [Fact]
+    public void ModCards_CharacterCard_ShowsTheWinTitleInTheGamesSpoilerMode()
+    {
+        var safe = new HostTable(HostTable.FourSeats(), SpoilerMode.Safe);
+        Assert.Contains("THEMED WIN · The Living Portraits: ", ModCards.CharacterCard(safe.Ctx, safe.Host, new SeatId(1)));
+        var finished = new HostTable(HostTable.FourSeats(), SpoilerMode.Finished);
+        Assert.Contains("THEMED WIN · The Family Portrait: ", ModCards.CharacterCard(finished.Ctx, finished.Host, new SeatId(1)));
+    }
+
+    [Fact]
+    public void ModCards_EsquieAndScielCards_NameTheirTermsAndHowToFindTheRocks()
+    {
+        var t = new HostTable(HostTable.FourSeats());
+        var sciel = ModCards.CharacterCard(t.Ctx, t.Host, new SeatId(2));
+        Assert.Contains("Her Lanterns are her sympathy tokens and her Aquafarms are her Alliance bases.", sciel);
+        Assert.Contains("A Sanctuary is a Lantern clearing with no enemy pieces at all", sciel);
+        Assert.Contains("still have no enemy building or token", sciel);
+        Assert.Contains("To stop her, place a building or token in one of those clearings, or remove her Aquafarms.", sciel);
+        var esquie = ModCards.CharacterCard(t.Ctx, t.Host, new SeatId(3));
+        Assert.Contains("Collect all four of Esquie's lost rocks and he wins at the end of any of his turns, no VP needed (not while in a coalition).", esquie);
+        Assert.Contains("explore the Old Lumière ruin to find it (if the White-Haired Man is playing, not while his warriors stand there)", esquie);
+        Assert.Contains("like every Vagabond battle, needs an undamaged sword", esquie);
+        Assert.Contains("Collected rocks are never lost.", esquie);
+        var winLine = esquie.Split('\n').Single(l => l.StartsWith("THEMED WIN", StringComparison.Ordinal));
+        Assert.DoesNotContain(" home", winLine);                                   // the old text never said what 'home' meant
+    }
+
+    [Fact]
+    public void ModGlossary_HasTheModsWords_InTheSpoilerModesWords()
+    {
+        var terms = new[]
+        {
+            "Act", "Themed win", "Countdown banner", "Goal Tracker", "Monolith Number", "Speech bubbles", "Expedition Flag",
+            "Gustave's Arm and Overcharge", "Living Portrait", "Lantern", "Aquafarm", "Sanctuary", "Esquie's rocks", "Guards",
+            "Perfection rank", "Maelle's relationships", "Maelle's stances",
+        };
+        foreach (var mode in new[] { SpoilerMode.Safe, SpoilerMode.Finished })
+        {
+            var entries = ModGlossary.Entries(mode);
+            foreach (var term in terms) Assert.Contains(entries, e => e.Term == term);
+            var text = ModGlossary.Text(mode);
+            Assert.StartsWith($"ROOT 33 WORDS (the mod's own terms, spoiler mode: {ModCards.ModeName(mode)})", text);
+            Assert.Equal(entries.Count + 1, text.Split('\n').Length);
+            Assert.Contains("  Lantern: Sciel's sympathy token.", text);
+            Assert.Contains("  Aquafarm: Sciel's Alliance base.", text);
+            Assert.DoesNotContain("tune.", text);
+        }
+        var safe = ModGlossary.Text(SpoilerMode.Safe);
+        foreach (var spoiler in new[] { "Aline", "The Canvas", "The Family Portrait", "A Home in the Canvas", "Renoir", "Alicia" })
+            Assert.DoesNotContain(spoiler, safe);
+        Assert.Contains("Act III: The Final Battlefield", safe);
+        Assert.Contains("one of The Paintress's roosts", safe);
+        var finished = ModGlossary.Text(SpoilerMode.Finished);
+        Assert.Contains("Act III: The Canvas", finished);
+        Assert.Contains("one of Aline Dessendre's roosts", finished);
+        Assert.Contains("Verso (fox), Clea (rabbit), Renoir (mouse)", finished);
+        Assert.Contains("The Family Portrait needs one", finished);
+    }
+
+    [Fact]
     public void ModCards_CharacterCard_ListsTheWinAndRuleChangesInPlainWords()
     {
         var t = new HostTable(HostTable.FourSeats());

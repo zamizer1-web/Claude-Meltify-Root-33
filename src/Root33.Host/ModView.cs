@@ -30,7 +30,7 @@ namespace Root33.Host
     /// </summary>
     public sealed class ModPanel
     {
-        /// <summary>"ROOT 33 · Act I: The Landing · Monolith Number 33 (...)".</summary>
+        /// <summary>"ROOT 33 · Act I: The Landing · Monolith Number 33: 33 minus the top score. ..." (<see cref="ModView.Header"/>).</summary>
         public string? Header { get; internal set; }
         /// <summary>The act banner's line (what unlocks, when the next act begins).</summary>
         public string? ActLine { get; internal set; }
@@ -38,7 +38,7 @@ namespace Root33.Host
         public List<string>? Banners { get; internal set; }
         /// <summary>The public Goal Tracker, one row per seated character in turn order.</summary>
         public List<GoalRow>? Goals { get; internal set; }
-        /// <summary>The last story events ("Act I: ...").</summary>
+        /// <summary>The last story events as players read them ("Act I: The Landing: ..."), never the design notes.</summary>
         public List<string>? Story { get; internal set; }
         /// <summary>"SPEECH BUBBLES SINCE YOUR LAST TURN" for a seat, "LATEST SPEECH BUBBLES" for a spectator.</summary>
         public string BubblesTitle { get; internal set; } = "";
@@ -119,8 +119,9 @@ namespace Root33.Host
 
         private void Fill(ModPanel p, SeatId? viewer)
         {
-            p.Header = $"ROOT 33 · {ModText.ActTitle(_ctx.Act)} · Monolith Number {_ctx.MonolithNumber} (33 minus the top score of players not on a dominance card)";
-            p.ActLine = ModText.ActLine(_ctx.Act);
+            var spoilers = _host.Spoilers;
+            p.Header = Header(_ctx.Act, _ctx.MonolithNumber, spoilers);
+            p.ActLine = ModText.ActLine(_ctx.Act, spoilers);
             p.Banners = new List<string>();
             foreach (var kv in _host.Banners().OrderBy(k => k.Key.Value))
                 p.Banners.Add(ModText.BannerAnnounced(_host, kv.Key, kv.Value));
@@ -135,13 +136,19 @@ namespace Root33.Host
                 row.Tracker = Tracker(s, ch);
             }
 
-            p.Story = _feed.LatestStory(StoryShown).Select(e => $"{ModText.ActTitle(e.Act)}: {ModText.StoryText(e.EventId)}").ToList();
+            p.Story = _feed.LatestStory(StoryShown).Select(e => $"{ModText.ActTitle(e.Act, spoilers)}: {ModText.StoryText(e.EventId, spoilers)}").ToList();
 
             var bubbles = viewer is SeatId v ? _feed.SinceLastTurn(v) : _feed.Latest(SpectatorBubbles);
             p.BubblesTitle = viewer.HasValue ? "SPEECH BUBBLES SINCE YOUR LAST TURN" : "LATEST SPEECH BUBBLES";
             p.Bubbles = new List<string>();
             foreach (var b in bubbles) p.Bubbles.Add($"r{b.Round} {_host.Who(new SeatId(b.Seat))}: \"{ModText.BarkText(b.BarkId)}\"");
         }
+
+        /// <summary>The panel's first line: the act and the Monolith Number with what it means. The number has no rule of its
+        /// own; it is 33 minus the top score (GameContext.MonolithNumber), a clock that reaches 3 when someone has 30 VP.</summary>
+        public static string Header(int act, int monolithNumber, SpoilerMode spoilers) =>
+            $"ROOT 33 · {ModText.ActTitle(act, spoilers)} · Monolith Number {monolithNumber}: {Tuning.MonolithNumberStart} minus the top score. " +
+            $"It falls as the leader scores and reaches {Tuning.MonolithNumberStart - Tuning.RootWinVp} when someone has {Tuning.RootWinVp} VP.";
 
         /// <summary>One Goal Tracker row: the win's title and how far the seat is (gates, then the themed test's missing steps).</summary>
         public string GoalLine(SeatId seat)
@@ -159,7 +166,7 @@ namespace Root33.Host
                 parts.Add(missing switch { 0 => "themed test met", 1 => "ONE STEP AWAY", _ => $"{missing} steps missing" });
             }
             if (_host.Banners().Any(kv => kv.Key == seat)) parts.Add("COUNTDOWN ANNOUNCED");
-            return $"{row.Title} ({(row.Kind == "quest" ? "quest" : "countdown")}): {string.Join(", ", parts)}";
+            return $"{ModText.WinTitle(row.Id, _host.Spoilers)} ({(row.Kind == "quest" ? "quest" : "countdown")}): {string.Join(", ", parts)}";
         }
 
         private string Where(ClearingId c) => _host.ClearingName(c);

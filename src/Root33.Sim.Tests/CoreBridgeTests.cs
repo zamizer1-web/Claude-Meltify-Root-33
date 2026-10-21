@@ -43,6 +43,11 @@ public class CoreBridgeTests
         Assert.Contains(g.Bridge.Story, s => s.EventId == Ids.StoryEvents.Act1Landing);
         Assert.Contains("Root 33 story (Act I: The Landing)", log);
         Assert.Contains("=== Root 33 · Act I: The Landing ===", log);
+        // the story speaks to players: the sheet's playerText, never its design notes ('what')
+        Assert.Contains("Root 33 story (Act I: The Landing): Expedition 33 comes ashore on the Continent, battered but alive.", log);
+        Assert.DoesNotContain(Data.StoryEvents[Ids.StoryEvents.Act1Landing].What, log);
+        Assert.DoesNotContain("skippable", log);
+        Assert.Contains("STORY SO FAR" + Environment.NewLine + "  Act I: The Landing: Expedition 33 comes ashore", g.Bridge.ModView(0));
         Assert.NotEmpty(g.Bridge.Bubbles);
         var b = g.Bridge.Bubbles[0];
         Assert.Contains($"says: \"{ModText.BarkText(b.BarkId)}\"", log);
@@ -67,9 +72,9 @@ public class CoreBridgeTests
     }
 
     /// <summary>The Paintress meets The Family Portrait in Act II: banner at the end of her turn, win at her next Birdsong.</summary>
-    static SimGame PaintressPortraitTable()
+    static SimGame PaintressPortraitTable(string spoiler = "safe")
     {
-        var g = Kit.Table(1, "gustave", "paintress");
+        var g = Kit.TableIn(spoiler, 1, "gustave", "paintress");
         g.Bridge.Ctx.State.GlobalAct = 2;
         g.Seat(1).Vp = 12;
         Kit.Building(g, 1, 3, PieceTypes.Roost);
@@ -89,7 +94,8 @@ public class CoreBridgeTests
         var g = PaintressPortraitTable();
         g.Bridge.OnEveningEnd(1);
         Assert.Equal("win.paintress", g.State.Mod.Banners[1]);
-        Assert.Contains("COUNTDOWN! seat 2 (The Paintress) announces The Family Portrait", PublicLog(g));
+        Assert.Contains("COUNTDOWN! seat 2 (The Paintress) announces The Living Portraits", PublicLog(g));   // safe mode's title
+        Assert.DoesNotContain("The Family Portrait", PublicLog(g));
         Assert.Contains("COUNTDOWN", g.Bridge.ModView(0));
         Assert.False(g.State.GameOver);
 
@@ -98,11 +104,22 @@ public class CoreBridgeTests
         loaded.Bridge.OnBirdsongStart(1);
         Assert.True(loaded.State.GameOver);
         Assert.Equal(new List<int> { 1 }, loaded.State.Winners);
-        Assert.Contains("The Family Portrait", loaded.State.GameOverText);
+        Assert.Contains("The Living Portraits", loaded.State.GameOverText);
         Assert.Contains("themed win of The Paintress", loaded.State.GameOverText);
         Assert.True(loaded.Bridge.IsGameOver(out var text));
-        Assert.Contains("The Family Portrait", text);
+        Assert.Contains("The Living Portraits", text);
         Assert.Empty(loaded.Bridge.Errors);
+    }
+
+    [Fact]
+    public void ThemedWin_InFinishedMode_UsesTheFinishedTitle()
+    {
+        var g = PaintressPortraitTable("finished");
+        g.Bridge.OnEveningEnd(1);
+        Assert.Contains($"COUNTDOWN! seat 2 ({ModText.SeatTitle(g, 1)}) announces The Family Portrait", PublicLog(g));
+        Assert.Contains("announces The Family Portrait", g.Bridge.ModView(0));
+        Assert.Contains($"  {Render.Who(g, 1)} · The Family Portrait (countdown): ", g.Bridge.ModView(0));
+        Assert.Empty(g.Bridge.Errors);
     }
 
     [Fact]
@@ -164,6 +181,35 @@ public class CoreBridgeTests
         var finished = CoreBridge.SelectCards("finished");
         Assert.Contains("Aline Dessendre", finished);
         Assert.DoesNotContain("Alicia", finished);            // revealed only in Act III
+        // win titles in the mode's words (Ren and Kit: safe mode gave away the story in two titles)
+        Assert.Contains("How they win: The Living Portraits (countdown win).", safe);
+        Assert.Contains("How they win: A Place to Belong (countdown win).", safe);
+        Assert.DoesNotContain("The Family Portrait", safe);
+        Assert.DoesNotContain("A Home in the Canvas", safe);
+        Assert.Contains("How they win: The Family Portrait (countdown win).", finished);
+        Assert.Contains("How they win: A Home in the Canvas (countdown win).", finished);
+        // the last line points a newcomer at the word list
+        foreach (var screen in new[] { safe, finished })
+            Assert.EndsWith(CoreBridge.SelectWordListLine, screen);
+        Assert.Contains("'rules --seat N'", CoreBridge.SelectWordListLine);
+        Assert.Contains("word list", CoreBridge.SelectWordListLine);
+    }
+
+    [Fact]
+    public void ActThree_Title_FollowsTheSpoilerMode_InTheBannerAndTheView()
+    {
+        foreach (var (spoiler, name) in new[] { ("safe", "The Final Battlefield"), ("finished", "The Canvas") })
+        {
+            var g = Kit.TableIn(spoiler, 1, "gustave", "paintress");
+            g.Seat(0).Vp = 20;
+            g.Bridge.OnTurnEnd(0);   // Act II
+            g.Bridge.OnTurnEnd(1);   // Act III
+            Assert.Equal(3, g.Bridge.Ctx.Act);
+            Assert.Contains($"=== Root 33 · Act III: {name} ===", PublicLog(g));
+            Assert.Contains($"ROOT 33 · Act III: {name} · Monolith Number 13: 33 minus the top score.", g.Bridge.ModView(1));
+            if (spoiler == "safe") Assert.DoesNotContain("The Canvas", PublicLog(g) + g.Bridge.ModView(1));
+            Assert.Empty(g.Bridge.Errors);
+        }
     }
 
     [Fact]

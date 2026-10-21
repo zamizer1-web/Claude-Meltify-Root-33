@@ -275,6 +275,61 @@ public class CliTests
         finally { foreach (var f in new[] { path, path + ".lock" }) if (File.Exists(f)) File.Delete(f); }
     }
 
+    [Fact]
+    public void Cli_RulesEndWithTheWordLists_SelectPointsToThem_LivePageShowsThePlayersStory()
+    {
+        var path = Path.Combine(Path.GetTempPath(), "root33-words-" + Guid.NewGuid().ToString("N") + ".json");
+        var live = Path.Combine(Path.GetDirectoryName(path)!, Path.GetFileNameWithoutExtension(path) + ".live.md");
+        try
+        {
+            var w = new StringWriter();
+            Assert.Equal(0, Program.Run(new[] { "new", "--save", path, "--seed", "7", "--spoiler", "safe", "--seats", "gustave:human,paintress:bot,sciel:bot,esquie:bot" }, w));
+            for (int i = 0; i < 20 && Last(StatusOf(path)).StartsWith("STATUS: round 0"); i++)
+                Assert.Equal(0, Program.Run(new[] { "do", "--save", path, "--seat", "1", "1" }, new StringWriter()));   // Gustave's setup
+
+            w = new StringWriter();
+            Assert.Equal(0, Program.Run(new[] { "rules", "--save", path, "--seat", "1" }, w));
+            var rules = w.ToString();
+            Assert.Contains("ROOT WORDS (Root's own terms, one line each)", rules);
+            Assert.Contains("  slot: a building space in a clearing. Buildings take slots; tokens do not, so a clearing with no free slot still takes tokens.", rules);
+            Assert.Contains("  keep: the Marquise's token in her home corner; no other faction may place pieces in the keep's clearing.", rules);
+            Assert.Contains("  ruling a clearing: the faction with the most warriors plus buildings there rules it (tokens and pawns do not count). A tie means nobody rules it, except that the Eyrie win every tie they are part of.", rules);
+            Assert.Contains("ROOT 33 WORDS (the mod's own terms, spoiler mode: safe)", rules);
+            Assert.Contains("  Lantern: Sciel's sympathy token.", rules);
+            Assert.True(rules.IndexOf("ROOT 33 CHARACTER", StringComparison.Ordinal) < rules.IndexOf("ROOT WORDS", StringComparison.Ordinal));
+            Assert.True(rules.IndexOf("ROOT WORDS", StringComparison.Ordinal) < rules.IndexOf("ROOT 33 WORDS", StringComparison.Ordinal));
+            foreach (var term in new[]
+            {
+                "VP", "clearing", "suit", "slot", "ruling a clearing", "warrior", "building", "token", "pawn", "Birdsong / Daylight / Evening",
+                "crafting and crafting pieces", "item", "ambush", "dominance card", "coalition", "Vagabond", "relationships",
+                "exhausted and damaged items", "ruin", "quest", "keep", "Field Hospitals", "roost", "Decree", "Turmoil", "sympathy",
+                "supporters", "Outrage", "Revolt", "base", "officer",
+            })
+                Assert.Contains("\n  " + term + ": ", Program.RootWords);
+            Assert.Contains("Indifferent, Amiable, Friendly, Allied", Program.RootWords);
+            Assert.Contains("Hostile", Program.RootWords);
+
+            w = new StringWriter();
+            Assert.Equal(0, Program.Run(new[] { "select", "--spoiler", "safe" }, w));
+            Assert.Equal(CoreBridge.SelectWordListLine, Last(w));
+
+            // the live watch page's story box reads like the game, not like the design sheet
+            var page = File.ReadAllText(live);
+            Assert.Contains("STORY SO FAR", page);
+            Assert.Contains("Act I: The Landing: Expedition 33 comes ashore on the Continent, battered but alive.", page);
+            Assert.Contains("Florrie, Esquie's first lost rock, sits at Stone Wave Cliffs under 2 guard warriors.", page);
+            foreach (var e in Root33.Core.Sheets.Data.StoryEvents.Values) Assert.DoesNotContain(e.What, page);
+        }
+        finally { foreach (var f in new[] { path, path + ".lock", live }) if (File.Exists(f)) File.Delete(f); }
+    }
+
+    static StringWriter StatusOf(string path)
+    {
+        var w = new StringWriter();
+        Program.Run(new[] { "status", "--save", path }, w);
+        return w;
+    }
+
     [Theory]
     [InlineData("gustave:human,gustave:human")]
     [InlineData("gustave:human,lune:human")]

@@ -45,9 +45,9 @@ public class ModFeedTests
         var t = new HostTable(HostTable.FourSeats());
         var lines = new List<string>();
         t.Feed.CatchUp(t.Ctx, 1, setupDone: true, lines.Add);
-        Assert.Equal(ModText.ActBannerLine(1), lines[0]);
+        Assert.Equal(ModText.ActBannerLine(1, SpoilerMode.Safe), lines[0]);
         Assert.Equal(1, lines.Count(l => l.StartsWith("=== Root 33 · ")));
-        Assert.Contains(ModText.StoryLine(1, Ids.StoryEvents.Act1Landing), lines);
+        Assert.Contains(ModText.StoryLine(1, Ids.StoryEvents.Act1Landing, SpoilerMode.Safe), lines);
         Assert.Equal(t.Ctx.StoryLog.Count, t.Feed.Story.Count);
         Assert.Equal(1, t.Feed.LastAct);
 
@@ -69,8 +69,8 @@ public class ModFeedTests
         Assert.Equal(2, t.Ctx.Act);
         var lines = new List<string>();
         t.Feed.CatchUp(t.Ctx, 1, setupDone: true, lines.Add);
-        Assert.Equal(ModText.ActBannerLine(2), lines[0]);
-        Assert.Contains(ModText.StoryLine(2, Ids.StoryEvents.Act2UnlockWins), lines);
+        Assert.Equal(ModText.ActBannerLine(2, SpoilerMode.Safe), lines[0]);
+        Assert.Contains(ModText.StoryLine(2, Ids.StoryEvents.Act2UnlockWins, SpoilerMode.Safe), lines);
         Assert.Equal(2, t.Feed.LastAct);
         Assert.Contains(t.Feed.Story, s => s.Act == 2);
     }
@@ -82,7 +82,7 @@ public class ModFeedTests
         var lines = new List<string>();
         t.Feed.CatchUp(t.Ctx, 0, setupDone: false, lines.Add);
         Assert.DoesNotContain(lines, l => l.StartsWith("=== Root 33"));
-        Assert.Contains(ModText.StoryLine(1, Ids.StoryEvents.Act1Landing), lines);
+        Assert.Contains(ModText.StoryLine(1, Ids.StoryEvents.Act1Landing, SpoilerMode.Safe), lines);
         Assert.All(t.Feed.Story, s => Assert.Equal(0, s.Round));
     }
 
@@ -93,7 +93,7 @@ public class ModFeedTests
         var lines = new List<string>();
         t.Feed.SkipSeen(t.Ctx);
         t.Feed.CatchUp(t.Ctx, 1, setupDone: true, lines.Add);
-        Assert.Equal(new[] { ModText.ActBannerLine(1) }, lines);   // the act banner was never shown in this feed
+        Assert.Equal(new[] { ModText.ActBannerLine(1, SpoilerMode.Safe) }, lines);   // the act banner was never shown in this feed
         Assert.Empty(t.Feed.Story);
     }
 
@@ -114,7 +114,7 @@ public class ModFeedTests
         var next = new HostTable(HostTable.FourSeats());
         var lines = new List<string>();
         t.Feed.CatchUp(next.Ctx, 1, setupDone: true, lines.Add);
-        Assert.Equal(ModText.ActBannerLine(1), lines[0]);
+        Assert.Equal(ModText.ActBannerLine(1, SpoilerMode.Safe), lines[0]);
         Assert.Equal(next.Ctx.StoryLog.Count, t.Feed.Story.Count);
     }
 

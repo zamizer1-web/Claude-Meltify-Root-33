@@ -11,8 +11,8 @@ truly needs them.
 | Part | What it is | Checked in the cloud |
 |---|---|---|
 | `src/Root33.Core` | every rule of Root 33 (netstandard2.0) | 432 tests |
-| `src/Root33.Host` | what a host shows, the same in the tabletop and in Root: `ModText` (names, titles, banners, barks, acts, story), `ModView` (act banner, Monolith Number, countdown banners, Goal Tracker with each character's tracker, story, per-seat speech bubbles), `ModFeed`, `ModCards`, `ModDisplay`, `HookDispatcher` (nested hooks queued, core errors logged once per hook) | 35 tests; the tabletop now runs on it with byte-identical output |
-| `src/Root33.Sim` | the text tabletop of Root that runs the real core (the playtests) | 103 tests |
+| `src/Root33.Host` | what a host shows, the same in the tabletop and in Root: `ModText` (names, titles, banners, barks, acts, story), `ModView` (act banner, Monolith Number, countdown banners, Goal Tracker with each character's tracker, story, per-seat speech bubbles), `ModFeed`, `ModCards`, `ModGlossary` (the mod's own words for newcomers, in the spoiler mode's words), `ModDisplay`, `HookDispatcher` (nested hooks queued, core errors logged once per hook) | 45 tests; the tabletop now runs on it with byte-identical output |
+| `src/Root33.Sim` | the text tabletop of Root that runs the real core (the playtests) | 114 tests |
 | `tools/Root33.Discover` | reads a folder of assemblies as metadata (nothing runs) and writes `types.json` and `report.md` (Root concepts, game-flow types, enums) | 27 tests over the repo's own assemblies |
 | `src/Root33.Plugin` | the BepInEx 6 plugin (not in `src/Root33.sln`) | compiles with `-p:NoUnity=true` (and `-p:RootMono=true`); see "Not verified" |
 | `tools/gen_plugin_stubs.py` | writes `Adapter/RootBoard.cs`, `Adapter/EngineIds.cs`, `Patches/HookMap.cs` from the sheets | `--check` mode |

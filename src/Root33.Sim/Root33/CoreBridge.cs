@@ -291,10 +291,16 @@ public sealed class CoreBridge
     }
 
     /// <summary>The character select screen as text (works without a game): each base-game character as a player reads
-    /// its card (name, pitch, how it wins, which Root faction it plays), then how to seat them here.</summary>
+    /// its card (name, pitch, how it wins, which Root faction it plays), then how to seat them here, then where a newcomer
+    /// finds the word list.</summary>
     public static string SelectCards(string spoiler) =>
         ModCards.SelectCards(SimHost.SpoilersOf(spoiler), ModText.BaseCharacters) +
-        "Seat 2-4 of them, at most two Vagabonds: new --seats \"gustave:human,paintress:human,sciel:human,esquie:human\"";
+        "Seat 2-4 of them, at most two Vagabonds: new --seats \"gustave:human,paintress:human,sciel:human,esquie:human\"\n" +
+        SelectWordListLine;
+
+    /// <summary>The select screen's last line: where a new player finds the word list.</summary>
+    public const string SelectWordListLine =
+        "New to Root or Root 33? Once the game is created, 'rules --seat N' ends with a word list: Root's terms, then Root 33's own.";
 
     /// <summary>The seat's character card: who it is, its themed win, and its Root 33 rule changes in plain words.</summary>
     public string CharacterCard(int seat) => ModCards.CharacterCard(Ctx, Host, S(seat));

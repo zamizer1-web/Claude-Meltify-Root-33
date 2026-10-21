@@ -4,6 +4,7 @@
       "id": "act1",
       "number": 1,
       "name": "The Landing",
+      "nameSafe": null,
       "endsAtVp": 10,
       "endsAfterRound": 4,
       "events": [
@@ -23,6 +24,7 @@
       "id": "act2",
       "number": 2,
       "name": "The Monolith",
+      "nameSafe": null,
       "endsAtVp": 20,
       "endsAfterRound": 8,
       "events": [
@@ -45,6 +47,7 @@
       "id": "act3",
       "number": 3,
       "name": "The Canvas",
+      "nameSafe": "The Final Battlefield",
       "endsAtVp": 0,
       "endsAfterRound": 0,
       "events": [

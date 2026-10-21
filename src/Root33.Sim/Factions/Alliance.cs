@@ -319,7 +319,7 @@ public sealed class Alliance : FactionBase
     {
         int seat = f.Seat;
         var d = new Decision(seat, "Daylight: craft, mobilize or train, in any order and number") { Open = true };
-        foreach (var c in Crafting.Craftable(g, seat)) d.Add($"craft:{c}", $"Craft {Cards.Describe(c)}");
+        foreach (var c in Crafting.Craftable(g, seat)) d.Add($"craft:{c}", $"Craft {Cards.DescribeToCraft(c)}");
         bool full = !HasBases(g, seat) && D(g, seat).Supporters.Count >= SupporterLimit;
         foreach (var c in g.Seat(seat).Hand)
             d.Add($"mobilize:{c}", $"Mobilize: add {Cards.Label(c)} to the Supporters stack{(full ? " (the stack is full: it would be discarded)" : "")}");
@@ -349,6 +349,9 @@ public sealed class Alliance : FactionBase
         }
         g.ActionResolved(seat);
     }
+
+    /// <summary>Added to the Military Operations prompt when no Organize option is offered.</summary>
+    public const string OrganizeHint = "(Organize needs one of your warriors in a clearing without your sympathy)";
 
     // Evening: step 0 military operations (I["used"]), step 1 draw and discard
 
@@ -382,6 +385,10 @@ public sealed class Alliance : FactionBase
                 foreach (var c in g.ClearingIds.Where(c => g.Warriors(seat, c) > 0 && !Sympathetic(g, seat, c) && g.CanPlace(seat, c)))
                     d.Add($"organize:{c}", $"Organize: remove a warrior from {g.ClearingName(c)} to place sympathy there (score {vp} VP)");
             }
+            if (!d.Options.Any(o => o.Key.StartsWith("organize:")))
+                d.Prompt += g.Supply(seat, PieceTypes.Sympathy) > 0
+                    ? " " + OrganizeHint
+                    : " (Organize: every sympathy token is already on the map)";
             d.Add("end", "End military operations");
             return d;
         }

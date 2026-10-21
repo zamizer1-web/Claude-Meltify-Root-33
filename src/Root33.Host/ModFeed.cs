@@ -90,7 +90,7 @@ namespace Root33.Host
                 var e = story[_storySeen];
                 if (setupDone && ctx.Act > LastAct) ActBanner(ctx, log);
                 Story.Add(new StoryRecord { EventId = e.EventId, Act = e.Act, Round = round });
-                log(ModText.StoryLine(e.Act, e.EventId));
+                log(ModText.StoryLine(e.Act, e.EventId, ctx.Spoilers));
             }
             if (setupDone && ctx.Act > LastAct) ActBanner(ctx, log);
             for (; _warningsSeen < ctx.Warnings.Count; _warningsSeen++) log(ModText.NoteLine(ctx.Warnings[_warningsSeen]));
@@ -119,7 +119,7 @@ namespace Root33.Host
         private void ActBanner(GameContext ctx, Action<string> log)
         {
             LastAct = ctx.Act;
-            log(ModText.ActBannerLine(ctx.Act));
+            log(ModText.ActBannerLine(ctx.Act, ctx.Spoilers));
         }
     }
 }

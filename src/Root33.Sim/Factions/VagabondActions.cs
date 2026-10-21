@@ -164,10 +164,21 @@ public sealed partial class Vagabond
             g.Pop(f);
             return null;
         }
-        var d = new Decision(seat, $"Daylight: choose an action or end Daylight ({ReadySummary(g, seat)})") { Open = true };
+        var d = new Decision(seat, $"Daylight: choose an action or end Daylight ({ReadySummary(g, seat)}){SwordHint(g, seat)}") { Open = true };
         AddActions(g, seat, d);
         d.Add("end", "End Daylight");
         return d;
+    }
+
+    /// <summary>Added to the Daylight prompt when the pawn stands where it could battle someone but has no sword to do it.</summary>
+    public const string NoSwordHint = " (battle needs an undamaged sword)";
+
+    static string SwordHint(SimGame g, int seat)
+    {
+        if (Ready(g, seat, ItemType.Sword) > 0 || g.Seat(seat).PawnClearing is not int c) return "";
+        bool target = Enumerable.Range(0, g.SeatCount).Any(o => Enemies(g, seat, o) && g.Faction(o).PresentIn(g, o, c) && g.Bridge.OnBattleLegal(seat, o, c));
+        if (!target) return "";
+        return Undamaged(g, seat, ItemType.Sword) == 0 ? NoSwordHint : " (battle needs a face-up sword: yours are exhausted)";
     }
 
     static void AddActions(SimGame g, int seat, Decision d)

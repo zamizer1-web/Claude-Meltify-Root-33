@@ -270,6 +270,44 @@ public static class Program
         sb.AppendLine("start of your Birdsong by ruling three clearings of its suit, or two opposite corners for birds). 30 VP wins at once.");
         var card = g.Bridge.CharacterCard(seat);
         if (!string.IsNullOrWhiteSpace(card)) { sb.AppendLine(); sb.AppendLine(card.TrimEnd()); }
+        sb.AppendLine();
+        sb.AppendLine(RootWords.TrimEnd());
+        if (g.Bridge.Ctx.E33Mode) { sb.AppendLine(); sb.AppendLine(ModText.Glossary(g)); }
         return sb.ToString().TrimEnd();
     }
+
+    /// <summary>Root's own words for a newcomer, one line each (the end of 'rules --seat N', before the mod's own words).</summary>
+    public const string RootWords =
+        "ROOT WORDS (Root's own terms, one line each)\n" +
+        "  VP: victory points. The first to 30 VP wins at once.\n" +
+        "  clearing: one of the 12 spaces of the map (numbered 1-12 here), joined by paths; the areas between them are forests.\n" +
+        "  suit: fox, rabbit or mouse. Every clearing and most cards have one; bird cards are wild and count as any suit.\n" +
+        "  slot: a building space in a clearing. Buildings take slots; tokens do not, so a clearing with no free slot still takes tokens.\n" +
+        "  ruling a clearing: the faction with the most warriors plus buildings there rules it (tokens and pawns do not count). A tie means nobody rules it, except that the Eyrie win every tie they are part of.\n" +
+        "  warrior: a faction's fighting piece. Warriors move, battle and count toward rule.\n" +
+        "  building: a piece that takes a slot (sawmill, workshop, recruiter, roost, base). Removing an enemy building scores 1 VP.\n" +
+        "  token: a piece that takes no slot (wood, keep, sympathy). Removing an enemy token scores 1 VP.\n" +
+        "  pawn: the Vagabond's single piece. It never rules a clearing and can also stand in a forest.\n" +
+        "  Birdsong / Daylight / Evening: the three phases of every turn, in that order; each faction does different things in each.\n" +
+        "  crafting and crafting pieces: pay a card's cost with crafting pieces (Marquise workshops, Eyrie roosts, Alliance sympathy, Vagabond hammers), each giving its clearing's suit once per turn. A crafted card gives its item and VP, or puts its effect in front of you: an effect card works only once crafted.\n" +
+        "  item: a thing made by crafting (bag, boots, tea, coins, sword, crossbow, hammer); torches come from setup and ruins. The Vagabond acts with items; the others just score them.\n" +
+        "  ambush: a card the defender plays before the roll to deal 2 hits at once; the attacker may cancel it with a matching ambush.\n" +
+        "  dominance card: with 10+ VP, activate it in Daylight and stop scoring VP; you win at the start of your Birdsong if you rule 3 clearings of its suit (bird: 2 opposite corners).\n" +
+        "  coalition: a Vagabond with 10+ VP may use a dominance card to join the player with the fewest VP (4+ players); they then win together.\n" +
+        "  Vagabond: a faction with one pawn and no warriors; it acts by exhausting its items.\n" +
+        "  relationships: a Vagabond's standing with each other faction: Indifferent, Amiable, Friendly, Allied (Aid them to climb; Allied warriors fight with it), or Hostile once it removes their warriors.\n" +
+        "  exhausted and damaged items: an exhausted item is face down, used this turn, and refreshes in Birdsong; a damaged item (from hits) cannot be used until repaired with a hammer.\n" +
+        "  ruin: a clearing holding a face-down item; a Vagabond Explores it (exhausting a torch) to take the item and score 1 VP.\n" +
+        "  quest: a Vagabond card; in a clearing of its suit, exhaust the two items it shows to score VP or draw 2 cards.\n" +
+        "  keep: the Marquise's token in her home corner; no other faction may place pieces in the keep's clearing.\n" +
+        "  Field Hospitals: when Marquise warriors are removed, she may spend a card of their clearing's suit to put them back at the keep.\n" +
+        "  roost: the Eyrie's building and crafting piece; the more roosts on the map, the more VP the Eyrie score each Evening.\n" +
+        "  Decree: the Eyrie's growing row of cards; every turn they must recruit, move, battle and build once per card, in a clearing of its suit.\n" +
+        "  Turmoil: when the Eyrie cannot carry out a Decree card, they lose VP (one per bird card in the Decree), discard the Decree and change leader.\n" +
+        "  sympathy: the Alliance's tokens. Placing them scores VP; sympathetic clearings are its crafting pieces and cause Outrage.\n" +
+        "  supporters: the Alliance's own stack of cards, kept apart from its hand, spent to spread sympathy and to revolt.\n" +
+        "  Outrage: whoever removes a sympathy token or moves warriors into a sympathetic clearing must give the Alliance a matching card (or show their hand).\n" +
+        "  Revolt: the Alliance spends 2 supporters to remove every enemy piece in a sympathetic clearing and put a base there.\n" +
+        "  base: the Alliance's building (fox, rabbit, mouse). Losing one costs supporters and officers.\n" +
+        "  officer: an Alliance warrior moved to its board; each officer is one military operation every Evening.\n";
 }

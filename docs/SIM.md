@@ -49,6 +49,9 @@ tools/sim.sh rules   --save game.json --seat 1
   hand size, items, play area and board; its own hand; then `CoreBridge.ModView(seat)`; then its options when it decides.
 - `log` without `--seat` shows only public entries; private ones (cards you drew, a hand seen with Codebreakers) need
   `--seat N`.
+- `rules --seat N` ends with two word lists for newcomers: ROOT WORDS (Root's own terms, `Program.RootWords`) and
+  ROOT 33 WORDS (the mod's own terms in the game's spoiler mode, `Root33.Host.ModGlossary`). `select` ends with a line
+  pointing new players at them.
 - `tools/sim.sh` runs the Release dll directly and rebuilds it (under the shared flock) only when it is missing or
   older than a `.cs`, `.csproj` or sheet. The lock path can be changed with `ROOT33_DOTNET_LOCK`.
 - Concurrent commands on one save are serialised by `<save>.lock`; saves are written atomically.

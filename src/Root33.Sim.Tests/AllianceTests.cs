@@ -219,6 +219,28 @@ public class AllianceTests
     }
 
     [Fact]
+    public void Evening_WhenOrganizeIsNotPossible_ThePromptSaysWhatItNeeds()
+    {
+        var g = Table(TurnPhase.Evening);
+        Kit.Building(g, A, 5, "base.fox");
+        Kit.Warriors(g, A, 5, 2);
+        Kit.Token(g, A, 5, PieceTypes.Sympathy);                       // her only warriors stand in her own sympathy
+        Alliance.D(g, A).Officers = 1; g.Seat(A).SupplyWarriors -= 1;
+        BKit.Run(g, A, new Frame("alliance.evening", A));
+        Assert.DoesNotContain(g.Pending!.Options, o => o.Key.StartsWith("organize:"));
+        Assert.Equal("(Organize needs one of your warriors in a clearing without your sympathy)", Alliance.OrganizeHint);
+        Assert.EndsWith(" " + Alliance.OrganizeHint, g.Pending.Prompt);
+
+        var ok = Table(TurnPhase.Evening);                              // a warrior outside her sympathy: Organize, no hint
+        Kit.Building(ok, A, 5, "base.fox");
+        Kit.Warriors(ok, A, 5, 2);
+        Alliance.D(ok, A).Officers = 1; ok.Seat(A).SupplyWarriors -= 1;
+        BKit.Run(ok, A, new Frame("alliance.evening", A));
+        Assert.Contains(ok.Pending!.Options, o => o.Key == "organize:5");
+        Assert.DoesNotContain("Organize needs", ok.Pending.Prompt);
+    }
+
+    [Fact]
     public void Evening_OpeningMoveAndNotMoving_DoesNotSpendAnOperation()
     {
         // Playtest (Ren, round 3): "Move" then "Do not move" used up one of the three operations.
