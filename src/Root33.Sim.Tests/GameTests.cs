@@ -317,7 +317,7 @@ public class CliTests
             var page = File.ReadAllText(live);
             Assert.Contains("STORY SO FAR", page);
             Assert.Contains("Act I: The Landing: Expedition 33 comes ashore on the Continent, battered but alive.", page);
-            Assert.Contains("Florrie, Esquie's first lost rock, sits at Stone Wave Cliffs under 2 guard warriors.", page);
+            Assert.Contains("Florrie, Esquie's first lost rock, sits at Stone Wave Cliffs under 2 neutral guards.", page);
             foreach (var e in Root33.Core.Sheets.Data.StoryEvents.Values) Assert.DoesNotContain(e.What, page);
         }
         finally { foreach (var f in new[] { path, path + ".lock", live }) if (File.Exists(f)) File.Delete(f); }

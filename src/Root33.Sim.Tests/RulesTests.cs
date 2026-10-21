@@ -195,16 +195,15 @@ public class MoveAndRuleTests
     }
 
     [Fact]
-    public void MoveFrame_MovesTheChosenCount_AndRespectsGuardFloors()
+    public void MoveFrame_MovesTheChosenCount()
     {
         var g = Kit.Table();
         Kit.Warriors(g, 0, 1, 3);
-        g.State.Mod.GuardFloors.Add(new GuardFloor { Seat = 0, Clearing = 1, Floor = 1 });
         Kit.Hold(g, 0);
         g.Push(Moves.Frame(0, optional: false));
         g.Advance();
         g.Choose(0, "move:1-5");
-        Assert.Equal(new[] { "count:2", "count:1" }, g.Pending!.Options.Select(o => o.Key));
+        Assert.Equal(new[] { "count:3", "count:2", "count:1" }, g.Pending!.Options.Select(o => o.Key));
         g.Choose(0, "count:2");
         Assert.Equal(1, g.Warriors(0, 1));
         Assert.Equal(2, g.Warriors(0, 5));

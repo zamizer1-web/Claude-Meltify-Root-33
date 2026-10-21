@@ -112,9 +112,13 @@ namespace Root33.Core
         /// <remarks>Sheet row: read.ruler</remarks>
         SeatId? Ruler(ClearingId c);
 
-        /// A seat's warriors in a clearing, guards included (themed-win tests subtract hosted guards themselves).
+        /// A seat's warriors in a clearing. Esquie's neutral rock guards belong to no seat and are never counted here (read.guards counts them).
         /// <remarks>Sheet row: read.warriors</remarks>
         int Warriors(SeatId seat, ClearingId c);
+
+        /// Esquie's neutral rock guards in a clearing (pieces of no seat; 0 when there are none).
+        /// <remarks>Sheet row: read.guards</remarks>
+        int Guards(ClearingId c);
 
         /// A seat's buildings of any type in a clearing.
         /// <remarks>Sheet row: read.buildings</remarks>
@@ -140,7 +144,7 @@ namespace Root33.Core
         /// <remarks>Sheet row: read.pawn-forest</remarks>
         int? PawnForest(SeatId seat);
 
-        /// Warriors left in a seat's supply (the Nevron host is chosen by this).
+        /// Warriors left in a seat's supply.
         /// <remarks>Sheet row: read.supply-warriors</remarks>
         int SupplyWarriors(SeatId seat);
 

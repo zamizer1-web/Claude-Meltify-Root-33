@@ -18,8 +18,8 @@ public static class Moves
         Neighbours(g, seat, from).Contains(to) &&
         (g.Faction(seat).IgnoresRuleToMove || g.Rules(seat, from) || g.Rules(seat, to));
 
-    /// <summary>Warriors that may leave c (the core's guard floor keeps some behind).</summary>
-    public static int Movable(SimGame g, int seat, int c) => Math.Max(0, g.Warriors(seat, c) - g.GuardFloor(seat, c));
+    /// <summary>Warriors that may leave c.</summary>
+    public static int Movable(SimGame g, int seat, int c) => g.Warriors(seat, c);
 
     /// <summary>Every (from, to) a seat's warriors may take now; fromSuit narrows the origin (Eyrie Decree).</summary>
     public static List<(int From, int To)> Legal(SimGame g, int seat, Suit? fromSuit = null)
@@ -121,6 +121,49 @@ public static class Battles
     {
         r.Add("battle", Next, Choose);
         r.Add("hits", HitsNext, HitsChoose);
+        r.Add("guard-battle", GuardNext, (g, f, o) => { });
+    }
+
+    /// <summary>
+    /// Root 33: a battle against Esquie's neutral rock guards in c (tweak.esquie.neutral-guards). The guards have no seat, cards
+    /// or ambush: the attacker takes the higher die, capped by its max rolled hits, and removes that many guards; the guards
+    /// take the lower, capped by their number, and deal it to the attacker. The core is told before the roll and after.
+    /// </summary>
+    public static void StartGuardBattle(SimGame g, int attacker, int c) =>
+        g.Push(new Frame("guard-battle", attacker).Set("c", c));
+
+    static Decision? GuardNext(SimGame g, Frame f)
+    {
+        int att = f.Seat, c = f.Get("c");
+        var cs = g.Clearing(c);
+        switch (f.Step)
+        {
+            case 0:
+                g.Log($"{g.SeatName(att)} battles the {cs.Guards} neutral guard{(cs.Guards == 1 ? "" : "s")} in {g.ClearingName(c)}.");
+                g.Bridge.OnGuardBattleStart(att, c);
+                f.Step = 1;
+                return null;
+            case 1:
+            {
+                int x = g.RollDie(), y = g.RollDie();
+                int dealt = Math.Min(Math.Min(Math.Max(x, y), Capped(g, att, c, 3)) + g.State.Mod.ExtraHits.GetValueOrDefault(att), cs.Guards);
+                int taken = Math.Min(Math.Min(x, y), cs.Guards);
+                g.Log($"Dice: {x} and {y}. {g.SeatName(att)} removes {dealt} guard{(dealt == 1 ? "" : "s")}; the guards deal {taken} hit{(taken == 1 ? "" : "s")}.");
+                cs.Guards -= dealt;
+                f.Step = 2;
+                g.Push(HitsFrame(g, att, c, taken, null));
+                return null;
+            }
+            default:
+            {
+                var parent = g.Parent(f);
+                parent?.Set("battles", parent.Get("battles") + 1);
+                g.Pop(f);
+                g.State.Mod.ExtraHits.Clear(); g.State.Mod.ExtraMaxHits.Clear(); g.State.Mod.IgnoreFirstHit.Clear();
+                g.Bridge.OnGuardBattleResolved(att, c);
+                return null;
+            }
+        }
     }
 
     static Decision? Next(SimGame g, Frame f)

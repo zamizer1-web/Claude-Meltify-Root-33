@@ -164,6 +164,16 @@ public sealed class CoreBridge
     public void OnBattleStart(int attacker, int defender, int clearing) =>
         Call("hook.battle-start", g => g.OnBattleStarting(S(attacker), S(defender), C(clearing)));
 
+    /// <summary>hook.guard-battle-legal: whether a seat may battle the neutral guards in a clearing (only Esquie, with a sword).</summary>
+    public bool OnGuardBattleLegal(int attacker, int clearing) =>
+        Ask("hook.guard-battle-legal", g => g.CanBattleGuards(S(attacker), C(clearing)), false);
+    /// <summary>hook.guard-battle-start: before the roll (Belly Bounce goes in State.Mod.ExtraMaxHits).</summary>
+    public void OnGuardBattleStart(int attacker, int clearing) =>
+        Call("hook.guard-battle-start", g => g.OnGuardBattleStarting(S(attacker), C(clearing)));
+    /// <summary>hook.guard-battle-resolved: the guards left are on the board (ClearingState.Guards).</summary>
+    public void OnGuardBattleResolved(int attacker, int clearing) =>
+        Call("hook.guard-battle-resolved", g => g.OnGuardBattleResolved(S(attacker), C(clearing)));
+
     /// <summary>hook.battle-resolved: b.Removed lists every piece removed in the battle.</summary>
     public void OnBattleResolved(BattleState b)
     {

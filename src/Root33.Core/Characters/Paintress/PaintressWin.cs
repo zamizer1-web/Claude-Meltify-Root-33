@@ -16,7 +16,7 @@ namespace Root33.Core.Characters.Paintress
         public PaintressWin() : base(Ids.WinConditions.Paintress) { }
 
         public override bool Announce(GameContext ctx, SeatId seat) =>
-            PaintressPortraits.FamilyPortrait(ctx.Board, ctx.State, seat, ctx.Role(Ids.MapRoles.Monolith));
+            PaintressPortraits.FamilyPortrait(ctx.Board, seat, ctx.Role(Ids.MapRoles.Monolith));
 
         /// <summary>The confirm test is "the same test on the current board".</summary>
         public override bool Confirm(GameContext ctx, SeatId seat) => Announce(ctx, seat);
@@ -25,7 +25,7 @@ namespace Root33.Core.Characters.Paintress
         public int UnitsMissing(GameContext ctx, SeatId seat)
         {
             var monolith = ctx.Role(Ids.MapRoles.Monolith);
-            var n = PaintressPortraits.MissingSuits(ctx.Board, ctx.State, seat, monolith).Count;
+            var n = PaintressPortraits.MissingSuits(ctx.Board, seat, monolith).Count;
             if (!PaintressPortraits.HoldsMonolith(ctx.Board, seat, monolith)) n++;
             return n;
         }
@@ -37,7 +37,7 @@ namespace Root33.Core.Characters.Paintress
             var monolith = ctx.Role(Ids.MapRoles.Monolith);
             var list = new List<ClearingId>();
             if (monolith.HasValue) list.Add(monolith.Value);
-            var portraits = PaintressPortraits.LivingPortraits(ctx.Board, ctx.State, seat, monolith);
+            var portraits = PaintressPortraits.LivingPortraits(ctx.Board, seat, monolith);
             list.AddRange(portraits);
             list.AddRange(ctx.Board.Clearings().Where(c => !list.Contains(c) && PaintressPortraits.IsEasel(ctx.Board, seat, c, monolith)));
             return list;

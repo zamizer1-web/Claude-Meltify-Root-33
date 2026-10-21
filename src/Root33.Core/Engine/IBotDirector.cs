@@ -140,6 +140,7 @@ namespace Root33.Core.Engine
         public IReadOnlyList<ClearingId> ForestClearings(int forest) => _b.ForestClearings(forest);
         public SeatId? Ruler(ClearingId c) => _b.Ruler(c);
         public int Warriors(SeatId seat, ClearingId c) => _b.Warriors(seat, c);
+        public int Guards(ClearingId c) => _b.Guards(c);
         public int Buildings(SeatId seat, ClearingId c) => _b.Buildings(seat, c);
         public int BuildingsOfType(SeatId seat, ClearingId c, string type) => _b.BuildingsOfType(seat, c, type);
         public int Tokens(SeatId seat, ClearingId c) => _b.Tokens(seat, c);

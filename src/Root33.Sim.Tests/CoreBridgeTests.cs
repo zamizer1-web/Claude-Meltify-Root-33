@@ -155,12 +155,12 @@ public class CoreBridgeTests
         var florrie = st.EsquieRocks[0];
         Assert.Equal(RockStatus.Guarded, florrie.Status);
         int c = florrie.Clearing!.Value.Value;
-        int host = florrie.HostSeat!.Value.Value;
         Assert.Equal(g.Bridge.Ctx.Role(Ids.MapRoles.StoneWaveCliffs)!.Value.Value, c);
-        Assert.True(g.Warriors(host, c) >= florrie.GuardsLeft && florrie.GuardsLeft > 0);
-        Assert.Contains(g.State.Mod.GuardFloors, x => x.Seat == host && x.Clearing == c && x.Floor == florrie.GuardsLeft);
-        Assert.Contains(g.State.Mod.BlockedPlacements, x => x.Seat == host && x.Clearing == c);
-        Assert.False(g.CanPlace(host, c));
+        // neutral guards: on the board, nobody's warriors, and they block no one
+        Assert.Null(florrie.HostSeat);
+        Assert.True(florrie.GuardsLeft > 0);
+        Assert.Equal(florrie.GuardsLeft, g.Clearing(c).Guards);
+        Assert.True(g.CanPlace(0, c));
         Assert.Contains("Florrie at", g.Bridge.ModView(1));
         // Esquie started in a forest touching his Nest
         var forests = g.Bridge.ForcedHome(1);
@@ -221,7 +221,7 @@ public class CoreBridgeTests
         Assert.Contains("Overcharge", card);
         Assert.Contains("Expedition Camp in Lumière", card);
         var esquie = g.Bridge.CharacterCard(3);
-        Assert.Contains("Friends Not Foes", esquie);
+        Assert.Contains("Neutral guards", esquie);
         foreach (var text in new[] { card, esquie, g.Bridge.CharacterCard(1), g.Bridge.CharacterCard(2) })
         {
             Assert.DoesNotContain("tune.", text);

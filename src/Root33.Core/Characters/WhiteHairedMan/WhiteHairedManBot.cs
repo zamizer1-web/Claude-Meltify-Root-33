@@ -10,7 +10,7 @@ namespace Root33.Core.Characters.WhiteHairedMan
     public sealed class RingSpot
     {
         public ClearingId Clearing;
-        /// <summary>His warriors (minus hosted guards) minus the rule count of the strongest faction there that is not the Paintress.</summary>
+        /// <summary>His warriors minus the rule count of the strongest faction there that is not the Paintress.</summary>
         public int Margin;
         /// <summary>His face-up Snare is there: it holds the clearing whatever the margin.</summary>
         public bool Snare;
@@ -84,7 +84,7 @@ namespace Root33.Core.Characters.WhiteHairedMan
         private static ClearingId? Monolith(BotView v) => v.Role(Ids.MapRoles.Monolith);
         private static SeatId? Paintress(BotView v) => v.SeatOf(CharacterIds.Paintress);
         private static IReadOnlyList<ClearingId> RingOf(BotView v) => WhiteHairedManRing.Ring(v.Board, Monolith(v));
-        private static int Own(BotView v, ClearingId c) => WhiteHairedManRing.OwnWarriors(v.Board, v.State, v.Seat, c);
+        private static int Own(BotView v, ClearingId c) => v.Board.Warriors(v.Seat, c);
         private static int PlotsAt(BotView v, ClearingId c) => WhiteHairedManRing.Plots(v.Board, v.Seat, c);
 
         private static int EnemyWarriors(BotView v, ClearingId c) =>
@@ -126,13 +126,13 @@ namespace Root33.Core.Characters.WhiteHairedMan
             return RingOf(view).OrderBy(r => r.Value).Select(r => new RingSpot
             {
                 Clearing = r,
-                Margin = WhiteHairedManRing.Margin(b, view.State, view.Seat, p, r),
+                Margin = WhiteHairedManRing.Margin(b, view.Seat, p, r),
                 Snare = WhiteHairedManRing.FaceUpSnare(b, view.Seat, r),
-                Held = WhiteHairedManRing.RingClearingHeld(b, view.State, view.Seat, p, r),
+                Held = WhiteHairedManRing.RingClearingHeld(b, view.Seat, p, r),
             }).ToList();
         }
 
-        public int Margin(BotView view, ClearingId r) => WhiteHairedManRing.Margin(view.Board, view.State, view.Seat, Paintress(view), r);
+        public int Margin(BotView view, ClearingId r) => WhiteHairedManRing.Margin(view.Board, view.Seat, Paintress(view), r);
 
         // ================================================================= 02 recruit
 
@@ -222,7 +222,7 @@ namespace Root33.Core.Characters.WhiteHairedMan
 
         /// <summary>Warriors he can move out of a clearing without unfixing it: in a Ring clearing, those above the fixed margin
         /// (all of them under a face-up Snare); in the Monolith, those above what keeps another faction from ruling it (one stays
-        /// while a Vagabond pawn is there); elsewhere every warrior that is not a hosted guard.</summary>
+        /// while a Vagabond pawn is there); elsewhere every warrior.</summary>
         public int Spare(BotView view, ClearingId c)
         {
             var b = view.Board;
@@ -309,7 +309,7 @@ namespace Root33.Core.Characters.WhiteHairedMan
             var row = WinRow;
             if (view.Act < row.ActMin || view.Board.Vp(view.Seat) < row.VpMin) return false;
             if (row.OffWithDominance && view.Board.ActiveDominance(view.Seat).HasValue) return false;
-            return WhiteHairedManRing.NobodyReachesHer(view.Board, view.State, view.Seat, Paintress(view), Monolith(view));
+            return WhiteHairedManRing.NobodyReachesHer(view.Board, view.Seat, Paintress(view), Monolith(view));
         }
 
         /// <summary>Step 7, the shared spoiler layer: for the most urgent threat (<see cref="SpoilerLayer.Threats"/>) the

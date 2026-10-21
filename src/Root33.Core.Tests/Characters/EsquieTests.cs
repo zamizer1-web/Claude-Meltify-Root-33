@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Root33.Core;
 using Root33.Core.Characters.Esquie;
-using Root33.Core.Characters.Paintress;
 using Root33.Core.Engine;
 using Root33.Core.Sheets;
 using Root33.Core.Tests.Support;
@@ -25,8 +24,8 @@ namespace Root33.Core.Tests.Characters
 
         private static ModuleRegistry Registry() => new ModuleRegistry().Register(CharacterIds.Esquie, () => new EsquieModule());
 
-        /// <summary>Esquie (seat 0, Tinker) in Spring Meadows (5), a Marquise (1, 25 in supply) and an Eyrie (2, 20 in supply):
-        /// the Eyrie is the Nevron host.</summary>
+        /// <summary>Esquie (seat 0, Tinker) in Spring Meadows (5), a Marquise (1, 25 in supply) and an Eyrie (2, 20 in supply).
+        /// Esquie's rock guards belong to none of them.</summary>
         private static FakeBoard Table(bool bot = false) => FakeBoard.Autumn()
             .Seat(0, EngineId.VagabondTinker, CharacterIds.Esquie, bot)
             .Seat(1, EngineId.Marquise).Seat(2, EngineId.Eyrie)
@@ -108,34 +107,30 @@ namespace Root33.Core.Tests.Characters
         }
 
         [Fact]
-        public void EsquieWin_GuardsLeftDropsOnHostLossesByAnyAttacker()
+        public void EsquieWin_GuardsLeftDropsAsEsquieDefeatsGuards()
         {
-            var b = Table();
+            var b = Table().Item(0, ItemType.Sword);
             var t = Start(b);
             Assert.Equal(2, R(t, Florrie).GuardsLeft);
+            Assert.Equal(2, b.Guards(C(Cliffs)));
 
-            // The Marquise attacks the host: one host warrior removed in that clearing costs one guard, counted once at
-            // hook.piece-removed (hook.battle-resolved counts nothing).
-            t.Game.OnBattleStarting(S(1), S(2), C(Cliffs));
-            b.Warriors(2, A(Cliffs), 1);
-            t.Game.OnPieceRemoved(S(1), new RemovedPiece(S(2), PieceKind.Warrior, null), C(Cliffs));
-            t.Game.OnBattleResolved(Battle(Cliffs, 1, 2, 2));
+            // His guard battle removes one guard: GuardsLeft follows the guards still standing.
+            t.Game.OnGuardBattleStarting(S(0), C(Cliffs));
+            b.Guards(A(Cliffs), 1);
+            t.Game.OnGuardBattleResolved(S(0), C(Cliffs));
             Assert.Equal(1, R(t, Florrie).GuardsLeft);
             Assert.Equal(RockStatus.Guarded, R(t, Florrie).Status);
-            Assert.Equal(1, b.GuardFloors[(S(2), C(Cliffs))]);
 
-            // Losses of other seats there, or host losses elsewhere, do not count.
-            t.Game.OnBattleResolved(Battle(Cliffs, 2, 1, 1));
-            t.Game.OnBattleResolved(Battle(Lumiere, 1, 2, 2));
+            // Other seats' battles there change nothing: the guards are nobody's and nobody else fights them.
+            t.Game.OnBattleResolved(Battle(Cliffs, 1, 2, 2));
             Assert.Equal(1, R(t, Florrie).GuardsLeft);
 
-            // A host warrior removed outside a battle (a Strike) also costs a guard: at 0 the rock is loose.
-            b.Warriors(2, A(Cliffs), 0);
-            t.Game.OnPieceRemoved(S(0), new RemovedPiece(S(2), PieceKind.Warrior, null), C(Cliffs));
+            // The last guard falls: the rock is loose and its badge comes down.
+            b.Guards(A(Cliffs), 0);
+            t.Game.OnGuardBattleResolved(S(0), C(Cliffs));
             Assert.Equal(0, R(t, Florrie).GuardsLeft);
             Assert.Equal(RockStatus.Loose, R(t, Florrie).Status);
-            Assert.Null(R(t, Florrie).HostSeat);
-            Assert.False(b.GuardFloors.ContainsKey((S(2), C(Cliffs))));
+            Assert.False(b.OverlayShown(Ids.Overlays.EsquieLampmasterBadge));
 
             // Esquie picks it up after his next action there.
             ActIn(t, Cliffs);
@@ -202,15 +197,15 @@ namespace Root33.Core.Tests.Characters
         // ================================================================= tweak.esquie.belly-bounce
 
         [Fact]
-        public void BellyBounce_BagAddsMaxHitInGuardedRockClearing()
+        public void BellyBounce_BagAddsMaxHitAgainstGuards()
         {
             var b = Table().Item(0, ItemType.Bag).Item(0, ItemType.Bag).Item(0, ItemType.Sword);
             var t = Start(b);
-            t.Game.OnBattleStarting(S(0), S(2), C(Cliffs));
+            t.Game.OnGuardBattleStarting(S(0), C(Cliffs));
             Assert.Equal(Tuning.EsquieBellyBounceSwords, b.ExtraMaxHits[S(0)]);   // one sword however many Bags
 
-            // Under the no-spawn fallback: a clearing with an unclaimed Florrie.
-            var f = Table().Unsupported(Ids.BoardActions.PlaceWarriors).Item(0, ItemType.Bag);
+            // Under the no-spawn fallback (no guards): his battle in a clearing with an unclaimed Florrie.
+            var f = Table().Unsupported(Ids.BoardActions.PlaceGuards).Item(0, ItemType.Bag);
             var tf = Start(f);
             Assert.Equal(RockStatus.Loose, R(tf, Florrie).Status);
             tf.Game.OnBattleStarting(S(0), S(1), C(Cliffs));
@@ -223,12 +218,13 @@ namespace Root33.Core.Tests.Characters
             var b = Table().Item(0, ItemType.Bag);
             var t = Start(b);
             t.Game.OnBattleStarting(S(0), S(2), C(5));
-            t.Game.OnBattleStarting(S(1), S(2), C(Cliffs));   // a battle he is not in
+            t.Game.OnBattleStarting(S(0), S(2), C(Cliffs));   // a guarded rock's clearing, but not a guard battle
+            t.Game.OnGuardBattleStarting(S(0), C(5));          // no guarded rock there
             Assert.False(b.ExtraMaxHits.ContainsKey(S(0)));
 
-            // A rock already claimed leaves no rock clearing behind.
+            // A rock already claimed leaves no guards to bounce on.
             SetRock(t, Florrie, RockStatus.Held);
-            t.Game.OnBattleStarting(S(0), S(2), C(Cliffs));
+            t.Game.OnGuardBattleStarting(S(0), C(Cliffs));
             Assert.False(b.ExtraMaxHits.ContainsKey(S(0)));
         }
 
@@ -237,69 +233,55 @@ namespace Root33.Core.Tests.Characters
         {
             var b = Table().Item(0, ItemType.Bag, damaged: true);
             var t = Start(b);
-            t.Game.OnBattleStarting(S(0), S(2), C(Cliffs));
+            t.Game.OnGuardBattleStarting(S(0), C(Cliffs));
             Assert.False(b.ExtraMaxHits.ContainsKey(S(0)));
         }
 
         // ================================================================= tweak.esquie.never-mad
 
         [Fact]
-        public void NeverMad_AllowsBattleAgainstHostGuards()
+        public void NeverMad_AllowsBattleAgainstGuards()
         {
-            var t = Start(Table());
-            Assert.True(t.Game.CanStartBattle(S(0), S(2), C(Cliffs), false));
-            Assert.True(t.Game.CanStartBattle(S(0), S(2), C(Cliffs), true));
+            var t = Start(Table().Item(0, ItemType.Sword).Warriors(2, A(Cliffs), 1));
+            Assert.True(t.Game.CanBattleGuards(S(0), C(Cliffs)));
+            Assert.False(t.Game.CanStartBattle(S(0), S(2), C(Cliffs), false));   // never a faction, even beside the guards
 
-            // No-spawn fallback: no host, so any faction's warriors in a clearing with an unclaimed Florrie.
-            var f = Table().Unsupported(Ids.BoardActions.PlaceWarriors).Warriors(1, A(Cliffs), 2);
+            // No-spawn fallback: no guards, so any faction's warriors in a clearing with an unclaimed Florrie.
+            var f = Table().Unsupported(Ids.BoardActions.PlaceGuards).Warriors(1, A(Cliffs), 2);
             var tf = Start(f);
+            Assert.False(tf.Game.CanBattleGuards(S(0), C(Cliffs)));
             Assert.True(tf.Game.CanStartBattle(S(0), S(1), C(Cliffs), false));
             Assert.False(tf.Game.CanStartBattle(S(0), S(2), C(Cliffs), false));   // no Eyrie warriors there
         }
 
         [Fact]
-        public void NeverMad_BlocksBattleOutsideGuardedRockClearing()
+        public void NeverMad_BlocksEveryBattleAgainstAFaction()
         {
-            var b = Table().Warriors(1, "autumn.05", 2).Warriors(2, "autumn.05", 1);
+            var b = Table().Item(0, ItemType.Sword).Warriors(1, "autumn.05", 2).Warriors(2, "autumn.05", 1).Warriors(2, A(Cliffs), 3);
             var t = Start(b);
             Assert.False(t.Game.CanStartBattle(S(0), S(1), C(5), false));
             Assert.False(t.Game.CanStartBattle(S(0), S(2), C(5), false));
+            Assert.False(t.Game.CanStartBattle(S(0), S(2), C(Cliffs), false));
             Assert.True(t.Game.CanStartBattle(S(1), S(2), C(5), false));   // other seats battle as usual
 
-            // Once the rock is loose (guards gone) the clearing is no longer a guarded-rock clearing.
+            // Once the rock is loose there are no guards left to fight.
             SetRock(t, Florrie, RockStatus.Loose, Cliffs);
-            Assert.False(t.Game.CanStartBattle(S(0), S(2), C(Cliffs), false));
+            Assert.False(t.Game.CanBattleGuards(S(0), C(Cliffs)));
         }
 
         [Fact]
-        public void NeverMad_BlocksStrikeOnNonHostPieces()
+        public void NeverMad_BlocksStrike()
         {
-            var b = Table().Warriors(1, A(Cliffs), 1).Building(1, A(Cliffs), PieceTypes.Sawmill);
+            var b = Table().Item(0, ItemType.Crossbow).Warriors(1, A(Cliffs), 1).Building(1, A(Cliffs), PieceTypes.Sawmill);
             var t = Start(b);
             Assert.False(t.Game.CanStartBattle(S(0), S(1), C(Cliffs), true));
             Assert.False(t.Game.CanStartBattle(S(0), S(1), C(5), true));
-            Assert.True(t.Game.CanStartBattle(S(0), S(2), C(Cliffs), true));
-        }
 
-        // ================================================================= tweak.esquie.friends-not-foes
-
-        [Fact]
-        public void FriendsNotFoes_HostNotMadeHostileInGuardedRockClearing()
-        {
-            var b = Table().Seat(3, EngineId.VagabondThief, CharacterIds.Maelle);
-            var t = Start(b);
-            Assert.False(t.Game.AllowHostile(S(0), S(2), C(Cliffs)));
-            Assert.False(t.Game.AllowHostile(S(3), S(2), C(Cliffs)));   // keyed to the clearing: any Vagabond battling there
-        }
-
-        [Fact]
-        public void FriendsNotFoes_HostilityNormalElsewhere()
-        {
-            var t = Start(Table());
-            Assert.True(t.Game.AllowHostile(S(0), S(2), C(5)));
-            Assert.True(t.Game.AllowHostile(S(0), S(1), C(Lumiere)));
-            SetRock(t, Florrie, RockStatus.Loose, Cliffs);
-            Assert.True(t.Game.AllowHostile(S(0), S(2), C(Cliffs)));   // the rock is loose: no guards left
+            // Not even under the no-spawn fallback, where he may battle there.
+            var f = Table().Unsupported(Ids.BoardActions.PlaceGuards).Warriors(1, A(Cliffs), 1);
+            var tf = Start(f);
+            Assert.True(tf.Game.CanStartBattle(S(0), S(1), C(Cliffs), false));
+            Assert.False(tf.Game.CanStartBattle(S(0), S(1), C(Cliffs), true));
         }
 
         // ================================================================= tweak.esquie.start-near-nest
@@ -325,150 +307,98 @@ namespace Root33.Core.Tests.Characters
             Assert.False(b.StartForestRestrictions.ContainsKey(S(1)));
         }
 
-        // ================================================================= tweak.esquie.guard-floor / guard-no-placement
+        // ================================================================= tweak.esquie.neutral-guards
 
         [Fact]
-        public void GuardFloor_HostCannotMoveBelowGuardsLeft()
+        public void NeutralGuards_OnlyEsquieMayBattleThem()
+        {
+            var b = Table().Item(0, ItemType.Sword).Seat(3, EngineId.VagabondThief, CharacterIds.Maelle).Item(3, ItemType.Sword);
+            var t = Start(b);
+            Assert.True(t.Game.CanBattleGuards(S(0), C(Cliffs)));
+            Assert.False(t.Game.CanBattleGuards(S(1), C(Cliffs)));   // every other faction ignores them
+            Assert.False(t.Game.CanBattleGuards(S(2), C(Cliffs)));
+            Assert.False(t.Game.CanBattleGuards(S(3), C(Cliffs)));   // another Vagabond too
+            Assert.False(t.Game.CanBattleGuards(S(0), C(5)));        // no guards there
+        }
+
+        [Fact]
+        public void NeutralGuards_NeedAnUndamagedSword()
         {
             var b = Table();
             var t = Start(b);
-            Assert.Equal(R(t, Florrie).GuardsLeft, b.GuardFloors[(S(2), C(Cliffs))]);
-
-            t.Game.OnBattleStarting(S(0), S(2), C(Cliffs));
-            b.Warriors(2, A(Cliffs), 1);
-            t.Game.OnPieceRemoved(S(0), new RemovedPiece(S(2), PieceKind.Warrior, null), C(Cliffs));
-            t.Game.OnBattleResolved(Battle(Cliffs, 0, 2, 2));
-            Assert.Equal(1, b.GuardFloors[(S(2), C(Cliffs))]);
-
-            // The floor is re-sent on load (GuardsLeft = min(saved, host warriors there)).
-            b.GuardFloors.Clear();
-            var loaded = t.SaveAndLoad(Registry());
-            Assert.Equal(1, b.GuardFloors[(S(2), C(Cliffs))]);
-            Assert.Equal(1, loaded.State.EsquieRocks[Florrie].GuardsLeft);
+            Assert.False(t.Game.CanBattleGuards(S(0), C(Cliffs)));   // no sword
+            b.Item(0, ItemType.Sword, damaged: true);
+            Assert.False(t.Game.CanBattleGuards(S(0), C(Cliffs)));
+            b.Item(0, ItemType.Bag);                                  // Belly Bounce adds hits but is no sword
+            Assert.False(t.Game.CanBattleGuards(S(0), C(Cliffs)));
+            b.Item(0, ItemType.Sword);
+            Assert.True(t.Game.CanBattleGuards(S(0), C(Cliffs)));
         }
 
         [Fact]
-        public void GuardFloor_ExtraHostWarriorsMoveFreely()
+        public void NeutralGuards_NeverCountAsAnySeatsWarriors()
         {
-            var b = Table();
-            var t = Start(b);
-            b.Warriors(2, A(Cliffs), 5);   // 2 guards + 3 of the host's own
-            Assert.Equal(2, b.GuardFloors[(S(2), C(Cliffs))]);   // a count floor, not every warrior there
-            Assert.True(b.MoveWarriors(S(2), C(Cliffs), C(5), 3));
-            Assert.Equal(2, b.Warriors(S(2), C(Cliffs)));
-            Assert.Equal(2, b.GuardFloors[(S(2), C(Cliffs))]);
-            Assert.Equal(2, R(t, Florrie).GuardsLeft);   // moving the extras costs no guard
-        }
-
-        [Fact]
-        public void GuardFloor_LiftsWhenRockLoose()
-        {
-            var b = Table();
-            var t = Start(b);
-            t.Game.OnBattleStarting(S(0), S(2), C(Cliffs));
-            b.Warriors(2, A(Cliffs), 0);
-            t.Game.OnPieceRemoved(S(0), new RemovedPiece(S(2), PieceKind.Warrior, null), C(Cliffs));
-            t.Game.OnPieceRemoved(S(0), new RemovedPiece(S(2), PieceKind.Warrior, null), C(Cliffs));
-            t.Game.OnBattleResolved(Battle(Cliffs, 0, 2, 2, 2));
-            Assert.Equal(RockStatus.Loose, R(t, Florrie).Status);
-            Assert.False(b.GuardFloors.ContainsKey((S(2), C(Cliffs))));
-            Assert.Contains("SetGuardFloor seat2 c6 0", b.Log);
-
-            // No-spawn fallback: no rock is ever guarded, so no floor is ever sent.
-            var f = Table().Unsupported(Ids.BoardActions.PlaceWarriors);
-            Start(f, act: 3);
-            Assert.Empty(f.GuardFloors);
-            Assert.DoesNotContain(f.Log, l => l.StartsWith("SetGuardFloor", StringComparison.Ordinal));
-        }
-
-        [Fact]
-        public void GuardRules_HostCannotBuildRecruitOrPlaceInRockClearing()
-        {
-            var b = Table();
-            var t = Start(b, act: 3);
-            Assert.Contains((S(2), C(Cliffs)), b.BlockedPlacements);
-            Assert.Contains((S(2), C(Nest)), b.BlockedPlacements);
-            Assert.Equal(RockStatus.Guarded, R(t, Urrie).Status);
-            Assert.DoesNotContain((S(1), C(Cliffs)), b.BlockedPlacements);   // only the host is blocked
-
-            // Re-sent on load.
-            b.BlockedPlacements.Clear();
-            t.SaveAndLoad(Registry());
-            Assert.Contains((S(2), C(Cliffs)), b.BlockedPlacements);
-            Assert.Contains((S(2), C(Nest)), b.BlockedPlacements);
-        }
-
-        [Fact]
-        public void GuardRules_PlacementBlockLiftsWhenRockLoose()
-        {
-            var b = Table();
-            var t = Start(b);
-            t.Game.OnBattleStarting(S(1), S(2), C(Cliffs));
-            b.Warriors(2, A(Cliffs), 0);
-            t.Game.OnPieceRemoved(S(1), new RemovedPiece(S(2), PieceKind.Warrior, null), C(Cliffs));
-            t.Game.OnPieceRemoved(S(1), new RemovedPiece(S(2), PieceKind.Warrior, null), C(Cliffs));
-            t.Game.OnBattleResolved(Battle(Cliffs, 1, 2, 2, 2));
-            Assert.Equal(RockStatus.Loose, R(t, Florrie).Status);
-            Assert.DoesNotContain((S(2), C(Cliffs)), b.BlockedPlacements);
-            Assert.False(b.OverlayShown(Ids.Overlays.EsquieLampmasterBadge));
-        }
-
-        // ================================================================= tweak.esquie.guards-never-count
-
-        [Fact]
-        public void GuardRules_HostedGuardsExcludedFromCleaCoverage()
-        {
-            // Clea (Lizards) is seated: she hosts the guards even with the smallest supply.
+            // Clea (Lizards) is seated, with the smallest supply: she does not host them either.
             var b = Table().Seat(3, EngineId.Lizards, CharacterIds.Clea).Supply(3, 4);
-            var t = Start(b);
-            Assert.Equal(S(3), R(t, Florrie).HostSeat);
-            b.Warriors(3, A(Cliffs), 3);
-            Assert.Equal(2, EsquieTweaks.HostedGuards(t.State, S(3), C(Cliffs)));
-            Assert.Equal(1, EsquieTweaks.OwnWarriors(t.Ctx, S(3), C(Cliffs)));
-            b.Warriors(3, A(Cliffs), 2);
-            Assert.Equal(0, EsquieTweaks.OwnWarriors(t.Ctx, S(3), C(Cliffs)));   // a guards-only clearing is not covered
-        }
-
-        [Fact]
-        public void GuardRules_HostedGuardsExcludedFromRingPresence()
-        {
-            var b = FakeBoard.Autumn()
-                .Seat(0, EngineId.VagabondTinker, CharacterIds.Esquie).Seat(1, EngineId.Marquise)
-                .Seat(2, EngineId.Corvids, CharacterIds.WhiteHairedMan)
-                .Supply(1, 25).Supply(2, 15).Pawn(0, "autumn.05");
             var t = Start(b, act: 3);
-            Assert.Equal(S(2), R(t, Urrie).HostSeat);
-            Assert.Equal(3, b.Warriors(S(2), C(Nest)));
-            Assert.Equal(0, EsquieTweaks.OwnWarriors(t.Ctx, S(2), C(Nest)));
-            b.Warriors(2, A(Nest), 4);
-            Assert.Equal(1, EsquieTweaks.OwnWarriors(t.Ctx, S(2), C(Nest)));
+            Assert.Equal(Tuning.EsquieGuardsFlorrie, b.Guards(C(Cliffs)));
+            Assert.Equal(Tuning.EsquieGuardsUrrie, b.Guards(C(Nest)));
+            foreach (var c in new[] { Cliffs, Nest })
+            {
+                Assert.All(b.Seats(), s => Assert.Equal(0, b.Warriors(s, C(c))));   // nobody's warriors
+                Assert.Null(b.Ruler(C(c)));                                          // they rule nothing
+            }
+            Assert.Equal(25, b.SupplyWarriors(S(1)));                                // no seat paid for them
+            Assert.Equal(20, b.SupplyWarriors(S(2)));
+            Assert.Equal(4, b.SupplyWarriors(S(3)));
+            Assert.Null(R(t, Florrie).HostSeat);
+            Assert.Null(R(t, Urrie).HostSeat);
+            Assert.DoesNotContain(b.Log, l => l.StartsWith("PlaceWarriors", StringComparison.Ordinal));
         }
 
         [Fact]
-        public void GuardRules_HostedGuardsExcludedFromPortraitWarriors()
+        public void NeutralGuards_GuardsLeftFollowsTheBoardAfterHisBattle()
         {
-            var b = Table().Seat(2, EngineId.Eyrie, CharacterIds.Paintress).Building(2, A(Cliffs), PieceTypes.Roost);
-            var t = Start(b);
-            Assert.Equal(S(2), R(t, Florrie).HostSeat);
-            var monolith = t.Ctx.Role(Ids.MapRoles.Monolith);
-            b.Warriors(2, A(Cliffs), 3);
-            Assert.Equal(S(2), b.Ruler(C(Cliffs)));
-            Assert.Equal(1, PaintressPortraits.PortraitWarriors(b, t.State, S(2), C(Cliffs)));
-            Assert.False(PaintressPortraits.IsLivingPortrait(b, t.State, S(2), C(Cliffs), monolith));
-            b.Warriors(2, A(Cliffs), 2 + Tuning.PaintressPortraitWarriors);
-            Assert.True(PaintressPortraits.IsLivingPortrait(b, t.State, S(2), C(Cliffs), monolith));
+            var b = Table().Item(0, ItemType.Sword);
+            var t = Start(b, act: 3);
+            Assert.Equal(Tuning.EsquieGuardsUrrie, R(t, Urrie).GuardsLeft);
+
+            // Two of Urrie's three guards fall in his battle at the Nest; Florrie's guards are untouched.
+            b.Guards(A(Nest), 1);
+            t.Game.OnGuardBattleResolved(S(0), C(Nest));
+            Assert.Equal(1, R(t, Urrie).GuardsLeft);
+            Assert.Equal(Tuning.EsquieGuardsFlorrie, R(t, Florrie).GuardsLeft);
+
+            // The count never rises again from the board.
+            b.Guards(A(Nest), 3);
+            t.Game.OnGuardBattleResolved(S(0), C(Nest));
+            Assert.Equal(1, R(t, Urrie).GuardsLeft);
+
+            // On load: min(saved, the guards on the board).
+            b.Guards(A(Cliffs), 1);
+            var loaded = t.SaveAndLoad(Registry());
+            Assert.Equal(1, loaded.State.EsquieRocks[Florrie].GuardsLeft);
+            Assert.Equal(1, loaded.State.EsquieRocks[Urrie].GuardsLeft);
         }
 
         [Fact]
-        public void GuardRules_OtherSeatsStillSeeGuardsAsEnemyWarriors()
+        public void NeutralGuards_RockLooseWhenLastGuardFalls()
         {
-            var b = Table().Warriors(1, A(Cliffs), 1);
+            var b = Table().Item(0, ItemType.Sword);
             var t = Start(b);
-            Assert.Equal(2, b.Warriors(S(2), C(Cliffs)));   // the guards are real host warriors
-            Assert.Equal(S(2), b.Ruler(C(Cliffs)));          // Root's rule still counts them
-            Assert.Equal(0, EsquieTweaks.HostedGuards(t.State, S(1), C(Cliffs)));
-            Assert.Equal(1, EsquieTweaks.OwnWarriors(t.Ctx, S(1), C(Cliffs)));
-            Assert.Contains(t.Ctx.Board.Seats(), s => s != S(2) && b.Warriors(s, C(Cliffs)) < b.Warriors(S(2), C(Cliffs)));
+            b.Guards(A(Cliffs), 0);
+            t.Game.OnGuardBattleResolved(S(0), C(Cliffs));
+            Assert.Equal(RockStatus.Loose, R(t, Florrie).Status);
+            Assert.Equal(0, R(t, Florrie).GuardsLeft);
+            Assert.False(b.OverlayShown(Ids.Overlays.EsquieLampmasterBadge));
+            Assert.True(b.OverlayShown(Ids.Overlays.EsquieRocks));
+            Assert.False(t.Game.CanBattleGuards(S(0), C(Cliffs)));
+
+            // No-spawn fallback: no rock is ever guarded and no guard is ever placed.
+            var f = Table().Unsupported(Ids.BoardActions.PlaceGuards);
+            var tf = Start(f, act: 3);
+            Assert.Equal(0, f.Guards(C(Cliffs)) + f.Guards(C(Nest)));
+            Assert.DoesNotContain(tf.State.EsquieRocks, r => r.Status == RockStatus.Guarded);
         }
 
         // ================================================================= rock powers (v1.1)
@@ -533,64 +463,63 @@ namespace Root33.Core.Tests.Characters
             var r = R(t, Florrie);
             Assert.Equal(RockStatus.Guarded, r.Status);
             Assert.Equal(C(Cliffs), r.Clearing);
-            Assert.Equal(S(2), r.HostSeat);
             Assert.Equal(Tuning.EsquieGuardsFlorrie, r.GuardsLeft);
-            Assert.Equal(Tuning.EsquieGuardsFlorrie, b.Warriors(S(2), C(Cliffs)));
-            Assert.Equal(20 - Tuning.EsquieGuardsFlorrie, b.SupplyWarriors(S(2)));
+            Assert.Equal(Tuning.EsquieGuardsFlorrie, b.Guards(C(Cliffs)));
+            Assert.Contains($"PlaceGuards c{Cliffs} {Tuning.EsquieGuardsFlorrie}", b.Log);
             Assert.True(b.OverlayShown(Ids.Overlays.EsquieRocks));
             Assert.True(b.OverlayShown(Ids.Overlays.EsquieLampmasterBadge));
             Assert.All(new[] { Dorrie, Soarrie, Urrie }, i => Assert.Equal(RockStatus.NotSpawned, R(t, i).Status));
         }
 
         [Fact]
-        public void FlorrieSpawn_HostPriorityCleaThenSupplyThenMarquise()
+        public void FlorrieSpawn_GuardsBelongToNoSeat()
         {
-            // Clea seated: Clea.
-            var clea = Start(Table().Seat(3, EngineId.Lizards, CharacterIds.Clea).Supply(3, 3));
-            Assert.Equal(S(3), R(clea, Florrie).HostSeat);
-
-            // No Clea: the non-Marquise, non-Vagabond faction with the most warriors in supply.
-            var supply = Start(Table().Seat(3, EngineId.Alliance).Supply(3, 10));
-            Assert.Equal(S(2), R(supply, Florrie).HostSeat);
-
-            // Ties: lowest VP, then lowest seat.
-            var tieVp = Start(Table().Seat(3, EngineId.Alliance).Supply(3, 20).Vp(2, 5).Vp(3, 2));
-            Assert.Equal(S(3), R(tieVp, Florrie).HostSeat);
-            var tieSeat = Start(Table().Seat(3, EngineId.Alliance).Supply(3, 20));
-            Assert.Equal(S(2), R(tieSeat, Florrie).HostSeat);
-
-            // Otherwise the Marquise; another Vagabond never hosts.
-            var marquise = Start(FakeBoard.Autumn()
-                .Seat(0, EngineId.VagabondTinker, CharacterIds.Esquie).Seat(1, EngineId.Marquise)
-                .Seat(2, EngineId.VagabondRanger, CharacterIds.Verso).Supply(1, 25).Pawn(0, "autumn.05"));
-            Assert.Equal(S(1), R(marquise, Florrie).HostSeat);
+            // Whoever is seated (Clea, a faction with a big supply, only a Marquise and another Vagabond), the same neutral
+            // guards spawn and no seat hosts or pays for them.
+            var tables = new[]
+            {
+                Table().Seat(3, EngineId.Lizards, CharacterIds.Clea).Supply(3, 3),
+                Table().Seat(3, EngineId.Alliance).Supply(3, 10),
+                FakeBoard.Autumn().Seat(0, EngineId.VagabondTinker, CharacterIds.Esquie).Seat(1, EngineId.Marquise)
+                    .Seat(2, EngineId.VagabondRanger, CharacterIds.Verso).Supply(1, 25).Pawn(0, "autumn.05"),
+            };
+            foreach (var b in tables)
+            {
+                var supply = b.Seats().Select(s => b.SupplyWarriors(s)).ToArray();
+                var t = Start(b);
+                Assert.Equal(RockStatus.Guarded, R(t, Florrie).Status);
+                Assert.Null(R(t, Florrie).HostSeat);
+                Assert.Equal(Tuning.EsquieGuardsFlorrie, b.Guards(C(Cliffs)));
+                Assert.All(b.Seats(), s => Assert.Equal(0, b.Warriors(s, C(Cliffs))));
+                Assert.Equal(supply, b.Seats().Select(s => b.SupplyWarriors(s)).ToArray());
+            }
         }
 
         [Fact]
-        public void FlorrieSpawn_ShortSupplySetsGuardsLeftToPlaced()
+        public void FlorrieSpawn_ShortPlacementSetsGuardsLeftToPlaced()
         {
-            var b = Table().Supply(2, 1);
+            var b = Table();
+            b.GuardsPlaceable = 1;
             var t = Start(b);
             Assert.Equal(1, R(t, Florrie).GuardsLeft);
-            Assert.Equal(1, b.Warriors(S(2), C(Cliffs)));
-            Assert.Equal(1, b.GuardFloors[(S(2), C(Cliffs))]);
+            Assert.Equal(1, b.Guards(C(Cliffs)));
 
-            // Nothing placed: loose at once, no host.
-            var e = Table().Supply(2, 0).Supply(1, 0);
+            // Nothing placed: loose at once, with no badge.
+            var e = Table();
+            e.GuardsPlaceable = 0;
             var te = Start(e);
             Assert.Equal(RockStatus.Loose, R(te, Florrie).Status);
-            Assert.Null(R(te, Florrie).HostSeat);
             Assert.Equal(0, R(te, Florrie).GuardsLeft);
+            Assert.False(e.OverlayShown(Ids.Overlays.EsquieLampmasterBadge));
         }
 
         [Fact]
         public void FlorrieSpawn_NoSpawnFallbackClaimsWhenClearingFree()
         {
-            var b = Table().Unsupported(Ids.BoardActions.PlaceWarriors).Warriors(1, A(Cliffs), 1);
+            var b = Table().Unsupported(Ids.BoardActions.PlaceGuards).Warriors(1, A(Cliffs), 1);
             var t = Start(b);
             Assert.Equal(RockStatus.Loose, R(t, Florrie).Status);
-            Assert.Null(R(t, Florrie).HostSeat);
-            Assert.Equal(0, b.Warriors(S(2), C(Cliffs)));
+            Assert.Equal(0, b.Guards(C(Cliffs)));
 
             ActIn(t, Cliffs);   // a Marquise warrior is there
             Assert.Equal(RockStatus.Loose, R(t, Florrie).Status);
@@ -741,11 +670,10 @@ namespace Root33.Core.Tests.Characters
             var r = R(t, Urrie);
             Assert.Equal(RockStatus.Guarded, r.Status);
             Assert.Equal(C(Nest), r.Clearing);
-            Assert.Equal(S(2), r.HostSeat);
+            Assert.Null(r.HostSeat);
             Assert.Equal(Tuning.EsquieGuardsUrrie, r.GuardsLeft);
-            Assert.Equal(Tuning.EsquieGuardsUrrie, b.Warriors(S(2), C(Nest)));
+            Assert.Equal(Tuning.EsquieGuardsUrrie, b.Guards(C(Nest)));
             Assert.True(b.OverlayShown(Ids.Overlays.EsquieFrancoisBadge));
-            Assert.Equal(Tuning.EsquieGuardsUrrie, b.GuardFloors[(S(2), C(Nest))]);
         }
 
         [Fact]
@@ -765,7 +693,7 @@ namespace Root33.Core.Tests.Characters
         [Fact]
         public void UrrieSpawn_NoSpawnFallbackClaimsWhenNestFree()
         {
-            var b = Table().Unsupported(Ids.BoardActions.PlaceWarriors).Warriors(1, A(Nest), 2);
+            var b = Table().Unsupported(Ids.BoardActions.PlaceGuards).Warriors(1, A(Nest), 2);
             var t = Start(b, act: 3);
             Assert.Equal(RockStatus.Loose, R(t, Urrie).Status);
             Assert.Null(R(t, Urrie).HostSeat);
@@ -825,17 +753,17 @@ namespace Root33.Core.Tests.Characters
             var b = Table(bot: true);
             var t = Start(b, act: 2);
             t.State.EsquieTarget = Florrie;
-            b.Warriors(2, A(Cliffs), 1);   // one guard left the board without a hook
+            b.Guards(A(Cliffs), 1);   // one guard left the board without a hook
             var loaded = t.SaveAndLoad(Registry());
             Assert.Equal(1, loaded.State.EsquieRocks[Florrie].GuardsLeft);
             Assert.Null(loaded.State.EsquieTarget);
             Assert.Equal(RockStatus.Hidden, loaded.State.EsquieRocks[Dorrie].Status);
             Assert.Equal(RockStatus.NotSpawned, loaded.State.EsquieRocks[Urrie].Status);
 
-            b.Warriors(2, A(Cliffs), 0);
+            b.Guards(A(Cliffs), 0);
             var again = loaded.SaveAndLoad(Registry());
             Assert.Equal(RockStatus.Loose, again.State.EsquieRocks[Florrie].Status);
-            Assert.False(b.GuardFloors.ContainsKey((S(2), C(Cliffs))));
+            Assert.False(b.OverlayShown(Ids.Overlays.EsquieLampmasterBadge));
         }
 
         // ================================================================= bot.esquie
@@ -939,7 +867,7 @@ namespace Root33.Core.Tests.Characters
         }
 
         [Fact]
-        public void EsquieBot_SeeksSwordWhenHeCanDealNoHits()
+        public void EsquieBot_SeeksSwordWithoutAnUndamagedSword()
         {
             var b = Table(bot: true).Item(0, ItemType.Boots).Item(0, ItemType.Torch).Legal(0, "move:5:6", "craft:sword", "move:5:1");
             var t = Start(b);
@@ -959,8 +887,10 @@ namespace Root33.Core.Tests.Characters
             b.Pawn(0, A(Lumiere));
             Assert.Equal("aid:1:1:sword", bot.ChooseAction(View(t), new[] { "aid:1:1:boots", "aid:1:1:sword", "move:1:5" }));
 
-            // An undamaged Bag (Belly Bounce in the guarded-rock clearing) is enough to deal hits.
+            // An undamaged Bag (Belly Bounce) adds hits but is no sword: a guard battle still needs one.
             b.Item(0, ItemType.Bag);
+            Assert.True(bot.Gear(View(t)).SeekSword);
+            b.Item(0, ItemType.Sword);
             Assert.False(bot.Gear(View(t)).SeekSword);
         }
 
@@ -980,101 +910,6 @@ namespace Root33.Core.Tests.Characters
         }
 
         [Fact]
-        public void EsquieBot_AidsFriendlyNonHostNextToGuards()
-        {
-            var b = Table(bot: true).Seat(3, EngineId.Alliance).Supply(3, 5)
-                .Item(0, ItemType.Sword).Item(0, ItemType.Bag)
-                .Relationship(0, 1, Relationship.Friendly).Warriors(1, "autumn.05", 2)
-                .Relationship(0, 2, Relationship.Allied).Warriors(2, A(OldLumiere), 3)     // the host: never asked
-                .Relationship(0, 3, Relationship.Indifferent).Warriors(3, A(Nest), 2);
-            var t = Start(b);
-            var bot = new EsquieBot();
-            var friends = bot.Friends(View(t));
-            Assert.Single(friends);
-            Assert.Equal(S(1), friends[0].Item.Friend);
-            Assert.Equal(C(5), friends[0].Item.At);
-            Assert.Equal(Florrie, friends[0].Item.Rock);
-            Assert.Equal("aid:5:1", bot.ChooseAction(View(t), new[] { "move:5:6", "aid:5:1" }));
-
-            // Order: most warriors next to the stack, then Allied before Friendly.
-            b.Relationship(0, 3, Relationship.Allied);
-            friends = bot.Friends(View(t));
-            Assert.Equal(new[] { S(3), S(1) }, friends.Select(f => f.Item.Friend).ToArray());
-            Assert.Equal("aid:5:1", bot.ChooseAction(View(t), new[] { "move:5:6", "aid:5:1" }));
-        }
-
-        private static (ClearingId clearing, SeatId defender)? BattleOf(string key)
-        {
-            var p = key.Split(':');
-            return p.Length == 3 && p[0] == "battle" ? (C(int.Parse(p[1])), S(int.Parse(p[2]))) : ((ClearingId, SeatId)?)null;
-        }
-
-        private static List<Ranked<string>> FriendChoices(double guardBattleScore) => new List<Ranked<string>>
-        {
-            new Ranked<string>("build:12", 3),
-            new Ranked<string>("battle:5:2", 2),
-            new Ranked<string>("battle:6:2", guardBattleScore),
-        };
-
-        /// <summary>The Marquise (seat 1, a bot) Friendly with Esquie, its warriors next to Esquie's barked target (Florrie).</summary>
-        private static TestTable HelpTable(Difficulty d = Difficulty.Normal, Relationship rel = Relationship.Friendly, string marquiseAt = "autumn.05")
-        {
-            var b = Table(bot: true).Bot(1).Relationship(0, 1, rel).Warriors(1, marquiseAt, 2).Warriors(2, "autumn.05", 1);
-            var t = Start(b, d: d);
-            t.State.EsquieTarget = Florrie;
-            return t;
-        }
-
-        [Fact]
-        public void EsquieBot_HelpBonusOnlyBreaksTies()
-        {
-            var t = HelpTable();
-            var friend = View(t, 1);
-            Assert.True(EsquieBot.HelpBonusApplies(friend));
-
-            var tied = EsquieBot.ApplyHelpBonus(friend, FriendChoices(2), BattleOf);
-            Assert.Equal(new[] { "build:12", "battle:6:2", "battle:5:2" }, tied.Select(r => r.Item).ToArray());
-            Assert.Equal(new[] { 3.0, 2.0, 2.0 }, tied.Select(r => r.Score).ToArray());
-
-            // A guard battle scored lower stays lower: the bonus never outweighs the friend's own goal.
-            var lower = EsquieBot.ApplyHelpBonus(friend, FriendChoices(1), BattleOf);
-            Assert.Equal(new[] { "build:12", "battle:5:2", "battle:6:2" }, lower.Select(r => r.Item).ToArray());
-        }
-
-        [Fact]
-        public void EsquieBot_EasyNeverAsksFriends()
-        {
-            var b = Table(bot: true).Item(0, ItemType.Sword).Item(0, ItemType.Bag)
-                .Relationship(0, 1, Relationship.Allied).Warriors(1, "autumn.05", 3);
-            var t = Start(b, d: Difficulty.Easy);
-            var bot = new EsquieBot();
-            Assert.Empty(bot.Friends(View(t)));
-            Assert.NotEqual("aid:5:1", bot.ChooseAction(View(t), new[] { "move:5:6", "aid:5:1" }));
-
-            var help = HelpTable(Difficulty.Easy);
-            Assert.False(EsquieBot.HelpBonusApplies(View(help, 1)));
-            Assert.Equal(new[] { "build:12", "battle:5:2", "battle:6:2" },
-                EsquieBot.ApplyHelpBonus(View(help, 1), FriendChoices(2), BattleOf).Select(r => r.Item).ToArray());
-        }
-
-        [Fact]
-        public void EsquieBot_HelpBonusOnlyForFriendsNearTarget()
-        {
-            string[] Order(TestTable t) => EsquieBot.ApplyHelpBonus(View(t, 1), FriendChoices(2), BattleOf).Select(r => r.Item).ToArray();
-            var unchanged = new[] { "build:12", "battle:5:2", "battle:6:2" };
-
-            Assert.Equal(new[] { "build:12", "battle:6:2", "battle:5:2" }, Order(HelpTable()));
-            Assert.Equal(new[] { "build:12", "battle:6:2", "battle:5:2" }, Order(HelpTable(rel: Relationship.Allied, marquiseAt: A(Cliffs))));
-            Assert.Equal(unchanged, Order(HelpTable(marquiseAt: "autumn.11")));            // far from his target
-            Assert.Equal(unchanged, Order(HelpTable(rel: Relationship.Indifferent)));      // not a friend
-            Assert.Equal(unchanged, Order(HelpTable(rel: Relationship.Hostile)));
-
-            var none = HelpTable();
-            none.State.EsquieTarget = null;                                                  // no barked target
-            Assert.Equal(unchanged, Order(none));
-        }
-
-        [Fact]
         public void EsquieBot_HuntsOnlyWithAllItemsUndamaged()
         {
             var b = Table(bot: true).Pawn(0, A(Cliffs)).Item(0, ItemType.Sword).Item(0, ItemType.Sword).Item(0, ItemType.Boots, damaged: true);
@@ -1083,11 +918,11 @@ namespace Root33.Core.Tests.Characters
             var h = bot.Hunt(View(t));
             Assert.False(h.AllItemsUndamaged);
             Assert.False(h.Go);
-            Assert.Null(bot.ChooseAction(View(t), new[] { "battle:6:2" }));
+            Assert.Null(bot.ChooseAction(View(t), new[] { "battle:6:guards" }));
 
             b.ClearItems(0).Item(0, ItemType.Sword).Item(0, ItemType.Sword).Item(0, ItemType.Boots);
             Assert.True(bot.Hunt(View(t)).Go);
-            Assert.Equal("battle:6:2", bot.ChooseAction(View(t), new[] { "battle:6:2" }));
+            Assert.Equal("battle:6:guards", bot.ChooseAction(View(t), new[] { "battle:6:2", "battle:6:guards" }));
         }
 
         [Fact]
@@ -1111,8 +946,8 @@ namespace Root33.Core.Tests.Characters
             SetRock(t, Florrie, RockStatus.Held);
             SetRock(t, Dorrie, RockStatus.Held);
             SetRock(t, Soarrie, RockStatus.Held);
-            SetRock(t, Urrie, RockStatus.Guarded, Nest, 2, 3);
-            b.Warriors(2, A(Nest), 3);
+            SetRock(t, Urrie, RockStatus.Guarded, Nest, guards: 3);
+            b.Guards(A(Nest), 3);
             Assert.False(bot.Hunt(View(t)).Go);   // 2 max hits: 1.69
             b.Item(0, ItemType.Sword);
             Assert.True(bot.Hunt(View(t)).Go);    // 3 max hits: 2.13
@@ -1127,11 +962,11 @@ namespace Root33.Core.Tests.Characters
                 for (var i = 0; i < swords; i++) b.Item(0, ItemType.Sword);
                 var t = Start(b, d: d);
                 Hold(t, Florrie, Dorrie, Soarrie);
-                SetRock(t, Urrie, RockStatus.Guarded, Nest, 2, 3);
-                b.Warriors(2, A(Nest), 3);
+                SetRock(t, Urrie, RockStatus.Guarded, Nest, guards: 3);
+                b.Guards(A(Nest), 3);
                 return t;
             }
-            var legal = new[] { "battle:2:2", "move:2:7" };
+            var legal = new[] { "battle:2:guards", "move:2:7" };
 
             // 2 swords: Normal's one battle (1.69 hits) cannot nearly finish 3 guards; Hard's two (3.38) can.
             var normal = Urrie3(Difficulty.Normal, 2);
@@ -1142,23 +977,23 @@ namespace Root33.Core.Tests.Characters
             var bot = new EsquieBot();
             bot.PlanTurn(View(hard), hard.State);
             Assert.Equal(Tuning.EsquieHardGuardBattles, bot.Hunt(View(hard)).Battles);
-            Assert.Equal("battle:2:2", bot.ChooseAction(View(hard), legal));
+            Assert.Equal("battle:2:guards", bot.ChooseAction(View(hard), legal));
             hard.State.EsquieRocks[Urrie].GuardsLeft = 2;
-            Assert.Equal("battle:2:2", bot.ChooseAction(View(hard), legal));
+            Assert.Equal("battle:2:guards", bot.ChooseAction(View(hard), legal));
             hard.State.EsquieRocks[Urrie].GuardsLeft = 1;
-            Assert.NotEqual("battle:2:2", bot.ChooseAction(View(hard), legal));   // two guard battles this turn already
+            Assert.NotEqual("battle:2:guards", bot.ChooseAction(View(hard), legal));   // two guard battles this turn already
 
             // A new turn allows two again.
             bot.PlanTurn(View(hard), hard.State);
-            Assert.Equal("battle:2:2", bot.ChooseAction(View(hard), legal));
+            Assert.Equal("battle:2:guards", bot.ChooseAction(View(hard), legal));
 
             // Normal with 3 swords: one battle, then no second that turn.
             var n3 = Urrie3(Difficulty.Normal, 3);
             var nb = new EsquieBot();
             nb.PlanTurn(View(n3), n3.State);
-            Assert.Equal("battle:2:2", nb.ChooseAction(View(n3), legal));
+            Assert.Equal("battle:2:guards", nb.ChooseAction(View(n3), legal));
             n3.State.EsquieRocks[Urrie].GuardsLeft = 2;
-            Assert.NotEqual("battle:2:2", nb.ChooseAction(View(n3), legal));
+            Assert.NotEqual("battle:2:guards", nb.ChooseAction(View(n3), legal));
         }
 
         [Fact]

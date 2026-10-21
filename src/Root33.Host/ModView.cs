@@ -198,9 +198,9 @@ namespace Root33.Host
                 case "paintress":
                 {
                     var portraits = _host.Spoilers == SpoilerMode.Finished
-                        ? PaintressPortraits.LabelledPortraits(Board, st, me, monolith).Select(kv => $"{kv.Key} at {Where(kv.Value)}")
-                        : PaintressPortraits.LivingPortraits(Board, st, me, monolith).Select(Where);
-                    var missing = PaintressPortraits.MissingSuits(Board, st, me, monolith);
+                        ? PaintressPortraits.LabelledPortraits(Board, me, monolith).Select(kv => $"{kv.Key} at {Where(kv.Value)}")
+                        : PaintressPortraits.LivingPortraits(Board, me, monolith).Select(Where);
+                    var missing = PaintressPortraits.MissingSuits(Board, me, monolith);
                     return $"Portraits {3 - missing.Count}/3: {string.Join("; ", portraits.DefaultIfEmpty("none"))} · missing: {Suits(missing)} · " +
                            $"holds the Monolith with an easel: {(PaintressPortraits.HoldsMonolith(Board, me, monolith) ? "yes" : "no")}";
                 }
@@ -244,7 +244,7 @@ namespace Root33.Host
             {
                 RockStatus.NotSpawned => i switch { 1 or 2 => "appears in Act II", 3 => "appears in Act III", _ => "not on the map" },
                 RockStatus.Hidden => $"hidden in the ruin of {at}",
-                RockStatus.Guarded => $"at {at}, guarded by {r.GuardsLeft} {(r.HostSeat is SeatId h ? _host.Who(h) : "host")} warrior{(r.GuardsLeft == 1 ? "" : "s")}",
+                RockStatus.Guarded => $"at {at}, guarded by {r.GuardsLeft} neutral guard{(r.GuardsLeft == 1 ? "" : "s")}",
                 RockStatus.Loose => $"loose at {at} (Esquie picks it up after any of his actions there)",
                 RockStatus.HeldByRuler => $"held by whoever rules {at}",
                 RockStatus.WithVerso => "on Verso's card",

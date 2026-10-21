@@ -92,7 +92,7 @@ namespace Root33.Core.Characters.WhiteHairedMan
             var p = ctx.SeatOf(CharacterIds.Paintress);
             foreach (var r in WhiteHairedManRing.Ring(ctx.Board, monolith))
             {
-                if (WhiteHairedManRing.RingClearingHeld(ctx.Board, ctx.State, whm, p, r)) ctx.Actions.ShowOverlay(Ids.Overlays.WhiteHairedManRing, whm, r, null);
+                if (WhiteHairedManRing.RingClearingHeld(ctx.Board, whm, p, r)) ctx.Actions.ShowOverlay(Ids.Overlays.WhiteHairedManRing, whm, r, null);
                 else ctx.Actions.HideOverlay(Ids.Overlays.WhiteHairedManRing, whm, r, null);
             }
             if (WhiteHairedManRing.MonolithHeld(ctx.Board, whm, p, monolith.Value)) ctx.Actions.ShowOverlay(Ids.Overlays.WhiteHairedManRing, whm, monolith, null);

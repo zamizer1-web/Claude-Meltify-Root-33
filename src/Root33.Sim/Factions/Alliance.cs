@@ -179,8 +179,7 @@ public sealed class Alliance : FactionBase
         var m = g.Map.Clearings[c];
         return Sympathetic(g, seat, c) && g.BuildingsOf(seat, c, PieceTypes.Base) == 0 && g.Supply(seat, BaseType(suit)) > 0
                && MatchingSupporters(g, seat, suit) >= 2
-               && m.Slots - (g.Clearing(c).Ruin ? 1 : 0) - g.BuildingsOf(seat, c) > 0      // a slot once enemy buildings are gone
-               && !g.State.Mod.BlockedPlacements.Any(b => b.Seat == seat && b.Clearing == c);
+               && m.Slots - (g.Clearing(c).Ruin ? 1 : 0) - g.BuildingsOf(seat, c) > 0;     // a slot once enemy buildings are gone
     }).ToList();
 
     /// <summary>Spread targets: unsympathetic clearings next to a sympathetic one (any clearing if none), affordable now.</summary>

@@ -22,7 +22,7 @@ namespace Root33.Plugin.Patches
     /// Root33Runtime.Hook queues hooks the core raises while it runs and logs a core exception once per hook (the game goes
     /// on); Root33Runtime.Ask answers questions (battle legality, bot decisions) with a fallback. Plugin.Load applies every
     /// [HarmonyPatch] class in this assembly. Mark each patch [RootHook("row id")] and rerun tools/gen_plugin_stubs.py.
-    /// Patched so far: 26/34 rows that need a patch (2 are raised by the mod itself).
+    /// Patched so far: 26/37 rows that need a patch (2 are raised by the mod itself).
     /// </summary>
     public static class HookMap
     {
@@ -66,6 +66,9 @@ namespace Root33.Plugin.Patches
             new Row("hook.battle-legal", "bool CanStartBattle(SeatId attacker, SeatId defender, ClearingId c, bool strike)", "postfix", "tuber.canis.entities.TuberPlayerEntity.GetTargetsToBattle / GetBattleTargetsAt(TuberBoardNode); Strike: VagabondPlayer.GetOpponentPiecesForStrike()", true, null),
             new Row("hook.battle-start", "void OnBattleStarting(SeatId attacker, SeatId defender, ClearingId c)", "prefix", "tuber.canis.actions.BattleActions.Battle.ChooseAmbush (Battle._attacker, _defender, _battleClearing set)", true, "RulePatches.cs"),
             new Row("hook.battle-resolved", "void OnBattleResolved(BattleResult r)", "postfix", "Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.BattleActions.Battle", true, "StackPatches.cs"),
+            new Row("hook.guard-battle-legal", "bool CanBattleGuards(SeatId attacker, ClearingId c)", "postfix", "tuber.canis.entities.TuberHirelingEntity.IsEnemy(Factions) and PieceCanBeBattled(Entity) on the guard hireling (do.place-guards), with tuber.canis.entities.TuberBoardNode.GetBattleTargetsForFaction(IHasBoardPieces) and TuberPlayerEntity.GetBattleTargetsAt(TuberBoardNode) dropping the guards for every other seat", false, null),
+            new Row("hook.guard-battle-start", "void OnGuardBattleStarting(SeatId attacker, ClearingId c)", "prefix", "tuber.canis.actions.BattleActions.Battle.ChooseAmbush / DiceRoll when Battle._defender is the guard hireling (do.place-guards)", false, null),
+            new Row("hook.guard-battle-resolved", "void OnGuardBattleResolved(SeatId attacker, ClearingId c)", "postfix", "Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.BattleActions.Battle and Battle._defender is the guard hireling (do.place-guards)", false, null),
             new Row("hook.explore-resolved", "void OnExploreResolved(SeatId vagabond, ClearingId c)", "postfix", "Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.VagabondActions.ExploreResolution", true, "StackPatches.cs"),
             new Row("hook.aid-resolved", "void OnAidResolved(SeatId vagabond, SeatId receiver, ClearingId c)", "postfix", "Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.VagabondActions.AidActions.Aid", true, "StackPatches.cs"),
             new Row("hook.hostility-change", "bool AllowHostile(SeatId vagabond, SeatId faction, ClearingId battleClearing)", "prefix", "Canis.actions.continuations.ExecuteStack.PushSubAction(Match, Action action) when action is tuber.canis.actions.VagabondActions.MarkHostile (field faction)", true, null),
@@ -392,8 +395,7 @@ namespace Root33.Plugin.Patches
 
         // ===== hook.piece-removed · postfix · patched in StackPatches.cs
         // When: A piece leaves the map by any means: battle hit, Strike, Bomb, Revolt, mob, Sanctify, Convert. The
-        // Curator's Quiet Helper fires when the Paintress's roost leaves the Monolith; guard counters drop for host
-        // warriors removed outside a battle.
+        // Curator's Quiet Helper fires when the Paintress's roost leaves the Monolith.
         // Core:  void OnPieceRemoved(SeatId? remover, RemovedPiece piece, ClearingId c)
         // Root:  Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.RemovePiece / RemoveThesePiecesAction / RemoveWarriors
         // Root provides: seat that caused the removal (null when no seat did); removed piece (owner, kind, type); clearing
@@ -413,7 +415,8 @@ namespace Root33.Plugin.Patches
 
         // ===== hook.battle-legal · postfix · not patched yet
         // When: Root (or its AI, or the human UI) asks whether a seat may start a battle or a Strike against another seat
-        // in a clearing. Returning false hides the option. Used by Esquie's Never Mad and the v1.1 Monolith Barrier.
+        // in a clearing. Returning false hides the option. Used by Esquie's Never Mad (he may battle no faction) and the
+        // v1.1 Monolith Barrier.
         // Core:  bool CanStartBattle(SeatId attacker, SeatId defender, ClearingId c, bool strike)
         // Root:  tuber.canis.entities.TuberPlayerEntity.GetTargetsToBattle / GetBattleTargetsAt(TuberBoardNode); Strike: VagabondPlayer.GetOpponentPiecesForStrike()
         // Root provides: attacker seat; defender seat; clearing; whether it is a Strike
@@ -455,7 +458,7 @@ namespace Root33.Plugin.Patches
 
         // ===== hook.battle-resolved · postfix · patched in StackPatches.cs
         // When: A battle has fully resolved: hits dealt, pieces removed, items damaged. Gustave's Arm, Verso's rank,
-        // Monoco's feet, Esquie's guard counters, Sciel's Moon charge and Maelle's stance update here.
+        // Monoco's feet, Sciel's Moon charge and Maelle's stance update here.
         // Core:  void OnBattleResolved(BattleResult r)
         // Root:  Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.BattleActions.Battle
         // Root provides: clearing; attacker and defender seats; every removed piece with owner, kind and type; each
@@ -470,6 +473,64 @@ namespace Root33.Plugin.Patches
         //     {
         //         var r = default(BattleResult); // TODO from Root: BattleResult r
         //         Root33Runtime.Hook("hook.battle-resolved", g => g.OnBattleResolved(r));
+        //     }
+        // }
+
+        // ===== hook.guard-battle-legal · postfix · not patched yet
+        // When: Root (its AI or the human UI) asks whether a seat may battle the neutral guards on one of Esquie's rocks.
+        // Returning false hides the option: only Esquie may, and only with an undamaged sword
+        // (tweak.esquie.neutral-guards).
+        // Core:  bool CanBattleGuards(SeatId attacker, ClearingId c)
+        // Root:  tuber.canis.entities.TuberHirelingEntity.IsEnemy(Factions) and PieceCanBeBattled(Entity) on the guard hireling (do.place-guards), with tuber.canis.entities.TuberBoardNode.GetBattleTargetsForFaction(IHasBoardPieces) and TuberPlayerEntity.GetBattleTargetsAt(TuberBoardNode) dropping the guards for every other seat   (engineSymbol unverified)
+        // Root provides: attacker seat; clearing
+        //
+        // [HarmonyPatch(typeof(TODO_RootType), nameof(TODO_RootType.TODO_Method))]
+        // [RootHook("hook.guard-battle-legal")]
+        // internal static class GuardBattleLegalPatch
+        // {
+        //     private static void Postfix(ref bool __result /*, TODO_RootType __instance, Root's arguments */)
+        //     {
+        //         var attacker = default(SeatId); // TODO from Root: SeatId attacker
+        //         var c = default(ClearingId); // TODO from Root: ClearingId c
+        //         if (__result) __result = Root33Runtime.Ask("hook.guard-battle-legal", g => g.CanBattleGuards(attacker, c), true);
+        //     }
+        // }
+
+        // ===== hook.guard-battle-start · prefix · not patched yet
+        // When: Esquie has declared a battle against a rock's neutral guards and nothing has been rolled yet. Belly Bounce
+        // registers its max hit here, and Esquie apologises to the guards.
+        // Core:  void OnGuardBattleStarting(SeatId attacker, ClearingId c)
+        // Root:  tuber.canis.actions.BattleActions.Battle.ChooseAmbush / DiceRoll when Battle._defender is the guard hireling (do.place-guards)   (engineSymbol unverified)
+        // Root provides: attacker seat; clearing
+        //
+        // [HarmonyPatch(typeof(TODO_RootType), nameof(TODO_RootType.TODO_Method))]
+        // [RootHook("hook.guard-battle-start")]
+        // internal static class GuardBattleStartPatch
+        // {
+        //     private static void Prefix(/* TODO_RootType __instance, Root's arguments */)
+        //     {
+        //         var attacker = default(SeatId); // TODO from Root: SeatId attacker
+        //         var c = default(ClearingId); // TODO from Root: ClearingId c
+        //         Root33Runtime.Hook("hook.guard-battle-start", g => g.OnGuardBattleStarting(attacker, c));
+        //     }
+        // }
+
+        // ===== hook.guard-battle-resolved · postfix · not patched yet
+        // When: A battle against a rock's neutral guards has fully resolved (guards removed, his items damaged). That
+        // rock's GuardsLeft becomes the guards still standing (read.guards); at 0 the rock is loose.
+        // Core:  void OnGuardBattleResolved(SeatId attacker, ClearingId c)
+        // Root:  Canis.actions.continuations.ExecuteStack.PopToParent(Match, Action completedAction) when completedAction is tuber.canis.actions.BattleActions.Battle and Battle._defender is the guard hireling (do.place-guards)   (engineSymbol unverified)
+        // Root provides: attacker seat; clearing
+        //
+        // [HarmonyPatch(typeof(TODO_RootType), nameof(TODO_RootType.TODO_Method))]
+        // [RootHook("hook.guard-battle-resolved")]
+        // internal static class GuardBattleResolvedPatch
+        // {
+        //     private static void Postfix(/* TODO_RootType __instance, Root's arguments */)
+        //     {
+        //         var attacker = default(SeatId); // TODO from Root: SeatId attacker
+        //         var c = default(ClearingId); // TODO from Root: ClearingId c
+        //         Root33Runtime.Hook("hook.guard-battle-resolved", g => g.OnGuardBattleResolved(attacker, c));
         //     }
         // }
 
@@ -514,7 +575,7 @@ namespace Root33.Plugin.Patches
 
         // ===== hook.hostility-change · prefix · not patched yet
         // When: Root is about to make a faction Hostile to a Vagabond because the Vagabond removed that faction's warriors
-        // in a battle. Returning false skips the change (Friends Not Foes in guarded-rock clearings).
+        // in a battle. Returning false skips the change.
         // Core:  bool AllowHostile(SeatId vagabond, SeatId faction, ClearingId battleClearing)
         // Root:  Canis.actions.continuations.ExecuteStack.PushSubAction(Match, Action action) when action is tuber.canis.actions.VagabondActions.MarkHostile (field faction)
         // Root provides: Vagabond seat; faction seat; clearing of the battle

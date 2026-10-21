@@ -28,17 +28,12 @@ namespace Root33.Core.Characters.Esquie
             return -1;
         }
 
-        /// <summary>tweak.esquie.guards-never-count: GuardsLeft of the guarded rocks <paramref name="host"/> hosts in a clearing.</summary>
-        public static int HostedGuards(ModState s, SeatId host, ClearingId c) =>
-            s.EsquieRocks.Where(r => r.Status == RockStatus.Guarded && r.HostSeat == host && r.Clearing == c).Sum(r => r.GuardsLeft);
-
-        /// <summary>A host's warriors in a clearing that count toward its own themed win (guards excluded).</summary>
-        public static int OwnWarriors(GameContext ctx, SeatId host, ClearingId c) =>
-            Math.Max(0, ctx.Board.Warriors(host, c) - HostedGuards(ctx.State, host, c));
-
-        /// <summary>No-spawn fallback: tune.esquie-guard-spawns is 0 or the plugin cannot place another seat's warriors.</summary>
+        /// <summary>No-spawn fallback: tune.esquie-guard-spawns is 0 or the plugin cannot place neutral guards.</summary>
         public static bool NoSpawnFallback(GameContext ctx) =>
-            Tuning.EsquieGuardSpawns <= 0 || !ctx.SupportsAction(Ids.BoardActions.PlaceWarriors);
+            Tuning.EsquieGuardSpawns <= 0 || !ctx.SupportsAction(Ids.BoardActions.PlaceGuards);
+
+        /// <summary>Whether he has an undamaged sword: every battle of his needs one (tweak.esquie.neutral-guards).</summary>
+        public static bool HasUndamagedSword(IBoardView b, SeatId me) => b.Items(me).Any(it => it.Type == ItemType.Sword && !it.Damaged);
 
         public static bool CorvidWarriorsIn(IBoardView b, ClearingId c) =>
             b.Seats().Any(s => b.EngineOf(s) == EngineId.Corvids && b.Warriors(s, c) >= 1);
@@ -52,20 +47,6 @@ namespace Root33.Core.Characters.Esquie
             if (r.Status == RockStatus.WithVerso) return r.HostSeat.HasValue ? ctx.Board.PawnClearing(r.HostSeat.Value) : null;
             if (r.Status == RockStatus.HeldByRuler) return ctx.Role(Ids.MapRoles.Monolith);
             return r.Status == RockStatus.Held || r.Status == RockStatus.NotSpawned ? null : r.Clearing;
-        }
-
-        /// <summary>The Nevron host: Clea if seated; otherwise the non-Marquise, non-Vagabond faction with the most warriors in
-        /// supply (ties: lowest VP, then lowest seat); otherwise the Marquise.</summary>
-        public static SeatId? ChooseHost(GameContext ctx)
-        {
-            var clea = ctx.SeatOf(CharacterIds.Clea);
-            if (clea.HasValue) return clea;
-            var b = ctx.Board;
-            var cands = b.Seats().Where(s => b.EngineOf(s) != EngineId.Marquise && !ctx.IsVagabond(s)).ToList();
-            if (cands.Count > 0)
-                return cands.OrderByDescending(s => b.SupplyWarriors(s)).ThenBy(s => b.Vp(s)).ThenBy(s => s.Value).First();
-            foreach (var s in b.Seats()) if (b.EngineOf(s) == EngineId.Marquise) return s;
-            return null;
         }
 
         // ------------------------------------------------------------ setup and acts
@@ -127,35 +108,19 @@ namespace Root33.Core.Characters.Esquie
             r.Status = RockStatus.Loose;
             ctx.Actions.ShowOverlay(Ids.Overlays.EsquieRocks, me, c, null);
             if (NoSpawnFallback(ctx)) return;
-            var host = ChooseHost(ctx);
-            var placed = host.HasValue ? ctx.Actions.PlaceWarriors(host.Value, c.Value, guards) : 0;
+            var placed = ctx.Actions.PlaceGuards(c.Value, guards);
             if (placed <= 0) return;
-            r.HostSeat = host;
             r.GuardsLeft = Math.Min(placed, guards);
             r.Status = RockStatus.Guarded;
-            ctx.Actions.ShowOverlay(Badge(i), host, c, null);
-            SendGuardRules(ctx, r);
+            ctx.Actions.ShowOverlay(Badge(i), me, c, null);
         }
 
         private static string Badge(int i) => i == Florrie ? Ids.Overlays.EsquieLampmasterBadge : Ids.Overlays.EsquieFrancoisBadge;
 
-        /// <summary>tweak.esquie.guard-floor and tweak.esquie.guard-no-placement for one guarded rock.</summary>
-        private static void SendGuardRules(GameContext ctx, RockState r)
-        {
-            if (r.Status != RockStatus.Guarded || !r.HostSeat.HasValue || !r.Clearing.HasValue) return;
-            ctx.Actions.SetGuardFloor(r.HostSeat.Value, r.Clearing.Value, r.GuardsLeft);
-            ctx.Actions.BlockPlacement(r.HostSeat.Value, r.Clearing.Value, true);
-        }
-
-        private static void MakeLoose(GameContext ctx, int i)
+        private static void MakeLoose(GameContext ctx, SeatId me, int i)
         {
             var r = ctx.State.EsquieRocks[i];
-            if (r.HostSeat.HasValue && r.Clearing.HasValue)
-            {
-                ctx.Actions.SetGuardFloor(r.HostSeat.Value, r.Clearing.Value, 0);
-                ctx.Actions.BlockPlacement(r.HostSeat.Value, r.Clearing.Value, false);
-                ctx.Actions.HideOverlay(Badge(i), r.HostSeat, r.Clearing, null);
-            }
+            if (r.Status == RockStatus.Guarded) ctx.Actions.HideOverlay(Badge(i), me, r.Clearing, null);
             r.Status = RockStatus.Loose;
             r.HostSeat = null;
             r.GuardsLeft = 0;
@@ -174,7 +139,7 @@ namespace Root33.Core.Characters.Esquie
         {
             var r = ctx.State.EsquieRocks[i];
             if (r.Status == RockStatus.Held) return;
-            if (r.Status == RockStatus.Guarded) MakeLoose(ctx, i);
+            if (r.Status == RockStatus.Guarded) MakeLoose(ctx, me, i);
             ctx.Actions.HideOverlay(Ids.Overlays.EsquieRocks, me, r.Clearing, null);
             r.Status = RockStatus.Held;
             r.Clearing = null;
@@ -307,43 +272,47 @@ namespace Root33.Core.Characters.Esquie
         /// <summary>Whether he has an undamaged Bag (Belly Bounce).</summary>
         public static bool HasUndamagedBag(IBoardView b, SeatId me) => b.Items(me).Any(it => it.Type == ItemType.Bag && !it.Damaged);
 
-        /// <summary>tweak.esquie.belly-bounce: an undamaged Bag counts as tune.esquie-belly-bounce-swords sword in a guarded-rock
-        /// clearing (under the no-spawn fallback, in a clearing with an unclaimed Florrie or Urrie), however many Bags he has.</summary>
+        /// <summary>tweak.esquie.belly-bounce under the no-spawn fallback (no guards): in his battles in a clearing with an
+        /// unclaimed Florrie or Urrie an undamaged Bag counts as tune.esquie-belly-bounce-swords sword, however many Bags he has.
+        /// With guards, <see cref="GuardBattleStarting"/> applies it.</summary>
         public static void BellyBounce(GameContext ctx, SeatId me, SeatId attacker, SeatId defender, ClearingId c)
         {
             if (attacker != me && defender != me) return;
-            if (!IsRockBattleClearing(ctx, c)) return;
+            if (FallbackRockAt(ctx, c) < 0) return;
             if (HasUndamagedBag(ctx.Board, me)) ctx.Actions.AddMaxHits(me, Tuning.EsquieBellyBounceSwords);
         }
 
-        /// <summary>tweak.esquie.never-mad: only the host's warriors, in a guarded-rock clearing. Under the no-spawn fallback
-        /// (no host) only in a clearing with an unclaimed Florrie or Urrie, against any faction's warriors there.</summary>
-        public static bool NeverMadAllows(GameContext ctx, SeatId defender, ClearingId c)
+        /// <summary>tweak.esquie.never-mad: he battles no faction while there are guards (his battles are guard battles,
+        /// <see cref="CanBattleGuards"/>) and never Strikes. Under the no-spawn fallback (no guards) he may battle only in a
+        /// clearing with an unclaimed Florrie or Urrie, against any faction's warriors there.</summary>
+        public static bool NeverMadAllows(GameContext ctx, SeatId defender, ClearingId c, bool strike) =>
+            !strike && FallbackRockAt(ctx, c) >= 0 && ctx.Board.Warriors(defender, c) > 0;
+
+        /// <summary>tweak.esquie.neutral-guards and never-mad (hook.guard-battle-legal): only Esquie battles the guards of a
+        /// guarded rock, and only with an undamaged sword.</summary>
+        public static bool CanBattleGuards(GameContext ctx, SeatId me, SeatId attacker, ClearingId c) =>
+            attacker == me && GuardedRockAt(ctx.State, c) >= 0 && HasUndamagedSword(ctx.Board, me);
+
+        /// <summary>hook.guard-battle-start: tweak.esquie.belly-bounce against the guards.</summary>
+        public static void GuardBattleStarting(GameContext ctx, SeatId me, SeatId attacker, ClearingId c)
         {
-            var i = GuardedRockAt(ctx.State, c);
-            if (i >= 0) return ctx.State.EsquieRocks[i].HostSeat == defender;
-            return FallbackRockAt(ctx, c) >= 0 && ctx.Board.Warriors(defender, c) > 0;
+            if (attacker != me || GuardedRockAt(ctx.State, c) < 0) return;
+            if (HasUndamagedBag(ctx.Board, me)) ctx.Actions.AddMaxHits(me, Tuning.EsquieBellyBounceSwords);
         }
 
-        /// <summary>tweak.esquie.friends-not-foes: Root's hostility change is skipped for battles in a clearing with a guarded
-        /// rock (keyed to the clearing, so any Vagabond battling there).</summary>
-        public static bool FriendsNotFoesAllows(ModState s, ClearingId battleClearing) => GuardedRockAt(s, battleClearing) < 0;
-
-        /// <summary>hook.piece-removed: every host warrior removed from a guarded rock's clearing costs a guard, in a battle
-        /// (whoever fought it) or any other way (Strike, Bomb, Revolt). This is the only place guards are counted, so a removal
-        /// is counted once; hook.battle-resolved counts nothing.</summary>
-        public static void PieceRemoved(GameContext ctx, RemovedPiece piece, ClearingId c)
+        /// <summary>hook.guard-battle-resolved: GuardsLeft of the rock there becomes the guards still standing (read.guards),
+        /// never more than before; at 0 the rock is loose.</summary>
+        public static void GuardBattleResolved(GameContext ctx, SeatId me, ClearingId c)
         {
-            if (piece.Kind != PieceKind.Warrior) return;
-            var rocks = ctx.State.EsquieRocks;
-            for (var i = 0; i < rocks.Length; i++)
-            {
-                var r = rocks[i];
-                if (r.Status != RockStatus.Guarded || r.Clearing != c || r.HostSeat != piece.Owner) continue;
-                r.GuardsLeft = Math.Max(0, r.GuardsLeft - 1);
-                if (r.GuardsLeft == 0) MakeLoose(ctx, i);
-                else SendGuardRules(ctx, r);
-            }
+            var i = GuardedRockAt(ctx.State, c);
+            if (i >= 0) SyncGuards(ctx, me, i);
+        }
+
+        private static void SyncGuards(GameContext ctx, SeatId me, int i)
+        {
+            var r = ctx.State.EsquieRocks[i];
+            r.GuardsLeft = Math.Max(0, Math.Min(r.GuardsLeft, r.Clearing.HasValue ? ctx.Board.Guards(r.Clearing.Value) : 0));
+            if (r.GuardsLeft == 0) MakeLoose(ctx, me, i);
         }
 
         // ------------------------------------------------------------ load
@@ -354,13 +323,8 @@ namespace Root33.Core.Characters.Esquie
             var rocks = ctx.State.EsquieRocks;
             for (var i = 0; i < rocks.Length; i++)
             {
-                var r = rocks[i];
-                if (r.Status == RockStatus.Held) GrantPower(ctx, me, i);
-                if (r.Status != RockStatus.Guarded) continue;
-                var now = r.HostSeat.HasValue && r.Clearing.HasValue ? ctx.Board.Warriors(r.HostSeat.Value, r.Clearing.Value) : 0;
-                r.GuardsLeft = Math.Min(r.GuardsLeft, now);
-                if (r.GuardsLeft <= 0) MakeLoose(ctx, i);
-                else SendGuardRules(ctx, r);
+                if (rocks[i].Status == RockStatus.Held) GrantPower(ctx, me, i);
+                if (rocks[i].Status == RockStatus.Guarded) SyncGuards(ctx, me, i);
             }
             if (ctx.Act >= 2) ctx.State.EsquieDecoy = false;
             ctx.State.EsquieTarget = null;

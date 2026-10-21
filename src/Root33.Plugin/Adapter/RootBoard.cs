@@ -13,17 +13,18 @@ namespace Root33.Plugin.Adapter
     /// (IBoardActions, one member per sheets/board_actions.json row). This generated part holds every row that is not mapped
     /// yet: each throws <see cref="NotMappedException"/> with the row id and the sheet's engineSymbol guess. Mapped members
     /// live in RootBoard.Mapped.cs, marked [Mapped("row id")]; rerun tools/gen_plugin_stubs.py after mapping one.
-    /// Mapped so far: 49/59 reads, 11/26 actions.
+    /// Mapped so far: 49/60 reads, 10/25 actions.
     /// </summary>
     public sealed partial class RootBoard : IBoardView, IBoardActions
     {
-        public const int ReadRows = 59;
-        public const int ActionRows = 26;
+        public const int ReadRows = 60;
+        public const int ActionRows = 25;
 
         /// <summary>board_reads rows still stubbed here, in sheet order.</summary>
         public static readonly string[] UnmappedReads =
         {
             "read.legal-actions",
+            "read.guards",
             "read.supply-warriors",
             "read.eyrie-leader",
             "read.relics-in-forest",
@@ -39,6 +40,7 @@ namespace Root33.Plugin.Adapter
         public static readonly string[] UnmappedActions =
         {
             "do.place-warriors",
+            "do.place-guards",
             "do.move-warriors",
             "do.place-tunnel",
             "do.grant-free-dig",
@@ -47,7 +49,6 @@ namespace Root33.Plugin.Adapter
             "do.score-vp",
             "do.draw-cards",
             "do.add-max-hits",
-            "do.set-guard-floor",
             "do.restrict-home",
             "do.restrict-start-forest",
             "do.grant-ability",
@@ -114,6 +115,11 @@ namespace Root33.Plugin.Adapter
 
         // read.warriors: mapped in RootBoard.Mapped.cs
 
+        /// <summary>read.guards: Esquie's neutral rock guards in a clearing (pieces of no seat; 0 when there are none).</summary>
+        /// <remarks>engineSymbol (unverified): tuber.canis.entities.TuberBoardNode.CountPieces(Factions.HighwayBandits, [PieceTypes.Warrior]): the guard hireling's warriors (do.place-guards)</remarks>
+        public int Guards(ClearingId c) =>
+            throw new NotMappedException("read.guards", "tuber.canis.entities.TuberBoardNode.CountPieces(Factions.HighwayBandits, [PieceTypes.Warrior]): the guard hireling's warriors (do.place-guards)");
+
         // read.buildings: mapped in RootBoard.Mapped.cs
 
         // read.buildings-of-type: mapped in RootBoard.Mapped.cs
@@ -126,7 +132,7 @@ namespace Root33.Plugin.Adapter
 
         // read.pawn-forest: mapped in RootBoard.Mapped.cs
 
-        /// <summary>read.supply-warriors: Warriors left in a seat's supply (the Nevron host is chosen by this).</summary>
+        /// <summary>read.supply-warriors: Warriors left in a seat's supply.</summary>
         /// <remarks>engineSymbol (unverified): tuber.canis.entities.TuberPlayerEntity.WarriorArea (TuberPlayArea) children</remarks>
         public int SupplyWarriors(SeatId seat) =>
             throw new NotMappedException("read.supply-warriors", "tuber.canis.entities.TuberPlayerEntity.WarriorArea (TuberPlayArea) children");
@@ -207,11 +213,17 @@ namespace Root33.Plugin.Adapter
 
         // ================================================================= IBoardActions (sheets/board_actions.json)
 
-        /// <summary>do.place-warriors: Place warriors of any seat from that seat's supply into a clearing, outside that seat's turn. Used for Esquie's guards (Florrie's 2, Urrie's 3, from the Nevron host). Returns how many were actually placed when the supply runs short.</summary>
+        /// <summary>do.place-warriors: Place warriors of any seat from that seat's supply into a clearing, outside that seat's turn. Returns how many were actually placed when the supply runs short.</summary>
         /// <remarks>engineSymbol (unverified): tuber.canis.actions.PlacePiecesAtTarget / PlacePieceAtTarget pushed on the match's action stack, warriors from TuberPlayerEntity.WarriorArea
-        /// Fallback while unsupported: Esquie's no-spawn fallback becomes the v1 default (tune.esquie-guard-spawns = 0): no guards spawn, and Florrie and Urrie can be claimed only when no faction other than Esquie has warriors in their clearing.</remarks>
+        /// Fallback while unsupported: The tweaks that would place them (the do.ignore-first-hit fallback) are left out.</remarks>
         public int PlaceWarriors(SeatId seat, ClearingId c, int count) =>
             throw new NotMappedException("do.place-warriors", "tuber.canis.actions.PlacePiecesAtTarget / PlacePieceAtTarget pushed on the match's action stack, warriors from TuberPlayerEntity.WarriorArea");
+
+        /// <summary>do.place-guards: Place neutral guards (pieces of no seat, hostile only to Esquie) into a clearing: Florrie's 2 and Urrie's 3. Returns how many were actually placed.</summary>
+        /// <remarks>engineSymbol (unverified): warriors of an unhired hireling the match does not use: TuberMatch.GetHirelingForFaction(Factions.HighwayBandits) (tuber.canis.entities.HirelingClasses.BanditGangHireling, a TuberHirelingEntity with no ControllingPlayer), placed from its WarriorArea with tuber.canis.actions.PlacePiecesAtTarget pushed on the match's action stack
+        /// Fallback while unsupported: Esquie's no-spawn fallback becomes the v1 default (tune.esquie-guard-spawns = 0): no guards spawn, and Florrie and Urrie can be claimed only when no faction other than Esquie has warriors in their clearing.</remarks>
+        public int PlaceGuards(ClearingId c, int count) =>
+            throw new NotMappedException("do.place-guards", "warriors of an unhired hireling the match does not use: TuberMatch.GetHirelingForFaction(Factions.HighwayBandits) (tuber.canis.entities.HirelingClasses.BanditGangHireling, a TuberHirelingEntity with no ControllingPlayer), placed from its WarriorArea with tuber.canis.actions.PlacePiecesAtTarget pushed on the match's action stack");
 
         /// <summary>do.move-warriors: Move warriors of a seat between two clearings outside that seat's normal move (the Paintress's Still Life: 1 warrior from an adjacent clearing into a Living Portrait clearing before the roll).</summary>
         /// <remarks>engineSymbol (unverified): tuber.canis.actions.MovePieces (WithPreselectedDestination, WithMinAndMaxOverrides)
@@ -266,14 +278,6 @@ namespace Root33.Plugin.Adapter
             throw new NotMappedException("do.add-max-hits", "unknown: a Vagabond's roll cap, likely in tuber.canis.actions.BattleActions.StandardBattleResolution");
 
         // do.ignore-first-hit: mapped in RootBoard.Mapped.cs
-
-        /// <summary>do.set-guard-floor: Keep at least this many of the host's warriors in a clearing: Root's move generator, its AI and the human UI may not move the host below the floor. 0 lifts it. Only a count: the host's other warriors come and go freely.</summary>
-        /// <remarks>engineSymbol (unverified): tuber.canis.entities.TuberBoardNode.CanMoveOut(IHasBoardPieces) and tuber.canis.actions.MovePieces max override; removals: RemovePiece
-        /// Fallback while unsupported: Esquie's no-spawn fallback (no guards, so no floor is needed).</remarks>
-        public void SetGuardFloor(SeatId host, ClearingId c, int floor) =>
-            throw new NotMappedException("do.set-guard-floor", "tuber.canis.entities.TuberBoardNode.CanMoveOut(IHasBoardPieces) and tuber.canis.actions.MovePieces max override; removals: RemovePiece");
-
-        // do.block-placement: mapped in RootBoard.Mapped.cs
 
         /// <summary>do.restrict-home: Limit the clearings a seat may pick as its home during setup: the Paintress's first roost to the Monolith, Clea's home to the Flying Manor, the Curator's home to a free corner other than Lumière and the Monolith. On Autumn also Gustave's keep, to Lumière (autumn.01); on other maps his keep is free and the corner it goes in becomes Lumière.</summary>
         /// <remarks>engineSymbol (unverified): filter the starting-clearing selection of tuber.canis.actions.*.SetStartingLocationFor&lt;Faction&gt; (Marquise, Eyrie, Cult, Corvid, Duchy, Hundreds; MarquisePlaceStartingBuildings)

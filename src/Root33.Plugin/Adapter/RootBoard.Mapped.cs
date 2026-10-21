@@ -99,7 +99,6 @@ namespace Root33.Plugin.Adapter
         [Mapped("do.declare-winner")] public void DeclareWinner(SeatId seat, string winConditionId) => RootWins.Declare(seat);
         [Mapped("do.add-hits")] public void AddHits(SeatId seat, int hits) => ModRules.AddHits(seat, hits);
         [Mapped("do.ignore-first-hit")] public void IgnoreFirstHit(SeatId seat) => ModRules.IgnoreFirstHit(seat);
-        [Mapped("do.block-placement")] public void BlockPlacement(SeatId seat, ClearingId c, bool blocked) => ModRules.BlockPlacement(seat, c, blocked);
 
         /// <summary>Root's own AI decides unless a Goal Director overrides it (do.submit-action, M6), so handing a decision
         /// back to Root needs nothing.</summary>

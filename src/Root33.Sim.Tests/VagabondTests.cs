@@ -1,4 +1,5 @@
 using Root33.Core;
+using Root33.Core.Sheets;
 using Root33.Sim;
 
 namespace Root33.Sim.Tests;
@@ -231,6 +232,41 @@ public class VagabondTests
         Assert.Equal(0, g.BuildingsOf(0, 5));
         Assert.Equal(4, g.Seat(1).Vp);                                      // 2 warriors (Infamy) + workshop (1 + Infamy)
         Assert.Equal("vagabond.daylight", g.Pending!.Kind);
+    }
+
+    [Fact]
+    public void Daylight_EsquieAloneBattlesTheNeutralGuards_AndTheCoreFollowsTheGuardsLeft()
+    {
+        var g = Kit.Table(1, "gustave", "esquie");
+        g.Bridge.OnSetupComplete();                                        // Florrie spawns under her neutral guards
+        int cliffs = g.Bridge.Ctx.Role(Ids.MapRoles.StoneWaveCliffs)!.Value.Value;
+        Assert.Equal(Tuning.EsquieGuardsFlorrie, g.Clearing(cliffs).Guards);
+        Assert.All(Enumerable.Range(0, g.SeatCount), s => Assert.Equal(0, g.Warriors(s, cliffs)));
+        Assert.Contains("2 neutral guards", Render.Spectator(g));
+
+        // Gustave's warriors beside them have no guard target; Esquie, with a ready sword, has only the guards.
+        Kit.Warriors(g, 0, cliffs, 2);
+        Assert.False(g.Bridge.OnGuardBattleLegal(0, cliffs));
+        Pawn(g, 1, cliffs);
+        SetItems(g, 1, Boots, Torch, Bag, Sword, Sword, Crossbow);
+        Daylight(g, 1);
+        Assert.True(Offered(g, $"battle:{cliffs}:guards"));
+        Assert.DoesNotContain(g.Pending!.Options, o => o.Key.StartsWith("battle:") && !o.Key.EndsWith(":guards"));
+        Assert.DoesNotContain(g.Pending!.Options, o => o.Key.StartsWith("strike:"));   // Never Mad: no Strike
+
+        Pick(g, 1, $"battle:{cliffs}:guards");
+        while (g.Pending?.Kind == "vagabond.hits") g.Choose(1, g.Pending.Options[0].Key);
+        Assert.Equal(1, Count(g, 1, Sword, exhausted: true));
+        var left = g.Clearing(cliffs).Guards;
+        var florrie = g.Bridge.Ctx.State.EsquieRocks[0];
+        if (left > 0)
+        {
+            Assert.Equal(left, florrie.GuardsLeft);
+            Assert.Equal(RockStatus.Guarded, florrie.Status);
+        }
+        else Assert.Equal(RockStatus.Held, florrie.Status);                 // loose, then picked up after that action
+        Assert.Equal(2, g.Warriors(0, cliffs));                            // Gustave's warriors were never in it
+        Assert.Empty(g.Bridge.Errors);
     }
 
     [Fact]

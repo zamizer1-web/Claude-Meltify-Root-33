@@ -180,11 +180,10 @@ namespace Root33.Core.Tests.Characters
                 .Warriors(0, 10, 2)
                 .Building(0, 4, PieceTypes.Sawmill); // fox corner 4 has no free slot left
             var t = TestTable.Start(board, Registry());
-            t.State.EsquieRocks[ModState.Florrie] = new RockState { Status = RockStatus.Guarded, Clearing = C(10), HostSeat = S(0), GuardsLeft = 2 };
             var bot = new PaintressBot();
             var v = View(t);
 
-            Assert.Equal(Tuning.PaintressSiteAdjacent + Tuning.PaintressSiteNearMonolith + 2 * Tuning.PaintressSiteEnemyWarrior + Tuning.PaintressSiteGuardedRock,
+            Assert.Equal(Tuning.PaintressSiteAdjacent + Tuning.PaintressSiteNearMonolith + 2 * Tuning.PaintressSiteEnemyWarrior,
                 bot.SiteScore(v, C(10)));
             Assert.Equal(Tuning.PaintressSiteAdjacent + Tuning.PaintressSiteNearMonolith, bot.SiteScore(v, C(11)));
             Assert.Equal(Tuning.PaintressSiteNearMonolith, bot.SiteScore(v, C(8)));  // two steps: 3-10-8
@@ -314,10 +313,6 @@ namespace Root33.Core.Tests.Characters
             var v = View(t);
             Assert.Equal(new[] { C(11), C(9) }, bot.Garrison(v).Select(r => r.Item).ToArray());
             Assert.Equal("recruit:11", bot.ChooseAction(v, new[] { "recruit:7", "recruit:9", "recruit:11" }));
-
-            // A hosted guard does not count toward the garrison.
-            t.State.EsquieRocks[ModState.Florrie] = new RockState { Status = RockStatus.Guarded, Clearing = C(7), HostSeat = S(1), GuardsLeft = 1 };
-            Assert.Contains(C(7), bot.Garrison(View(t)).Select(r => r.Item));
         }
 
         [Fact]

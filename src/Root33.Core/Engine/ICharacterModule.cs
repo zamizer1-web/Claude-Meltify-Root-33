@@ -52,6 +52,10 @@ namespace Root33.Core.Engine
         bool CanStartBattle(SeatId attacker, SeatId defender, ClearingId c, bool strike);
         void OnBattleStarting(SeatId attacker, SeatId defender, ClearingId c);
         void OnBattleResolved(BattleResult r);
+        /// <summary>hook.guard-battle-legal: false forbids battling a rock's neutral guards (all modules must allow it).</summary>
+        bool CanBattleGuards(SeatId attacker, ClearingId c);
+        void OnGuardBattleStarting(SeatId attacker, ClearingId c);
+        void OnGuardBattleResolved(SeatId attacker, ClearingId c);
         void OnExploreResolved(SeatId vagabond, ClearingId c);
         void OnAidResolved(SeatId vagabond, SeatId receiver, ClearingId c);
         /// <summary>hook.hostility-change: false skips the change (all modules must allow it).</summary>
@@ -129,6 +133,9 @@ namespace Root33.Core.Engine
         public virtual bool CanStartBattle(SeatId attacker, SeatId defender, ClearingId c, bool strike) => true;
         public virtual void OnBattleStarting(SeatId attacker, SeatId defender, ClearingId c) { }
         public virtual void OnBattleResolved(BattleResult r) { }
+        public virtual bool CanBattleGuards(SeatId attacker, ClearingId c) => true;
+        public virtual void OnGuardBattleStarting(SeatId attacker, ClearingId c) { }
+        public virtual void OnGuardBattleResolved(SeatId attacker, ClearingId c) { }
         public virtual void OnExploreResolved(SeatId vagabond, ClearingId c) { }
         public virtual void OnAidResolved(SeatId vagabond, SeatId receiver, ClearingId c) { }
         public virtual bool AllowHostile(SeatId vagabond, SeatId faction, ClearingId battleClearing) => true;

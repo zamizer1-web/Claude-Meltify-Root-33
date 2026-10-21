@@ -86,7 +86,7 @@ namespace Root33.Core
         /// <remarks>Sheet row: state.gustave.route (owner gustave); initial: empty</remarks>
         public IReadOnlyList<ClearingId> GustaveRoute;
 
-        /// 4 entries in order Florrie, Dorrie, Soarrie, Urrie. RockState fields: string Status (notSpawned | hidden | guarded | loose | heldByRuler | withVerso | held); ClearingId? Clearing (null while withVerso, heldByRuler or held); SeatId? HostSeat (the Nevron host for guarded rocks, Verso's seat for withVerso, null otherwise); int GuardsLeft (0-3). Soarrie's holder is HostSeat while withVerso, and the Monolith's current ruler while heldByRuler.
+        /// 4 entries in order Florrie, Dorrie, Soarrie, Urrie. RockState fields: string Status (notSpawned | hidden | guarded | loose | heldByRuler | withVerso | held); ClearingId? Clearing (null while withVerso, heldByRuler or held); SeatId? HostSeat (Verso's seat while withVerso, null otherwise: a guarded rock's guards are neutral and belong to no seat); int GuardsLeft (0-3, the neutral guards left on a guarded rock). Soarrie's holder is HostSeat while withVerso, and the Monolith's current ruler while heldByRuler.
         /// <remarks>Sheet row: state.esquie.rocks (owner esquie); initial: all notSpawned</remarks>
         public RockState[] EsquieRocks;
 
@@ -154,7 +154,7 @@ namespace Root33.Core
         /// <remarks>Sheet row: state.curator.cell-crack (owner curator); initial: none; inert at setup when the Curator is seated</remarks>
         public string CuratorCellCrack;
 
-        /// clearings holding 1+ of her warriors at the end of her last turn, not counting guard warriors she hosts on Esquie's rocks (the same count as win.clea); empty when Clea is not seated
+        /// clearings holding 1+ of her warriors at the end of her last turn (the same count as win.clea); empty when Clea is not seated
         /// <remarks>Sheet row: state.clea.covered (owner clea); initial: empty</remarks>
         public HashSet<ClearingId> CleaCovered;
 

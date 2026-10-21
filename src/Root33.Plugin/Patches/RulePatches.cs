@@ -90,31 +90,6 @@ namespace Root33.Plugin.Patches
         }
     }
 
-    /// <summary>do.block-placement: Root's own checks for placing and building say no in a blocked clearing.</summary>
-    [HarmonyPatch(typeof(TuberPlayerEntity), nameof(TuberPlayerEntity.CanPlacePieceAt))]
-    internal static class CanPlacePatch
-    {
-        private static void Postfix(TuberPlayerEntity __instance, TuberBoardNode destination, ref bool __result)
-        {
-            if (!__result || RootGame.Inactive) return;
-            var blocked = PatchGuard.Run("can-place", () =>
-                RootGame.SeatOf(__instance) is { } seat && RootGame.ClearingOf(destination) is { } c && ModRules.IsBlocked(seat, c), false);
-            if (blocked) __result = false;
-        }
-    }
-
-    [HarmonyPatch(typeof(TuberPlayerEntity), nameof(TuberPlayerEntity.CanBuildAt))]
-    internal static class CanBuildPatch
-    {
-        private static void Postfix(TuberPlayerEntity __instance, TuberBoardNode area, ref bool __result)
-        {
-            if (!__result || RootGame.Inactive) return;
-            var blocked = PatchGuard.Run("can-build", () =>
-                RootGame.SeatOf(__instance) is { } seat && RootGame.ClearingOf(area) is { } c && ModRules.IsBlocked(seat, c), false);
-            if (blocked) __result = false;
-        }
-    }
-
     /// <summary>hook.battle-start: attacker, defender and clearing are fixed and nothing is rolled. Root asks for an Ambush
     /// first (ChooseAmbush); a battle that skips that state reaches the dice (DiceRoll), so the first of the two raises it once.</summary>
     internal static class BattleStart

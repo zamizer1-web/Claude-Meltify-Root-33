@@ -6,7 +6,7 @@ using Root33.Core.Sheets;
 
 namespace Root33.Core.Characters.Clea
 {
-    /// <summary>Step 8's answer to the most urgent threat.</summary>
+    /// <summary>Step 7's answer to the most urgent threat.</summary>
     public sealed class CleaSpoilerAnswer
     {
         public SeatId Threat;
@@ -21,8 +21,8 @@ namespace Root33.Core.Characters.Clea
 
     /// <summary>
     /// bot.clea: Root's Lizard Cult actions (rituals, conspiracies) from read.legal-actions (<see cref="CleaAction"/>), steered by
-    /// the plan's steps. One public [BotRule] method per bot_rules row (bot.clea.01..08); rule methods read only the
-    /// <see cref="BotView"/> (public board, the guarded rocks, her own hand and Outcast) and return a ranking or a decision.
+    /// the plan's steps. One public [BotRule] method per bot_rules row (bot.clea.01..07); rule methods read only the
+    /// <see cref="BotView"/> (public board, her own hand and Outcast) and return a ranking or a decision.
     /// Steps are asked in order and the first that claims the decision takes it; step 6 (goal-mode re-cover) and step 4's
     /// atelier rebuild pre-empt the steps above them while their condition holds, and the spoiler layer pre-empts as the
     /// shared <see cref="SpoilerLayer"/> says. Root's own AI plays every decision no step claims (null).
@@ -46,13 +46,10 @@ namespace Root33.Core.Characters.Clea
         private static ClearingId? MonolithOf(BotView v) => v.Role(Ids.MapRoles.Monolith);
         private static ClearingId? ManorOf(BotView v) => v.Role(Ids.MapRoles.FlyingManor);
 
-        /// <summary>Her covered clearings (guards she hosts not counted, as in win.clea).</summary>
-        public static HashSet<ClearingId> Covered(BotView v) => CleaParts.Covered(v.Board, v.State, v.Seat);
+        /// <summary>Her covered clearings, as in win.clea.</summary>
+        public static HashSet<ClearingId> Covered(BotView v) => CleaParts.Covered(v.Board, v.Seat);
 
-        private static int Own(BotView v, ClearingId c) => CleaParts.OwnWarriors(v.Board, v.State, v.Seat, c);
-
-        /// <summary>A clearing where she hosts a guarded rock: she may not build, recruit or place pieces there.</summary>
-        private static bool Blocked(BotView v, ClearingId c) => CleaParts.HostsGuardsIn(v.State, v.Seat, c);
+        private static int Own(BotView v, ClearingId c) => v.Board.Warriors(v.Seat, c);
 
         private static int EnemyWarriors(BotView v, ClearingId c) => v.Board.Seats().Where(s => s != v.Seat).Sum(s => v.Board.Warriors(s, c));
 
@@ -79,7 +76,7 @@ namespace Root33.Core.Characters.Clea
         {
             var win = v.WinOf(v.Seat);
             if (win == null || v.Act < win.ActMin || v.Board.ActiveDominance(v.Seat).HasValue || v.Board.Vp(v.Seat) < win.VpMin) return false;
-            return CleaParts.TestPasses(v.Board, v.State, v.Seat, MonolithOf(v), ManorOf(v));
+            return CleaParts.TestPasses(v.Board, v.Seat, MonolithOf(v), ManorOf(v));
         }
 
         // ================================================================= cards (steps 3 and 5)
@@ -114,16 +111,15 @@ namespace Root33.Core.Characters.Clea
         // ================================================================= 01 recruit
 
         /// <summary>
-        /// Step 1's ranking of the clearings a Recruit should fill: uncovered clearings (not her guarded-rock clearings, where she
-        /// may not place), suits with the most uncovered clearings first; within a suit the fewest enemy warriors in and next to
-        /// the clearing; ties: lower clearing number.
+        /// Step 1's ranking of the clearings a Recruit should fill: uncovered clearings, suits with the most uncovered clearings
+        /// first; within a suit the fewest enemy warriors in and next to the clearing; ties: lower clearing number.
         /// </summary>
         [BotRule("bot.clea.01-recruit")]
         public List<Ranked<ClearingId>> Recruit(BotView view)
         {
             var b = view.Board;
             var covered = Covered(view);
-            var uncovered = b.Clearings().Where(c => !covered.Contains(c) && !Blocked(view, c)).ToList();
+            var uncovered = b.Clearings().Where(c => !covered.Contains(c)).ToList();
             var bySuit = new Dictionary<Suit, int>();
             foreach (var c in uncovered)
                 foreach (var s in b.SuitsOf(c).Distinct())
@@ -136,7 +132,7 @@ namespace Root33.Core.Characters.Clea
         /// half the time (<see cref="EasyCoin"/>), places where she already has warriors instead.</summary>
         public string RecruitChoice(BotView view, IReadOnlyList<string> legal)
         {
-            var recruits = CleaAction.ParseAll(legal).Where(a => a.Verb == CleaAction.Recruit && a.Clearing.HasValue && !Blocked(view, a.Clearing.Value)).ToList();
+            var recruits = CleaAction.ParseAll(legal).Where(a => a.Verb == CleaAction.Recruit && a.Clearing.HasValue).ToList();
             if (recruits.Count == 0) return null;
             if (view.Difficulty == Difficulty.Easy && EasyCoin(view))
             {
@@ -157,15 +153,15 @@ namespace Root33.Core.Characters.Clea
 
         // ================================================================= 02 convert
 
-        /// <summary>Step 2's Convert targets: Outcast-suit clearings holding an enemy warrior and none of hers (and not a
-        /// guarded-rock clearing of hers); ties: lower clearing number.</summary>
+        /// <summary>Step 2's Convert targets: Outcast-suit clearings holding an enemy warrior and none of hers; ties: lower
+        /// clearing number.</summary>
         public List<Ranked<ClearingId>> ConvertTargets(BotView view)
         {
             var b = view.Board;
             var outcast = b.OutcastSuit(view.Seat);
             if (!outcast.HasValue) return new List<Ranked<ClearingId>>();
             var targets = b.Clearings().Where(c => HasSuit(view, c, outcast.Value) && EnemyWarriors(view, c) > 0
-                && Own(view, c) == 0 && !Blocked(view, c));
+                && Own(view, c) == 0);
             return Rank.Clearings(targets, _ => 0);
         }
 
@@ -186,7 +182,7 @@ namespace Root33.Core.Characters.Clea
             if (view.Difficulty == Difficulty.Easy) return null;
             var leader = VpLeader(view);
             if (!leader.HasValue) return null;
-            return acts.Where(a => a.Verb == CleaAction.Sanctify && a.Target == leader && a.Clearing.HasValue && !Blocked(view, a.Clearing.Value))
+            return acts.Where(a => a.Verb == CleaAction.Sanctify && a.Target == leader && a.Clearing.HasValue)
                 .OrderBy(a => a.Clearing.Value.Value).Select(a => a.Key).FirstOrDefault();
         }
 
@@ -208,7 +204,7 @@ namespace Root33.Core.Characters.Clea
         public string Monolith(BotView view, IReadOnlyList<string> legal)
         {
             var m = MonolithOf(view);
-            if (!m.HasValue || Own(view, m.Value) > 0 || Blocked(view, m.Value)) return null;
+            if (!m.HasValue || Own(view, m.Value) > 0) return null;
             return Cheapest(view, Of(CleaAction.ParseAll(legal), CleaAction.Recruit, m.Value));
         }
 
@@ -222,7 +218,7 @@ namespace Root33.Core.Characters.Clea
         public string Home(BotView view, IReadOnlyList<string> legal)
         {
             var fm = ManorOf(view);
-            if (!fm.HasValue || Blocked(view, fm.Value)) return null;
+            if (!fm.HasValue) return null;
             var acts = CleaAction.ParseAll(legal);
             if (AtelierMissing(view))
             {
@@ -236,7 +232,7 @@ namespace Root33.Core.Characters.Clea
         public string Rebuild(BotView view, IReadOnlyList<string> legal)
         {
             var fm = ManorOf(view);
-            if (!fm.HasValue || !AtelierMissing(view) || Blocked(view, fm.Value)) return null;
+            if (!fm.HasValue || !AtelierMissing(view)) return null;
             return Cheapest(view, Of(CleaAction.ParseAll(legal), CleaAction.Build, fm.Value));
         }
 
@@ -264,7 +260,7 @@ namespace Root33.Core.Characters.Clea
             if (!InGoalMode(view) || view.State.CleaCovered == null) return new List<Ranked<ClearingId>>();
             var covered = Covered(view);
             var m = MonolithOf(view);
-            var lost = view.State.CleaCovered.Where(c => !covered.Contains(c) && !Blocked(view, c)).ToList();
+            var lost = view.State.CleaCovered.Where(c => !covered.Contains(c)).ToList();
             return Rank.Clearings(lost, c => (c == m ? 10000 : 0) - EnemyWarriors(view, c));
         }
 
@@ -281,28 +277,7 @@ namespace Root33.Core.Characters.Clea
             return null;
         }
 
-        // ================================================================= 07 guards
-
-        /// <summary>
-        /// Step 7: whether an action leaves her guard stacks alone. Never a piece placed (Recruit, Build, Convert, Sanctify) in a
-        /// clearing where she hosts a guarded rock, and never a Crusade move that takes her warriors there below the guards she
-        /// hosts (the guard floor). Her coverage everywhere subtracts those guards (<see cref="CleaParts.Covered"/>).
-        /// </summary>
-        [BotRule("bot.clea.07-guards")]
-        public bool Guards(BotView view, string actionKey)
-        {
-            var a = CleaAction.Parse(actionKey);
-            if (a.Places && a.Clearing.HasValue && Blocked(view, a.Clearing.Value)) return false;
-            if (a.Verb == CleaAction.Move && a.From.HasValue)
-            {
-                var guards = CleaParts.HostedGuards(view.State, view.Seat, a.From.Value);
-                if (guards > 0 && view.Board.Warriors(view.Seat, a.From.Value) - a.Count < guards) return false;
-            }
-            if (a.Verb == CleaAction.Move && a.To.HasValue && Blocked(view, a.To.Value)) return false;
-            return true;
-        }
-
-        // ================================================================= 08 spoiler
+        // ================================================================= 07 spoiler
 
         /// <summary>Expected hits a Crusade battle costs her (Root's dice: two 0-3 dice, the defender deals the lower, capped by
         /// its warriors).</summary>
@@ -329,14 +304,14 @@ namespace Root33.Core.Characters.Clea
         }
 
         /// <summary>
-        /// Step 8, the shared spoiler layer (<see cref="SpoilerLayer"/>): for the most urgent threat, the cheapest legal answer in
+        /// Step 7, the shared spoiler layer (<see cref="SpoilerLayer"/>): for the most urgent threat, the cheapest legal answer in
         /// its key clearings. Her answers: a Recruit placement there (1 action), a Convert or a Sanctify against that seat there
         /// (1 action; Outcast-suit clearings, as Root's legal keys allow), or a Crusade battle there within step 3's limit
         /// (1 action + expected hits taken). Ties: the key clearing's order (its win's met parts first), then the answer nearest
-        /// her pieces, then the lower clearing. Only the actions <see cref="Allowed"/> leaves are considered (guard stacks never
-        /// moved, the Flying Manor kept, Easy never Sanctifies).
+        /// her pieces, then the lower clearing. Only the actions <see cref="Allowed"/> leaves are considered (the Flying Manor
+        /// kept, Easy never Sanctifies).
         /// </summary>
-        [BotRule("bot.clea.08-spoiler")]
+        [BotRule("bot.clea.07-spoiler")]
         public CleaSpoilerAnswer Spoiler(BotView view, IReadOnlyList<string> legal)
         {
             if (legal == null) return null;
@@ -373,7 +348,7 @@ namespace Root33.Core.Characters.Clea
         // ================================================================= decisions
 
         /// <summary>
-        /// The legal actions the plan's limits leave her: step 7 (guard stacks), step 3 (Crusade only when the Monolith area is
+        /// The legal actions the plan's limits leave her: step 3 (Crusade only when the Monolith area is
         /// the Outcast suit; her last bird only for the Monolith or the atelier rebuild), step 4 (a Crusade move never takes her
         /// last warrior out of the Flying Manor), step 5 (Sacrifice only with tune.clea-bot-sacrifice-birds birds) and Easy's
         /// never-Sanctify.
@@ -387,7 +362,6 @@ namespace Root33.Core.Characters.Clea
             foreach (var k in legal)
             {
                 var a = CleaAction.Parse(k);
-                if (!Guards(view, k)) continue;
                 if (a.IsCrusade && !crusade) continue;
                 if (a.Verb == CleaAction.Sanctify && view.Difficulty == Difficulty.Easy) continue;
                 if (a.Verb == CleaAction.Sacrifice && Birds(view) < Tuning.CleaBotSacrificeBirds) continue;

@@ -17,8 +17,10 @@ namespace Root33.Core.Characters.Esquie
         public override void OnActChanged(int act) => EsquieTweaks.ActChanged(Ctx, Seat, act);
         public override void OnBattleStarting(SeatId attacker, SeatId defender, ClearingId c) =>
             EsquieTweaks.BellyBounce(Ctx, Seat, attacker, defender, c);
-        /// <summary>Guards are counted only here (spawn.florrie / spawn.urrie claimRule), once per removed host warrior.</summary>
-        public override void OnPieceRemoved(SeatId? remover, RemovedPiece piece, ClearingId c) => EsquieTweaks.PieceRemoved(Ctx, piece, c);
+        public override bool CanBattleGuards(SeatId attacker, ClearingId c) => EsquieTweaks.CanBattleGuards(Ctx, Seat, attacker, c);
+        public override void OnGuardBattleStarting(SeatId attacker, ClearingId c) => EsquieTweaks.GuardBattleStarting(Ctx, Seat, attacker, c);
+        /// <summary>Guards are counted only here (spawn.florrie / spawn.urrie claimRule): the guards still standing.</summary>
+        public override void OnGuardBattleResolved(SeatId attacker, ClearingId c) => EsquieTweaks.GuardBattleResolved(Ctx, Seat, c);
         public override void OnActionResolved(SeatId seat) => EsquieTweaks.AfterAction(Ctx, Seat, seat);
         public override void OnExploreResolved(SeatId vagabond, ClearingId c) => EsquieTweaks.ExploreResolved(Ctx, Seat, vagabond, c);
         public override void OnAidResolved(SeatId vagabond, SeatId receiver, ClearingId c) => EsquieTweaks.AidResolved(Ctx, Seat, vagabond, receiver, c);
@@ -26,9 +28,7 @@ namespace Root33.Core.Characters.Esquie
             EsquieTweaks.PieceMoved(Ctx, Seat, owner, kind, to);
         public override void OnEveningEnd(SeatId seat) { if (IsMe(seat)) EsquieTweaks.EveningEnd(Ctx, Seat); }
         public override bool CanStartBattle(SeatId attacker, SeatId defender, ClearingId c, bool strike) =>
-            !IsMe(attacker) || EsquieTweaks.NeverMadAllows(Ctx, defender, c);
-        public override bool AllowHostile(SeatId vagabond, SeatId faction, ClearingId battleClearing) =>
-            EsquieTweaks.FriendsNotFoesAllows(State, battleClearing);
+            !IsMe(attacker) || EsquieTweaks.NeverMadAllows(Ctx, defender, c, strike);
         public override void OnStateLoaded(IReadOnlyCollection<string> loadedKeys) => EsquieTweaks.Loaded(Ctx, Seat);
     }
 }

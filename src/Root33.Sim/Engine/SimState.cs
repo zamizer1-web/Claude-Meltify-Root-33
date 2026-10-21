@@ -106,6 +106,8 @@ public sealed class ClearingState
     public bool Ruin { get; set; }
     /// <summary>The face-down item under the ruin (hidden from every player until explored).</summary>
     public ItemType? RuinItem { get; set; }
+    /// <summary>Esquie's neutral rock guards here (Root 33): pieces of no seat that only Esquie may battle.</summary>
+    public int Guards { get; set; }
 
     public int WarriorsOf(int seat) => Warriors.TryGetValue(seat, out var n) ? n : 0;
 }
@@ -176,17 +178,15 @@ public sealed class RemovedRecord
 
 /// <summary>
 /// Effects the Root 33 core asks for through IBoardActions. Engineer D's SimBoard writes them; the engine's shared
-/// rules read them: Battle (ExtraHits, ExtraMaxHits, IgnoreFirstHit, cleared when a battle ends), Move (GuardFloors,
-/// Abilities "rivers-as-paths"), placement (BlockedPlacements), setup (CoreBridge.ForcedHome), game over
-/// (DeclaredWinners with CoreBridge.IsGameOver). Everything else is display or core bookkeeping kept for D.
+/// rules read them: Battle (ExtraHits, ExtraMaxHits, IgnoreFirstHit, cleared when a battle ends), Move (Abilities
+/// "rivers-as-paths"), setup (CoreBridge.ForcedHome), game over (DeclaredWinners with CoreBridge.IsGameOver). Esquie's
+/// neutral guards live on the board (ClearingState.Guards). Everything else is display or core bookkeeping kept for D.
 /// </summary>
 public sealed class ModEffects
 {
     public Dictionary<int, int> ExtraHits { get; set; } = new();
     public Dictionary<int, int> ExtraMaxHits { get; set; } = new();
     public List<int> IgnoreFirstHit { get; set; } = new();
-    public List<GuardFloor> GuardFloors { get; set; } = new();
-    public List<SeatClearing> BlockedPlacements { get; set; } = new();
     public Dictionary<int, List<int>> HomeRestrictions { get; set; } = new();
     public Dictionary<int, List<int>> StartForestRestrictions { get; set; } = new();
     public Dictionary<int, List<string>> Abilities { get; set; } = new();
@@ -201,8 +201,6 @@ public sealed class ModEffects
     public Dictionary<string, string> Extra { get; set; } = new();
 }
 
-public sealed class GuardFloor { public int Seat { get; set; } public int Clearing { get; set; } public int Floor { get; set; } }
-public sealed class SeatClearing { public int Seat { get; set; } public int Clearing { get; set; } }
 
 public static class SimJson
 {

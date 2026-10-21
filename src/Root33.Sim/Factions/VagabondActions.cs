@@ -205,6 +205,8 @@ public sealed partial class Vagabond
                 foreach (var a in AlliedSeats(g, seat).Where(a => a != def && g.Warriors(a, c) > 0))
                     d.Add($"battle:{c}:{def}:{a}", $"Battle {g.SeatName(def)} here with Allied {g.SeatName(a)}'s {g.Warriors(a, c)} warrior(s) as your own (exhaust a sword)");
             }
+            if (Ready(g, seat, ItemType.Sword) > 0 && g.Clearing(h).Guards > 0 && g.Bridge.OnGuardBattleLegal(seat, h))
+                d.Add($"battle:{h}:guards", $"Battle the {g.Clearing(h).Guards} neutral guard(s) on your rock here (exhaust a sword; at most {Undamaged(g, seat, ItemType.Sword)} rolled hits; they hit back)");
             var cs = g.Clearing(h);
             if (cs.Ruin && cs.RuinItem != null && torches > 0)
                 d.Add("explore", $"Explore the ruin in {g.ClearingName(h)} (exhaust a torch): take its hidden item and score 1 VP");
@@ -217,7 +219,7 @@ public sealed partial class Vagabond
                 d.Add($"quest:{q}", $"Quest {VagabondQuests.Label(q)}: exhaust them, then score {vp} VP or draw 2 cards");
             }
             if (Ready(g, seat, ItemType.Crossbow) > 0)
-                foreach (var o in Enumerable.Range(0, g.SeatCount).Where(o => Enemies(g, seat, o)))
+                foreach (var o in Enumerable.Range(0, g.SeatCount).Where(o => Enemies(g, seat, o) && g.Bridge.OnBattleLegal(seat, o, h, strike: true)))
                 {
                     if (g.Warriors(o, h) > 0) { d.Add($"strike:{o}:warrior", $"Strike (exhaust a crossbow): remove a {g.SeatName(o)} warrior here{RelNote(g, seat, o)}"); continue; }
                     foreach (var t in cs.Buildings.Where(p => p.Seat == o).Select(p => p.Type).Distinct())
@@ -273,6 +275,14 @@ public sealed partial class Vagabond
             case "glide":
                 g.Push(new Frame("vagabond.glide", seat));
                 break;
+            case "battle" when p[2] == "guards":
+            {
+                int c = int.Parse(p[1]);
+                Exhaust(g, seat, ItemType.Sword);
+                g.Log($"{g.SeatName(seat)} exhausts a sword to battle the guards.");
+                Battles.StartGuardBattle(g, seat, c);
+                break;
+            }
             case "battle":
             {
                 int c = int.Parse(p[1]), def = int.Parse(p[2]);

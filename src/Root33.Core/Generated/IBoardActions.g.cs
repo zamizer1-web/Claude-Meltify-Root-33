@@ -8,9 +8,13 @@ namespace Root33.Core
     /// <summary>What the core changes in Root's game (one member per board_actions row).</summary>
     public partial interface IBoardActions
     {
-        /// Place warriors of any seat from that seat's supply into a clearing, outside that seat's turn. Used for Esquie's guards (Florrie's 2, Urrie's 3, from the Nevron host). Returns how many were actually placed when the supply runs short.
+        /// Place warriors of any seat from that seat's supply into a clearing, outside that seat's turn. Returns how many were actually placed when the supply runs short.
         /// <remarks>Sheet row: do.place-warriors</remarks>
         int PlaceWarriors(SeatId seat, ClearingId c, int count);
+
+        /// Place neutral guards (pieces of no seat, hostile only to Esquie) into a clearing: Florrie's 2 and Urrie's 3. Returns how many were actually placed.
+        /// <remarks>Sheet row: do.place-guards</remarks>
+        int PlaceGuards(ClearingId c, int count);
 
         /// Move warriors of a seat between two clearings outside that seat's normal move (the Paintress's Still Life: 1 warrior from an adjacent clearing into a Living Portrait clearing before the roll).
         /// <remarks>Sheet row: do.move-warriors</remarks>
@@ -55,14 +59,6 @@ namespace Root33.Core
         /// Make a seat's warriors in the battle's clearing ignore the first hit they take, like the Keepers' Devout Knights (the White-Haired Man's Unbeatable in Act I).
         /// <remarks>Sheet row: do.ignore-first-hit</remarks>
         void IgnoreFirstHit(SeatId seat);
-
-        /// Keep at least this many of the host's warriors in a clearing: Root's move generator, its AI and the human UI may not move the host below the floor. 0 lifts it. Only a count: the host's other warriors come and go freely.
-        /// <remarks>Sheet row: do.set-guard-floor</remarks>
-        void SetGuardFloor(SeatId host, ClearingId c, int floor);
-
-        /// Forbid a seat from building, recruiting or placing any piece in a clearing (the Nevron host in a clearing with a guarded rock), for the AI and the human UI alike.
-        /// <remarks>Sheet row: do.block-placement</remarks>
-        void BlockPlacement(SeatId seat, ClearingId c, bool blocked);
 
         /// Limit the clearings a seat may pick as its home during setup: the Paintress's first roost to the Monolith, Clea's home to the Flying Manor, the Curator's home to a free corner other than Lumière and the Monolith. On Autumn also Gustave's keep, to Lumière (autumn.01); on other maps his keep is free and the corner it goes in becomes Lumière.
         /// <remarks>Sheet row: do.restrict-home</remarks>

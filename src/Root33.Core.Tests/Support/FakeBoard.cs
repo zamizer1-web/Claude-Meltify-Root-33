@@ -48,6 +48,7 @@ namespace Root33.Core.Tests.Support
         private readonly Dictionary<SeatId, List<Suit>> _hands = new Dictionary<SeatId, List<Suit>>();
         private readonly Dictionary<SeatId, List<string>> _legal = new Dictionary<SeatId, List<string>>();
         private readonly Dictionary<(SeatId, ClearingId), int> _warriors = new Dictionary<(SeatId, ClearingId), int>();
+        private readonly Dictionary<ClearingId, int> _guards = new Dictionary<ClearingId, int>();
         private readonly Dictionary<(SeatId, ClearingId), List<string>> _buildings = new Dictionary<(SeatId, ClearingId), List<string>>();
         private readonly Dictionary<(SeatId, ClearingId), List<string>> _tokens = new Dictionary<(SeatId, ClearingId), List<string>>();
         private readonly Dictionary<SeatId, ClearingId> _pawnClearing = new Dictionary<SeatId, ClearingId>();
@@ -90,8 +91,6 @@ namespace Root33.Core.Tests.Support
         public Dictionary<SeatId, int> ExtraHits { get; } = new Dictionary<SeatId, int>();
         public Dictionary<SeatId, int> ExtraMaxHits { get; } = new Dictionary<SeatId, int>();
         public HashSet<SeatId> IgnoresFirstHit { get; } = new HashSet<SeatId>();
-        public Dictionary<(SeatId, ClearingId), int> GuardFloors { get; } = new Dictionary<(SeatId, ClearingId), int>();
-        public HashSet<(SeatId, ClearingId)> BlockedPlacements { get; } = new HashSet<(SeatId, ClearingId)>();
         public Dictionary<SeatId, IReadOnlyList<ClearingId>> HomeRestrictions { get; } = new Dictionary<SeatId, IReadOnlyList<ClearingId>>();
         public Dictionary<SeatId, IReadOnlyList<int>> StartForestRestrictions { get; } = new Dictionary<SeatId, IReadOnlyList<int>>();
         public HashSet<(SeatId, string)> Abilities { get; } = new HashSet<(SeatId, string)>();
@@ -278,6 +277,16 @@ namespace Root33.Core.Tests.Support
         public FakeBoard Warriors(int seat, string where, int count) => Warriors(seat, C(where), count);
         public FakeBoard Warriors(int seat, int clearing, int count) => Warriors(seat, new ClearingId(clearing), count);
 
+        /// <summary>Esquie's neutral rock guards in a clearing (read.guards; do.place-guards adds to them).</summary>
+        public FakeBoard Guards(string where, int count) => Guards(C(where), count);
+        public FakeBoard Guards(int clearing, int count) => Guards(new ClearingId(clearing), count);
+
+        public FakeBoard Guards(ClearingId c, int count)
+        {
+            if (count <= 0) _guards.Remove(c); else _guards[c] = count;
+            return this;
+        }
+
         public FakeBoard Warriors(int seat, ClearingId c, int count)
         {
             var k = (new SeatId(seat), c);
@@ -411,6 +420,7 @@ namespace Root33.Core.Tests.Support
         }
 
         public int Warriors(SeatId seat, ClearingId c) => _warriors.TryGetValue((seat, c), out var n) ? n : 0;
+        public int Guards(ClearingId c) => _guards.TryGetValue(c, out var n) ? n : 0;
         public int Buildings(SeatId seat, ClearingId c) => Count(_buildings, seat, c, null);
         public int BuildingsOfType(SeatId seat, ClearingId c, string type) => Count(_buildings, seat, c, type);
         public int Tokens(SeatId seat, ClearingId c) => Count(_tokens, seat, c, null);
@@ -528,17 +538,17 @@ namespace Root33.Core.Tests.Support
         public void AddMaxHits(SeatId vagabond, int extra) { Log.Add($"AddMaxHits {vagabond} {extra}"); ExtraMaxHits[vagabond] = (ExtraMaxHits.TryGetValue(vagabond, out var h) ? h : 0) + extra; }
         public void IgnoreFirstHit(SeatId seat) { Log.Add($"IgnoreFirstHit {seat}"); IgnoresFirstHit.Add(seat); }
 
-        public void SetGuardFloor(SeatId host, ClearingId c, int floor)
+        /// <summary>do.place-guards: places them all unless <see cref="GuardsPlaceable"/> caps the count.</summary>
+        public int PlaceGuards(ClearingId c, int count)
         {
-            Log.Add($"SetGuardFloor {host} {c} {floor}");
-            if (floor <= 0) GuardFloors.Remove((host, c)); else GuardFloors[(host, c)] = floor;
+            if (!Can(Ids.BoardActions.PlaceGuards, $"PlaceGuards {c} {count}")) return 0;
+            var placed = Math.Max(0, GuardsPlaceable.HasValue ? Math.Min(count, GuardsPlaceable.Value) : count);
+            Guards(c, Guards(c) + placed);
+            return placed;
         }
 
-        public void BlockPlacement(SeatId seat, ClearingId c, bool blocked)
-        {
-            Log.Add($"BlockPlacement {seat} {c} {blocked}");
-            if (blocked) BlockedPlacements.Add((seat, c)); else BlockedPlacements.Remove((seat, c));
-        }
+        /// <summary>How many guards do.place-guards may still place (null: no limit), to test a short placement.</summary>
+        public int? GuardsPlaceable { get; set; }
 
         public void RestrictHomeChoice(SeatId seat, IReadOnlyList<ClearingId> allowed) { Log.Add($"RestrictHome {seat} {string.Join(",", allowed)}"); HomeRestrictions[seat] = allowed.ToArray(); }
         public void RestrictStartForest(SeatId vagabond, IReadOnlyList<int> forests) { Log.Add($"RestrictStartForest {vagabond} {string.Join(",", forests)}"); StartForestRestrictions[vagabond] = forests.ToArray(); }

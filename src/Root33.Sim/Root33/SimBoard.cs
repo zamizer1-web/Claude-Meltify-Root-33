@@ -9,9 +9,10 @@ namespace Root33.Sim;
 /// <summary>
 /// Root33.Core's IBoardView and IBoardActions over a SimGame (owner: engineer D), member by member like
 /// src/Root33.Core.Tests/Support/FakeBoard.cs. Reads come from the sim state and the factions' public reads; actions go
-/// through the sim's own helpers (g.PlaceWarriors, g.MoveWarriors, g.AddVp, g.Draw, g.EndGame) or into State.Mod, which
-/// the shared rules honour (ExtraHits, ExtraMaxHits, IgnoreFirstHit, GuardFloors, BlockedPlacements, Abilities,
-/// HomeRestrictions, StartForestRestrictions, DeclaredWinners) or only display (Banners, SeatTitles, Overlays).
+/// through the sim's own helpers (g.PlaceWarriors, g.MoveWarriors, g.AddVp, g.Draw, g.EndGame), onto the board (Esquie's
+/// neutral guards, ClearingState.Guards) or into State.Mod, which the shared rules honour (ExtraHits, ExtraMaxHits,
+/// IgnoreFirstHit, Abilities, HomeRestrictions, StartForestRestrictions, DeclaredWinners) or only display (Banners,
+/// SeatTitles, Overlays).
 /// Root 33 never sees a sim seat number as anything but a SeatId with the same 0-based value; clearings are 1-12 on both sides.
 /// The lines it logs for the core's display actions are Root33.Host.ModText's, the same as in Root.
 /// </summary>
@@ -90,6 +91,7 @@ public sealed class SimBoard : IBoardView, IBoardActions
 
     public SeatId? Ruler(ClearingId c) => _g.Ruler(c.Value) is int r ? S(r) : null;
     public int Warriors(SeatId seat, ClearingId c) => _g.Warriors(seat.Value, c.Value);
+    public int Guards(ClearingId c) => OnMap(c) ? _g.Clearing(c.Value).Guards : 0;
     public int Buildings(SeatId seat, ClearingId c) => _g.BuildingsOf(seat.Value, c.Value);
     public int BuildingsOfType(SeatId seat, ClearingId c, string type) => _g.BuildingsOf(seat.Value, c.Value, type);
     public int Tokens(SeatId seat, ClearingId c) => _g.TokensOf(seat.Value, c.Value);
@@ -142,6 +144,15 @@ public sealed class SimBoard : IBoardView, IBoardActions
         return _g.PlaceWarriors(seat.Value, c.Value, count);
     }
 
+    /// <summary>do.place-guards: neutral pieces of no seat, so no supply runs short.</summary>
+    public int PlaceGuards(ClearingId c, int count)
+    {
+        if (!OnMap(c) || count <= 0) return 0;
+        _g.Clearing(c.Value).Guards += count;
+        Log($"{count} neutral guard{(count == 1 ? "" : "s")} take{(count == 1 ? "s" : "")} up post in {_g.ClearingName(c.Value)}.");
+        return count;
+    }
+
     public bool MoveWarriors(SeatId seat, ClearingId from, ClearingId to, int count)
     {
         if (!IsSeat(seat) || !OnMap(from) || !OnMap(to) || count <= 0 || _g.Warriors(seat.Value, from.Value) < count) return false;
@@ -192,21 +203,6 @@ public sealed class SimBoard : IBoardView, IBoardActions
     {
         if (!St.Mod.IgnoreFirstHit.Contains(seat.Value)) St.Mod.IgnoreFirstHit.Add(seat.Value);
         Log($"{Who(seat.Value)}'s warriors ignore the first hit they take in this battle.");
-    }
-
-    public void SetGuardFloor(SeatId host, ClearingId c, int floor)
-    {
-        var cur = St.Mod.GuardFloors.FirstOrDefault(x => x.Seat == host.Value && x.Clearing == c.Value);
-        if (floor <= 0) { if (cur != null) St.Mod.GuardFloors.Remove(cur); }
-        else if (cur != null) cur.Floor = floor;
-        else St.Mod.GuardFloors.Add(new GuardFloor { Seat = host.Value, Clearing = c.Value, Floor = floor });
-    }
-
-    public void BlockPlacement(SeatId seat, ClearingId c, bool blocked)
-    {
-        var has = St.Mod.BlockedPlacements.Any(x => x.Seat == seat.Value && x.Clearing == c.Value);
-        if (!blocked) St.Mod.BlockedPlacements.RemoveAll(x => x.Seat == seat.Value && x.Clearing == c.Value);
-        else if (!has) St.Mod.BlockedPlacements.Add(new SeatClearing { Seat = seat.Value, Clearing = c.Value });
     }
 
     public void RestrictHomeChoice(SeatId seat, IReadOnlyList<ClearingId> allowed) =>

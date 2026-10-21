@@ -74,10 +74,10 @@ namespace Root33.Core.Sheets
         /// Guard warriors spawned with Urrie at Esquie's Nest.
         public const int EsquieGuardsUrrie = 3;
 
-        /// 1 = guards spawn from the Nevron host; 0 = the no-spawn fallback (no guards; Florrie and Urrie are claimable only when no other faction has warriors in their clearing). Set to 0 if the week-1 spike shows the mod cannot place another seat's warriors.
+        /// 1 = neutral guards spawn with Florrie and Urrie (do.place-guards); 0 = the no-spawn fallback (no guards; Florrie and Urrie are claimable only when no other faction has warriors in their clearing). Set to 0 if the mod cannot place neutral guards in Root.
         public const int EsquieGuardSpawns = 1;
 
-        /// Undamaged swords his Bag counts as for max hits in a clearing with a guarded rock.
+        /// Undamaged swords his Bag counts as for max hits in a battle against a rock's neutral guards.
         public const int EsquieBellyBounceSwords = 1;
 
         /// Esquie's bot target cost = path distance + this x GuardsLeft - his max hits there.
@@ -95,7 +95,7 @@ namespace Root33.Core.Sheets
         /// Guard battles per turn for Esquie's Hard bot.
         public const int EsquieHardGuardBattles = 2;
 
-        /// Rocks held at which Esquie's bot goes straight for the last one (and the host and other bots start defending it).
+        /// Rocks held at which Esquie's bot goes straight for the last one (and the other bots start attacking his pawn).
         public const int EsquieEndgameRocks = 3;
 
         /// Her warriors a roost clearing needs to be a Living Portrait.
@@ -133,9 +133,6 @@ namespace Root33.Core.Sheets
 
         /// Site score per enemy warrior in a candidate clearing.
         public const int PaintressSiteEnemyWarrior = -1;
-
-        /// Site score for a candidate holding a guarded rock (the host may not build there).
-        public const int PaintressSiteGuardedRock = -3;
 
         /// Sanctuaries needed at the announce, and Lantern clearings without enemy buildings or tokens needed at the confirmation.
         public const int ScielSanctuaries = 5;
@@ -287,7 +284,7 @@ namespace Root33.Core.Sheets
         /// The Curator's Easy bot attacks Lumière only with defenders plus this many warriors.
         public const int CuratorEasyAssaultMargin = 3;
 
-        /// Different clearings her (non-guard) warriors must stand in. Lower to 7 if the Lizard Recruit ritual proves narrower.
+        /// Different clearings her warriors must stand in.
         public const int CleaCoverage = 8;
 
         /// Gardens (ateliers) the Flying Manor must hold at both checks.

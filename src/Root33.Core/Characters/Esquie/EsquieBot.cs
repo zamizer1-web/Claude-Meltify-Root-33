@@ -6,7 +6,7 @@ using Root33.Core.Sheets;
 
 namespace Root33.Core.Characters.Esquie
 {
-    /// <summary>bot.esquie.01-target / 05-endgame: the rock he chases and where he walks.</summary>
+    /// <summary>bot.esquie.01-target / 04-endgame: the rock he chases and where he walks.</summary>
     public sealed class EsquieTargetPlan
     {
         /// <summary>The rock index (0-3) he chases, or null (no claimable rock within range, or Easy's decoy walk).</summary>
@@ -38,33 +38,22 @@ namespace Root33.Core.Characters.Esquie
         public ClearingId? AidAt;
     }
 
-    /// <summary>bot.esquie.03-friends: one Aid to a Friendly or Allied non-host faction next to a guard stack.</summary>
-    public readonly struct EsquieAid
-    {
-        public readonly SeatId Friend;
-        public readonly ClearingId At;
-        public readonly int Rock;
-        public readonly int WarriorsNext;
-        public EsquieAid(SeatId friend, ClearingId at, int rock, int warriorsNext) { Friend = friend; At = at; Rock = rock; WarriorsNext = warriorsNext; }
-        public override string ToString() => "aid " + Friend + " at " + At + " (rock " + Rock + ")";
-    }
-
-    /// <summary>bot.esquie.04-hunt: whether he enters his target's guarded clearing and battles the guards.</summary>
+    /// <summary>bot.esquie.03-hunt: whether he enters his target's guarded clearing and battles the neutral guards.</summary>
     public sealed class EsquieHuntOrder
     {
         public int Rock;
         public ClearingId Clearing;
-        public SeatId Host;
         public int GuardsLeft;
         /// <summary>Guard battles he may still take this turn.</summary>
         public int Battles;
         public int MaxHits;
         public double ExpectedHits;
         public bool AllItemsUndamaged;
+        public bool HasSword;
         public bool Go;
     }
 
-    /// <summary>bot.esquie.07-spoiler: the chosen threat and where his pawn answers it (null: he has no pawn answer).</summary>
+    /// <summary>bot.esquie.06-spoiler: the chosen threat and where his pawn answers it (null: he has no pawn answer).</summary>
     public sealed class EsquieSpoilerAnswer
     {
         public SeatId Threat;
@@ -262,16 +251,17 @@ namespace Root33.Core.Characters.Esquie
         // ------------------------------------------------------------ 02 Gear
 
         /// <summary>bot.esquie.02-gear: repair in a forest at tune.esquie-bot-repair-damaged damaged items (before any guard
-        /// battle); with no hits possible in his guarded target's clearing, craft a sword if one is craftable, otherwise Aid the
-        /// nearest faction holding a crafted sword (ties lower clearing number). Hard crafts a sword as soon as one is craftable.</summary>
+        /// battle); with a guarded target and no undamaged sword (a guard battle needs one), craft a sword if one is craftable,
+        /// otherwise Aid the nearest faction holding a crafted sword (ties lower clearing number). Hard crafts a sword as soon as
+        /// one is craftable.</summary>
         [BotRule("bot.esquie.02-gear")]
         public EsquieGearOrder Gear(BotView view)
         {
             var b = view.Board;
             var order = new EsquieGearOrder { Repair = Items(view).Count(i => i.Damaged) >= Tuning.EsquieBotRepairDamaged };
             var plan = Plan(view);
-            if (plan.Rock.HasValue && Rocks(view)[plan.Rock.Value].Status == RockStatus.Guarded && plan.Destination.HasValue)
-                order.SeekSword = MaxHits(view, plan.Destination.Value) <= 0;
+            if (plan.Rock.HasValue && Rocks(view)[plan.Rock.Value].Status == RockStatus.Guarded)
+                order.SeekSword = !EsquieTweaks.HasUndamagedSword(b, view.Seat);
             var craftable = EsquieAction.ParseAll(b.LegalActions(view.Seat)).Any(a => a.Verb == EsquieAction.Craft && a.Item == ItemType.Sword);
             order.CraftSword = craftable && (order.SeekSword || view.Difficulty == Difficulty.Hard);
             if (order.SeekSword && !craftable)
@@ -290,108 +280,40 @@ namespace Root33.Core.Characters.Esquie
             return order;
         }
 
-        // ------------------------------------------------------------ 03 Friends
+        // ------------------------------------------------------------ 03 Hunt
 
-        /// <summary>bot.esquie.03-friends: Friendly or Allied factions that are not the rock's host with warriors next to a guard
-        /// stack, best first (most warriors next to the stack, Allied before Friendly, lower VP); he Aids each where it has the
-        /// most warriors next to the stack (ties lower clearing number). Easy never asks friends for help.</summary>
-        [BotRule("bot.esquie.03-friends")]
-        public List<Ranked<EsquieAid>> Friends(BotView view)
-        {
-            var list = new List<(EsquieAid aid, bool allied, int vp)>();
-            if (view.Difficulty == Difficulty.Easy) return new List<Ranked<EsquieAid>>();
-            var b = view.Board;
-            var rocks = Rocks(view);
-            for (var i = 0; i < rocks.Length; i++)
-            {
-                var r = rocks[i];
-                if (r.Status != RockStatus.Guarded || !r.Clearing.HasValue) continue;
-                var next = b.PathNeighbours(r.Clearing.Value);
-                foreach (var f in b.Seats())
-                {
-                    if (f == view.Seat || f == r.HostSeat || view.IsVagabond(f)) continue;
-                    var rel = b.RelationshipOf(view.Seat, f);
-                    if (rel != Relationship.Friendly && rel != Relationship.Allied) continue;
-                    var n = next.Sum(c => b.Warriors(f, c));
-                    if (n <= 0) continue;
-                    var at = next.OrderByDescending(c => b.Warriors(f, c)).ThenBy(c => c.Value).First();
-                    list.Add((new EsquieAid(f, at, i, n), rel == Relationship.Allied, b.Vp(f)));
-                }
-            }
-            var ordered = list.OrderByDescending(x => x.aid.WarriorsNext).ThenByDescending(x => x.allied).ThenBy(x => x.vp)
-                .ThenBy(x => x.aid.Friend.Value).ThenBy(x => x.aid.Rock).ToList();
-            return ordered.Select((x, k) => new Ranked<EsquieAid>(x.aid, ordered.Count - k)).ToList();
-        }
-
-        /// <summary>The 'help Esquie' bonus (bot.esquie.03-friends, applied by the Goal Director of another bot): the friend bot
-        /// seen through <paramref name="friendView"/> is Friendly or Allied with Esquie and has warriors in or next to the clearing
-        /// of his current (publicly barked) target. Never on Easy.</summary>
-        public static bool HelpBonusApplies(BotView friendView)
-        {
-            var esquie = friendView.SeatOf(CharacterIds.Esquie);
-            if (!esquie.HasValue || esquie.Value == friendView.Seat || friendView.Difficulty == Difficulty.Easy) return false;
-            var target = friendView.State.EsquieTarget;
-            if (!target.HasValue || target.Value < 0 || target.Value >= Rocks(friendView).Length) return false;
-            var b = friendView.Board;
-            var rel = b.RelationshipOf(esquie.Value, friendView.Seat);
-            if (rel != Relationship.Friendly && rel != Relationship.Allied) return false;
-            var c = Destination(friendView, target.Value);
-            if (!c.HasValue) return false;
-            return b.Warriors(friendView.Seat, c.Value) > 0 || b.PathNeighbours(c.Value).Any(n => b.Warriors(friendView.Seat, n) > 0);
-        }
-
-        /// <summary>A battle against the host's warriors in a guarded-rock clearing.</summary>
-        public static bool IsGuardBattle(BotView view, ClearingId c, SeatId defender)
-        {
-            var i = EsquieTweaks.GuardedRockAt(view.State, c);
-            return i >= 0 && Rocks(view)[i].HostSeat == defender;
-        }
-
-        /// <summary>Applies the 'help Esquie' bonus to a friend bot's ranking as a tie-break only: among equally scored choices,
-        /// a guard battle (<see cref="IsGuardBattle"/>) comes first; scores and every other order are unchanged.</summary>
-        public static List<Ranked<T>> ApplyHelpBonus<T>(BotView friendView, IEnumerable<Ranked<T>> ranked, Func<T, (ClearingId clearing, SeatId defender)?> battleOf)
-        {
-            var items = ranked.ToList();
-            if (!HelpBonusApplies(friendView)) return items;
-            bool Bonus(T item) { var x = battleOf(item); return x.HasValue && IsGuardBattle(friendView, x.Value.clearing, x.Value.defender); }
-            return items.Select((r, k) => (r, k)).OrderByDescending(x => x.r.Score).ThenByDescending(x => Bonus(x.r.Item)).ThenBy(x => x.k)
-                .Select(x => x.r).ToList();
-        }
-
-        // ------------------------------------------------------------ 04 Hunt
-
-        /// <summary>bot.esquie.04-hunt: for a guarded target, whether he enters and battles the host's guards: only with every item
-        /// undamaged and when the expected hits of the guard battles he may still take this turn (tune.esquie-bot-guard-battles,
+        /// <summary>bot.esquie.03-hunt: for a guarded target, whether he enters and battles the neutral guards: only with every
+        /// item undamaged and an undamaged sword, and when the expected hits of the guard battles he may still take this turn (tune.esquie-bot-guard-battles,
         /// Hard tune.esquie-hard-guard-battles, minus <paramref name="guardBattlesTaken"/>) reach GuardsLeft - 1. Null when the
         /// target is not a guarded rock.</summary>
-        [BotRule("bot.esquie.04-hunt")]
+        [BotRule("bot.esquie.03-hunt")]
         public EsquieHuntOrder Hunt(BotView view, int guardBattlesTaken = 0)
         {
             var plan = Plan(view);
             if (!plan.Rock.HasValue) return null;
             var r = Rocks(view)[plan.Rock.Value];
-            if (r.Status != RockStatus.Guarded || !r.Clearing.HasValue || !r.HostSeat.HasValue) return null;
+            if (r.Status != RockStatus.Guarded || !r.Clearing.HasValue) return null;
             var perTurn = view.Difficulty == Difficulty.Hard ? Tuning.EsquieHardGuardBattles : Tuning.EsquieBotGuardBattles;
             var o = new EsquieHuntOrder
             {
                 Rock = plan.Rock.Value,
                 Clearing = r.Clearing.Value,
-                Host = r.HostSeat.Value,
                 GuardsLeft = r.GuardsLeft,
                 Battles = Math.Max(0, perTurn - guardBattlesTaken),
                 MaxHits = MaxHits(view, r.Clearing.Value),
                 AllItemsUndamaged = Items(view).All(i => !i.Damaged),
+                HasSword = EsquieTweaks.HasUndamagedSword(view.Board, view.Seat),
             };
             o.ExpectedHits = o.Battles * ExpectedRollHits(o.MaxHits);
-            o.Go = o.AllItemsUndamaged && o.Battles > 0 && o.MaxHits > 0 && o.ExpectedHits >= o.GuardsLeft - 1;
+            o.Go = o.AllItemsUndamaged && o.HasSword && o.Battles > 0 && o.MaxHits > 0 && o.ExpectedHits >= o.GuardsLeft - 1;
             return o;
         }
 
-        // ------------------------------------------------------------ 05 Endgame
+        // ------------------------------------------------------------ 04 Endgame
 
-        /// <summary>bot.esquie.05-endgame: with tune.esquie-endgame-rocks rocks held, the last rock is the target whatever its
+        /// <summary>bot.esquie.04-endgame: with tune.esquie-endgame-rocks rocks held, the last rock is the target whatever its
         /// distance (shortest path to it, to Verso's clearing or to the Monolith). Null before the endgame.</summary>
-        [BotRule("bot.esquie.05-endgame")]
+        [BotRule("bot.esquie.04-endgame")]
         public EsquieTargetPlan Endgame(BotView view)
         {
             var held = HeldCount(view);
@@ -407,11 +329,11 @@ namespace Root33.Core.Characters.Esquie
             return null;
         }
 
-        // ------------------------------------------------------------ 06 Vagabond VP
+        // ------------------------------------------------------------ 05 Vagabond VP
 
-        /// <summary>bot.esquie.06-vp: true when no claimable rock is within tune.esquie-bot-rock-range moves (and he is not in the
+        /// <summary>bot.esquie.05-vp: true when no claimable rock is within tune.esquie-bot-rock-range moves (and he is not in the
         /// endgame or on Easy's decoy walk): the step claims no decision and Root's Vagabond AI plays for VP.</summary>
-        [BotRule("bot.esquie.06-vp")]
+        [BotRule("bot.esquie.05-vp")]
         public bool VagabondVp(BotView view)
         {
             if (Endgame(view) != null) return false;
@@ -419,7 +341,7 @@ namespace Root33.Core.Characters.Esquie
             return !plan.Rock.HasValue && !plan.Decoy;
         }
 
-        // ------------------------------------------------------------ 07 Spoiler layer
+        // ------------------------------------------------------------ 06 Spoiler layer
 
         /// <summary>Whether he can complete win.esquie this turn: gates pass, and the last missing rock can be claimed this turn
         /// within the moves his undamaged, unexhausted boots allow (a guarded last rock never counts).</summary>
@@ -458,12 +380,12 @@ namespace Root33.Core.Characters.Esquie
             return false;
         }
 
-        /// <summary>bot.esquie.07-spoiler: the most urgent threat (banners first, then the next Birdsong in turn order, then higher
+        /// <summary>bot.esquie.06-spoiler: the most urgent threat (banners first, then the next Birdsong in turn order, then higher
         /// VP) and his pawn answer: the Monolith against the White-Haired Man, the Monolith before Verso's banner, the nearest
         /// Sanctuary before Sciel's banner; no answer otherwise (Never Mad: he never attacks to spoil). Pre-empts the steps for a
         /// banner (Normal, Hard) and on Hard for a one-step threat, unless he can finish his own quest win this turn. Easy answers
         /// banners only, with free actions. Null with no trigger.</summary>
-        [BotRule("bot.esquie.07-spoiler")]
+        [BotRule("bot.esquie.06-spoiler")]
         public EsquieSpoilerAnswer Spoiler(BotView view)
         {
             var b = view.Board;
@@ -512,7 +434,7 @@ namespace Root33.Core.Characters.Esquie
             var here = b.PawnClearing(view.Seat);
             var guarded = new HashSet<ClearingId>(Rocks(view).Where(r => r.Status == RockStatus.Guarded && r.Clearing.HasValue).Select(r => r.Clearing.Value));
 
-            // 07 pre-empting: a banner up (or on Hard a one-step threat), unless his own quest win can finish this turn.
+            // 06 pre-empting: a banner up (or on Hard a one-step threat), unless his own quest win can finish this turn.
             var spoiler = Spoiler(view);
             if (spoiler != null && spoiler.PreEmpts && spoiler.Destination.HasValue)
             {
@@ -541,22 +463,13 @@ namespace Root33.Core.Characters.Esquie
                 if (k != null) return k;
             }
 
-            // 03 friends.
-            foreach (var f in Friends(view))
-            {
-                if (here != f.Item.At) continue;
-                var k = AidKey(acts, here, f.Item.Friend, null);
-                if (k != null) return k;
-            }
-
-            // 04 hunt.
+            // 03 hunt.
             var hunt = gear.SeekSword ? null : Hunt(view, _guardBattlesThisTurn);
             if (hunt != null && hunt.Go)
             {
                 if (here == hunt.Clearing)
                 {
-                    var k = acts.FirstOrDefault(a => (a.Verb == EsquieAction.Battle || a.Verb == EsquieAction.Strike)
-                                                     && a.Clearing == hunt.Clearing && a.Target == hunt.Host)?.Key;
+                    var k = acts.FirstOrDefault(a => a.Verb == EsquieAction.Battle && a.AgainstGuards && a.Clearing == hunt.Clearing)?.Key;
                     if (k != null)
                     {
                         _guardBattlesThisTurn++;
@@ -572,7 +485,7 @@ namespace Root33.Core.Characters.Esquie
                 }
             }
 
-            // 01 / 05: walk to the target (Explore Dorrie, Aid the Monolith's ruler for Soarrie, collect a card first).
+            // 01 / 04: walk to the target (Explore Dorrie, Aid the Monolith's ruler for Soarrie, collect a card first).
             if (plan.Destination.HasValue && (plan.Rock.HasValue || plan.Decoy))
             {
                 var dest = plan.Destination.Value;
@@ -602,7 +515,7 @@ namespace Root33.Core.Characters.Esquie
                 }
             }
 
-            // 06: no claimable rock in range: Root's Vagabond AI plays for VP; the spoiler layer may use the free move.
+            // 05: no claimable rock in range: Root's Vagabond AI plays for VP; the spoiler layer may use the free move.
             if (spoiler != null && !spoiler.PreEmpts && spoiler.Destination.HasValue && here != spoiler.Destination)
             {
                 var k = Toward(view, acts, spoiler.Destination.Value, guarded);

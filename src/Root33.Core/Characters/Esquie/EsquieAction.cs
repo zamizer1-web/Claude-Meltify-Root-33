@@ -9,7 +9,7 @@ namespace Root33.Core.Characters.Esquie
     /// One legal Vagabond (Tinker) action key from read.legal-actions, parsed. Root's own key format is still unknown
     /// (read.legal-actions is unverified until the creator's PC); like the other bots this assumes "verb:args" keys:
     /// "move:from:to" (a place is a clearing "5" / "autumn.05" / "c5", or a forest "f3"), "aid:clearing:seat[:item]",
-    /// "battle:clearing:seat", "strike:clearing:seat", "explore:clearing", "quest:clearing", "craft:item", "repair:item",
+    /// "battle:clearing:seat", "battle:clearing:guards" (the neutral guards on a rock), "strike:clearing:seat", "explore:clearing", "quest:clearing", "craft:item", "repair:item",
     /// "day-labor[:...]", "pass" / "end". Keys that do not parse keep their verb and the bot leaves them to Root's own AI.
     /// </summary>
     public sealed class EsquieAction
@@ -25,6 +25,8 @@ namespace Root33.Core.Characters.Esquie
         public const string DayLabor = "day-labor";
         public const string Pass = "pass";
         public const string End = "end";
+        /// <summary>The target of a guard battle key.</summary>
+        public const string Guards = "guards";
 
         public string Key { get; private set; } = "";
         public string Verb { get; private set; } = "";
@@ -35,6 +37,8 @@ namespace Root33.Core.Characters.Esquie
         public int? ToForest { get; private set; }
         /// <summary>The faction aided or battled.</summary>
         public SeatId? Target { get; private set; }
+        /// <summary>A battle against the neutral guards on one of his rocks ("battle:clearing:guards").</summary>
+        public bool AgainstGuards { get; private set; }
         /// <summary>The item crafted, repaired or asked for in an Aid.</summary>
         public ItemType? Item { get; private set; }
 
@@ -69,6 +73,7 @@ namespace Root33.Core.Characters.Esquie
             }
             if (parts.Length > 1) a.Clearing = ParseClearing(parts[1]);
             if (parts.Length > 2 && int.TryParse(parts[2], NumberStyles.Integer, CultureInfo.InvariantCulture, out var s)) a.Target = new SeatId(s);
+            else if (parts.Length > 2 && a.Verb == Battle) a.AgainstGuards = string.Equals(parts[2], Guards, StringComparison.OrdinalIgnoreCase);
             if (a.Verb == Aid && parts.Length > 3) a.Item = ParseItem(parts[3]);
             return a;
         }

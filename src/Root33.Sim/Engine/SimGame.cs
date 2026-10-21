@@ -442,7 +442,6 @@ public sealed partial class SimGame
     // =====================================================================================================  mod effects
 
     public bool HasAbility(int seat, string ability) => State.Mod.Abilities.TryGetValue(seat, out var l) && l.Contains(ability);
-    public int GuardFloor(int seat, int c) => State.Mod.GuardFloors.Where(g => g.Seat == seat && g.Clearing == c).Select(g => g.Floor).DefaultIfEmpty(0).Max();
 
     /// <summary>
     /// The home choices for a seat's setup: the faction's legal homes, narrowed to CoreBridge.ForcedHome(seat) when the

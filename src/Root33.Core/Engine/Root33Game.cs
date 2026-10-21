@@ -424,6 +424,26 @@ namespace Root33.Core.Engine
             if (!Context.GameOver && r.Removed.Any(p => p.Owner != r.Attacker)) Context.Barks.Say(r.Attacker, Ids.BarkTriggers.BattleWon);
         }
 
+        /// <summary>hook.guard-battle-legal: only where a rock is guarded, and every module must allow it (Esquie's alone fights
+        /// the neutral guards, with an undamaged sword).</summary>
+        public bool CanBattleGuards(SeatId attacker, ClearingId c)
+        {
+            if (!Active || Characters.Esquie.EsquieTweaks.GuardedRockAt(Context.State, c) < 0) return false;
+            var ok = true;
+            foreach (var m in _modules.ToArray()) ok &= m.CanBattleGuards(attacker, c);
+            return ok;
+        }
+        public void OnGuardBattleStarting(SeatId attacker, ClearingId c)
+        {
+            if (!Active) return;
+            Each(m => m.OnGuardBattleStarting(attacker, c));
+            if (!Context.GameOver) Context.Barks.Say(attacker, Ids.BarkTriggers.GuardsAttacked);
+        }
+        public void OnGuardBattleResolved(SeatId attacker, ClearingId c)
+        {
+            if (!Active) return;
+            Each(m => m.OnGuardBattleResolved(attacker, c));
+        }
         public void OnExploreResolved(SeatId vagabond, ClearingId c) { if (Active) Each(m => m.OnExploreResolved(vagabond, c)); }
 
         public void OnAidResolved(SeatId vagabond, SeatId receiver, ClearingId c)

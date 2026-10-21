@@ -72,11 +72,11 @@ namespace Root33.Core
         /// <remarks>Sheet row: hook.piece-placed</remarks>
         void OnPiecePlaced(SeatId owner, PieceKind kind, string type, ClearingId c);
 
-        /// A piece leaves the map by any means: battle hit, Strike, Bomb, Revolt, mob, Sanctify, Convert. The Curator's Quiet Helper fires when the Paintress's roost leaves the Monolith; guard counters drop for host warriors removed outside a battle.
+        /// A piece leaves the map by any means: battle hit, Strike, Bomb, Revolt, mob, Sanctify, Convert. The Curator's Quiet Helper fires when the Paintress's roost leaves the Monolith.
         /// <remarks>Sheet row: hook.piece-removed</remarks>
         void OnPieceRemoved(SeatId? remover, RemovedPiece piece, ClearingId c);
 
-        /// Root (or its AI, or the human UI) asks whether a seat may start a battle or a Strike against another seat in a clearing. Returning false hides the option. Used by Esquie's Never Mad and the v1.1 Monolith Barrier.
+        /// Root (or its AI, or the human UI) asks whether a seat may start a battle or a Strike against another seat in a clearing. Returning false hides the option. Used by Esquie's Never Mad (he may battle no faction) and the v1.1 Monolith Barrier.
         /// <remarks>Sheet row: hook.battle-legal</remarks>
         bool CanStartBattle(SeatId attacker, SeatId defender, ClearingId c, bool strike);
 
@@ -84,9 +84,21 @@ namespace Root33.Core
         /// <remarks>Sheet row: hook.battle-start</remarks>
         void OnBattleStarting(SeatId attacker, SeatId defender, ClearingId c);
 
-        /// A battle has fully resolved: hits dealt, pieces removed, items damaged. Gustave's Arm, Verso's rank, Monoco's feet, Esquie's guard counters, Sciel's Moon charge and Maelle's stance update here.
+        /// A battle has fully resolved: hits dealt, pieces removed, items damaged. Gustave's Arm, Verso's rank, Monoco's feet, Sciel's Moon charge and Maelle's stance update here.
         /// <remarks>Sheet row: hook.battle-resolved</remarks>
         void OnBattleResolved(BattleResult r);
+
+        /// Root (its AI or the human UI) asks whether a seat may battle the neutral guards on one of Esquie's rocks. Returning false hides the option: only Esquie may, and only with an undamaged sword (tweak.esquie.neutral-guards).
+        /// <remarks>Sheet row: hook.guard-battle-legal</remarks>
+        bool CanBattleGuards(SeatId attacker, ClearingId c);
+
+        /// Esquie has declared a battle against a rock's neutral guards and nothing has been rolled yet. Belly Bounce registers its max hit here, and Esquie apologises to the guards.
+        /// <remarks>Sheet row: hook.guard-battle-start</remarks>
+        void OnGuardBattleStarting(SeatId attacker, ClearingId c);
+
+        /// A battle against a rock's neutral guards has fully resolved (guards removed, his items damaged). That rock's GuardsLeft becomes the guards still standing (read.guards); at 0 the rock is loose.
+        /// <remarks>Sheet row: hook.guard-battle-resolved</remarks>
+        void OnGuardBattleResolved(SeatId attacker, ClearingId c);
 
         /// A Vagabond's Explore action has resolved in a ruin clearing. Esquie claims Dorrie by Exploring Old Lumière in Act II or later.
         /// <remarks>Sheet row: hook.explore-resolved</remarks>
@@ -96,7 +108,7 @@ namespace Root33.Core
         /// <remarks>Sheet row: hook.aid-resolved</remarks>
         void OnAidResolved(SeatId vagabond, SeatId receiver, ClearingId c);
 
-        /// Root is about to make a faction Hostile to a Vagabond because the Vagabond removed that faction's warriors in a battle. Returning false skips the change (Friends Not Foes in guarded-rock clearings).
+        /// Root is about to make a faction Hostile to a Vagabond because the Vagabond removed that faction's warriors in a battle. Returning false skips the change.
         /// <remarks>Sheet row: hook.hostility-change</remarks>
         bool AllowHostile(SeatId vagabond, SeatId faction, ClearingId battleClearing);
 

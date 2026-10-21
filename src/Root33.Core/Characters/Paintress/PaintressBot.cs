@@ -113,9 +113,9 @@ namespace Root33.Core.Characters.Paintress
         private static ClearingId? Monolith(BotView v) => v.Role(Ids.MapRoles.Monolith);
 
         private static List<ClearingId> Portraits(BotView v) =>
-            PaintressPortraits.LivingPortraits(v.Board, v.State, v.Seat, Monolith(v));
+            PaintressPortraits.LivingPortraits(v.Board, v.Seat, Monolith(v));
 
-        private static List<Suit> Missing(BotView v) => PaintressPortraits.MissingSuits(v.Board, v.State, v.Seat, Monolith(v));
+        private static List<Suit> Missing(BotView v) => PaintressPortraits.MissingSuits(v.Board, v.Seat, Monolith(v));
 
         private static int EnemyWarriors(BotView v, ClearingId c) =>
             v.Board.Seats().Where(s => s != v.Seat).Sum(s => v.Board.Warriors(s, c));
@@ -133,8 +133,8 @@ namespace Root33.Core.Characters.Paintress
 
         // ================================================================= 01 site score
 
-        /// <summary>site(c) = +3 next to a clearing she rules, +2 within 2 path steps of the Monolith, -1 per enemy warrior,
-        /// -3 for a guarded rock (tune.paintress-site-*).</summary>
+        /// <summary>site(c) = +3 next to a clearing she rules, +2 within 2 path steps of the Monolith, -1 per enemy warrior
+        /// (tune.paintress-site-*).</summary>
         public int SiteScore(BotView view, ClearingId c)
         {
             var b = view.Board;
@@ -144,7 +144,6 @@ namespace Root33.Core.Characters.Paintress
             if (m.HasValue && Graph.Distances(m.Value, b.PathNeighbours).TryGetValue(c, out var d) && d <= Tuning.PaintressSiteNearMonolithSteps)
                 score += Tuning.PaintressSiteNearMonolith;
             score += Tuning.PaintressSiteEnemyWarrior * EnemyWarriors(view, c);
-            if (PaintressPortraits.HasGuardedRock(view.State, c)) score += Tuning.PaintressSiteGuardedRock;
             return score;
         }
 
@@ -224,7 +223,7 @@ namespace Root33.Core.Characters.Paintress
             var m = Monolith(view);
             return view.Board.Clearings()
                 .Where(c => PaintressPortraits.IsEasel(view.Board, view.Seat, c, m))
-                .Select(c => (c, w: PaintressPortraits.PortraitWarriors(view.Board, view.State, view.Seat, c)))
+                .Select(c => (c, w: PaintressPortraits.PortraitWarriors(view.Board, view.Seat, c)))
                 .Where(x => x.w < Tuning.PaintressPortraitWarriors)
                 .OrderBy(x => x.w).ThenBy(x => x.c.Value)
                 .Select(x => (ClearingId?)x.c).FirstOrDefault();
@@ -285,7 +284,7 @@ namespace Root33.Core.Characters.Paintress
 
         /// <summary>Step 3: where spare recruits and moves go, first first. The Monolith whenever it holds fewer than
         /// tune.paintress-monolith-garrison of her warriors or enemy warriors are next to it; then her easels under the
-        /// Portrait garrison, ascending counted warriors (hosted guards not counted), then by enemy warriors next to them
+        /// Portrait garrison, ascending warriors, then by enemy warriors next to them
         /// (more first); ties: lower clearing.</summary>
         [BotRule("bot.paintress.03-garrison")]
         public List<Ranked<ClearingId>> Garrison(BotView view)
@@ -297,7 +296,7 @@ namespace Root33.Core.Characters.Paintress
             var target = PortraitGarrison(view);
             order.AddRange(b.Clearings()
                 .Where(c => PaintressPortraits.IsEasel(b, view.Seat, c, m))
-                .Select(c => (c, w: PaintressPortraits.PortraitWarriors(b, view.State, view.Seat, c), threat: b.PathNeighbours(c).Sum(n => EnemyWarriors(view, n))))
+                .Select(c => (c, w: PaintressPortraits.PortraitWarriors(b, view.Seat, c), threat: b.PathNeighbours(c).Sum(n => EnemyWarriors(view, n))))
                 .Where(x => x.w < target)
                 .OrderBy(x => x.w).ThenByDescending(x => x.threat).ThenBy(x => x.c.Value)
                 .Select(x => x.c));
@@ -328,7 +327,7 @@ namespace Root33.Core.Characters.Paintress
 
             // The third Portrait: a thin easel of a missing suit if she has one, else the best site.
             var easel = b.Clearings().Where(c => PaintressPortraits.IsEasel(b, me, c, m) && b.SuitsOf(c).Any(missing.Contains))
-                .OrderByDescending(c => PaintressPortraits.PortraitWarriors(b, view.State, me, c)).ThenBy(c => c.Value)
+                .OrderByDescending(c => PaintressPortraits.PortraitWarriors(b, me, c)).ThenBy(c => c.Value)
                 .Select(c => (ClearingId?)c).FirstOrDefault();
             var target = easel ?? Site(view).Select(r => (ClearingId?)r.Item).FirstOrDefault();
             if (!target.HasValue) return plan;
@@ -347,7 +346,7 @@ namespace Root33.Core.Characters.Paintress
 
             if (!easel.HasValue && !TryAdd(new DecreeCard(DecreeCard.Build, suit))) TryAdd(new DecreeCard(DecreeCard.Build, Suit.Bird));
 
-            var need = Math.Max(0, garrison - PaintressPortraits.PortraitWarriors(b, view.State, me, target.Value));
+            var need = Math.Max(0, garrison - PaintressPortraits.PortraitWarriors(b, me, target.Value));
             var perRecruit = b.EyrieLeader(me) == "charismatic" ? 2 : 1;
             while (need > 0 && (TryAdd(new DecreeCard(DecreeCard.Recruit, suit)) || TryAdd(new DecreeCard(DecreeCard.Recruit, Suit.Bird))))
                 need -= perRecruit;
@@ -414,7 +413,7 @@ namespace Root33.Core.Characters.Paintress
             var row = WinRow;
             if (view.Act < row.ActMin || view.Board.Vp(view.Seat) < row.VpMin) return false;
             if (row.OffWithDominance && view.Board.ActiveDominance(view.Seat).HasValue) return false;
-            return PaintressPortraits.FamilyPortrait(view.Board, view.State, view.Seat, Monolith(view));
+            return PaintressPortraits.FamilyPortrait(view.Board, view.Seat, Monolith(view));
         }
 
         /// <summary>Spoiler threats, most urgent first: banners before one-step threats, then the seat whose next Birdsong
@@ -581,7 +580,7 @@ namespace Root33.Core.Characters.Paintress
         {
             var b = view.Board;
             var m = Monolith(view);
-            var w = PaintressPortraits.PortraitWarriors(b, view.State, view.Seat, c);
+            var w = PaintressPortraits.PortraitWarriors(b, view.Seat, c);
             if (m.HasValue && c == m.Value) return Math.Max(0, w - Tuning.PaintressMonolithGarrison);
             if (PaintressPortraits.IsEasel(b, view.Seat, c, m)) return Math.Max(0, w - PortraitGarrison(view));
             return w;

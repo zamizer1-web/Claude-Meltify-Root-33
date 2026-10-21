@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Root33.Core;
 using Root33.Core.Characters.Clea;
-using Root33.Core.Characters.Esquie;
 using Root33.Core.Engine;
 using Root33.Core.Sheets;
 using Root33.Core.Tests.Support;
@@ -26,16 +25,9 @@ namespace Root33.Core.Tests.Characters
 
         private static ModuleRegistry Registry() => new ModuleRegistry().Register(CharacterIds.Clea, () => new CleaModule());
 
-        private static ModuleRegistry WithEsquie() => Registry().Register(CharacterIds.Esquie, () => new EsquieModule());
-
         /// <summary>Clea's Lizards at seat 0 (20 in supply), a Marquise at seat 1 (20 in supply).</summary>
         private static FakeBoard Table(bool bot = false) =>
             FakeBoard.Autumn().Seat(0, EngineId.Lizards, CharacterIds.Clea, bot).Seat(1, EngineId.Marquise).Supply(0, 20).Supply(1, 20);
-
-        /// <summary>Clea (seat 0, 6 in supply), Esquie (seat 1, Tinker in Spring Meadows), a Marquise (seat 2, 25 in supply).</summary>
-        private static FakeBoard GuardTable(bool bot = false) =>
-            FakeBoard.Autumn().Seat(0, EngineId.Lizards, CharacterIds.Clea, bot).Seat(1, EngineId.VagabondTinker, CharacterIds.Esquie)
-                .Seat(2, EngineId.Marquise).Supply(0, 6).Supply(2, 25).Pawn(1, "autumn.05");
 
         private static FakeBoard Spread(FakeBoard b, params int[] clearings)
         {
@@ -56,12 +48,6 @@ namespace Root33.Core.Tests.Characters
         private static BotView View(TestTable t) => new BotView(t.Ctx, S(0));
 
         private static bool Won(FakeBoard b) => b.Winners.Any(w => w.Key == S(0) && w.Value == Ids.WinConditions.Clea);
-
-        private static void Guard(TestTable t, int clearing, int guards) =>
-            t.State.EsquieRocks[EsquieTweaks.Florrie] = new RockState
-            {
-                Status = RockStatus.Guarded, Clearing = C(clearing), HostSeat = S(0), GuardsLeft = guards,
-            };
 
         // ================================================================= win.clea
 
@@ -132,27 +118,6 @@ namespace Root33.Core.Tests.Characters
         }
 
         [Fact]
-        public void CleaWin_HostedGuardsDoNotCount()
-        {
-            // Florrie spawns at the Cliffs under 2 guards from Clea's supply.
-            var board = Spread(GuardTable().Vp(0, Tuning.CountdownVp), 1, 3, 5, 7, 8, 9, 12).Building(0, Manor, PieceTypes.Garden);
-            var t = Start(board, act: 2, registry: WithEsquie());
-            Assert.Equal(S(0), t.State.EsquieRocks[EsquieTweaks.Florrie].HostSeat);
-            Assert.Equal(Tuning.EsquieGuardsFlorrie, board.Warriors(S(0), C(Cliffs)));
-            Assert.DoesNotContain(C(Cliffs), CleaParts.Covered(board, t.State, S(0)));
-            Assert.Equal(7, CleaParts.Covered(board, t.State, S(0)).Count);
-            Assert.DoesNotContain(C(Cliffs), new CleaWin().KeyClearings(t.Ctx, S(0)));
-
-            t.PlayTurn(0);
-            Assert.False(board.Banners.ContainsKey(S(0)));
-
-            // One warrior above the guards counts.
-            board.Warriors(0, Cliffs, Tuning.EsquieGuardsFlorrie + 1);
-            t.PlayTurn(1).PlayTurn(2).PlayTurn(0);
-            Assert.Equal(Ids.WinConditions.Clea, board.Banners[S(0)]);
-        }
-
-        [Fact]
         public void CleaWin_BlockedBelowTenVp()
         {
             var low = Ready(Table()).Vp(0, Tuning.CountdownVp - 1);
@@ -198,55 +163,6 @@ namespace Root33.Core.Tests.Characters
             var th = TestTable.Start(human, Registry(), spoilers: SpoilerMode.Finished, beforeSetup: g => g.OnSetupChoice(S(0)));
             Assert.Empty(human.HomeRestrictions);
             Assert.Contains(th.Ctx.Warnings, w => w.Contains("Flying Manor"));
-        }
-
-        [Fact]
-        public void GuardHost_CleaHostsWhenSeated()
-        {
-            // The Marquise has far more warriors in supply, but Clea hosts whenever she is seated.
-            var board = GuardTable();
-            var t = Start(board, registry: WithEsquie());
-            var florrie = t.State.EsquieRocks[EsquieTweaks.Florrie];
-            Assert.Equal(RockStatus.Guarded, florrie.Status);
-            Assert.Equal(S(0), florrie.HostSeat);
-            Assert.Equal(Tuning.EsquieGuardsFlorrie, board.Warriors(S(0), C(Cliffs)));
-            Assert.Equal(6 - Tuning.EsquieGuardsFlorrie, board.SupplyWarriors(S(0)));
-            Assert.Equal(0, board.Warriors(S(2), C(Cliffs)));
-
-            // Urrie's guards (Act III) come from her supply too.
-            t.Game.OnActChanged(2);
-            t.Game.OnActChanged(3);
-            var urrie = t.State.EsquieRocks[EsquieTweaks.Urrie];
-            Assert.Equal(S(0), urrie.HostSeat);
-            Assert.Equal(Tuning.EsquieGuardsUrrie, board.Warriors(S(0), C(Nest)));
-            Assert.Equal(Tuning.EsquieGuardsUrrie, urrie.GuardsLeft);
-            Assert.Equal(Tuning.EsquieGuardsUrrie, board.GuardFloors[(S(0), C(Nest))]);
-        }
-
-        [Fact]
-        public void GuardHost_HumanCleaUiRespectsFloor()
-        {
-            var board = GuardTable(bot: false);
-            var t = Start(board, registry: WithEsquie());
-            Assert.False(board.IsBot(S(0)));
-            Assert.Equal(Tuning.EsquieGuardsFlorrie, board.GuardFloors[(S(0), C(Cliffs))]);
-            Assert.Contains((S(0), C(Cliffs)), board.BlockedPlacements);
-
-            // Clea's own module sends the host rules for her seat again at each act change.
-            board.GuardFloors.Clear();
-            board.BlockedPlacements.Clear();
-            t.Game.OnActChanged(2);
-            Assert.Equal(Tuning.EsquieGuardsFlorrie, board.GuardFloors[(S(0), C(Cliffs))]);
-            Assert.Contains((S(0), C(Cliffs)), board.BlockedPlacements);
-
-            // Without Esquie's module at all, Clea's module alone enforces the floor of a rock she guards.
-            var alone = Table();
-            var ta = Start(alone);
-            Guard(ta, Cliffs, 1);
-            ta.Game.OnActChanged(2);
-            Assert.Equal(1, alone.GuardFloors[(S(0), C(Cliffs))]);
-            Assert.Contains((S(0), C(Cliffs)), alone.BlockedPlacements);
-            Assert.False(alone.GuardFloors.ContainsKey((S(1), C(Cliffs))));
         }
 
         // ================================================================= state.clea.covered
@@ -521,41 +437,6 @@ namespace Root33.Core.Tests.Characters
             Assert.Empty(bot.GoalMode(v));
         }
 
-        [Fact]
-        public void CleaBot_NeverCountsHostedGuardsAsCoverage()
-        {
-            // Five covered clearings plus 2 hosted guards at the Cliffs: not six.
-            var board = Spread(Table(bot: true), 1, 2, 3, 5, 7).Warriors(0, Cliffs, 2).Building(0, Manor, PieceTypes.Garden);
-            var t = Start(board);
-            Guard(t, Cliffs, 2);
-            var bot = new CleaBot();
-            var v = View(t);
-            Assert.DoesNotContain(C(Cliffs), CleaBot.Covered(v));
-            Assert.False(bot.InGoalMode(v));
-            Assert.DoesNotContain(C(Cliffs), bot.Recruit(v).Select(r => r.Item));   // and she may not place there
-
-            board.Warriors(0, Cliffs, 3);
-            Assert.Contains(C(Cliffs), CleaBot.Covered(v));
-            Assert.True(bot.InGoalMode(v));
-        }
-
-        [Fact]
-        public void CleaBot_NeverMovesGuardStacks()
-        {
-            var board = Table(bot: true).Warriors(0, Cliffs, 3).Building(0, Manor, PieceTypes.Garden).Warriors(0, Manor, 1)
-                .Outcast(0, Suit.Mouse).Warriors(1, Cliffs, 1).Hand(0, Suit.Mouse);
-            var t = Start(board);
-            Guard(t, Cliffs, 2);
-            var bot = new CleaBot();
-            var v = View(t);
-            Assert.True(bot.Guards(v, "move:6:8:1"));
-            Assert.False(bot.Guards(v, "move:6:8:2"));
-            Assert.False(bot.Guards(v, "recruit:6:mouse"));
-            Assert.False(bot.Guards(v, "convert:6:1"));
-            Assert.Equal(new[] { "move:6:8:1" }, bot.Allowed(v, new[] { "move:6:8:2", "move:6:8:1", "recruit:6:mouse", "convert:6:1" }));
-            Assert.Null(bot.ChooseAction(v, new[] { "move:6:8:2", "recruit:6:mouse", "convert:6:1" }));
-        }
-
         // ================================================================= spoiler layer
 
         /// <summary>Clea's bot at seat 0 (Lizards), the Paintress at seat 1 (Eyrie).</summary>
@@ -570,28 +451,6 @@ namespace Root33.Core.Tests.Characters
             t.State.GlobalCountdowns.Add(S(1));
             board.Turn(0);
             return t;
-        }
-
-        [Fact]
-        public void CleaBot_SpoilerNeverMovesGuardStacks()
-        {
-            // The Paintress's only piece stands in the Cliffs, where Clea guards Florrie with all her warriors there.
-            var board = SpoilerBoard().Warriors(0, Cliffs, 2)
-                .Building(0, Manor, PieceTypes.Garden).Warriors(0, Manor, 1).Outcast(0, Suit.Mouse).Hand(0, Suit.Mouse)
-                .Building(1, Cliffs, PieceTypes.Roost);
-            var t = SpoilerTable(board);
-            Guard(t, Cliffs, 2);
-            var bot = new CleaBot();
-            var v = View(t);
-            var legal = new[] { "recruit:6:mouse", "convert:6:1", "move:6:7:2" };
-            Assert.Null(bot.Spoiler(v, legal));
-            Assert.Null(bot.ChooseAction(v, legal));
-
-            // With a second key clearing it answers there instead, ahead of its own steps (a banner is up).
-            board.Warriors(1, 7, 1);
-            var answer = bot.Spoiler(v, legal.Concat(new[] { "recruit:7:mouse" }).ToList());
-            Assert.Equal("recruit:7:mouse", answer.Key);
-            Assert.True(answer.PreEmpts);
         }
 
         [Fact]

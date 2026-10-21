@@ -41,6 +41,7 @@ public static class Render
             if (g.Seat(s).PawnClearing == c) bits.Add("pawn");
             if (bits.Count > 0) parts.Add($"seat {s + 1}: {string.Join(", ", bits)}");
         }
+        if (cs.Guards > 0) parts.Add($"{cs.Guards} neutral guard{(cs.Guards == 1 ? "" : "s")}");
         if (cs.Ruin) parts.Add("ruin");
         return parts.Count == 0 ? "empty" : string.Join(" | ", parts);
     }

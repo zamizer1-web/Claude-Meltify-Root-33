@@ -37,7 +37,7 @@ namespace Root33.Core.Tests.State
             m.GustaveArm = 3;
             m.GustaveOverchargeArmed = true;
             m.GustaveRoute = new[] { Cl(4), Cl(12), Cl(8) };
-            m.EsquieRocks[ModState.Florrie] = new RockState { Status = RockStatus.Guarded, Clearing = Cl(6), HostSeat = S(3), GuardsLeft = 2 };
+            m.EsquieRocks[ModState.Florrie] = new RockState { Status = RockStatus.Guarded, Clearing = Cl(6), GuardsLeft = 2 };
             m.EsquieRocks[ModState.Soarrie] = new RockState { Status = RockStatus.WithVerso, HostSeat = S(2) };
             m.EsquieRocks[ModState.Dorrie] = new RockState { Status = RockStatus.Held };
             m.EsquieDecoy = true;
@@ -134,7 +134,8 @@ namespace Root33.Core.Tests.State
             Assert.Empty(copy.GlobalRoles[new RoleId(Ids.MapRoles.Sirene)]);
             Assert.Equal(RockStatus.Guarded, copy.EsquieRocks[ModState.Florrie].Status);
             Assert.Equal(Cl(6), copy.EsquieRocks[ModState.Florrie].Clearing);
-            Assert.Equal(S(3), copy.EsquieRocks[ModState.Florrie].HostSeat);
+            Assert.Null(copy.EsquieRocks[ModState.Florrie].HostSeat);
+            Assert.Equal(S(2), copy.EsquieRocks[ModState.Soarrie].HostSeat);
             Assert.Equal(2, copy.EsquieRocks[ModState.Florrie].GuardsLeft);
             Assert.Null(copy.EsquieRocks[ModState.Soarrie].Clearing);
             Assert.Equal(S(0), copy.MonocoFeet[ModState.Almighty].Faction);

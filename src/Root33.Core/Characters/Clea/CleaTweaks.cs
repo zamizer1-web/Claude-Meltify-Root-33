@@ -35,35 +35,16 @@ namespace Root33.Core.Characters.Clea
                 + "): her rules still point there, and she still needs her atelier in the Flying Manor.");
         }
 
-        // ------------------------------------------------------------ tweak.clea.nevron-host
-
-        /// <summary>
-        /// hook.setup-complete and hook.act-change (after Esquie's module has spawned that act's guards from her supply, since
-        /// Esquie's hook order runs first): every guarded rock she hosts gets the host rules for her seat, human or bot, so
-        /// Root's move generator, its AI and the human UI keep GuardsLeft warriors there (do.set-guard-floor) and she cannot
-        /// build, recruit or place pieces there (do.block-placement). The guards themselves are placed by Esquie's spawns
-        /// (do.place-warriors from the Nevron host, who is always Clea when she is seated).
-        /// </summary>
-        public static void EnforceHostRules(GameContext ctx, SeatId clea)
-        {
-            foreach (var r in ctx.State.EsquieRocks)
-            {
-                if (r == null || r.Status != RockStatus.Guarded || r.HostSeat != clea || !r.Clearing.HasValue || r.GuardsLeft <= 0) continue;
-                ctx.Actions.SetGuardFloor(clea, r.Clearing.Value, r.GuardsLeft);
-                ctx.Actions.BlockPlacement(clea, r.Clearing.Value, true);
-            }
-        }
-
         // ------------------------------------------------------------ state.clea.covered
 
         /// <summary>
         /// hook.evening-end for her seat: trigger.coverage-count reads the previous |state.clea.covered| first, then the row is
-        /// rewritten with the clearings she covers now (guards she hosts not counted, the same count as win.clea), and the
+        /// rewritten with the clearings she covers now (the same count as win.clea), and the
         /// public coverage tracker (ui.clea.coverage) is refreshed. The themed-win test reads the board, not this row.
         /// </summary>
         public static void EndOfTurn(GameContext ctx, SeatId clea)
         {
-            var now = CleaParts.Covered(ctx.Board, ctx.State, clea);
+            var now = CleaParts.Covered(ctx.Board, clea);
             var before = ctx.State.CleaCovered?.Count ?? 0;
             if (now.Count > before) ctx.Barks.Say(clea, Ids.BarkTriggers.CoverageCount);
             ctx.State.CleaCovered = now;
@@ -73,7 +54,7 @@ namespace Root33.Core.Characters.Clea
         /// <summary>ui.clea.coverage: the tracker, and a mark on each clearing she covers now.</summary>
         public static void ShowCoverage(GameContext ctx, SeatId clea)
         {
-            var covered = CleaParts.Covered(ctx.Board, ctx.State, clea);
+            var covered = CleaParts.Covered(ctx.Board, clea);
             foreach (var c in ctx.Board.Clearings())
             {
                 if (covered.Contains(c)) ctx.Actions.ShowOverlay(Ids.Overlays.CleaCoverage, clea, c, null);
@@ -83,8 +64,7 @@ namespace Root33.Core.Characters.Clea
         }
 
         /// <summary>state.clea.covered onLoad: restored from the save with ids not on the current map dropped; if the save has
-        /// none, recomputed from the current board (so no clearing counts as just lost until her next turn ends). The host
-        /// rules of the rocks she still guards are sent again.</summary>
+        /// none, recomputed from the current board (so no clearing counts as just lost until her next turn ends).</summary>
         public static void RecheckOnLoad(GameContext ctx, SeatId clea, IReadOnlyCollection<string> loadedKeys)
         {
             if (loadedKeys != null && loadedKeys.Contains(Ids.State.CleaCovered) && ctx.State.CleaCovered != null)
@@ -92,8 +72,7 @@ namespace Root33.Core.Characters.Clea
                 var map = new HashSet<ClearingId>(ctx.Board.Clearings());
                 ctx.State.CleaCovered = new HashSet<ClearingId>(ctx.State.CleaCovered.Where(map.Contains));
             }
-            else ctx.State.CleaCovered = CleaParts.Covered(ctx.Board, ctx.State, clea);
-            EnforceHostRules(ctx, clea);
+            else ctx.State.CleaCovered = CleaParts.Covered(ctx.Board, clea);
             ShowCoverage(ctx, clea);
         }
     }

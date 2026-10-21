@@ -6,8 +6,8 @@ using Root33.Core.Sheets;
 namespace Root33.Core.Characters.Clea
 {
     /// <summary>
-    /// Clea (characters.json 'clea', Lizard Cult): win.clea (Nevron Tide), tweak.clea.home-flying-manor,
-    /// tweak.clea.nevron-host, state.clea.covered and bot.clea. Clea has no spawns rows.
+    /// Clea (characters.json 'clea', Lizard Cult): win.clea (Nevron Tide), tweak.clea.home-flying-manor, state.clea.covered
+    /// and bot.clea. Clea has no spawns rows.
     /// </summary>
     public sealed class CleaModule : CharacterModule
     {
@@ -22,13 +22,6 @@ namespace Root33.Core.Characters.Clea
         {
             if (IsMe(seat)) CleaTweaks.RestrictHome(Ctx, Seat);
         }
-
-        /// <summary>tweak.clea.nevron-host (hook.setup-complete): the host rules for the guards Esquie's Florrie spawned from her
-        /// supply.</summary>
-        public override void OnSetupComplete() => CleaTweaks.EnforceHostRules(Ctx, Seat);
-
-        /// <summary>tweak.clea.nevron-host (hook.act-change): the host rules for the guards a new act spawned (Urrie).</summary>
-        public override void OnActChanged(int act) => CleaTweaks.EnforceHostRules(Ctx, Seat);
 
         /// <summary>state.clea.covered and trigger.coverage-count at the end of her own turn.</summary>
         public override void OnEveningEnd(SeatId seat)

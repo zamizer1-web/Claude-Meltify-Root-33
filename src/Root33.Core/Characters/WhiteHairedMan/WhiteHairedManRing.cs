@@ -28,16 +28,6 @@ namespace Root33.Core.Characters.WhiteHairedMan
         public static IReadOnlyList<ClearingId> Ring(IBoardView board, ClearingId? monolith) =>
             monolith.HasValue ? board.PathNeighbours(monolith.Value) : (IReadOnlyList<ClearingId>)new ClearingId[0];
 
-        /// <summary>tweak.esquie.guards-never-count: GuardsLeft of the guarded rocks <paramref name="host"/> hosts in a clearing.</summary>
-        public static int HostedGuards(ModState state, SeatId host, ClearingId c) =>
-            (state.EsquieRocks ?? new RockState[0])
-                .Where(r => r != null && r.Status == RockStatus.Guarded && r.HostSeat == host && r.Clearing == c)
-                .Sum(r => r.GuardsLeft);
-
-        /// <summary>His warriors in a clearing minus the GuardsLeft of the rocks he hosts there.</summary>
-        public static int OwnWarriors(IBoardView board, ModState state, SeatId seat, ClearingId c) =>
-            Math.Max(0, board.Warriors(seat, c) - HostedGuards(state, seat, c));
-
         /// <summary>His plot tokens in a clearing, face up or face down (read.tokens-of-type 'plot').</summary>
         public static int Plots(IBoardView board, SeatId seat, ClearingId c) => board.TokensOfType(seat, c, PieceTypes.Plot);
 
@@ -50,11 +40,11 @@ namespace Root33.Core.Characters.WhiteHairedMan
             return !r.HasValue || r.Value == seat || (paintress.HasValue && r.Value == paintress.Value);
         }
 
-        /// <summary>One Ring clearing is held: his face-up Snare is there, or at least one of his pieces (warriors not counting
-        /// hosted guards, plus plots face up or down) and no ruler but him or the Paintress.</summary>
-        public static bool RingClearingHeld(IBoardView board, ModState state, SeatId seat, SeatId? paintress, ClearingId r) =>
+        /// <summary>One Ring clearing is held: his face-up Snare is there, or at least one of his pieces (warriors, plus plots
+        /// face up or down) and no ruler but him or the Paintress.</summary>
+        public static bool RingClearingHeld(IBoardView board, SeatId seat, SeatId? paintress, ClearingId r) =>
             FaceUpSnare(board, seat, r)
-            || (OwnWarriors(board, state, seat, r) + Plots(board, seat, r) >= 1 && RuledByHimOrPaintress(board, r, seat, paintress));
+            || (board.Warriors(seat, r) + Plots(board, seat, r) >= 1 && RuledByHimOrPaintress(board, r, seat, paintress));
 
         /// <summary>A Vagabond pawn (any seat whose engine is a Vagabond) stands in the clearing.</summary>
         public static bool VagabondIn(IBoardView board, ClearingId c) =>
@@ -65,18 +55,18 @@ namespace Root33.Core.Characters.WhiteHairedMan
             RuledByHimOrPaintress(board, monolith, seat, paintress) && !VagabondIn(board, monolith);
 
         /// <summary>The themed test of Nobody Reaches Her (gates excluded): every Ring clearing held and the Monolith held.</summary>
-        public static bool NobodyReachesHer(IBoardView board, ModState state, SeatId seat, SeatId? paintress, ClearingId? monolith)
+        public static bool NobodyReachesHer(IBoardView board, SeatId seat, SeatId? paintress, ClearingId? monolith)
         {
             if (!monolith.HasValue) return false;
-            return Ring(board, monolith).All(r => RingClearingHeld(board, state, seat, paintress, r))
+            return Ring(board, monolith).All(r => RingClearingHeld(board, seat, paintress, r))
                    && MonolithHeld(board, seat, paintress, monolith.Value);
         }
 
         /// <summary>Goal Tracker units still missing: one per Ring clearing not held, plus one for the Monolith part.</summary>
-        public static int UnitsMissing(IBoardView board, ModState state, SeatId seat, SeatId? paintress, ClearingId? monolith)
+        public static int UnitsMissing(IBoardView board, SeatId seat, SeatId? paintress, ClearingId? monolith)
         {
             if (!monolith.HasValue) return NoMonolithUnits;
-            var n = Ring(board, monolith).Count(r => !RingClearingHeld(board, state, seat, paintress, r));
+            var n = Ring(board, monolith).Count(r => !RingClearingHeld(board, seat, paintress, r));
             return n + (MonolithHeld(board, seat, paintress, monolith.Value) ? 0 : 1);
         }
 
@@ -92,9 +82,9 @@ namespace Root33.Core.Characters.WhiteHairedMan
             return best;
         }
 
-        /// <summary>bot.white-haired-man.01-ring-status: margin(r) = his warriors in r (minus hosted guards) - the rule count of the
-        /// strongest faction in r that is not the Paintress.</summary>
-        public static int Margin(IBoardView board, ModState state, SeatId seat, SeatId? paintress, ClearingId r) =>
-            OwnWarriors(board, state, seat, r) - StrongestOther(board, seat, paintress, r);
+        /// <summary>bot.white-haired-man.01-ring-status: margin(r) = his warriors in r - the rule count of the strongest faction in
+        /// r that is not the Paintress.</summary>
+        public static int Margin(IBoardView board, SeatId seat, SeatId? paintress, ClearingId r) =>
+            board.Warriors(seat, r) - StrongestOther(board, seat, paintress, r);
     }
 }

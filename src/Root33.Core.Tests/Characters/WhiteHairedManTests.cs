@@ -102,15 +102,6 @@ namespace Root33.Core.Tests.Characters
             dom.Dominance(0, null);
             t2.PlayTurn(1).PlayTurn(0);
             Assert.Equal(Ids.WinConditions.WhiteHairedMan, dom.Banners[S(0)]);
-
-            // Hosted guards are not his: a rock guarded by two of his three warriors leaves one, two guards leave none.
-            var guarded = Table().Warriors(0, 9, 2).Warriors(0, 10, 1).Warriors(0, 11, 2).Vp(0, 10);
-            var t3 = Start(guarded, act: 2);
-            var rock = t3.State.EsquieRocks[0];
-            rock.Status = RockStatus.Guarded; rock.Clearing = C(11); rock.HostSeat = S(0); rock.GuardsLeft = 2;
-            Assert.False(new WhiteHairedManWin().Announce(t3.Ctx, S(0)));
-            guarded.Warriors(0, 11, 3);
-            Assert.True(new WhiteHairedManWin().Announce(t3.Ctx, S(0)));
         }
 
         [Fact]
@@ -349,11 +340,6 @@ namespace Root33.Core.Tests.Characters
             Assert.True(spots[2].Held);
             Assert.False(spots[1].Held);
             Assert.True(spots[0].Held);
-
-            // Guards he hosts are not his: 2 guards left in 9 take his count to 2.
-            var rock = t.State.EsquieRocks[0];
-            rock.Status = RockStatus.Guarded; rock.Clearing = C(9); rock.HostSeat = S(0); rock.GuardsLeft = 2;
-            Assert.Equal(-1, Bot.RingStatus(View(t))[0].Margin);
         }
 
         [Fact]

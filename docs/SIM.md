@@ -170,8 +170,9 @@ by the core itself): `OnTitleScreen`, `OnCharacterSelect`, `OnActChange`, `OnWar
 `OnRelicMoved`, `OnConvert`, `OnUiToggle`.
 
 `State.Mod` (`ModEffects`) is where `SimBoard`'s IBoardActions write. The shared rules honour: `ExtraHits`,
-`ExtraMaxHits`, `IgnoreFirstHit` (battle), `GuardFloors` and `Abilities["rivers-as-paths"]` (moves),
-`BlockedPlacements` (`g.CanPlace`), `DeclaredWinners` (with `IsGameOver`). `HomeRestrictions`,
+`ExtraMaxHits`, `IgnoreFirstHit` (battle), `Abilities["rivers-as-paths"]` (moves), `DeclaredWinners` (with
+`IsGameOver`). Esquie's neutral rock guards are on the board (`ClearingState.Guards`, do.place-guards): only Esquie's
+Vagabond is offered `battle:<clearing>:guards` (hook.guard-battle-legal), fought by `Battles.StartGuardBattle`. `HomeRestrictions`,
 `StartForestRestrictions` are for D's `ForcedHome`; `Banners`, `SeatTitles`, `Overlays`, `Extra` are display/bookkeeping.
 Other abilities from do.grant-ability (`no-hostile-boot`, `glide`) are for C's Vagabond moves.
 
@@ -217,8 +218,7 @@ Every place the tabletop is not exactly Root's rules:
    because scoring is applied one event at a time.
 9. **Hidden information**: the deck order and the ruins' items are hidden from every view; discards are public.
    Codebreakers shows the hand in the private log of the seat that used it.
-10. **Mod abilities** granted by the core (`rivers-as-paths`) apply to warrior moves; guard floors limit how many
-    warriors a move may take out of a clearing.
+10. **Mod abilities** granted by the core (`rivers-as-paths`) apply to warrior moves.
 11. **Vagabond** (engineer C; `Factions/Vagabond.cs`, `VagabondActions.cs`, `VagabondData.cs`):
    - Board and card numbers from the printed base game (the Root Database shows the board, characters and quests only
      as images; a veteran should check them): relationships need 1, 2, 2 Aids in one turn and score 1, 2, 2 VP

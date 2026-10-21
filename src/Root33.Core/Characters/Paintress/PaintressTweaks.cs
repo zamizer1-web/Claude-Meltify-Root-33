@@ -49,11 +49,11 @@ namespace Root33.Core.Characters.Paintress
             if (ctx.State.PaintressStillLifeUsed) return null;
             if (!ctx.SupportsAction(Ids.BoardActions.MoveWarriors)) return null;
             var monolith = ctx.Role(Ids.MapRoles.Monolith);
-            if (!PaintressPortraits.IsLivingPortrait(ctx.Board, ctx.State, paintress, c, monolith)) return null;
+            if (!PaintressPortraits.IsLivingPortrait(ctx.Board, paintress, c, monolith)) return null;
 
             var n = Tuning.PaintressStillLifeWarriors;
             var from = ctx.Board.PathNeighbours(c)
-                .Select(x => (clearing: x, spare: PaintressPortraits.PortraitWarriors(ctx.Board, ctx.State, paintress, x)))
+                .Select(x => (clearing: x, spare: PaintressPortraits.PortraitWarriors(ctx.Board, paintress, x)))
                 .Where(x => x.spare >= n)
                 .OrderByDescending(x => x.spare).ThenBy(x => x.clearing.Value)
                 .Select(x => (ClearingId?)x.clearing).FirstOrDefault();
@@ -110,7 +110,7 @@ namespace Root33.Core.Characters.Paintress
         public static void RefreshPortraits(GameContext ctx, SeatId paintress)
         {
             var monolith = ctx.Role(Ids.MapRoles.Monolith);
-            var living = new HashSet<ClearingId>(PaintressPortraits.LivingPortraits(ctx.Board, ctx.State, paintress, monolith));
+            var living = new HashSet<ClearingId>(PaintressPortraits.LivingPortraits(ctx.Board, paintress, monolith));
             foreach (var c in ctx.Board.Clearings())
             {
                 if (living.Contains(c)) ctx.Actions.ShowOverlay(Ids.Overlays.PaintressPortraits, paintress, c, null);

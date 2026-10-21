@@ -162,11 +162,8 @@ namespace Root33.Core.Sheets
             public const string GustaveKeepInLumiere = "tweak.gustave.keep-in-lumiere";
             public const string EsquieBellyBounce = "tweak.esquie.belly-bounce";
             public const string EsquieNeverMad = "tweak.esquie.never-mad";
-            public const string EsquieFriendsNotFoes = "tweak.esquie.friends-not-foes";
+            public const string EsquieNeutralGuards = "tweak.esquie.neutral-guards";
             public const string EsquieStartNearNest = "tweak.esquie.start-near-nest";
-            public const string EsquieGuardFloor = "tweak.esquie.guard-floor";
-            public const string EsquieGuardNoPlacement = "tweak.esquie.guard-no-placement";
-            public const string EsquieGuardsNeverCount = "tweak.esquie.guards-never-count";
             public const string EsquieFlorrieSwim = "tweak.esquie.florrie-swim";
             public const string EsquieDorrieCoral = "tweak.esquie.dorrie-coral";
             public const string EsquieSoarrieGlide = "tweak.esquie.soarrie-glide";
@@ -181,7 +178,6 @@ namespace Root33.Core.Sheets
             public const string CuratorQuietHelper = "tweak.curator.quiet-helper";
             public const string CuratorHomeCorner = "tweak.curator.home-corner";
             public const string CleaHomeFlyingManor = "tweak.clea.home-flying-manor";
-            public const string CleaNevronHost = "tweak.clea.nevron-host";
             public const string WhiteHairedManUnbeatableAct1 = "tweak.white-haired-man.unbeatable-act1";
             public const string WhiteHairedManMonolithBarrier = "tweak.white-haired-man.monolith-barrier";
         }
@@ -249,6 +245,9 @@ namespace Root33.Core.Sheets
             public const string BattleLegal = "hook.battle-legal";
             public const string BattleStart = "hook.battle-start";
             public const string BattleResolved = "hook.battle-resolved";
+            public const string GuardBattleLegal = "hook.guard-battle-legal";
+            public const string GuardBattleStart = "hook.guard-battle-start";
+            public const string GuardBattleResolved = "hook.guard-battle-resolved";
             public const string ExploreResolved = "hook.explore-resolved";
             public const string AidResolved = "hook.aid-resolved";
             public const string HostilityChange = "hook.hostility-change";
@@ -296,6 +295,7 @@ namespace Root33.Core.Sheets
             public const string ForestClearings = "read.forest-clearings";
             public const string Ruler = "read.ruler";
             public const string Warriors = "read.warriors";
+            public const string Guards = "read.guards";
             public const string Buildings = "read.buildings";
             public const string BuildingsOfType = "read.buildings-of-type";
             public const string Tokens = "read.tokens";
@@ -333,6 +333,7 @@ namespace Root33.Core.Sheets
         public static class BoardActions
         {
             public const string PlaceWarriors = "do.place-warriors";
+            public const string PlaceGuards = "do.place-guards";
             public const string MoveWarriors = "do.move-warriors";
             public const string PlaceTunnel = "do.place-tunnel";
             public const string GrantFreeDig = "do.grant-free-dig";
@@ -344,8 +345,6 @@ namespace Root33.Core.Sheets
             public const string AddHits = "do.add-hits";
             public const string AddMaxHits = "do.add-max-hits";
             public const string IgnoreFirstHit = "do.ignore-first-hit";
-            public const string SetGuardFloor = "do.set-guard-floor";
-            public const string BlockPlacement = "do.block-placement";
             public const string RestrictHome = "do.restrict-home";
             public const string RestrictStartForest = "do.restrict-start-forest";
             public const string GrantAbility = "do.grant-ability";
@@ -387,11 +386,10 @@ namespace Root33.Core.Sheets
             public const string Gustave08Spoiler = "bot.gustave.08-spoiler";
             public const string Esquie01Target = "bot.esquie.01-target";
             public const string Esquie02Gear = "bot.esquie.02-gear";
-            public const string Esquie03Friends = "bot.esquie.03-friends";
-            public const string Esquie04Hunt = "bot.esquie.04-hunt";
-            public const string Esquie05Endgame = "bot.esquie.05-endgame";
-            public const string Esquie06Vp = "bot.esquie.06-vp";
-            public const string Esquie07Spoiler = "bot.esquie.07-spoiler";
+            public const string Esquie03Hunt = "bot.esquie.03-hunt";
+            public const string Esquie04Endgame = "bot.esquie.04-endgame";
+            public const string Esquie05Vp = "bot.esquie.05-vp";
+            public const string Esquie06Spoiler = "bot.esquie.06-spoiler";
             public const string Paintress01Site = "bot.paintress.01-site";
             public const string Paintress02Decree = "bot.paintress.02-decree";
             public const string Paintress03Garrison = "bot.paintress.03-garrison";
@@ -447,8 +445,7 @@ namespace Root33.Core.Sheets
             public const string Clea04Home = "bot.clea.04-home";
             public const string Clea05Hand = "bot.clea.05-hand";
             public const string Clea06GoalMode = "bot.clea.06-goal-mode";
-            public const string Clea07Guards = "bot.clea.07-guards";
-            public const string Clea08Spoiler = "bot.clea.08-spoiler";
+            public const string Clea07Spoiler = "bot.clea.07-spoiler";
             public const string WhiteHairedMan01RingStatus = "bot.white-haired-man.01-ring-status";
             public const string WhiteHairedMan02Recruit = "bot.white-haired-man.02-recruit";
             public const string WhiteHairedMan03Plots = "bot.white-haired-man.03-plots";
@@ -886,7 +883,6 @@ namespace Root33.Core.Sheets
             public const string PaintressSiteNearMonolith = "tune.paintress-site-near-monolith";
             public const string PaintressSiteNearMonolithSteps = "tune.paintress-site-near-monolith-steps";
             public const string PaintressSiteEnemyWarrior = "tune.paintress-site-enemy-warrior";
-            public const string PaintressSiteGuardedRock = "tune.paintress-site-guarded-rock";
             public const string ScielSanctuaries = "tune.sciel-sanctuaries";
             public const string ScielAquafarms = "tune.sciel-aquafarms";
             public const string ScielTwilightHits = "tune.sciel-twilight-hits";

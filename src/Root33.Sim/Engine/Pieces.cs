@@ -34,12 +34,12 @@ public sealed partial class SimGame
     public bool Rules(int seat, int c) => Ruler(c) == seat;
     public IEnumerable<int> RuledBy(int seat) => ClearingIds.Where(c => Rules(seat, c));
 
-    /// <summary>Whether a seat may place a piece in c: no other faction blocks it (the Keep) and the core has not blocked it.</summary>
+    /// <summary>Whether a seat may place a piece in c: no other faction blocks it (the Keep).</summary>
     public bool CanPlace(int seat, int c)
     {
         for (int o = 0; o < SeatCount; o++)
             if (o != seat && Faction(o).BlocksPlacement(this, o, seat, c)) return false;
-        return !State.Mod.BlockedPlacements.Any(b => b.Seat == seat && b.Clearing == c);
+        return true;
     }
 
     /// <summary>Place up to n warriors from supply (Law 1.5.4: as many as possible). Returns how many.</summary>
