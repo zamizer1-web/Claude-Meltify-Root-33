@@ -57,7 +57,7 @@ public static class Moves
                 if (legal.Count == 0) { if (f.Get("optional") == 0) g.Log($"{g.SeatName(f.Seat)} has no legal move."); g.Pop(f); return null; }
                 var d = new Decision(f.Seat, $"{f.Str("label") ?? "Move"}: choose where to move warriors from and to");
                 foreach (var (a, b) in legal)
-                    d.Add($"move:{a}>{b}", $"From {g.ClearingName(a)} ({Movable(g, f.Seat, a)} warriors) to {g.ClearingName(b)}");
+                    d.Add($"move:{a}-{b}", $"From {g.ClearingName(a)} ({Movable(g, f.Seat, a)} warriors) to {g.ClearingName(b)}");
                 if (f.Get("optional") == 1) d.Add("skip", "Do not move");
                 return d;
             }
@@ -70,7 +70,7 @@ public static class Moves
             if (o.Key == "skip") { g.Pop(f); return; }
             if (o.Key.StartsWith("move:"))
             {
-                var p = o.Key[5..].Split('>');
+                var p = o.Key[5..].Split('-', '>');
                 f.Set("from", int.Parse(p[0])).Set("to", int.Parse(p[1]));
                 f.Step = 1;
                 return;

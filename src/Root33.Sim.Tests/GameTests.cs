@@ -46,7 +46,7 @@ public class MarquiseTests
         Assert.Equal(2, g.Warriors(0, 12));
         Assert.DoesNotContain(g.Pending!.Options, o => o.Key == "recruit");   // once per turn
         g.Choose(0, "march");
-        g.Choose(0, "move:12>4");
+        g.Choose(0, "move:12-4");
         g.Choose(0, "count:2");
         Assert.Equal(3, g.Warriors(0, 4));
         g.Choose(0, "skip");                                           // second move of the march
@@ -101,6 +101,42 @@ public class MarquiseTests
         Assert.Equal(0, g.Warriors(0, 5));
         Assert.Equal(2, g.Warriors(0, 1));          // default for a non-active Marquise: 2+ warriors and a matching card
         Assert.DoesNotContain(fox, g.Seat(0).Hand);
+    }
+
+    [Fact]
+    public void FieldHospitals_IsAskedOfAHumanMarquiseOnAnotherSeatsTurn()
+    {
+        // Playtest (Kit and Ren, rounds 2-3): Field Hospitals was answered "no" for a human Gustave on Sciel's turn.
+        var g = Kit.Table();
+        g.State.AskHumansOffTurn = true;            // as every game started with 'new' from the CLI
+        g.State.Seats[0].Human = true;
+        Kit.Active(g, 1, TurnPhase.Daylight);
+        Kit.Token(g, 0, 1, PieceTypes.Keep);
+        Kit.Warriors(g, 0, 5, 1);                   // one warrior: the bot default would decline
+        Kit.Warriors(g, 1, 5, 3);
+        int fox = Kit.Card("anvil");
+        g.Seat(0).Hand.Add(fox);
+        Kit.Dice(g, 3, 0);
+        Kit.Hold(g, 1);
+        Battles.Start(g, 1, 0, 5);
+        g.Advance();
+        Assert.Equal(0, g.Pending!.Seat);
+        Assert.Equal("marquise.field-hospital", g.Pending.Kind);
+        g.Choose(0, $"fh:{fox}");
+        Assert.Equal(1, g.Warriors(0, 1));
+        Assert.DoesNotContain(fox, g.Seat(0).Hand);
+    }
+
+    [Fact]
+    public void March_WithoutAMove_DoesNotSpendTheAction()
+    {
+        var g = SetUp();
+        while (g.Pending!.Kind != "marquise.daylight") g.Choose(g.Pending.Seat, g.Pending.Options.Last().Key);
+        Assert.Contains("3 action(s) left", g.Pending.Prompt);
+        g.Choose(0, "march");
+        g.Choose(0, "skip");
+        Assert.Equal("marquise.daylight", g.Pending!.Kind);
+        Assert.Contains("3 action(s) left", g.Pending.Prompt);
     }
 }
 

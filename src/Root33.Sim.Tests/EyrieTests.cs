@@ -203,13 +203,13 @@ public class EyrieTests
         BKit.Run(g, E, new Frame("eyrie.daylight", E) { Step = 1 });
         g.Choose(E, "move:mouse");
         Assert.Equal("move", g.Pending!.Kind);
-        Assert.All(g.Pending.Options, o => Assert.StartsWith("move:3>", o.Key));   // only from the mouse clearing
+        Assert.All(g.Pending.Options, o => Assert.StartsWith("move:3-", o.Key));   // only from the mouse clearing
         Assert.DoesNotContain(g.Pending.Options, o => o.Key == "skip");
-        g.Choose(E, "move:3>11");
+        g.Choose(E, "move:3-11");
         g.Choose(E, "count:2");
         Assert.Equal(2, g.Warriors(E, 11));
         g.Choose(E, "move:bird");
-        g.Choose(E, "move:9>3");
+        g.Choose(E, "move:9-3");
         Assert.Equal(1, g.Warriors(E, 3));
         // Build (vizier, bird): any clearing the Eyrie rules with a free slot and no roost
         Assert.Contains(g.Pending!.Options, o => o.Key == "build:bird:11");

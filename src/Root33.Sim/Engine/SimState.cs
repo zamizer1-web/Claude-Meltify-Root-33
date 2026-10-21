@@ -27,6 +27,10 @@ public sealed class SimState
     public int FirstSeat { get; set; }
     /// <summary>0 during setup; 1 from the first Birdsong.</summary>
     public int Round { get; set; }
+    /// <summary>Ask a human seat the questions it owes on another seat's turn (ambush, Field Hospitals, hit losses...),
+    /// as Root does. Set by the CLI for every new game; when false (engine tests, older saves) every off-turn question
+    /// is answered by its documented default.</summary>
+    public bool AskHumansOffTurn { get; set; }
 
     public Dictionary<int, ClearingState> Clearings { get; set; } = new();
     public List<int> Deck { get; set; } = new();

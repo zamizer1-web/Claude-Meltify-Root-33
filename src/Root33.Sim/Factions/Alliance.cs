@@ -355,7 +355,17 @@ public sealed class Alliance : FactionBase
     static Decision? EveningNext(SimGame g, Frame f)
     {
         int seat = f.Seat;
-        if (f.Str("pending") != null) { f.SetStr("pending", null); g.ActionResolved(seat); }
+        if (f.Str("pending") is string pending)
+        {
+            f.SetStr("pending", null);
+            // A Move operation is spent only if a move happened: opening Move and choosing "Do not move" costs nothing.
+            if (pending != "move" || f.Get("moves") > f.Get("movesBefore"))
+            {
+                if (pending == "move") f.Set("used", f.Get("used") + 1);
+                g.ActionResolved(seat);
+            }
+            else g.Log($"{g.SeatName(seat)} does not move; the operation is not spent.");
+        }
         if (f.Step == 0)
         {
             int left = D(g, seat).Officers - f.Get("used");
@@ -392,8 +402,9 @@ public sealed class Alliance : FactionBase
     {
         int seat = f.Seat;
         if (o.Key == "end") { f.Step = 1; return; }
-        f.Set("used", f.Get("used") + 1);
         var p = o.Key.Split(':');
+        if (p[0] == "move") f.Set("movesBefore", f.Get("moves"));   // counted in EveningNext once the move happened
+        else f.Set("used", f.Get("used") + 1);
         f.SetStr("pending", p[0]);
         switch (p[0])
         {

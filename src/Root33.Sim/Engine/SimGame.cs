@@ -223,7 +223,7 @@ public sealed partial class SimGame
             d.Kind = f.Kind;
             if (d.Open) AddOpenOptions(d);
             if (d.Options.Count == 0) throw new InvalidOperationException($"stuck: {f} asked '{d.Prompt}' with no options");
-            if (d.Seat != ActiveSeat)
+            if (d.Seat != ActiveSeat && !(State.AskHumansOffTurn && Seat(d.Seat).Human))
             {
                 var o = (d.DefaultKey != null ? d.Find(d.DefaultKey) : null) ?? d.Options[0];
                 Log($"{SeatName(d.Seat)} (not their turn, decided by the default): {d.Prompt} -> {o.Text}");

@@ -128,6 +128,12 @@ public sealed class Marquise : FactionBase
         {
             if (f.Step == 0) { f.Step = 1; g.Push(Moves.Frame(f.Seat, true, label: "March, move 1 of 2")); return null; }
             if (f.Step == 1 && f.Get("moves") > 0) { f.Step = 2; g.Push(Moves.Frame(f.Seat, true, label: "March, move 2 of 2")); return null; }
+            if (f.Get("moves") == 0 && g.Parent(f) is Frame daylight)
+            {
+                // Choosing March and then "Do not move" is not an action taken: give it back.
+                daylight.Set("actions", daylight.Get("actions") + 1);
+                g.Log($"{g.SeatName(f.Seat)} does not march; the action is not spent.");
+            }
             g.Pop(f);
             return null;
         });

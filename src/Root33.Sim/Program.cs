@@ -195,6 +195,7 @@ public static class Program
         var seats = ParseSeats(seatSpec);
         using var lk = Lock(save);
         var g = SimGame.New(seats.Select(x => new SimGame.SeatSpec(x.Character, x.Human)).ToList(), seed, spoiler);
+        g.State.AskHumansOffTurn = true;   // players are asked their off-turn questions, as in Root
         Bots.Run(g);
         g.Save(save); WriteLive(g, save);
         output.WriteLine($"New game saved to {save} (seed {seed}, spoiler {spoiler}).");

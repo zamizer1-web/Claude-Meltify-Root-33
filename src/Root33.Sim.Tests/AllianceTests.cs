@@ -101,7 +101,7 @@ public class AllianceTests
         int fox = BKit.ToHand(g, M, BKit.Take(g, Suit.Fox));
         int bird = BKit.ToHand(g, M, BKit.Take(g, Suit.Bird));
         BKit.Run(g, M, Moves.Frame(M, optional: false));
-        g.Choose(M, "move:1>5");
+        g.Choose(M, "move:1-5");
         g.Choose(M, "count:2");
         Assert.Equal("alliance.outrage", g.Pending!.Kind);
         Assert.Equal(new[] { $"give:{fox}", $"give:{bird}" }, g.Pending.Options.Select(o => o.Key));
@@ -115,7 +115,7 @@ public class AllianceTests
         g.State.Pending = null;
         g.Push(Moves.Frame(M, optional: false));
         g.Advance();
-        g.Choose(M, "move:1>5");
+        g.Choose(M, "move:1-5");
         g.Choose(M, "count:1");
         Assert.Equal(2, Alliance.D(g, A).Supporters.Count);
         Assert.Equal(new[] { rabbit }, g.Seat(M).Hand);
@@ -216,6 +216,24 @@ public class AllianceTests
         Assert.Equal(0, g.Seat(A).Vp);
         Assert.Equal("test.hold", g.Pending!.Kind);                       // operations used up; drew 1 + 1 base
         Assert.Equal(2, g.Seat(A).Hand.Count);
+    }
+
+    [Fact]
+    public void Evening_OpeningMoveAndNotMoving_DoesNotSpendAnOperation()
+    {
+        // Playtest (Ren, round 3): "Move" then "Do not move" used up one of the three operations.
+        var g = Table(TurnPhase.Evening);
+        Kit.Building(g, A, 5, "base.fox");
+        Kit.Warriors(g, A, 5, 2);
+        Alliance.D(g, A).Officers = 2; g.Seat(A).SupplyWarriors -= 2;
+        BKit.Run(g, A, new Frame("alliance.evening", A));
+        g.Choose(A, "move");
+        g.Choose(A, "skip");
+        Assert.Contains("2 of 2", g.Pending!.Prompt);                      // nothing spent
+        g.Choose(A, "move");
+        g.Choose(A, g.Pending!.Options.First(o => o.Key.StartsWith("move:")).Key);
+        g.Choose(A, "count:1");
+        Assert.Contains("1 of 2", g.Pending!.Prompt);                      // a real move is one operation
     }
 
     [Fact]

@@ -12,8 +12,9 @@ public sealed class Option
 
 /// <summary>
 /// The one pending question of the game: owned by one seat, with numbered options (1-based in the CLI).
-/// A decision owed by a seat that is not the active seat is never shown: the engine applies <see cref="DefaultKey"/>
-/// (or the first option) and logs it. A decision with exactly one option and <see cref="Open"/> false is applied at once.
+/// A decision owed by a seat that is not the active seat is asked of that seat when it is human (Root asks the defender
+/// about ambushes, Field Hospitals and so on); for a bot seat the engine applies <see cref="DefaultKey"/> (or the first
+/// option) and logs it. A decision with exactly one option and <see cref="Open"/> false is applied at once.
 /// </summary>
 public sealed class Decision
 {
