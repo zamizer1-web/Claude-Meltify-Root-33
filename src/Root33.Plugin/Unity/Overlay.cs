@@ -33,6 +33,7 @@ namespace Root33.Plugin.Unity
 
         public void Update()
         {
+            Root33Runtime.PumpMainThread(Log);
             if (_f8.PressedInUpdate()) _shown = !_shown;
             if (Time.unscaledTime < _nextRefresh) return;
             _nextRefresh = Time.unscaledTime + 0.5f;

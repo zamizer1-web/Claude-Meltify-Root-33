@@ -74,22 +74,77 @@ namespace Root33.Plugin
 
         // ------------------------------------------------------------------ entry points for the Harmony patches
 
+        /// <summary>
+        /// The core is not thread-safe and Root runs its game on a match thread of its own (Canis.Match.Run), while the panel
+        /// reads on Unity's main thread. Every call into the core holds this lock, so only one thread is ever inside it. Hooks
+        /// run at once on the thread Root raised them on, because Root's state is only right at that moment and prefixes need
+        /// their answer before Root goes on; Unity work waits for the main thread (<see cref="OnMainThread"/>).
+        /// </summary>
+        public static readonly object Sync = new object();
+
+        private static readonly System.Collections.Concurrent.ConcurrentQueue<Action> MainThreadWork = new System.Collections.Concurrent.ConcurrentQueue<Action>();
+        private static int _mainThreadId = -1;
+        private static int _hookThreadLogged;
+
+        /// <summary>Runs Unity work on the main thread (at the panel's next Update), or now when already on it.</summary>
+        public static void OnMainThread(Action work)
+        {
+            if (Environment.CurrentManagedThreadId == _mainThreadId) work();
+            else MainThreadWork.Enqueue(work);
+        }
+
+        /// <summary>The panel's Update calls this on Unity's main thread: it records that thread and runs the queued work.</summary>
+        public static void PumpMainThread(ManualLogSource? log)
+        {
+            _mainThreadId = Environment.CurrentManagedThreadId;
+            while (MainThreadWork.TryDequeue(out var work))
+            {
+                try { work(); }
+                catch (Exception e) { log?.LogWarning("Root 33: main-thread work failed: " + e); }
+            }
+        }
+
+        /// <summary>Logs once which thread Root raises hooks on, for the plan's threading check (M3).</summary>
+        private void NoteThread(string hookId)
+        {
+            if (System.Threading.Interlocked.Exchange(ref _hookThreadLogged, 1) != 0) return;
+            var here = Environment.CurrentManagedThreadId;
+            _log.LogInfo($"Root 33: first hook ({hookId}) on thread {here}" +
+                         (_mainThreadId < 0 ? " (Unity main thread not seen yet)" : here == _mainThreadId ? " (Unity main thread)" : $" (Unity main thread is {_mainThreadId})"));
+        }
+
         /// <summary>A moment in Root's game flow (a game_hooks row): runs the core's handler now, or right after the hook the
         /// core is running. Nothing happens before Plugin.Load.</summary>
-        public static void Hook(string hookId, Action<Root33Game> call) => Current?.Raise(hookId, call);
+        public static void Hook(string hookId, Action<Root33Game> call)
+        {
+            var rt = Current;
+            if (rt == null) return;
+            lock (Sync) rt.Raise(hookId, call);
+        }
 
         /// <summary>A question to the core (hook.battle-legal, hook.hostility-change, hook.bot-decision): its answer, or
         /// <paramref name="fallback"/> before Plugin.Load or when the core throws.</summary>
-        public static T Ask<T>(string hookId, Func<Root33Game, T> ask, T fallback) =>
-            Current == null ? fallback : Current.Hooks.Ask(hookId, ask, fallback);
+        public static T Ask<T>(string hookId, Func<Root33Game, T> ask, T fallback)
+        {
+            var rt = Current;
+            if (rt == null) return fallback;
+            lock (Sync)
+            {
+                rt.NoteThread(hookId);
+                return rt.Hooks.Ask(hookId, ask, fallback);
+            }
+        }
 
         /// <summary>hook.turn-end: the core's handler, then the seat has seen every bubble so far.</summary>
         public static void TurnEnd(SeatId seat)
         {
             var rt = Current;
             if (rt == null) return;
-            rt.Raise(Ids.GameHooks.TurnEnd, g => g.OnTurnEnd(seat));
-            rt.Feed.TurnEnded(seat);
+            lock (Sync)
+            {
+                rt.Raise(Ids.GameHooks.TurnEnd, g => g.OnTurnEnd(seat));
+                rt.Feed.TurnEnded(seat);
+            }
         }
 
         /// <summary>hook.save: the core's state as text, to store beside Root's save under the game's id ("" in plain Root).</summary>
@@ -98,7 +153,7 @@ namespace Root33.Plugin
             var rt = Current;
             if (rt == null) return "";
             var text = "";
-            rt.Hooks.Safe(Ids.GameHooks.Save, () => text = rt.Game.OnSave());
+            lock (Sync) rt.Hooks.Safe(Ids.GameHooks.Save, () => text = rt.Game.OnSave());
             return text;
         }
 
@@ -108,6 +163,12 @@ namespace Root33.Plugin
         {
             var rt = Current;
             if (rt == null) return;
+            lock (Sync) rt.LoadLocked(saved);
+        }
+
+        private void LoadLocked(string saved)
+        {
+            var rt = this;
             rt.Feed.Reset();
             rt.Board.Display.Clear();
             rt.Hooks.RunAlone(Ids.GameHooks.Load, g => g.OnLoad(saved));
@@ -118,6 +179,7 @@ namespace Root33.Plugin
 
         private void Raise(string hookId, Action<Root33Game> call)
         {
+            NoteThread(hookId);
             if (hookId == Ids.GameHooks.CharacterSelect)
             {
                 if (!_settings.E33Mode.Value) return;   // plain Root: no E33 game is set up, so the core stays idle
@@ -127,6 +189,7 @@ namespace Root33.Plugin
             {
                 Feed.Reset();
                 Board.Display.Clear();
+                ModRules.Reset();
                 SetupDone = false;
             }
             else if (hookId == Ids.GameHooks.SetupComplete) SetupDone = true;   // the Act I banner shows with its story
@@ -141,6 +204,16 @@ namespace Root33.Plugin
         /// says which one to map next.
         /// </summary>
         public string PanelText()
+        {
+            // The main thread never waits on Root's match thread: when the core is busy, the panel keeps its last text.
+            if (!System.Threading.Monitor.TryEnter(Sync)) return _lastPanel;
+            try { return _lastPanel = PanelTextLocked(); }
+            finally { System.Threading.Monitor.Exit(Sync); }
+        }
+
+        private string _lastPanel = Waiting;
+
+        private string PanelTextLocked()
         {
             var progress = $"board adapter: {RootBoard.MappedReads}/{RootBoard.ReadRows} reads, {RootBoard.MappedActions}/{RootBoard.ActionRows} actions mapped" +
                            $" · hooks: {PatchedHooks}/{HooksToPatch} patched · core {SheetsInfo.CoreVersion}";

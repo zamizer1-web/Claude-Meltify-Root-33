@@ -96,6 +96,7 @@ namespace Root33.Plugin
             log.LogInfo($"Root 33 settings: spoiler mode {settings.Spoiler.Value}, E33 mode {(settings.E33Mode.Value ? "on" : "off")}, " +
                         $"probe mode {(settings.ProbeMode.Value ? "on" : "off")} (BepInEx\\config\\{PluginInfo.Guid}.cfg)");
             var runtime = Root33Runtime.Start(settings, log);
+            Patches.PatchGuard.Log = log;
 #if !NOUNITY
             Probe.Log = log;
             Overlay.Log = log;
