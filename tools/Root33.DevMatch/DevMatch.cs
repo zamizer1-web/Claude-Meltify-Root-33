@@ -59,6 +59,7 @@ namespace Root33.DevMatch
         internal const float StartDelay = 5f, StartTimeout = 60f, RetryEvery = 1f;
         internal static float TitleShownAt = -1f;
         internal static volatile bool QuitRequested;
+        internal static string QuitReason = "not by the dev match";
         private bool _done;
         private float _nextTry;
 
@@ -67,8 +68,13 @@ namespace Root33.DevMatch
             if (QuitRequested)
             {
                 QuitRequested = false;
-                DevMatchPlugin.L.LogInfo("Root 33 dev match: done, quitting Root");
-                Application.Quit();
+                if (Starter.Started)
+                {
+                    QuitReason = "dev match done";
+                    DevMatchPlugin.L.LogInfo("Root 33 dev match: done, quitting Root");
+                    Application.Quit();
+                }
+                else DevMatchPlugin.L.LogWarning("Root 33 dev match: quit asked before the dev match started; ignored");
             }
             var now = Time.unscaledTime;
             if (_done || TitleShownAt < 0 || now < TitleShownAt + StartDelay || now < _nextTry) return;
@@ -76,7 +82,7 @@ namespace Root33.DevMatch
             try
             {
                 if (DevMatchPlugin.Mode.Value == "list") { Templates.Write(); _done = true; }
-                else if (Starter.TryStart()) _done = true;
+                else if (Starter.TryStart()) { _done = true; Starter.Started = true; }
                 else if (now > TitleShownAt + StartDelay + StartTimeout)
                 {
                     _done = true;
@@ -89,6 +95,10 @@ namespace Root33.DevMatch
                 DevMatchPlugin.L.LogError("Root 33 dev match failed, driver stopped: " + e);
             }
         }
+
+        /// <summary>Says who closed Root, so an exit the dev match did not ask for shows in the log.</summary>
+        public void OnApplicationQuit() =>
+            DevMatchPlugin.L.LogInfo($"Root 33 dev match: Root is quitting ({QuitReason}; title seen {TitleShownAt >= 0}, match started {Starter.Started}, turns ended {HookWatch.TurnEnds})");
     }
 
     [HarmonyPatch(typeof(tuber.client.menus.prompts.LandingPromptBehaviour), nameof(tuber.client.menus.prompts.LandingPromptBehaviour.initialize))]
@@ -148,6 +158,7 @@ namespace Root33.DevMatch
     internal static class Starter
     {
         private static tuber.canis.TuberMatchInitData? _data;
+        internal static volatile bool Started;
 
         /// <summary>Queues Root's own offline start once a command queue exists; false means "not ready yet, try again".
         /// On the title screen there is no MatchModel yet, so Root's PlayOfflineMatch command (what the offline menus run)
@@ -209,6 +220,7 @@ namespace Root33.DevMatch
             "hook.explore-resolved", "hook.aid-resolved", "hook.relationship-changed", "hook.turmoil", "hook.game-over",
         };
         private static int _turnEnds, _snap;
+        internal static int TurnEnds => _turnEnds;
 
         private static void Prefix(string hookId)
         {
@@ -225,6 +237,7 @@ namespace Root33.DevMatch
         {
             private static void Prefix(SeatId seat)
             {
+                if (!Starter.Started) { DevMatchPlugin.L.LogInfo($"Root 33 dev match: hook.turn-end {seat} before the dev match started; not counted"); return; }
                 var n = ++_turnEnds;
                 DevMatchPlugin.L.LogInfo($"Root 33 dev match: hook.turn-end #{n} {seat} (thread {Environment.CurrentManagedThreadId})");
                 Snapshot("turn-end-" + n);
